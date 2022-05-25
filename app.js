@@ -3,6 +3,7 @@
 ////////////////////////////////////////
 async function fetchAPI( url, options ) {
 
+    
     ///// Check for browser support of fetch in the window interface.
     if ( ! ( 'fetch' in window ) ) {
         console.log( 'Error: Fetch API not found, please upgrade your browser.' )
