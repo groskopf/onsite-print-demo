@@ -1,0 +1,57 @@
+body {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 1rem;
+}
+.container {
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.blue {
+    background: lightblue;
+    border: 1px solid darkblue;
+}
+
+.green {
+    background: lightgreen;
+    border: 1px solid darkgreen;
+}
+
+.container header,
+#booking-form,
+#booking-form #start-date,
+#booking-form #end-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+h2 {
+    margin: 0;
+}
+.list-button {
+    padding: .6rem;
+}
+.list-item {
+    background: white;
+    width: 20rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(29,161,242,1);
+}
+#start-end,
+#booking-form #printer-code,
+#booking-form #name-tag-type {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+#booking-form #start-end,
+#booking-form #printer-code,
+#booking-form #name-tag-type {
+    margin-right: 1rem;
+}
+#booking-form label {
+    margin-right: .5rem;
+}
+
