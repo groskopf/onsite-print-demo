@@ -30,12 +30,13 @@ async function fetchAPI( url, options ) {
 async function getImages() {
 
     ///// The URL to the API.
-    var url = 'https://api.printerboks.dk/api/v1/upload/images'
+    var url = 'https://api.printerboks.dk/api/v1/images/'
 
     ///// Request Options for fetch.
     let options = {
         ///// *GET, POST, PUT, DELETE, etc.
-        method: 'GET'
+        method: 'GET',
+        //mode: 'no-cors', // no-cors, *cors, same-origin
         //method: 'POST' // TEST
     }
 
@@ -45,9 +46,19 @@ async function getImages() {
     ///// Wait for Response of the Request.
     let response = await request
 
+    ///// Show the Response in Console Log.
+    //console.log(response);
+
+    if ( response == '' || response == undefined ) {
+        console.log( 'Error:', response )
+
+        ///// End the function.
+        return
+    }
+
     ///// If the Response is 'detail' or empty ).
     ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
-    if ( response.detail ) {
+    else if ( response.detail ) {
 
         ///// Get the Detail array.
         let detail = response.detail[0]
@@ -61,22 +72,15 @@ async function getImages() {
         
         ///// End the function.
         return
-    } else if ( response == '' || response == 'undefined' ) {
-        console.log( 'Error:', response )
-
-        ///// End the function.
-        return
     }
 
     ///// Clear all elements in element ( #get-images .inner ). 
 	document.querySelector( '#get-images .inner' ).innerHTML = '';
 
-    console.log( response )
-
     for( var i = 0; i < response.length; i++ ){
 
         let element = `
-        <p>${response[i].filename}</p>
+        <img src="https://api.printerboks.dk/api/v1/${response[i].filename}" width="100%" height="auto">
         `
 
         document.querySelector( '#get-images .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -92,7 +96,7 @@ async function getImages() {
 async function uploadImage() {
 
     ///// The URL to the API.
-    var url = 'https://api.printerboks.dk/api/v1/upload/images'
+    var url = 'https://api.printerboks.dk/api/v1/images'
 
     //var formdata = new FormData( querySelector( '#image-form' ) );
     var formdata = new FormData( document.forms['image-form'] );

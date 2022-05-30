@@ -26,12 +26,15 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
 h2 {
     margin: 0;
 }
+
 .list-button {
     padding: .6rem;
 }
+
 .list-item {
     background: white;
     width: 20rem;
@@ -39,6 +42,7 @@ h2 {
     padding: 1rem;
     border: 1px solid rgba(29,161,242,1);
 }
+
 #start-end,
 #booking-form #printer-code,
 #booking-form #name-tag-type {
@@ -46,12 +50,21 @@ h2 {
     flex-direction: column;
     gap: .4rem;
 }
+
 #booking-form #start-end,
 #booking-form #printer-code,
 #booking-form #name-tag-type {
     margin-right: 1rem;
 }
+
 #booking-form label {
     margin-right: .5rem;
 }
 
+#get-images .inner {
+    display: flex;
+    flex-wrap: wrap;
+}
+#get-images .inner img {
+    flex-basis: 20%;
+}
