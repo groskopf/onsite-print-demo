@@ -44,6 +44,18 @@
     </section><!-- #get-image -->
 
 
+    <section id="delete-image" class="container blue">
+        <header>
+            <h2>Delete Image</h2>
+            <form id="delete-image-form" name="delete-image-form" action="POST" onsubmit="return false">
+                <input class="delete-image-form-input" type="text" name="image-file-name" required>
+                <button class="list-button" onclick="deleteImage(); return false">Delete Image</button>
+            </form>
+        </header>
+        <div class="inner"></div>
+    </section><!-- #delete-image -->
+
+
     <section id="get-bookings" class="container green">
         <header>
             <h2>Get Bookings</h2>
