@@ -68,7 +68,7 @@
     <section id="create-booking" class="container green">
         <header>
             <h2>Create Booking</h2>
-            <form id="booking-form" action="POST" onsubmit="return false">
+            <form id="booking-form" name="booking-form" action="POST" onsubmit="return false">
                 <div id="start-end">
                     <div id="start-date">
                         <label for="start-date-input">Start Date</label>
@@ -102,6 +102,8 @@
     </section><!-- #create-booking -->
 
 
-    <script src="app.js"></script>
+    <script src="js/fetch.js"></script>
+    <script src="js/images.js"></script>
+    <script src="js/bookings.js"></script>
 </body>
 </html>
