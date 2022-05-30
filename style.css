@@ -19,9 +19,9 @@ body {
 }
 
 .container header,
-#booking-form,
-#booking-form #start-date,
-#booking-form #end-date {
+form,
+.start-date,
+.end-date {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,21 +43,19 @@ h2 {
     border: 1px solid rgba(29,161,242,1);
 }
 
-#start-end,
-#booking-form #printer-code,
-#booking-form #name-tag-type {
+.image-form-input,
+.get-image-form-input,
+.delete-image-form-input,
+.start-end,
+.printer-tag,
+.booking-code {
     display: flex;
     flex-direction: column;
     gap: .4rem;
-}
-
-#booking-form #start-end,
-#booking-form #printer-code,
-#booking-form #name-tag-type {
     margin-right: 1rem;
 }
 
-#booking-form label {
+form label {
     margin-right: .5rem;
 }
 
