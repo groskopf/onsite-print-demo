@@ -49,6 +49,7 @@ async function getImages() {
     ///// Show the Response in Console Log.
     //console.log(response);
 
+    ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
         console.log( 'Error:', response )
 
@@ -96,7 +97,7 @@ async function getImages() {
 async function uploadImage() {
 
     ///// The URL to the API.
-    var url = 'https://api.printerboks.dk/api/v1/images'
+    var url = 'https://api.printerboks.dk/api/v1/images/'
 
     //var formdata = new FormData( querySelector( '#image-form' ) );
     var formdata = new FormData( document.forms['image-form'] );
@@ -124,9 +125,20 @@ async function uploadImage() {
     ///// Wait for Response of the Request.
     let response = await request
 
+    ///// Show the Response in Console Log.
+    //console.log(response);
+
+    ///// If the Response is empty or undefined.
+    if ( response == '' || response == undefined ) {
+        console.log( 'Error:', response )
+
+        ///// End the function.
+        return
+    }
+
     ///// If the Response is 'detail' or empty ).
     ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
-    if ( response.detail ) {
+    else if ( response.detail ) {
 
         ///// Get the Detail array.
         let detail = response.detail[0]
@@ -140,11 +152,6 @@ async function uploadImage() {
         
         ///// End the function.
         return
-    } else if ( response == '' || response == 'undefined' ) {
-        console.log( 'Error:', response )
-        
-        ///// End the function.
-        return
     }
    
     ///// Clear elements
@@ -153,7 +160,7 @@ async function uploadImage() {
     console.log( response.filename )
 
     let element = `
-    <p>${response.filename}</p>
+    <img src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="auto">
     `
 
     document.querySelector( '#upload-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
