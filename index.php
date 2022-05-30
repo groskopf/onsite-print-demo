@@ -32,6 +32,18 @@
     </section><!-- #upload-image -->
 
 
+    <section id="get-image" class="container blue">
+        <header>
+            <h2>Get Image</h2>
+            <form id="get-image-form" name="get-image-form" action="POST" onsubmit="return false">
+                <input class="get-image-form-input" type="text" name="image-file-name" required>
+                <button class="list-button" onclick="getImage(); return false">Get Image</button>
+            </form>
+        </header>
+        <div class="inner"></div>
+    </section><!-- #get-image -->
+
+
     <section id="get-bookings" class="container green">
         <header>
             <h2>Get Bookings</h2>

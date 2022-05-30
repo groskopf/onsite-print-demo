@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 /////// Fetch from FastAPI
 ////////////////////////////////////////
-async function fetchAPI( url, options ) {
+async function fetchAPI( url, options, output, debug ) {
 
     
     ///// Check for browser support of fetch in the window interface.
@@ -14,8 +14,23 @@ async function fetchAPI( url, options ) {
 
     ///// Fetch from API.
     let request = await fetch( url, options )
-        .then( response => response.text() )
-        .then( JSON.parse )
+        .then( response => {
+
+            ///// If (Debug) parameter in the function is enabled.
+            ///// Show the Response in Console Log.
+            if ( debug ) {
+                console.log( 'Response debug:', response )
+            }
+
+            ///// If (Output) parameter in the function is enabled.
+            ///// Return the Data as a Blob else JSON.
+            if ( output == 'blob' ) {
+                return response.blob()
+            } else {        
+                return response.json()
+            }
+
+        })
         .catch( error => console.log( 'Error:', error ) )
 
     ///// Return the Data.
@@ -35,23 +50,24 @@ async function getImages() {
     ///// Request Options for fetch.
     let options = {
         ///// *GET, POST, PUT, DELETE, etc.
-        method: 'GET',
+        method: 'GET'
         //mode: 'no-cors', // no-cors, *cors, same-origin
         //method: 'POST' // TEST
     }
 
     ///// Request the data from the API.
+    ///// fetchAPI( *url, options, 'text', 'debug' )
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
     let response = await request
 
     ///// Show the Response in Console Log.
-    //console.log(response);
+    console.log(response);
 
     ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
-        console.log( 'Error:', response )
+        console.log( 'Error: The Response is empty or undefined.' )
 
         ///// End the function.
         return
@@ -120,6 +136,7 @@ async function uploadImage() {
     }
 
     ///// Request the data from the API.
+    ///// fetchAPI( *url, options, 'text', 'debug' )
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
@@ -130,7 +147,7 @@ async function uploadImage() {
 
     ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
-        console.log( 'Error:', response )
+        console.log( 'Error: The Response is empty or undefined.' )
 
         ///// End the function.
         return
@@ -157,13 +174,86 @@ async function uploadImage() {
     ///// Clear elements
 	document.querySelector( '#upload-image .inner' ).innerHTML = '';
     
-    console.log( response.filename )
-
     let element = `
     <img src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="auto">
     `
 
     document.querySelector( '#upload-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
+
+}
+
+
+
+////////////////////////////////////////
+/////// Get Image
+////////////////////////////////////////
+async function getImage() {
+
+    //var formdata = new FormData( querySelector( '#image-form' ) );
+    var imageFileName = document.forms['get-image-form']['image-file-name'].value;
+
+    if ( ! imageFileName ) {
+        console.log( 'Error: The input field is empty!' )
+        
+        ///// End the function.
+        return
+    }
+
+    ///// The URL to the API.
+    var url = 'https://api.printerboks.dk/api/v1/images/'+imageFileName
+    //console.log(url);
+
+    ///// Request Options for fetch.
+    let options = {
+        ///// *GET, POST, PUT, DELETE, etc.
+        method: 'GET',
+    }
+
+    ///// Request the data from the API.
+    ///// fetchAPI( *url, options, 'text', 'debug' )
+    let request = fetchAPI( url, options, 'blob' )
+    
+    ///// Wait for Response of the Request.
+    let response = await request
+
+    ///// Show the Response in Console Log.
+    //console.log(response)
+    
+    //console.log(response.blob.prototype.size);
+    ///// If the Response is empty or undefined.
+    if ( response == '' || response == undefined ) {
+        console.log( 'Error: The Response is empty or undefined.' )
+
+        ///// End the function.
+        return
+    }
+
+    ///// If the Response is 'detail' or empty ).
+    ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
+    else if ( response.detail ) {
+
+        ///// Get the Detail array.
+        let detail = response.detail[0]
+        
+        ///// If loc array in the Detail array contains 'image'.
+        if ( detail.loc.includes( 'image' ) ) {
+            console.log( 'Message:', detail.msg )
+        } else {
+            console.log( 'Error:', response )
+        }
+        
+        ///// End the function.
+        return
+    }
+   
+    ///// Clear elements
+	document.querySelector( '#get-image .inner' ).innerHTML = '';
+    
+    let element = `
+    <img src="${URL.createObjectURL(response)}" width="100%" height="auto">
+    `
+
+    document.querySelector( '#get-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
 
 }
 
@@ -185,14 +275,26 @@ async function getBookings() {
     }
 
     ///// Request the data from the API.
+    ///// fetchAPI( *url, options, 'text', 'debug' )
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
     let response = await request
 
+    ///// Show the Response in Console Log.
+    //console.log(response);
+
+    ///// If the Response is empty or undefined.
+    if ( response == '' || response == undefined ) {
+        console.log( 'Error: The Response is empty or undefined.' )
+
+        ///// End the function.
+        return
+    }
+
     ///// If the Response is 'detail' or empty ).
     ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
-    if ( response.detail ) {
+    else if ( response.detail ) {
 
         ///// Get the Detail array.
         let detail = response.detail[0]
@@ -206,17 +308,10 @@ async function getBookings() {
         
         ///// End the function.
         return
-    } else if ( response == '' || response == 'undefined' ) {
-        console.log( 'Error:', response )
-
-        ///// End the function.
-        return
     }
 
     ///// Clear all elements in element ( #get-images .inner ). 
 	document.querySelector( '#get-bookings .inner' ).innerHTML = '';
-
-    console.log( response )
 
     for( var i = 0; i < response.length; i++ ){
 
@@ -262,46 +357,4 @@ async function createBooking() {
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('Error:', error))
-}
-
-
-
-
-
-function get(url) {
-    // Return a new promise.
-    return new Promise(function(resolve, reject) {
-        // Do the usual XHR stuff
-        var req = new XMLHttpRequest();
-        req.open('GET', url);
-
-        req.onload = function() {
-            // This is called even on 404 etc
-            // so check the status
-            if (req.status == 200) {
-                // Resolve the promise with the response text
-                resolve(req.response);
-            }
-            else {
-                // Otherwise reject with the status text
-                // which will hopefully be a meaningful error
-                reject(Error(req.statusText));
-            }
-        };
-
-        // Handle network errors
-        req.onerror = function() {
-            reject(Error("Network Error"));
-        };
-
-        // Make the request
-        req.send();
-    });
-}
-function letTry() {
-    get('https://api.printerboks.dk/api/v1/upload/images1').then(function(response) {
-        console.log("Success!", response);
-    }, function(error) {
-        console.error("Failed!", error);
-    })
 }
