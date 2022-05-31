@@ -63,7 +63,7 @@
                 <div class="content">
                     <div class="form-container">
                         <form id="get-image-form" name="get-image-form" action="POST" onsubmit="return false">
-                            <div class="get-image-input-wrapper">
+                            <div class="input-outer">
                                 <label for="get-image-form-input">Image Filename</label>
                                 <input id="get-image-form-input" name="image-file-name" type="text" required>
                             </div>
@@ -85,7 +85,7 @@
                 <div class="content">
                     <div class="form-container">
                         <form id="delete-image-form" name="delete-image-form" action="POST" onsubmit="return false">
-                            <div class="delete-image-input-wrapper">
+                            <div class="input-outer">
                                 <label for="delete-image-form-input">Image Filename</label>
                                 <input id="delete-image-form-input" name="image-file-name" type="text" required>
                             </div>
@@ -133,7 +133,7 @@
                     <div class="form-container">
                         <form name="booking-form" action="POST" onsubmit="return false">
                             <div class="form-inner">
-                                <div class="start-end">
+                                <div class="input-outer">
                                     <div class="start-date">
                                         <label for="start-date-input">Start Date</label>
                                         <input id="start-date-input" name="start_date" type="date" required>
@@ -143,7 +143,7 @@
                                         <input id="end-date-input" name="end_date" type="date" required>
                                     </div>
                                 </div>
-                                <div class="printer-tag">
+                                <div class="input-outer">
                                     <select class="printer-code-select" name="printer_code" required>
                                         <option value="XDESP95271_p">Printer 1</option>
                                         <option value="W8IL27UCYQ_m">Printer 2</option>
@@ -174,7 +174,7 @@
                 <div class="content">
                     <div class="form-container">
                         <form name="get-booking-with-code" action="POST" onsubmit="return false">
-                            <div class="booking-code">
+                            <div class="input-outer">
                                 <label for="get-booking-with-code-input">Booking Code</label>
                                 <input id="get-booking-with-code-input" name="booking-code" type="text" required>
                             </div>
@@ -197,11 +197,11 @@
                     <div class="form-container">
                         <form name="update-booking-with-code" action="POST" onsubmit="return false">
                             <div class="form-inner">
-                                <div class="booking-code">
+                                <div class="input-outer">
                                     <label for="update-booking-with-code-input">Booking Code</label>
                                     <input id="update-booking-with-code-input" name="booking-code" type="text" required>
                                 </div>
-                                <div class="start-end">
+                                <div class="input-outer">
                                     <div class="start-date">
                                         <label for="start-date-input">Start Date</label>
                                         <input id="start-date-input" name="start-date" type="date" required>
@@ -211,7 +211,7 @@
                                         <input id="end-date-input" name="end-date" type="date" required>
                                     </div>
                                 </div>
-                                <div class="printer-tag">
+                                <div class="input-outer">
                                     <select class="printer-code-select" name="printer-code" required>
                                         <option value="XDESP95271_p">Printer 1</option>
                                         <option value="W8IL27UCYQ_m">Printer 2</option>
@@ -242,7 +242,7 @@
                 <div class="content">
                     <div class="form-container">
                         <form name="delete-booking-with-code" action="POST" onsubmit="return false">
-                            <div class="booking-code">
+                            <div class="input-outer">
                                 <label for="delete-booking-with-code-input">Booking Code</label>
                                 <input id="delete-booking-with-code-input" name="booking-code" type="text" required>
                             </div>
@@ -280,6 +280,45 @@
                     </div>
                 </div>
             </div><!-- #get-labels -->
+
+            <div id="create-label" class="wrapper post">
+                <header onclick="openContent()">               
+                    <h3><span>Post</span>Create Label</h3>
+                    <div class="arrow"></div>
+                </header>
+                <div class="content">
+                    <div class="form-container">
+                        <form name="create-label" action="POST" onsubmit="return false">
+                            <div class="form-inner">
+                                <div class="input-outer">
+                                    <select class="sheet-type-select" name="sheet-type" required>
+                                        <option value="456090">Sheet Type 1</option>
+                                        <option value="454070">Sheet Type 2</option>
+                                        <option value="454075">Sheet Type 3</option>
+                                    </select>
+                                    <select class="layout-select" name="layout" required>
+                                        <option value="layout_1">Layout 1</option>
+                                        <option value="invalid">Invalid</option>
+                                    </select>
+                                </div>
+                                <div class="input-outer">
+                                    <label for="image-filename-input">Image Filename</label>
+                                    <input id="image-filename-input" name="image-filename" type="text" required>
+                                </div>
+                                <div class="input-outer">
+                                    <label for="label-booking-code-input">Booking Code</label>
+                                    <input id="label-booking-code-input" name="label-booking-code" type="text" required>
+                                </div>
+                            </div>
+                            <button class="list-button" onclick="createLabel(); return false">Create Label</button>
+                        </form>
+                    </div>
+                    <div class="responses">
+                        <h4>Responses:</h4>
+                        <div class="inner"></div>
+                    </div>
+                </div>
+            </div><!-- #create-label -->
 
         </section><!-- .inner-container -->
     </section><!-- #labels-container -->

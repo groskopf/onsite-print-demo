@@ -52,7 +52,7 @@ async function getBookings() {
         return
     }
 
-    ///// Clear all elements in element ( #get-images .inner ). 
+    ///// Clear all elements in element ( #get-bookings .inner ). 
 	document.querySelector( '#get-bookings .inner' ).innerHTML = ''
 
     for( var i = 0; i < response.length; i++ ){
@@ -136,7 +136,7 @@ async function createBooking() {
         return
     }
 
-    ///// Clear all elements in element ( #get-images .inner ). 
+    ///// Clear all elements in element ( #get-booking .inner ). 
 	document.querySelector( '#create-booking .inner' ).innerHTML = ''
 
     let element = `
@@ -215,7 +215,7 @@ async function getBookingWithCode() {
         return
     }
 
-    ///// Clear all elements in element ( #get-images .inner ). 
+    ///// Clear all elements in element ( #get-booking-with-code .inner ). 
 	document.querySelector( '#get-booking-with-code .inner' ).innerHTML = ''
 
     let element = `
@@ -296,7 +296,7 @@ async function updateBookingWithCode() {
         return
     }
 
-    ///// Clear all elements in element ( #get-images .inner ). 
+    ///// Clear all elements in element ( #update-booking-with-code .inner ). 
 	document.querySelector( '#update-booking-with-code .inner' ).innerHTML = ''
 
     let element = `
@@ -375,7 +375,7 @@ async function deleteBookingWithCode() {
         return
     }
 
-    ///// Clear all elements in element ( #get-images .inner ). 
+    ///// Clear all elements in element ( #delete-booking-with-code .inner ). 
 	document.querySelector( '#delete-booking-with-code .inner' ).innerHTML = ''
 
     let element = `

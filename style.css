@@ -259,11 +259,7 @@ button.list-button:hover {
 }
 
 .image-form-input,
-.get-image-input-wrapper,
-.delete-image-input-wrapper,
-.start-end,
-.printer-tag,
-.booking-code {
+.input-outer {
     display: flex;
     flex-direction: column;
     gap: .4rem;
