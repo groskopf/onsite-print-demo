@@ -101,5 +101,36 @@
             </div>
         </div><!-- #get-nameplate -->
 
+        <div id="delete-nameplate" class="wrapper delete">
+            <header onclick="openContent()">               
+                <h3><span>Delete</span>Delete Nameplate</h3>
+                <div class="arrow"></div>
+            </header>
+            <div class="content">
+                <div class="form-container">
+                    <form name="delete-nameplate" action="POST" onsubmit="return false">
+                        <div class="form-inner">
+                            <div class="input-outer">
+                                <label for="delete-nameplate-filename-input">Nameplate Filename</label>
+                                <input id="delete-nameplate-filename-input" name="nameplate-filename" type="text" required>
+                            </div>
+                            <div class="input-outer">
+                                <select class="delete-nameplate-printer-code-select" name="printer-code" required>
+                                    <option value="XDESP95271_p">Printer 1</option>
+                                    <option value="W8IL27UCYQ_m">Printer 2</option>
+                                    <option value="1OPYKBGXVN_1">Printer 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="list-button" onclick="deleteNameplate(); return false">Delete Nameplate</button>
+                    </form>
+                </div>
+                <div class="responses">
+                    <h4>Responses:</h4>
+                    <div class="inner"></div>
+                </div>
+            </div>
+        </div><!-- #delete-nameplate -->
+
     </section><!-- .inner-container -->
 </section><!-- #labels-container -->

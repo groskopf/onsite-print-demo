@@ -24,3 +24,5 @@ First web interface examples
 > #### Printers
 > - Create Nameplate
 > - Get Printer Queue
+> - Get Nameplate
+> - Delete Nameplate
