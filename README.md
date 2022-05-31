@@ -20,3 +20,7 @@ First web interface examples
 > - Create Label
 > - Get Label with Filename
 > - Delete Label with Filename
+
+> #### Printers
+> - Create Nameplate
+> - Get Printer Queue
