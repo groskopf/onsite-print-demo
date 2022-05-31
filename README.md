@@ -19,3 +19,4 @@ First web interface examples
 > - Get Labels
 > - Create Label
 > - Get Label with Filename
+> - Delete Label with Filename

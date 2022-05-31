@@ -342,6 +342,28 @@
                 </div>
             </div><!-- #get-label-with-filename -->
 
+            <div id="delete-label-with-filename" class="wrapper delete">
+                <header onclick="openContent()">               
+                    <h3><span>Delete</span>Delete Label with Filename</h3>
+                    <div class="arrow"></div>
+                </header>
+                <div class="content">
+                    <div class="form-container">
+                        <form name="delete-label-with-filename" action="POST" onsubmit="return false">
+                            <div class="input-outer">
+                                <label for="delete-label-with-filename-input">Filename</label>
+                                <input id="delete-label-with-filename-input" name="filename" type="text" required>
+                            </div>
+                            <button class="list-button" onclick="deleteLabelWithFilename(); return false">Delete Label</button>
+                        </form>
+                    </div>
+                    <div class="responses">
+                        <h4>Responses:</h4>
+                        <div class="inner"></div>
+                    </div>
+                </div>
+            </div><!-- #delete-label-with-filename -->
+
         </section><!-- .inner-container -->
     </section><!-- #labels-container -->
 
