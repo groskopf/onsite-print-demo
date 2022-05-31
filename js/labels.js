@@ -77,11 +77,11 @@ async function createLabel() {
     var formData = new FormData( document.forms['create-label'] );
 
     var imageFilename = formData.get('image-filename')
-    var bookingCode = formData.get('booking-code')
+    var qrCode = formData.get('qr-code')
     var sheetType = formData.get('sheet-type')
     var layout = formData.get('layout')
 
-    //console.log('imageName:', imageFilename, 'qr_code:', bookingCode, 'name_tag_sheet_type:', sheetType, 'layout:', layout)
+    //console.log('imageName:', imageFilename, 'qr_code:', qrCode, 'name_tag_sheet_type:', sheetType, 'layout:', layout)
     
     ///// The URL to the API.
     var url = `https://api.printerboks.dk/api/v1/labels/?name_tag_sheet_type=${sheetType}&layout=${layout}`
@@ -95,7 +95,7 @@ async function createLabel() {
         "line_4": "string",
         "line_5": "string",
         "imageName": imageFilename,
-        "qr_code": bookingCode
+        "qr_code": qrCode
         }
     ]);
 

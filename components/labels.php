@@ -1,4 +1,4 @@
-<section id="labels-container" class="main last">
+<section id="labels-container" class="main">
     <header class="header-parrent" onclick="openContent()">               
         <h2>Labels</h2>
         <div class="arrow"></div>
@@ -46,8 +46,8 @@
                                 <input id="image-filename-input" name="image-filename" type="text" required>
                             </div>
                             <div class="input-outer">
-                                <label for="label-booking-code-input">Booking Code</label>
-                                <input id="label-booking-code-input" name="booking-code" type="text" required>
+                                <label for="label-qr-code-input">QR-Code</label>
+                                <input id="label-qr-code-input" name="qr-code" type="text" required>
                             </div>
                         </div>
                         <button class="list-button" onclick="createLabel(); return false">Create Label</button>
