@@ -17,3 +17,5 @@ First web interface examples
 
 > #### Labels
 > - Get Labels
+> - Create Label
+> - Get Label with Filename

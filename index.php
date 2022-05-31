@@ -307,7 +307,7 @@
                                 </div>
                                 <div class="input-outer">
                                     <label for="label-booking-code-input">Booking Code</label>
-                                    <input id="label-booking-code-input" name="label-booking-code" type="text" required>
+                                    <input id="label-booking-code-input" name="booking-code" type="text" required>
                                 </div>
                             </div>
                             <button class="list-button" onclick="createLabel(); return false">Create Label</button>
@@ -319,6 +319,28 @@
                     </div>
                 </div>
             </div><!-- #create-label -->
+
+            <div id="get-label-with-filename" class="wrapper get">
+                <header onclick="openContent()">               
+                    <h3><span>Get</span>Get Label with Filename</h3>
+                    <div class="arrow"></div>
+                </header>
+                <div class="content">
+                    <div class="form-container">
+                        <form name="get-label-with-filename" action="POST" onsubmit="return false">
+                            <div class="input-outer">
+                                <label for="get-label-with-filename-input">Filename</label>
+                                <input id="get-label-with-filename-input" name="filename" type="text" required>
+                            </div>
+                            <button class="list-button" onclick="getLabelWithFilename(); return false">Get Label</button>
+                        </form>
+                    </div>
+                    <div class="responses">
+                        <h4>Responses:</h4>
+                        <div class="inner"></div>
+                    </div>
+                </div>
+            </div><!-- #get-label-with-filename -->
 
         </section><!-- .inner-container -->
     </section><!-- #labels-container -->
