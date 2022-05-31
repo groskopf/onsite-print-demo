@@ -1,7 +1,7 @@
 # onsite-print-demo
 First web interface examples
 
-## List og working functions:
+## List of working functions:
 > #### Images
 > - Get Images
 > - Upload Image

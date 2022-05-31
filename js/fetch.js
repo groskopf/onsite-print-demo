@@ -36,3 +36,7 @@ async function fetchAPI( url, options, output, debug ) {
     ///// Return the Data.
     return request
 }
+
+function openContent() {
+    event.target.parentElement.classList.toggle('active')
+}
