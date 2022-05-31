@@ -49,6 +49,10 @@ section.last {
     border-radius: .3rem .3rem 0 0;
 }
 
+header {
+    cursor: pointer;
+}
+
 header,
 .active > .content {
     display: flex;
@@ -279,4 +283,25 @@ form label {
 
 #get-images .inner img {
     flex-basis: 20%;
+}
+
+article {
+    background: #3b4151;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: .1rem solid #3b4151;
+    border-radius: .3rem;
+}
+article:last-child {
+    margin-bottom: 0;
+}
+article * {
+    color: white;
+}
+article p {
+    margin: 0 0 1rem;
+}
+article iframe {
+    border: none;
+    border-radius: .3rem;
 }

@@ -14,3 +14,6 @@ First web interface examples
 > - Get Booking with Code
 > - Update Booking with Code
 > - Delete Booking with Code
+
+> #### Labels
+> - Get Labels

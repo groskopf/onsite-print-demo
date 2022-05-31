@@ -101,7 +101,7 @@
 
         </section><!-- .inner-container -->
     </section><!-- #image-container -->
-    <section id="bookings-container" class="main last">
+    <section id="bookings-container" class="main">
         <header class="header-parrent" onclick="openContent()">               
             <h2>Bookings</h2>
             <div class="arrow"></div>
@@ -258,10 +258,36 @@
 
         </section><!-- .inner-container -->
     </section><!-- #bookings-container -->
+    <section id="labels-container" class="main last">
+        <header class="header-parrent" onclick="openContent()">               
+            <h2>Labels</h2>
+            <div class="arrow"></div>
+        </header>
+        <section class="inner-container">
+
+            <div id="get-labels" class="wrapper get">
+                <header onclick="openContent()">               
+                    <h3><span>Get</span>Get Labels</h3>
+                    <div class="arrow"></div>
+                </header>
+                <div class="content">
+                    <div class="form-container">
+                        <button class="list-button" onclick="getLabels(); return false">Get Labels</button>
+                    </div>
+                    <div class="responses">
+                        <h4>Responses:</h4>
+                        <div class="inner"></div>
+                    </div>
+                </div>
+            </div><!-- #get-labels -->
+
+        </section><!-- .inner-container -->
+    </section><!-- #labels-container -->
 
 
     <script src="js/fetch.js"></script>
     <script src="js/images.js"></script>
     <script src="js/bookings.js"></script>
+    <script src="js/labels.js"></script>
 </body>
 </html>
