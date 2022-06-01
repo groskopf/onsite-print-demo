@@ -271,22 +271,27 @@ form label {
     margin-right: .5rem;
 }
 
-#get-images .inner {
+.inner {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
-#get-images .inner img {
-    flex-basis: 20%;
+#get-images .inner {
+    flex-direction: row;
+}
+
+#get-images .inner article {
+    flex-basis: calc((100% - 2rem) / 3);
 }
 
 article {
     background: #3b4151;
-    margin-bottom: 1rem;
     padding: 1rem;
     border: .1rem solid #3b4151;
     border-radius: .3rem;
+    box-sizing: border-box;
 }
 article:last-child {
     margin-bottom: 0;
@@ -296,6 +301,9 @@ article * {
 }
 article p {
     margin: 0 0 1rem;
+}
+article p:last-child {
+    margin: 0;
 }
 article iframe {
     border: none;

@@ -83,10 +83,10 @@ async function createNameplate() {
 	document.querySelector( '#create-nameplate .inner' ).innerHTML = ''
 
     let element = `
-    <article>
-        <p><b>Filename:</b> ${response.filename}</p>
-        <iframe src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="400">
-    </article>
+        <article>
+            <p><b>Filename:</b> ${response.filename}</p>
+            <iframe src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="400">
+        </article>
     `
 
     document.querySelector( '#create-nameplate .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -156,8 +156,9 @@ async function getPrinterQueue() {
     for( var i = 0; i < response.length; i++ ){
 
         let element = `
-        <p><b>Queue nr. ${i+1}:</b> ${response[i].filename}</p>
-        <hr>
+            <article>
+                <p><b>Queue nr. ${i+1}:</b> ${response[i].filename}</p>
+            </article>
         `
 
         document.querySelector( '#get-printer-queue .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -227,10 +228,10 @@ async function getNameplate() {
 	document.querySelector( '#get-nameplate .inner' ).innerHTML = ''
 
     let element = `
-    <article>
-        <p><b>Filename:</b> ${filename}</p>
-        <iframe src="${URL.createObjectURL(response)}" width="100%" height="400">
-    </article>
+        <article>
+            <p><b>Filename:</b> ${filename}</p>
+            <iframe src="${URL.createObjectURL(response)}" width="100%" height="400">
+        </article>
     `
 
     document.querySelector( '#get-nameplate .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -298,7 +299,11 @@ async function deleteNameplate() {
     ///// Clear all elements in element ( #delete-nameplate .inner ). 
 	document.querySelector( '#delete-nameplate .inner' ).innerHTML = ''
 
-    let element = `<p><b>Deleted File:</b> ${response.filename}</p>`
+    let element = `
+        <article>
+            <p><b>Deleted File:</b> ${response.filename}</p>
+        </article>
+    `
 
     document.querySelector( '#delete-nameplate .inner' ).insertAdjacentHTML( 'afterbegin', element )
 }

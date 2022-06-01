@@ -56,7 +56,10 @@ async function getImages() {
     for( var i = 0; i < response.length; i++ ){
 
         let element = `
-        <img src="https://api.printerboks.dk/api/v1/${response[i].filename}" width="100%" height="auto">
+            <article>
+                <p>${response[i].filename.slice(7)}</p>
+                <img src="https://api.printerboks.dk/api/v1/${response[i].filename}" width="100%" height="auto">
+            </article>
         `
 
         document.querySelector( '#get-images .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -131,7 +134,10 @@ async function uploadImage() {
 	document.querySelector( '#upload-image .inner' ).innerHTML = ''
     
     let element = `
-    <img src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="auto">
+        <article>
+            <p>${response.filename.slice(7)}</p>
+            <img src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="auto">
+        </article>
     `
 
     document.querySelector( '#upload-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -204,7 +210,10 @@ async function getImage() {
 	document.querySelector( '#get-image .inner' ).innerHTML = ''
     
     let element = `
-    <img src="${URL.createObjectURL(response)}" width="100%" height="auto">
+        <article>
+            <p>${imageFileName}</p>
+            <img src="${URL.createObjectURL(response)}" width="100%" height="auto">
+        </article>
     `
 
     document.querySelector( '#get-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -276,7 +285,11 @@ async function deleteImage() {
     ///// Clear elements
 	document.querySelector( '#delete-image .inner' ).innerHTML = ''
     
-    let element = `<p>File: (${response.filename}) was deleted.</p>`
+    let element = `
+        <article>
+            <p>File: (${response.filename}) was deleted.</p>
+        </article>
+    `
 
     document.querySelector( '#delete-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
 

@@ -58,12 +58,13 @@ async function getBookings() {
     for( var i = 0; i < response.length; i++ ){
 
         let element = `
-        <p><b>Start Date:</b> ${response[i].start_date}</p>
-        <p><b>End Date:</b> ${response[i].end_date}</p>
-        <p><b>Printer:</b> ${response[i].printer_code}</p>
-        <p><b>Product:</b> ${response[i].name_tag_type}</p>
-        <p><b>Code:</b> ${response[i].code}</p>
-        <hr>
+            <article>
+                <p><b>Start Date:</b> ${response[i].start_date}</p>
+                <p><b>End Date:</b> ${response[i].end_date}</p>
+                <p><b>Printer:</b> ${response[i].printer_code}</p>
+                <p><b>Product:</b> ${response[i].name_tag_type}</p>
+                <p><b>Code:</b> ${response[i].code}</p>
+            </article>
         `
 
         document.querySelector( '#get-bookings .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -140,11 +141,13 @@ async function createBooking() {
 	document.querySelector( '#create-booking .inner' ).innerHTML = ''
 
     let element = `
-    <p><b>Start Date:</b> ${response.start_date}</p>
-    <p><b>End Date:</b> ${response.end_date}</p>
-    <p><b>Printer:</b> ${response.printer_code}</p>
-    <p><b>Product:</b> ${response.name_tag_type}</p>
-    <p><b>Code:</b> ${response.code}</p>
+        <article>
+            <p><b>Start Date:</b> ${response.start_date}</p>
+            <p><b>End Date:</b> ${response.end_date}</p>
+            <p><b>Printer:</b> ${response.printer_code}</p>
+            <p><b>Product:</b> ${response.name_tag_type}</p>
+            <p><b>Code:</b> ${response.code}</p>
+        </article>
     `
 
     document.querySelector( '#create-booking .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -219,11 +222,13 @@ async function getBookingWithCode() {
 	document.querySelector( '#get-booking-with-code .inner' ).innerHTML = ''
 
     let element = `
-    <p><b>Start Date:</b> ${response.start_date}</p>
-    <p><b>End Date:</b> ${response.end_date}</p>
-    <p><b>Printer:</b> ${response.printer_code}</p>
-    <p><b>Product:</b> ${response.name_tag_type}</p>
-    <p><b>Code:</b> ${response.code}</p>
+        <article>
+            <p><b>Start Date:</b> ${response.start_date}</p>
+            <p><b>End Date:</b> ${response.end_date}</p>
+            <p><b>Printer:</b> ${response.printer_code}</p>
+            <p><b>Product:</b> ${response.name_tag_type}</p>
+            <p><b>Code:</b> ${response.code}</p>
+        </article>
     `
 
     document.querySelector( '#get-booking-with-code .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -300,11 +305,13 @@ async function updateBookingWithCode() {
 	document.querySelector( '#update-booking-with-code .inner' ).innerHTML = ''
 
     let element = `
-    <p><b>Start Date:</b> ${response.start_date}</p>
-    <p><b>End Date:</b> ${response.end_date}</p>
-    <p><b>Printer:</b> ${response.printer_code}</p>
-    <p><b>Product:</b> ${response.name_tag_type}</p>
-    <p><b>Code:</b> ${response.code}</p>
+        <article>
+            <p><b>Start Date:</b> ${response.start_date}</p>
+            <p><b>End Date:</b> ${response.end_date}</p>
+            <p><b>Printer:</b> ${response.printer_code}</p>
+            <p><b>Product:</b> ${response.name_tag_type}</p>
+            <p><b>Code:</b> ${response.code}</p>
+        </article>
     `
 
     document.querySelector( '#update-booking-with-code .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -379,11 +386,13 @@ async function deleteBookingWithCode() {
 	document.querySelector( '#delete-booking-with-code .inner' ).innerHTML = ''
 
     let element = `
-    <p><b>Start Date:</b> ${response.start_date}</p>
-    <p><b>End Date:</b> ${response.end_date}</p>
-    <p><b>Printer:</b> ${response.printer_code}</p>
-    <p><b>Product:</b> ${response.name_tag_type}</p>
-    <p><b>Code:</b> ${response.code}</p>
+        <article>
+            <p><b>Start Date:</b> ${response.start_date}</p>
+            <p><b>End Date:</b> ${response.end_date}</p>
+            <p><b>Printer:</b> ${response.printer_code}</p>
+            <p><b>Product:</b> ${response.name_tag_type}</p>
+            <p><b>Code:</b> ${response.code}</p>
+        </article>
     `
 
     document.querySelector( '#delete-booking-with-code .inner' ).insertAdjacentHTML( 'afterbegin', element )

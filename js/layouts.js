@@ -20,7 +20,7 @@ async function getNameplateTypeLayouts() {
     let response = await request
 
     ///// Show the Response in Console Log.
-    console.log(response);
+    //console.log(response);
 
     ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
@@ -67,9 +67,10 @@ async function getNameplateTypeLayouts() {
         }
 
         let element = `
-        <p><b>Nameplate Type:</b> ${response[i].name_tag_type}</p>
-        <p><b>Layouts:</b> ${layout}</p>
-        <hr>
+            <article>
+                <p><b>Nameplate Type:</b> ${response[i].name_tag_type}</p>
+                <p><b>Layouts:</b> ${layout}</p>
+            </article>
         `
 
         document.querySelector( '#get-nameplate-type-layouts .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -100,7 +101,7 @@ async function getLabelTypeLayouts() {
     let response = await request
 
     ///// Show the Response in Console Log.
-    console.log(response);
+    //console.log(response);
 
     ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
@@ -147,9 +148,10 @@ async function getLabelTypeLayouts() {
         }
 
         let element = `
-        <p><b>Label Type:</b> ${response[i].name_tag_sheet_type}</p>
-        <p><b>Layouts:</b> ${layout}</p>
-        <hr>
+            <article>
+                <p><b>Label Type:</b> ${response[i].name_tag_sheet_type}</p>
+                <p><b>Layouts:</b> ${layout}</p>
+            </article>
         `
 
         document.querySelector( '#get-label-type-layouts .inner' ).insertAdjacentHTML( 'afterbegin', element )

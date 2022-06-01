@@ -56,10 +56,10 @@ async function getLabels() {
     for( var i = 0; i < response.length; i++ ){
 
         let element = `
-        <article>
-            <p><b>Filename:</b> ${response[i].filename.slice(7)}</p>
-            <iframe src="https://api.printerboks.dk/api/v1/${response[i].filename}" width="100%" height="400">
-        </article>
+            <article>
+                <p><b>Filename:</b> ${response[i].filename.slice(7)}</p>
+                <iframe src="https://api.printerboks.dk/api/v1/${response[i].filename}" width="100%" height="400">
+            </article>
         `
 
         document.querySelector( '#get-labels .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -153,10 +153,10 @@ async function createLabel() {
 	document.querySelector( '#create-label .inner' ).innerHTML = ''
 
     let element = `
-    <article>
-        <p><b>Filename:</b> ${response.filename.slice(7)}</p>
-        <iframe src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="400">
-    </article>
+        <article>
+            <p><b>Filename:</b> ${response.filename.slice(7)}</p>
+            <iframe src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="400">
+        </article>
     `
 
     document.querySelector( '#create-label .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -230,10 +230,10 @@ async function getLabelWithFilename() {
 	document.querySelector( '#get-label-with-filename .inner' ).innerHTML = ''
 
     let element = `
-    <article>
-        <p><b>Filename:</b> ${filename}</p>
-        <iframe src="${URL.createObjectURL(response)}" width="100%" height="400">
-    </article>
+        <article>
+            <p><b>Filename:</b> ${filename}</p>
+            <iframe src="${URL.createObjectURL(response)}" width="100%" height="400">
+        </article>
     `
 
     document.querySelector( '#get-label-with-filename .inner' ).insertAdjacentHTML( 'afterbegin', element )
@@ -306,7 +306,11 @@ async function deleteLabelWithFilename() {
     ///// Clear all elements in element ( #delete-label-with-filename .inner ). 
 	document.querySelector( '#delete-label-with-filename .inner' ).innerHTML = ''
 
-    let element = `<p><b>Delete file:</b> ${response.filename.slice(7)}</p>`
+    let element = `
+        <article>
+            <p><b>Delete file:</b> ${response.filename.slice(7)}</p>
+        </article>
+    `
 
     document.querySelector( '#delete-label-with-filename .inner' ).insertAdjacentHTML( 'afterbegin', element )
 }
