@@ -1,4 +1,4 @@
-<section id="printers-container" class="main last">
+<section id="printers-container" class="main">
     <header class="header-parrent" onclick="openContent()">               
         <h2>Printers</h2>
         <div class="arrow"></div>
@@ -133,4 +133,4 @@
         </div><!-- #delete-nameplate -->
 
     </section><!-- .inner-container -->
-</section><!-- #labels-container -->
+</section><!-- #printers-container -->

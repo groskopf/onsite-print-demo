@@ -26,3 +26,6 @@ First web interface examples
 > - Get Printer Queue
 > - Get Nameplate
 > - Delete Nameplate
+
+> #### Layouts
+> - Get Nameplate Type Layouts
