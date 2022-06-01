@@ -29,3 +29,4 @@ First web interface examples
 
 > #### Layouts
 > - Get Nameplate Type Layouts
+> - Get Label Type Layouts
