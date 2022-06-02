@@ -1,21 +1,19 @@
 ////////////////////////////////////////
-/////// Get Labels
+/////// Get All Sheets
 ////////////////////////////////////////
-async function getLabels() {
+async function getAllSheets() {
 
     ///// The URL to the API.
-    var url = 'https://api.printerboks.dk/api/v1/labels/'
+    let url = 'https://api.printerboks.dk/api/v1/sheets/'
 
     ///// Request Options for fetch.
     let options = {
         ///// *GET, POST, PUT, DELETE, etc.
         method: 'GET'
-        //mode: 'no-cors', // no-cors, *cors, same-origin
-        //method: 'POST' // TEST
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
@@ -50,11 +48,16 @@ async function getLabels() {
         return
     }
 
-    ///// Clear all elements in element ( #get-labels .inner ). 
-	document.querySelector( '#get-labels .inner' ).innerHTML = ''
+    ///// Get the element for output.
+    let container = document.querySelector( '#get-all-sheets .inner' )
 
-    for( var i = 0; i < response.length; i++ ){
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
 
+    ///// Repeat for each element in the response. 
+    for( let i = 0; i < response.length; i++ ){
+        
+        ///// Create new element.
         let element = `
             <article>
                 <p><b>Filename:</b> ${response[i].filename.slice(7)}</p>
@@ -62,7 +65,8 @@ async function getLabels() {
             </article>
         `
 
-        document.querySelector( '#get-labels .inner' ).insertAdjacentHTML( 'afterbegin', element )
+        ///// Add element to the container. 
+        container.insertAdjacentHTML( 'afterbegin', element )
     }
 
 }
@@ -70,24 +74,36 @@ async function getLabels() {
 
 
 ////////////////////////////////////////
-/////// Create Label
+/////// Create new Sheet
 ////////////////////////////////////////
-async function createLabel() {
+async function createNewSheet() {
 
-    var formData = new FormData( document.forms['create-label'] );
-
-    var imageFilename = formData.get('image-filename')
-    var qrCode = formData.get('qr-code')
-    var sheetType = formData.get('sheet-type')
-    var layout = formData.get('layout')
-
-    //console.log('imageName:', imageFilename, 'qr_code:', qrCode, 'name_tag_sheet_type:', sheetType, 'layout:', layout)
+    ///// Get the form element.
+    let formElemnet = document.forms['create-new-sheet']
     
+    ///// Get data from the form element.
+    let formData = new FormData( formElemnet )
+    
+    ///// Get Sheet Type (select/option) value form form.
+    let sheetType = formData.get('sheet-type')
+    
+    ///// Get Layout (select/option) value form form.
+    let layout = formData.get('layout')
+    
+    ///// Get Image Filename (text) value form form.
+    let imageFilename = formData.get('image-filename')
+    
+    ///// Get QR-Code (text) value form form.
+    let qrCode = formData.get('qr-code')
+
+    ///// Show the Form data in Console Log.
+    //console.log('sheet_type:', sheetType, 'layout:', layout, 'imageName:', imageFilename, 'qr_code:', qrCode)
+   
     ///// The URL to the API.
-    var url = `https://api.printerboks.dk/api/v1/labels/?name_tag_sheet_type=${sheetType}&layout=${layout}`
+    let url = `https://api.printerboks.dk/api/v1/sheets/?sheet_type=${sheetType}&layout=${layout}`
     
     ///// The Body Input to Request Options.
-    var bodyInput = JSON.stringify([
+    let bodyInput = JSON.stringify([
         {
         "line_1": "string",
         "line_2": "string",
@@ -110,14 +126,14 @@ async function createLabel() {
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
     let response = await request
 
     ///// Show the Response in Console Log.
-    //console.log(response);
+    //console.log(response)
 
     ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
@@ -134,7 +150,7 @@ async function createLabel() {
         ///// Get the Detail array.
         let detail = response.detail
 
-        for( var i = 0; i < detail.length; i++ ){
+        for( let i = 0; i < detail.length; i++ ){
 
             ///// If loc array in the Detail array contains 'image'.
             if ( detail[i].loc[1] ) {
@@ -149,9 +165,13 @@ async function createLabel() {
         return
     }
 
-    ///// Clear all elements in element ( #create-label .inner ). 
-	document.querySelector( '#create-label .inner' ).innerHTML = ''
+    ///// Get the element for output.
+    let container = document.querySelector( '#create-new-sheet .inner' )
 
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
+
+    ///// Create new element.
     let element = `
         <article>
             <p><b>Filename:</b> ${response.filename.slice(7)}</p>
@@ -159,26 +179,34 @@ async function createLabel() {
         </article>
     `
 
-    document.querySelector( '#create-label .inner' ).insertAdjacentHTML( 'afterbegin', element )
+    ///// Add element to the container. 
+    container.insertAdjacentHTML( 'afterbegin', element )
+
 }
 
 
 
 ////////////////////////////////////////
-/////// Get Label with Filename
+/////// Get Sheet with Filename
 ////////////////////////////////////////
-async function getLabelWithFilename() {
+async function getSheetWithFilename() {
 
-    var filename = document.forms['get-label-with-filename']['filename'].value
+    ///// Get the form element.
+    let formElemnet = document.forms['get-sheet-with-filename']
     
+    ///// Get booking-code (text) value form form.
+    let filename = formElemnet['filename'].value
+    
+    ///// If the booking-code (text) value is empty.
     if ( ! filename ) {
         console.log( 'Error: The input field is empty!' )
         
         ///// End the function.
         return
     }
+
     ///// The URL to the API.
-    var url = `https://api.printerboks.dk/api/v1/labels/${filename}`
+    let url = `https://api.printerboks.dk/api/v1/sheets/${filename}`
     
     ///// Request Options for fetch.
     let options = {
@@ -187,7 +215,7 @@ async function getLabelWithFilename() {
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options, 'blob' )
     
     ///// Wait for Response of the Request.
@@ -211,7 +239,7 @@ async function getLabelWithFilename() {
         ///// Get the Detail array.
         let detail = response.detail
 
-        for( var i = 0; i < detail.length; i++ ){
+        for( let i = 0; i < detail.length; i++ ){
 
             ///// If loc array in the Detail array contains 'image'.
             if ( detail[i].loc[1] ) {
@@ -226,9 +254,13 @@ async function getLabelWithFilename() {
         return
     }
 
-    ///// Clear all elements in element ( #get-label-with-filename .inner ). 
-	document.querySelector( '#get-label-with-filename .inner' ).innerHTML = ''
+    ///// Get the element for output.
+    let container = document.querySelector( '#get-sheet-with-filename .inner' )
 
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
+
+    ///// Create new element.
     let element = `
         <article>
             <p><b>Filename:</b> ${filename}</p>
@@ -236,26 +268,34 @@ async function getLabelWithFilename() {
         </article>
     `
 
-    document.querySelector( '#get-label-with-filename .inner' ).insertAdjacentHTML( 'afterbegin', element )
+    ///// Add element to the container. 
+    container.insertAdjacentHTML( 'afterbegin', element )
+
 }
 
 
 
 ////////////////////////////////////////
-/////// Delete Label with Filename
+/////// Delete Sheet with Filename
 ////////////////////////////////////////
-async function deleteLabelWithFilename() {
+async function deleteSheetWithFilename() {
 
-    var filename = document.forms['delete-label-with-filename']['filename'].value
+    ///// Get the form element.
+    let formElemnet = document.forms['delete-sheet-with-filename']
     
+    ///// Get booking-code (text) value form form.
+    let filename = formElemnet['filename'].value
+    
+    ///// If the booking-code (text) value is empty.
     if ( ! filename ) {
         console.log( 'Error: The input field is empty!' )
         
         ///// End the function.
         return
     }
+
     ///// The URL to the API.
-    var url = `https://api.printerboks.dk/api/v1/labels/${filename}`
+    let url = `https://api.printerboks.dk/api/v1/sheets/${filename}`
     
     ///// Request Options for fetch.
     let options = {
@@ -264,7 +304,7 @@ async function deleteLabelWithFilename() {
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
@@ -288,7 +328,7 @@ async function deleteLabelWithFilename() {
         ///// Get the Detail array.
         let detail = response.detail
 
-        for( var i = 0; i < detail.length; i++ ){
+        for( let i = 0; i < detail.length; i++ ){
 
             ///// If loc array in the Detail array contains 'image'.
             if ( detail[i].loc[1] ) {
@@ -303,14 +343,20 @@ async function deleteLabelWithFilename() {
         return
     }
 
-    ///// Clear all elements in element ( #delete-label-with-filename .inner ). 
-	document.querySelector( '#delete-label-with-filename .inner' ).innerHTML = ''
+    ///// Get the element for output.
+    let container = document.querySelector( '#delete-sheet-with-filename .inner' )
 
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
+
+    ///// Create new element.
     let element = `
         <article>
-            <p><b>Delete file:</b> ${response.filename.slice(7)}</p>
+            <p><b>File:</b> ${response.filename.slice(7)} was deleted.</p>
         </article>
     `
 
-    document.querySelector( '#delete-label-with-filename .inner' ).insertAdjacentHTML( 'afterbegin', element )
+    ///// Add element to the container. 
+    container.insertAdjacentHTML( 'afterbegin', element )
+
 }
