@@ -48,7 +48,7 @@
                                 </select>
                             </div>
                             <div class="input-outer">
-                                <label for="CNB-printer-code-select">Printer code</label>
+                                <label for="CNB-printer-code-select">Printer Code</label>
                                 <select id="CNB-printer-code-select" name="printer_code" required>
                                     <option value="XDESP95271_p">XDESP95271_p</option>
                                     <option value="W8IL27UCYQ_m">W8IL27UCYQ_m</option>
@@ -115,7 +115,7 @@
                                 </select>
                             </div>
                             <div class="input-outer">
-                                <label for="UBWBC-printer-code-select">Printer code</label>
+                                <label for="UBWBC-printer-code-select">Printer Code</label>
                                 <select id="UBWBC-printer-code-select" name="printer_code" required>
                                     <option value="XDESP95271_p">XDESP95271_p</option>
                                     <option value="W8IL27UCYQ_m">W8IL27UCYQ_m</option>

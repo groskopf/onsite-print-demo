@@ -226,7 +226,7 @@ h3 span {
     justify-content: center;
     min-width: 6rem;
     margin-right: 1rem;
-    padding: .7rem;
+    padding: .7rem 1.4rem;
     border-radius: .3rem;
     text-shadow: 0 .1rem 0 rgba(0,0,0,.2);
 }
@@ -239,7 +239,7 @@ h3 span {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     min-width: 15rem;
-    padding: .6rem;
+    padding: .6rem 1.2rem;
     border: .1rem solid black;
     border-radius: .3rem;
     cursor: pointer;

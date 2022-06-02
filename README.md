@@ -15,17 +15,18 @@ First web interface examples
 > - Update Booking with Booking Code
 > - Delete Booking with Booking Code
 
-> #### Labels
-> - Get Labels
-> - Create Label
-> - Get Label with Filename
-> - Delete Label with Filename
+> #### Sheets
+> - Get all Sheets
+> - Create new Sheets
+> - Get Sheet with Filename
+> - Delete Sheet with Filename
 
-> #### Printers
-> - Create Nameplate
-> - Get Printer Queue
-> - Get Nameplate
-> - Delete Nameplate
+> #### Name Tags
+> - Create new Name Tag
+> - Get all Name Tags in Printer Queue
+> - Delete all Name Tags in Printer Queue
+> - Get Name Tag with Filename 
+> - Delete Name Tag with Filename
 
 > #### Layouts
 > - Get Nameplate Type Layouts
