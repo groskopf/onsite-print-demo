@@ -19,7 +19,7 @@ async function fetchAPI( url, options, output, debug ) {
             ///// If (Debug) parameter in the function is enabled.
             ///// Show the Response in Console Log.
             if ( debug ) {
-                console.log( 'Response debug:', response )
+                console.log( 'Response Debug:', response )
             }
 
             ///// If (Output) parameter in the function is enabled.
@@ -37,6 +37,11 @@ async function fetchAPI( url, options, output, debug ) {
     return request
 }
 
+
+
+////////////////////////////////////////
+/////// Open Content
+////////////////////////////////////////
 function openContent() {
     event.target.parentElement.classList.toggle('active')
 }

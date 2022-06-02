@@ -19,7 +19,7 @@
                     <div class="inner"></div>
                 </div>
             </div>
-        </div><!-- #get-all-images -->
+        </div><!-- #get-all-images | #GAI -->
 
         <div id="upload-new-image" class="wrapper post">
             <header onclick="openContent()">               
@@ -29,7 +29,7 @@
             <div class="content">
                 <div class="form-container">
                     <form name="upload-new-image" action="POST" onsubmit="return false">
-                        <input id="upload-new-image-image-file" name="image" type="file" required>
+                        <input id="UNI-image-file-input" name="image" type="file" required>
                         <button class="list-button" onclick="uploadNewImage(); return false">Upload new Image</button>
                     </form>
                 </div>
@@ -38,7 +38,7 @@
                     <div class="inner"></div>
                 </div>
             </div>
-        </div><!-- #upload-new-image -->
+        </div><!-- #upload-new-image | #UNI -->
 
         <div id="get-image-with-filename" class="wrapper get">
             <header onclick="openContent()">               
@@ -49,8 +49,8 @@
                 <div class="form-container">
                     <form name="get-image-with-filename" action="POST" onsubmit="return false">
                         <div class="input-outer">
-                            <label for="get-image-with-filename-input">Image Filename</label>
-                            <input id="get-image-with-filename-input" name="image-filename" type="text" required>
+                            <label for="UIWF-filename-input">Image Filename</label>
+                            <input id="UIWF-filename-input" name="image-filename" type="text" required>
                         </div>
                         <button class="list-button" onclick="getImageWithFilename(); return false">Get Image</button>
                     </form>
@@ -60,7 +60,7 @@
                     <div class="inner"></div>
                 </div>
             </div>
-        </div><!-- #get-image-with-filename -->
+        </div><!-- #get-image-with-filename | #UIWF -->
 
         <div id="delete-image-with-filename" class="wrapper delete">
             <header onclick="openContent()">               
@@ -71,8 +71,8 @@
                 <div class="form-container">
                     <form name="delete-image-with-filename" action="POST" onsubmit="return false">
                         <div class="input-outer">
-                            <label for="delete-image-with-filename-input">Image Filename</label>
-                            <input id="delete-image-with-filename" name="image-filename" type="text" required>
+                            <label for="DIWF-filename-input">Image Filename</label>
+                            <input id="DIWF-filename-input" name="image-filename" type="text" required>
                         </div>
                         <button class="list-button" onclick="deleteImageWithFilename(); return false">Delete Image</button>
                     </form>
@@ -82,7 +82,7 @@
                     <div class="inner"></div>
                 </div>
             </div>
-        </div><!-- #delete-image-with-filename -->
+        </div><!-- #delete-image-with-filename | #DIWF -->
 
     </section><!-- .inner-container -->
 </section><!-- #image-container -->

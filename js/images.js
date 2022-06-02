@@ -85,7 +85,7 @@ async function uploadNewImage() {
     var formElemnet = document.forms['upload-new-image']
     
     ///// Get data from the form element.
-    var formdata = new FormData( formElemnet )
+    var formData = new FormData( formElemnet )
     
     ///// If the image (file) value is empty.
     if ( formElemnet['image'].value == '' ) {
@@ -99,7 +99,7 @@ async function uploadNewImage() {
     let options = {
         ///// *GET, POST, PUT, DELETE, etc.
         method: 'POST',
-        body: formdata
+        body: formData
     }
 
     ///// Request the data from the API.
@@ -280,7 +280,7 @@ async function deleteImageWithFilename() {
     let response = await request
 
     ///// Show the Response in Console Log.
-    console.log(response)
+    //console.log(response)
 
     ///// If the Response is empty or undefined.
     if ( response == '' || response == undefined ) {
