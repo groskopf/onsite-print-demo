@@ -278,11 +278,11 @@ form label {
     gap: 1rem;
 }
 
-#get-images .inner {
+#get-all-images .inner {
     flex-direction: row;
 }
 
-#get-images .inner article {
+#get-all-images .inner article {
     flex-basis: calc((100% - 2rem) / 3);
 }
 

@@ -1,7 +1,7 @@
 ////////////////////////////////////////
-/////// Get Images
+/////// Get all Images
 ////////////////////////////////////////
-async function getImages() {
+async function getAllImages() {
 
     ///// The URL to the API.
     var url = 'https://api.printerboks.dk/api/v1/images/'
@@ -10,12 +10,10 @@ async function getImages() {
     let options = {
         ///// *GET, POST, PUT, DELETE, etc.
         method: 'GET'
-        //mode: 'no-cors', // no-cors, *cors, same-origin
-        //method: 'POST' // TEST
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
@@ -50,11 +48,16 @@ async function getImages() {
         return
     }
 
-    ///// Clear all elements in element ( #get-images .inner ). 
-	document.querySelector( '#get-images .inner' ).innerHTML = ''
+    ///// Get the element for output.
+    let container = document.querySelector( '#get-all-images .inner' )
 
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
+
+    ///// Repeat for each element in the response. 
     for( var i = 0; i < response.length; i++ ){
 
+        ///// Create new element.
         let element = `
             <article>
                 <p>${response[i].filename.slice(7)}</p>
@@ -62,7 +65,8 @@ async function getImages() {
             </article>
         `
 
-        document.querySelector( '#get-images .inner' ).insertAdjacentHTML( 'afterbegin', element )
+        ///// Add element to the container. 
+        container.insertAdjacentHTML( 'afterbegin', element )
     }
 
 }
@@ -70,17 +74,21 @@ async function getImages() {
 
 
 ////////////////////////////////////////
-/////// Upload Image
+/////// Upload new Image
 ////////////////////////////////////////
-async function uploadImage() {
+async function uploadNewImage() {
 
     ///// The URL to the API.
     var url = 'https://api.printerboks.dk/api/v1/images/'
-
-    //var formdata = new FormData( querySelector( '#image-form' ) )
-    var formdata = new FormData( document.forms['image-form'] )
-
-    if ( document.forms['image-form']['image'].value == '' ) {
+    
+    ///// Get the form element.
+    var formElemnet = document.forms['upload-new-image']
+    
+    ///// Get data from the form element.
+    var formdata = new FormData( formElemnet )
+    
+    ///// If the image (file) value is empty.
+    if ( formElemnet['image'].value == '' ) {
         console.log( 'Error: The input field is empty!' )
         
         ///// End the function.
@@ -95,7 +103,7 @@ async function uploadImage() {
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
@@ -130,9 +138,13 @@ async function uploadImage() {
         return
     }
    
-    ///// Clear elements
-	document.querySelector( '#upload-image .inner' ).innerHTML = ''
+    ///// Get the element for output.
+    let container = document.querySelector( '#upload-new-image .inner' )
+
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
     
+    ///// Create new element.
     let element = `
         <article>
             <p>${response.filename.slice(7)}</p>
@@ -140,19 +152,25 @@ async function uploadImage() {
         </article>
     `
 
-    document.querySelector( '#upload-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
+    ///// Add element to the container.
+    container.insertAdjacentHTML( 'afterbegin', element )
 
 }
 
 
 
 ////////////////////////////////////////
-/////// Get Image
+/////// Get Image with Filename
 ////////////////////////////////////////
-async function getImage() {
+async function getImageWithFilename() {
 
-    var imageFileName = document.forms['get-image-form']['image-file-name'].value
+    ///// Get the form element.
+    var formElemnet = document.forms['get-image-with-filename']
 
+    ///// Get filename (text) value form form.
+    var imageFileName = formElemnet['image-filename'].value
+    
+    ///// If the filename value is empty.
     if ( ! imageFileName ) {
         console.log( 'Error: The input field is empty!' )
         
@@ -162,7 +180,6 @@ async function getImage() {
 
     ///// The URL to the API.
     var url = 'https://api.printerboks.dk/api/v1/images/'+imageFileName
-    //console.log(url);
 
     ///// Request Options for fetch.
     let options = {
@@ -171,7 +188,7 @@ async function getImage() {
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options, 'blob' )
     
     ///// Wait for Response of the Request.
@@ -205,10 +222,14 @@ async function getImage() {
         ///// End the function.
         return
     }
-   
-    ///// Clear elements
-	document.querySelector( '#get-image .inner' ).innerHTML = ''
+     
+    ///// Get the element for output.
+    let container = document.querySelector( '#get-image-with-filename .inner' )
+
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
     
+    ///// Create new element.
     let element = `
         <article>
             <p>${imageFileName}</p>
@@ -216,19 +237,25 @@ async function getImage() {
         </article>
     `
 
-    document.querySelector( '#get-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
+    ///// Add element to the container.
+    container.insertAdjacentHTML( 'afterbegin', element )
 
 }
 
 
 
 ////////////////////////////////////////
-/////// Delete Image
+/////// Delete Image with Filename
 ////////////////////////////////////////
-async function deleteImage() {
+async function deleteImageWithFilename() {
 
-    var imageFileName = document.forms['delete-image-form']['image-file-name'].value
+    ///// Get the form element.
+    var formElemnet = document.forms['delete-image-with-filename']
 
+    ///// Get filename (text) value form form.
+    var imageFileName = formElemnet['image-filename'].value
+    
+    ///// If the filename value is empty.
     if ( ! imageFileName ) {
         console.log( 'Error: The input field is empty!' )
         
@@ -238,7 +265,6 @@ async function deleteImage() {
 
     ///// The URL to the API.
     var url = 'https://api.printerboks.dk/api/v1/images/'+imageFileName
-    //console.log(url);
 
     ///// Request Options for fetch.
     let options = {
@@ -247,7 +273,7 @@ async function deleteImage() {
     }
 
     ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' )
+    ///// fetchAPI( *url, options, 'blob', 'debug' ).
     let request = fetchAPI( url, options )
     
     ///// Wait for Response of the Request.
@@ -281,16 +307,21 @@ async function deleteImage() {
         ///// End the function.
         return
     }
-   
-    ///// Clear elements
-	document.querySelector( '#delete-image .inner' ).innerHTML = ''
+     
+    ///// Get the element for output.
+    let container = document.querySelector( '#delete-image-with-filename .inner' )
+
+    ///// Clear all elements in the element. 
+	container.innerHTML = ''
     
+    ///// Create new element.   
     let element = `
         <article>
-            <p>File: (${response.filename}) was deleted.</p>
+            <p><b>File:</b> (${response.filename}) was deleted.</p>
         </article>
     `
 
-    document.querySelector( '#delete-image .inner' ).insertAdjacentHTML( 'afterbegin', element )
+    ///// Add element to the container. 
+    container.insertAdjacentHTML( 'afterbegin', element )
 
 }
