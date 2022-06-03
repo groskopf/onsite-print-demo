@@ -29,5 +29,7 @@ First web interface examples
 > - Delete Name Tag with Filename
 
 > #### Layouts
-> - Get Nameplate Type Layouts
-> - Get Label Type Layouts
+> - Get all Name Tag Types
+> - Get all Sheet Types
+> - Get Name Tag Type
+> - Get Sheet Type
