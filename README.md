@@ -37,3 +37,4 @@ First web interface examples
 > #### CSV
 > - Get List from CSV with Semicolon
 > - Get List from CSV with Comma
+> - Get List from CSV with Semicolon Extra
