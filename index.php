@@ -18,6 +18,7 @@
     <?php require_once(__DIR__.'/components/sheets.php') ?>
     <?php require_once(__DIR__.'/components/nametags.php') ?>
     <?php require_once(__DIR__.'/components/layouts.php') ?>
+    <?php require_once(__DIR__.'/components/csv.php') ?>
 
     <script src="js/fetch.js"></script>
     <script src="js/images.js"></script>
@@ -25,5 +26,6 @@
     <script src="js/sheets.js"></script>
     <script src="js/nametags.js"></script>
     <script src="js/layouts.js"></script>
+    <script src="js/csv.js"></script>
 </body>
 </html>

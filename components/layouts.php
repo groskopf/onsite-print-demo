@@ -1,4 +1,4 @@
-<section id="layouts-container" class="main last">
+<section id="layouts-container" class="main">
     <header class="header-parrent" onclick="openContent()">               
         <h2>Layouts</h2>
         <div class="arrow"></div>

@@ -33,3 +33,6 @@ First web interface examples
 > - Get all Sheet Types
 > - Get Name Tag Type
 > - Get Sheet Type
+
+> #### CSV
+> - Get List from CSV with Semicolon
