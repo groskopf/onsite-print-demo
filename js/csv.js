@@ -167,6 +167,9 @@ async function getListFromCsvWithSemicolonExtra(){
         } */
     })
 
+    ///// Add the class active to the grid element.
+    document.querySelector( '#grid' ).classList.add('active')
+    
     ///// Get the element for output.
     let container = document.querySelector( '#get-list-from-csv-with-semicolon-extra .inner' )
 
@@ -246,7 +249,10 @@ async function uploadCsvWithSemicolonToGrid(){
             return String("Column #"+id);
         } */
     })
- 
+
+    ///// Add the class active to the grid element.
+    document.querySelector( '#upload-grid' ).classList.add('active')
+
 }
 
 
@@ -320,6 +326,7 @@ async function getListFromGridWithSemicolonExtra(){
 
 
 
-document.getElementById('button-save-json').onclick = function(){
+document.querySelector('#create-list-from-csv-with-semicolon .button-save-csv').onclick = function(){
     console.log(uploadGrid.getData())
+    uploadGrid.downloadDataAsCSV()
 }

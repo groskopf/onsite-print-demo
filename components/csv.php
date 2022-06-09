@@ -57,7 +57,7 @@
                 </div>
                 <div class="responses">
                     <h4>Responses:</h4>
-                    <div id="grid" style="width:100%;height:400px;"></div>
+                    <div id="grid" class="grid-list"></div>
                     <div class="inner"></div>
                 </div>
             </div>
@@ -75,9 +75,9 @@
                         <button class="list-button">Uplaod List</button>
                     </form>
                 </div>
-                <div id="upload-grid" style="width:100%;height:400px;"></div>
+                <div id="upload-grid" class="grid-list"></div>
                 <div class="form-container">
-                    <button id="button-save-json" class="list-button">save as JSON</button>
+                    <button class="button-save-csv list-button">Save as CSV</button>
                     <button class="list-button" onclick="getListFromGridWithSemicolonExtra(); return false">Get List</button>
                 </div>
                 <div class="responses">

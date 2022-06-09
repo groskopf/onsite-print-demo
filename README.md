@@ -38,3 +38,4 @@ First web interface examples
 > - Get List from CSV with Semicolon
 > - Get List from CSV with Comma
 > - Get List from CSV with Semicolon Extra
+> - Create List from CSV with Semicolon

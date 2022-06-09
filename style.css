@@ -309,3 +309,10 @@ article iframe {
     border: none;
     border-radius: .3rem;
 }
+
+.grid-list.active {
+    height: 30rem;
+}
+.button-save-csv {
+    margin-right: 1rem;
+}
