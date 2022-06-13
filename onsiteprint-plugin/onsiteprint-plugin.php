@@ -16,6 +16,7 @@ define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
 function onsiteprint_enqueue_scripts() {
 	wp_enqueue_script( 'onsiteprint-fetch-js', ONSITEPRINT_DIR . '/assets/js/fetch.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-fetch-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-log-switch-js', ONSITEPRINT_DIR . '/assets/js/log-switch.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_enqueue_script( 'onsiteprint-bookings-js', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-bookings-js', 'async', true );
 }
@@ -60,6 +61,17 @@ function onsiteprint_acf_init() {
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'admin-settings',
 			'keywords'			=> array( 'page', 'list', 'onsiteprint' ),
+		));
+
+		// register the [Get Booking] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-log-switch',
+			'title'				=> __('Log in/out'),
+			'description'		=> __('Log in with a booking code.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-log-switch/onsiteprint-log-switch.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'admin-settings',
+			'keywords'			=> array( 'page', 'login', 'logout', 'onsiteprint' ),
 		));
 	}
 }
