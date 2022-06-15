@@ -171,13 +171,43 @@
 	display: flex;
 	justify-content: flex-end;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .OP-block .form-container form {
     display: flex;
 	justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     flex: 1;
+    gap: 1rem;
+}
+
+.OP-block .form-validate,
+.OP-block .content .flex-wrap {
+    flex: 1 100%;
+    margin: 0;
+}
+
+.OP-block .form-validate div {
+    background: white;
+    margin-bottom: 1rem;
+    border-radius: .3rem;
+}
+
+.OP-block .form-validate p {
+    background: rgba(249,62,62,.1);
+    font-size: 1.4rem;
+    line-height: 1;
+    margin: 0;
+    padding: 1rem;
+    border: .1rem solid #f93e3e;
+    border-radius: .3rem;
+}
+
+.OP-block .form-validate p span {
+    color: #f93e3e;
+    font-weight: bold;
 }
 
 .OP-block .form-inner {

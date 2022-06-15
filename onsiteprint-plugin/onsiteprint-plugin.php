@@ -19,6 +19,8 @@ function onsiteprint_enqueue_scripts() {
 	wp_enqueue_script( 'onsiteprint-log-switch-js', ONSITEPRINT_DIR . '/assets/js/log-switch.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_enqueue_script( 'onsiteprint-bookings-js', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-bookings-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-design-js', ONSITEPRINT_DIR . '/assets/js/design.js', array(),  wp_get_theme()->get( 'Version' ), true );
+	wp_script_add_data( 'onsiteprint-design-js', 'async', true );
 }
 add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_scripts' );
 
@@ -59,20 +61,32 @@ function onsiteprint_acf_init() {
 			'description'		=> __('Get Booking infomation with a booking code from FastAPI.'),
 			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-get-booking/onsiteprint-get-booking.php',
 			'category'			=> 'onsiteprint',
-			'icon'				=> 'admin-settings',
-			'keywords'			=> array( 'page', 'list', 'onsiteprint' ),
+			'icon'				=> 'calendar-alt',
+			'keywords'			=> array( 'page', 'booking', 'onsiteprint' ),
 		));
-
-		// register the [Get Booking] block.
+	
+		// register the [Log in/out] block.
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-log-switch',
 			'title'				=> __('Log in/out'),
 			'description'		=> __('Log in with a booking code.'),
 			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-log-switch/onsiteprint-log-switch.php',
 			'category'			=> 'onsiteprint',
-			'icon'				=> 'admin-settings',
-			'keywords'			=> array( 'page', 'login', 'logout', 'onsiteprint' ),
+			'icon'				=> 'lock',
+			'keywords'			=> array( 'page', 'booking', 'login', 'logout', 'onsiteprint' ),
 		));
+
+		// register the [Create Design] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-create-design',
+			'title'				=> __('Create Design'),
+			'description'		=> __('Create Design to a Name Tag Type.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-create-design/onsiteprint-create-design.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'admin-appearance',
+			'keywords'			=> array( 'page', 'booking', 'create', 'design', 'onsiteprint' ),
+		));
+
 	}
 }
 add_action('acf/init', 'onsiteprint_acf_init');

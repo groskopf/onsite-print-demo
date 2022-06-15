@@ -120,8 +120,14 @@ async function loginWithBookingCode() {
         return
     }
 
-
     localStorage.setItem( 'OP_PLUGIN_DATA_BOOKING', JSON.stringify(response) )
     checkLogin()
+
+    const designsStorage = localStorage.getItem('OP_PLUGIN_DATA_DESIGNS')
+ 
+    if ( ! designsStorage ) {
+        let designsArray = { 'designs' : [] }
+        localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify(designsArray) )
+    }
 
 }

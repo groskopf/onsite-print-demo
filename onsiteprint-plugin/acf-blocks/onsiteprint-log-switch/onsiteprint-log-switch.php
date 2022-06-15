@@ -56,7 +56,7 @@ $className .= ' ' . $listColumns;
         <div id="logout" class="wrapper delete">
             <div class="content">
                 <div class="form-container">
-                    <button class="list-button" onclick="localStorage.removeItem('login'); location.reload()">Log out</button>
+                    <button class="list-button" onclick="localStorage.removeItem('OP_PLUGIN_DATA_BOOKING'); location.reload()">Log out</button>
                 </div>
             </div>
         </div><!-- #logout -->

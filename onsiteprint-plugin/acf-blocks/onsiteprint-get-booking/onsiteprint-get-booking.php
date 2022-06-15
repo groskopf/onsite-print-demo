@@ -42,12 +42,12 @@ $className .= ' ' . $listColumns;
 
     <div class="content">
         <div class="form-container">
-            <form class="get-booking-with-booking-code" action="POST" onsubmit="return false">
+            <form class="get-booking-with-booking-code" action="POST">
                 <div class="input-outer">
                     <label for="GBWBC-booking-code-input">Booking Code</label>
                     <input id="GBWBC-booking-code-input" name="booking-code" type="text" required>
                 </div>
-                <button class="list-button" onclick="getBookingWithBookingCode(); return false">Get Booking</button>
+                <button class="list-button" type="submit" onclick="getBookingWithBookingCode(); return false">Get Booking</button>
             </form>
         </div>
         <div class="responses">
