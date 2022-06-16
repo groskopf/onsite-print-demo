@@ -63,7 +63,9 @@ async function getNameTagTypeLayouts( nameTagType ) {
 /////// Create new Design
 ////////////////////////////////////////
 async function createNewDesign() {
-   
+    ///// Debug the function
+    let debug = false //true 
+
     ///// Get Local Storages.
     let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
     let designsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_DESIGNS' ) )   
@@ -80,17 +82,17 @@ async function createNewDesign() {
     let block = event.target.closest( '.OP-block' )
 
     ///// Get the element for output.
-    let validate = block.querySelector( '.form-container' ).querySelector( '.form-validate' )
+    let formValidate = block.querySelector( '.form-container' ).querySelector( '.form-validate' )
 
     ///// Clear all elements in the element. 
-	validate.innerHTML = ''
+	formValidate.innerHTML = ''
 
     ///// Validate Booking Storage.
     if ( ! bookingStorage || bookingStorage.booking_code !== '6H7MQZVUUZFIJNI' ) {
         console.log( 'Error: You are not loged in!' )
 
         ///// Add element to the validate.
-        validate.insertAdjacentHTML( 'afterbegin', `<div><p class="validate-info"><span>*</span> You are not loged in!</p></div>` )
+        formValidate.insertAdjacentHTML( 'afterbegin', `<div><p class="validate-info"><span>*</span> You are not loged in!</p></div>` )
 
         ///// End the function.
         return
@@ -103,7 +105,7 @@ async function createNewDesign() {
         let formData = new FormData( formElemnet )
         
         ///// If the image (file) value is empty.
-        if ( formElemnet[ 'image' ].value == '' || formElemnet[ 'name' ].value == '' ) {
+        /* if ( formElemnet[ 'image' ].value == '' || formElemnet[ 'name' ].value == '' ) {
             console.log( 'Error: One of the input fields are empty!' )
 
             ///// Add element to the validate.
@@ -111,7 +113,7 @@ async function createNewDesign() {
 
             ///// End the function.
             return
-        }
+        } */
 
         ///// Request Options for fetch.
         let options = {
@@ -124,40 +126,17 @@ async function createNewDesign() {
         var url = 'https://api.printerboks.dk/api/v1/images/'
 
         ///// Request the data from the API.
-        ///// fetchAPI( *url, options, 'blob', 'debug' ).
-        let request = fetchAPI( url, options )
+        ///// fetchAPI( *url, options, 'blob/json', debug ).
+        let request = fetchAPI( url, options, 'json', debug )
         
         ///// Wait for Response of the Request.
         let response = await request
+        //console.log(response)
 
-        ///// Show the Response in Console Log.
-        console.log(response)
+        let validateRequest = validateResponse( response )
 
-        ///// If the Response is empty or undefined.
-        if ( response == '' || response == undefined ) {
-            console.log( 'Error: The Response is empty or undefined.' )
-
-            ///// End the function.
-            return
-        }
-
-        ///// If the Response is 'detail' or empty ).
-        ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
-        else if ( response.detail ) {
-
-            ///// Get the Detail array.
-            let detail = response.detail[0]
-            
-            ///// If loc array in the Detail array contains 'image'.
-            if ( detail.loc.includes( 'image' ) ) {
-                console.log( 'Message:', detail.msg )
-            } else {
-                console.log( 'Error:', response )
-            }
-            
-            ///// End the function.
-            return
-        }
+        console.log(validateRequest, 'Hmmm!!!')
+        return
     
         ///// Get the element for output.
         let container = block.querySelector( '.inner' )

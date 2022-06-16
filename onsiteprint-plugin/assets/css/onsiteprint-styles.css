@@ -195,7 +195,22 @@
     border-radius: .3rem;
 }
 
-.OP-block .form-validate p {
+.OP-block .validation-error {
+    background: white;
+    display: none;
+    border-radius: .3rem;
+}
+
+.OP-block .validation-error.active {
+    display: block;
+}
+
+.OP-block .validation-error.active ~ input {
+    border: .1rem solid #f93e3e;
+}
+
+.OP-block .form-validate p,
+.OP-block .validation-error p {
     background: rgba(249,62,62,.1);
     font-size: 1.4rem;
     line-height: 1;

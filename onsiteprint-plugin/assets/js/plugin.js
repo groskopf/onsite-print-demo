@@ -1,0 +1,6 @@
+////////////////////////////////////////
+/////// Open Content
+////////////////////////////////////////
+function openContent() {
+    event.target.closest('.wrapper').classList.toggle('active')
+}

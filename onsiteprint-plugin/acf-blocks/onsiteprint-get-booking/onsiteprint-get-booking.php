@@ -45,6 +45,7 @@ $className .= ' ' . $listColumns;
             <form class="get-booking-with-booking-code" action="POST">
                 <div class="input-outer">
                     <label for="GBWBC-booking-code-input">Booking Code</label>
+                    <div id="booking-code-validation" class="validation-error"></div>
                     <input id="GBWBC-booking-code-input" name="booking-code" type="text" required>
                 </div>
                 <button class="list-button" type="submit" onclick="getBookingWithBookingCode(); return false">Get Booking</button>
