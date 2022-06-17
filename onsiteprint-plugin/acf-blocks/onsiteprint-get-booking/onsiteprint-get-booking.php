@@ -1,8 +1,8 @@
 <?php
 /**
- * The OnsitePrint (Get Booking Block).
+ * [Block] Get Booking.
  *
- * Displaying Booking infomation from FastAPI.
+ * [Front-end] Displaying Booking infomation from FastAPI.
  *
  * @link https://www.advancedcustomfields.com/resources/
  *
@@ -13,13 +13,13 @@
 
 //$pageListOptions = get_field('page_list_options');
 
-$id = 'OP-get-booking-' . $block['id'];
+$id = 'op-' . $block['id'];
 
 if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'OP-block wrapper get' . $listPageType;
+$className = 'op-get-booking' . $listPageType;
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -33,28 +33,35 @@ $className .= ' ' . $listColumns;
 
 ?>
 
-<div id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
+<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
+    <div class="login-validation">Login Validation</div>
+    <div class="op-block__inner active">
 
-    <header onclick="openContent()">               
-        <h3><span>Get</span>Get Booking with Booking Code</h3>
-        <div class="arrow"></div>
-    </header>
+        <div id="<?= esc_attr($id) ?>-get-booking" class="op-block__wrapper get">
 
-    <div class="content">
-        <div class="form-container">
-            <form class="get-booking-with-booking-code" action="POST">
-                <div class="input-outer">
-                    <label for="GBWBC-booking-code-input">Booking Code</label>
-                    <div id="booking-code-validation" class="validation-error"></div>
-                    <input id="GBWBC-booking-code-input" name="booking-code" type="text" required>
+            <header onclick="openContent()">               
+                <h3><span>Get</span>Get Booking with Booking Code</h3>
+                <div class="arrow"></div>
+            </header>
+
+            <div class="content">
+                <div class="form-container">
+                    <form class="get-booking-form">
+                        <div class="input-outer">
+                            <label for="<?= esc_attr($id) ?>-booking-code-input">Booking Code</label>
+                            <div id="<?= esc_attr($id) ?>-booking-code-validation" class="validation-error"></div>
+                            <input id="<?= esc_attr($id) ?>-booking-code-input" name="booking-code" type="text" required>
+                        </div>
+                        <button class="list-button" type="submit" onclick="getBookingWithBookingCode(); return false">Get Booking</button>
+                    </form>
                 </div>
-                <button class="list-button" type="submit" onclick="getBookingWithBookingCode(); return false">Get Booking</button>
-            </form>
-        </div>
-        <div class="responses">
-            <h4>Responses:</h4>
-            <div class="inner"></div>
-        </div>
-    </div>
+                <div class="responses">
+                    <h4>Responses:</h4>
+                    <div class="inner"></div>
+                </div>
+            </div>
 
-</div><!-- #<?= esc_attr($id) ?> | #GBWBC -->
+        </div><!-- #<?= esc_attr($id) ?>-get-booking -->
+
+    </div>
+</section><!-- #<?= esc_attr($id) ?> -->

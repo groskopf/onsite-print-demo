@@ -6,18 +6,17 @@ async function getBookingWithBookingCode() {
     let debug = false //true 
 
     ///// Get the element for output.
-    let block = event.target.closest('.OP-block')
-    let inputValidation = block.querySelector( '#booking-code-validation' )
+    let block = event.target.closest('section[id*="op-block"]')
+    let blockId = block.getAttribute('id')
+    let formElemnet = block.querySelector('.get-booking-form')
     
+    let inputValidation = block.querySelector( `#${blockId}-booking-code-validation` )   
     inputValidation.classList.remove( 'active' )
     inputValidation.innerHTML = ''
-
-    ///// Get the form element.
-    let formElemnet = block.querySelector('.get-booking-with-booking-code')
     
     ///// Get booking-code (text) value form form.
-    let bookingCode = formElemnet['booking-code'].value
-    
+    let bookingCode = formElemnet['booking-code'].value   
+
     ///// If the booking-code (text) value is empty.
     if ( ! bookingCode ) {
         inputValidation.classList.add( 'active' )

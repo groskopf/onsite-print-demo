@@ -1,8 +1,8 @@
 <?php
 /**
- * The OnsitePrint (Create Design) Block.
+ * [Block] Create Design.
  *
- * Creating a new design for use to print.
+ * [Front-end] Creating a new design for use to print.
  *
  * @link https://www.advancedcustomfields.com/resources/
  *
@@ -13,15 +13,13 @@
 
 //$pageListOptions = get_field('page_list_options');
 
-$id = $block['id'];
+$id = 'op-' . $block['id'];
 
 if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$idName = 'OP-create-design-' . $id;
-
-$className = 'OP-block wrapper post' . $listPageType;
+$className = 'op-create-design' . $listPageType;
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -35,29 +33,40 @@ $className .= ' ' . $listColumns;
 
 ?>
 
-<div id="<?= esc_attr($idName) ?>" class="<?= esc_attr($className) ?>">
+<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
+    <div class="login-validation">Login Validation</div>
+    <div class="op-block__inner active">
 
-    <header onclick="openContent()">               
-        <h3><span>Post</span>Create new Design</h3>
-        <div class="arrow"></div>
-    </header>
+        <div id="<?= esc_attr($id) ?>-create-design" class="op-block__wrapper post">
 
-    <div class="content">
-        <div class="form-container">
-            <div class="form-validate"></div>
-            <form class="upload-new-image" action="POST">
-                <div class="input-outer flex-wrap">
-                    <label for="<?= esc_attr($id) ?>-name-input">Design Name</label>
-                    <input id="<?= esc_attr($id) ?>-name-input" name="name" type="text" required>
+            <header onclick="openContent()">               
+                <h3><span>Post</span>Create new Design</h3>
+                <div class="arrow"></div>
+            </header>
+
+            <div class="content">
+                <div class="form-container">
+                    <div class="form-validate"></div>
+                    <form class="create-design-form">
+                        <div class="input-outer flex-wrap">
+                            <label for="<?= esc_attr($id) ?>-name-input">Design Name</label>
+                            <div id="<?= esc_attr($id) ?>-name-input-validation" class="validation-error"></div>
+                            <input id="<?= esc_attr($id) ?>-name-input" name="name" type="text" required>
+                        </div>
+                        <div class="input-outer">
+                            <div id="<?= esc_attr($id) ?>-image-file-input-validation" class="validation-error"></div>
+                            <input id="<?= esc_attr($id) ?>-image-file-input" name="image" type="file" accept=".jpg, .jpeg, .png" required>
+                        </div>
+                        <button class="list-button" type="submit" onclick="createNewDesign(); return false">Create new Design</button>
+                    </form>
                 </div>
-                <input id="<?= esc_attr($id) ?>-image-file-input" name="image" type="file" accept=".jpg, .jpeg, .png" required>
-                <button class="list-button" type="submit" onclick="createNewDesign(); return false">Create new Design</button>
-            </form>
-        </div>
-        <div class="responses">
-            <h4>Responses:</h4>
-            <div class="inner"></div>
-        </div>
-    </div>
+                <div class="responses">
+                    <h4>Responses:</h4>
+                    <div class="inner"></div>
+                </div>
+            </div>
 
-</div><!-- #<?= esc_attr($idName) ?> -->
+        </div><!-- #<?= esc_attr($id) ?>-create-design -->
+
+    </div>
+</section><!-- #<?= esc_attr($id) ?> -->

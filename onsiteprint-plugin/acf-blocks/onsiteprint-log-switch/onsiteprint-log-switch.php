@@ -12,13 +12,13 @@
  */
 
 
-$id = 'OP-log-switch-' . $block['id'];
+$id = 'op-' . $block['id'];
 
 if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'OP-block main active' . $listPageType;
+$className = 'op-log-switch' . $listPageType;
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -33,33 +33,31 @@ $className .= ' ' . $listColumns;
 ?>
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
-    <div class="inner-container">
+    <div class="login-validation">Login Validation</div>
+    <div class="op-block__inner active">
 
-        <div id="login-info" class="wrapper active" data-loged-in="false">
-            <div class="content"></div>
-        </div><!-- #login-info -->
-
-        <div id="login-with-booking-code" class="wrapper get active">
+        <div id="<?= esc_attr($id) ?>-login" class="op-block__wrapper put active">
             <div class="content">
                 <div class="form-container">
-                    <form name="login-with-booking-code" action="POST">
+                    <form class="login-form">
                         <div class="input-outer">
-                            <label for="LWBC-booking-code-input">Booking Code</label>
-                            <input id="LWBC-booking-code-input" name="booking-code" type="text" required>
+                        <label for="<?= esc_attr($id) ?>-booking-code-input">Booking Code</label>
+                            <div id="<?= esc_attr($id) ?>-booking-code-validation" class="validation-error"></div>
+                            <input id="<?= esc_attr($id) ?>-booking-code-input" name="booking-code" type="text" required>
                         </div>
                         <button class="list-button" type="submit" onclick="loginWithBookingCode(); return false">Log in</button>
                     </form>
                 </div>
             </div>
-        </div><!-- #login-with-booking-code | #LWBC -->
+        </div><!-- #<?= esc_attr($id) ?>-login -->
         
-        <div id="logout" class="wrapper delete">
+        <div id="<?= esc_attr($id) ?>-logout" class="op-block__wrapper delete active">
             <div class="content">
                 <div class="form-container">
                     <button class="list-button" onclick="localStorage.removeItem('OP_PLUGIN_DATA_BOOKING'); location.reload()">Log out</button>
                 </div>
-            </div>
-        </div><!-- #logout -->
+            </div>       
+        </div><!-- #<?= esc_attr($id) ?>-logout -->
         
     </div><!-- .inner-container -->
 </section><!-- #<?= esc_attr($id) ?> -->

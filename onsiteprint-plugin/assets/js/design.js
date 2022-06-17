@@ -1,70 +1,18 @@
 ////////////////////////////////////////
-/////// Get Name Tag Type Layouts
-////////////////////////////////////////
-async function getNameTagTypeLayouts( nameTagType ) {
-
-    ///// The URL to the API.
-    let url = 'https://api.printerboks.dk/api/v1/layouts/name_tags/'+nameTagType
-
-    ///// Request Options for fetch.
-    let options = {
-        ///// *GET, POST, PUT, DELETE, etc.
-        method: 'GET'
-    }
-
-    ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob', 'debug' ).
-    let request = fetchAPI( url, options )
-    
-    ///// Wait for Response of the Request.
-    let response = await request
-
-    ///// Show the Response in Console Log.
-    //console.log(response)
-
-    ///// If the Response is empty or undefined.
-    if ( response == '' || response == undefined ) {
-        console.log( 'Error: The Response is empty or undefined.' )
-
-        ///// End the function.
-        return
-    }
-
-    ///// If the Response is 'detail' or empty ).
-    ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
-    else if ( response.detail ) {
-
-        ///// Get the Detail array.
-        let detail = response.detail
-
-        for( let i = 0; i < detail.length; i++ ){
-
-            ///// If loc array in the Detail array contains 'image'.
-            if ( detail[i].loc[1] ) {
-                console.log( 'Message:', detail[i].loc[1], detail[i].msg )
-            } else {
-                console.log( 'Error:', response )
-            }
-       
-        }
-        
-        ///// End the function.
-        return
-    }
-
-    ///// All layouts in the Element. 
-    return response.layouts
-
-}
-
-
-
-////////////////////////////////////////
 /////// Create new Design
 ////////////////////////////////////////
 async function createNewDesign() {
     ///// Debug the function
     let debug = false //true 
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let loginValidation = block.querySelector( '.login-validation' )
+    let formElement = block.querySelector( '.create-design-form' )
+      
+    ///// Clear all elements in the element. 
+	loginValidation.innerHTML = ''
+    loginValidation.classList.remove( 'active' )
 
     ///// Get Local Storages.
     let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
@@ -78,43 +26,26 @@ async function createNewDesign() {
     ///// Get Designs in Designs Storage
     let designsArray = designsStorage.designs
 
-    ///// Get [Block] Elenment.
-    let block = event.target.closest( '.OP-block' )
-
-    ///// Get the element for output.
-    let formValidate = block.querySelector( '.form-container' ).querySelector( '.form-validate' )
-
-    ///// Clear all elements in the element. 
-	formValidate.innerHTML = ''
-
     ///// Validate Booking Storage.
     if ( ! bookingStorage || bookingStorage.booking_code !== '6H7MQZVUUZFIJNI' ) {
         console.log( 'Error: You are not loged in!' )
 
         ///// Add element to the validate.
-        formValidate.insertAdjacentHTML( 'afterbegin', `<div><p class="validate-info"><span>*</span> You are not loged in!</p></div>` )
+        loginValidation.insertAdjacentHTML( 'afterbegin', `<div><p class="validate-info"><span>*</span> You are not loged in!</p></div>` )
+        loginValidation.classList.add( 'active' )
 
         ///// End the function.
         return
     } else {
         
-        ///// Get the form element.
-        let formElemnet = block.querySelector( '.upload-new-image' )
-        
+        const validateFormResponse = validateForm( formElement )
+        //console.log(validateFormResponse)
+
+        if ( validateFormResponse.error !== false ) return console.log( validateFormResponse )   
+       
         ///// Get data from the form element.
-        let formData = new FormData( formElemnet )
+        let formData = new FormData( formElement )
         
-        ///// If the image (file) value is empty.
-        /* if ( formElemnet[ 'image' ].value == '' || formElemnet[ 'name' ].value == '' ) {
-            console.log( 'Error: One of the input fields are empty!' )
-
-            ///// Add element to the validate.
-            validate.insertAdjacentHTML( 'afterbegin', `<div><p class="validate-info"><span>*</span> One of the input fields are empty!</p></div>` )
-
-            ///// End the function.
-            return
-        } */
-
         ///// Request Options for fetch.
         let options = {
             ///// *GET, POST, PUT, DELETE, etc.
@@ -130,13 +61,19 @@ async function createNewDesign() {
         let request = fetchAPI( url, options, 'json', debug )
         
         ///// Wait for Response of the Request.
-        let response = await request
-        //console.log(response)
+        let fetchResponse = await request
+        //console.log(fetchResponse)
 
-        let validateRequest = validateResponse( response )
-
-        console.log(validateRequest, 'Hmmm!!!')
-        return
+        let validateResponse = validateFetchResponse( fetchResponse )
+        //console.log(validateResponse)
+        
+        const response = validateResponse.response
+    
+        if ( validateResponse.error == true ) {
+            loginValidation.insertAdjacentHTML( 'afterBegin', '<p>* '+response+'</p>' )
+            loginValidation.classList.add( 'active' )
+            return
+        }
     
         ///// Get the element for output.
         let container = block.querySelector( '.inner' )
@@ -163,7 +100,7 @@ async function createNewDesign() {
         let nameTagType = await getNameTagTypeLayouts( bookingStorage.name_tag_type )
         
          ///// Define new Design variable.
-        let design = { 'creationDate' : Date.now(), 'name' : formElemnet[ 'name' ].value, 'filename' : filename, 'layouts' : nameTagType }
+        let design = { 'creationDate' : Date.now(), 'name' : formElement[ 'name' ].value, 'filename' : filename, 'layouts' : nameTagType }
         
         ///// Push Design variable to Designs.
         designsArray.push( design )

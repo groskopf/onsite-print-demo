@@ -90,6 +90,17 @@ function onsiteprint_acf_init() {
 			'keywords'			=> array( 'page', 'booking', 'create', 'design', 'onsiteprint' ),
 		));
 
+		// register the [Create Event List] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-create-event-list',
+			'title'				=> __('Create Event List'),
+			'description'		=> __('[Front-end] Create new Event List from CSV-file.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-create-event-list/onsiteprint-create-event-list.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'list-view',
+			'keywords'			=> array( 'page', 'event', 'create', 'list', 'onsiteprint' ),
+		));
+
 	}
 }
 add_action('acf/init', 'onsiteprint_acf_init');
