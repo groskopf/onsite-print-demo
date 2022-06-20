@@ -33,7 +33,7 @@ $className .= ' ' . $listColumns;
 ?>
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
-    <div class="login-validation">Login Validation</div>
+    <div class="validation-info">Validation Informaiton</div>
     <div class="op-block__inner active">
 
         <div id="<?= esc_attr($id) ?>-login" class="op-block__wrapper put active">
@@ -42,7 +42,7 @@ $className .= ' ' . $listColumns;
                     <form class="login-form">
                         <div class="input-outer">
                         <label for="<?= esc_attr($id) ?>-booking-code-input">Booking Code</label>
-                            <div id="<?= esc_attr($id) ?>-booking-code-validation" class="validation-error"></div>
+                            <div id="<?= esc_attr($id) ?>-booking-code-input-validation" class="validation-error"></div>
                             <input id="<?= esc_attr($id) ?>-booking-code-input" name="booking-code" type="text" required>
                         </div>
                         <button class="list-button" type="submit" onclick="loginWithBookingCode(); return false">Log in</button>

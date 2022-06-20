@@ -2,64 +2,47 @@
 /////// Log in with Booking Code
 ////////////////////////////////////////
 async function loginWithBookingCode() {
+
     ///// Debug the function
-    let debug = false //true 
+    let debug = false // true or false 
 
-    ///// Get the element for output.
-    let block = event.target.closest('section[id*="op-block"]')
-    let blockId = block.getAttribute('id')
-    let formElemnet = block.querySelector('.login-form')
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let validationElement = block.querySelector( '.validation-info' )
+    let formElement = block.querySelector('.login-form')
     
-    let inputValidation = block.querySelector( `#${blockId}-booking-code-validation` )   
-    inputValidation.classList.remove( 'active' )
-    inputValidation.innerHTML = ''
-    
+    ///// Clear the Validation Info Element. 
+	validationElement.innerHTML = ''
+    validationElement.classList.remove( 'active' )
+
     ///// Get booking-code (text) value form form.
-    let bookingCode = formElemnet['booking-code'].value   
+    let bookingCode = formElement['booking-code'].value   
 
-    ///// If the booking-code (text) value is empty.
-    if ( ! bookingCode ) {
-        inputValidation.classList.add( 'active' )
-        inputValidation.insertAdjacentHTML( 'afterBegin', '<p>* The input field is empty!</p>' )
-        return
-    }
-      
-    ///// The URL to the API.
-    let url = 'https://api.printerboks.dk/api/v1/bookings/'+bookingCode
+    ///// Validate Form Data.
+    const formValidation = validateForm( formElement )
+    consoleDebug( debug, 'formValidation:', formValidation )
+    if ( formValidation.error !== false ) return validationReturn( validationElement, formValidation.response )
+          
+    ///// Get Upload new Image Response from FastAPI.
+    const bookingValidation = await getBookingWithBookingCode( bookingCode, validationElement )
+    consoleDebug( debug, 'bookingValidation:', bookingValidation )
+    let bookingResponse = bookingValidation.response
 
-    ///// Request Options for fetch.
-    let options = {
-        ///// *GET, POST, PUT, DELETE, etc.
-        method: 'GET'
-    }
-
-    ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob/json', debug ).
-    let request = fetchAPI( url, options, 'json', debug )
+    ///// Validate Designs Storage.
+    const designsStorageValidation = validateDesignsStorage()
+    consoleDebug( debug, 'designsStorageValidation:', designsStorageValidation )
+    if ( designsStorageValidation.error !== false ) return validationReturn( validationElement, designsStorageValidation.response )
+    let designsStorageResponse = designsStorageValidation.response    
     
-    ///// Wait for Response of the Request.
-    let fetchResponse = await request
-    //console.log(fetchResponse)
-    
-    let validateResponse = validateFetchResponse( fetchResponse )
-    console.log(validateResponse)
-    
-    const response = validateResponse.response
+    ///// Set Lacal Storage.
+    localStorage.setItem( 'OP_PLUGIN_DATA_BOOKING', JSON.stringify( bookingResponse ) )
+    localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify( designsStorageResponse ) )
 
-    if ( validateResponse.error == true ) {
-        inputValidation.classList.add( 'active' )
-        inputValidation.insertAdjacentHTML( 'afterBegin', '<p>* '+response+'</p>' )
-        return
-    }
 
-    localStorage.setItem( 'OP_PLUGIN_DATA_BOOKING', JSON.stringify(response) )
+    //////////////////////////////////////////
+    ///// #NG Below must be changed later.
+    //////////////////////////////////////////
 
-    const designsStorage = localStorage.getItem('OP_PLUGIN_DATA_DESIGNS')
- 
-    if ( ! designsStorage ) {
-        let designsArray = { 'designs' : [] }
-        localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify(designsArray) )
-    }
 
     window.location.reload()
 

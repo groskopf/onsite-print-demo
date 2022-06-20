@@ -27,7 +27,6 @@ section[id*="op-block"].last {
     flex-direction: column;
 }
 
-[id*="op-block"] .login-validation.active,
 [id*="op-block"] .op-block__inner,
 [id*="op-block"] .active .op-block__inner,
 [id*="op-block"] .active .op-block__wrapper {
@@ -35,16 +34,18 @@ section[id*="op-block"].last {
     padding: .5rem;
 }
 
-[id*="op-block"] .login-validation,
+[id*="op-block"] .validation-info.active {
+    display: block;
+    padding: 1rem 1rem 0;
+}
+
+[id*="op-block"] .validation-info,
 body[data-loged-in="false"] [id*="-logout"].op-block__wrapper,
 body[data-loged-in="true"] [id*="-login"].op-block__wrapper,
 [id*="op-block"] .op-block__inner:not(.active) .op-block__wrapper {
     display: none;
 }
 
-[id*="op-block"] .login-validation {
-    padding-bottom: 0;
-}
 
 body[data-loged-in="false"] [id*="-logout"] .content {
     border-color: #f93e3e;
@@ -222,6 +223,7 @@ body[data-loged-in="true"] [id*="-login"] .content {
     border-radius: .3rem;
 }
 
+[id*="op-block"] .validation-info.active .validation-error,
 [id*="op-block"] .validation-error.active {
     display: block;
 }
@@ -230,7 +232,7 @@ body[data-loged-in="true"] [id*="-login"] .content {
     border: .1rem solid #f93e3e;
 }
 
-[id*="op-block"] .form-validate p,
+[id*="op-block"] .validation-info p,
 [id*="op-block"] .validation-error p {
     background: rgba(249,62,62,.1);
     font-size: 1.4rem;
@@ -241,7 +243,8 @@ body[data-loged-in="true"] [id*="-login"] .content {
     border-radius: .3rem;
 }
 
-[id*="op-block"] .form-validate p span {
+[id*="op-block"] .validation-info p span,
+[id*="op-block"] .validation-info p span {
     color: #f93e3e;
     font-weight: bold;
 }

@@ -15,13 +15,18 @@ define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
 /*	Enqueue scripts. */ 
 function onsiteprint_enqueue_scripts() {
 	wp_enqueue_script( 'onsiteprint-plugin-js', ONSITEPRINT_DIR . '/assets/js/plugin.js', array(),  wp_get_theme()->get( 'Version' ), true );
+
 	wp_enqueue_script( 'onsiteprint-validate-js', ONSITEPRINT_DIR . '/assets/js/validate.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-validate-js', 'async', true );
+
 	wp_enqueue_script( 'onsiteprint-fetch-js', ONSITEPRINT_DIR . '/assets/js/fetch.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-fetch-js', 'async', true );
+
 	wp_enqueue_script( 'onsiteprint-log-switch-js', ONSITEPRINT_DIR . '/assets/js/log-switch.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_enqueue_script( 'onsiteprint-bookings-js', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-bookings-js', 'async', true );
+
+	wp_enqueue_script( 'onsiteprint-fast-api-js', ONSITEPRINT_DIR . '/assets/js/fast-api.js', array(),  wp_get_theme()->get( 'Version' ), true );
+	wp_script_add_data( 'onsiteprint-fast-api-js', 'async', true );
+
 	wp_enqueue_script( 'onsiteprint-design-js', ONSITEPRINT_DIR . '/assets/js/design.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-design-js', 'async', true );
 }

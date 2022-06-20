@@ -1,6 +1,15 @@
 ////////////////////////////////////////
 /////// Return the Response
 ////////////////////////////////////////
+function consoleDebug( debug, name, response ) {
+    if ( debug == true ) console.log( name, response )
+}
+
+
+
+////////////////////////////////////////
+/////// Return the Response
+////////////////////////////////////////
 function returnResponse( error, code, response ) {
 
     return {
@@ -79,4 +88,67 @@ function validateForm( formElemnet ) {
     })
 
     return validatedformResponse
+}
+
+
+
+////////////////////////////////////////
+/////// Validate Design Storage
+////////////////////////////////////////
+function validateDesignsStorage() {
+
+    try {
+
+        ///// Get Local Storages.
+        let designsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_DESIGNS' ) )   
+    
+        ///// Create new Designs Storage if empty or undefined.
+        if ( designsStorage == '' || designsStorage == undefined ) {
+            return returnResponse( false, 204, { designs : [] } )
+        } 
+        
+        if ( designsStorage ) return returnResponse( false, 200, designsStorage )
+
+        throw 'Something went wrong with the Designs Storage validation!'
+    
+    } catch( validateError ) {
+        return returnResponse( true, 400, validateError )
+    }
+
+}
+
+
+
+////////////////////////////////////////
+/////// Validate Booking Storage
+////////////////////////////////////////
+function validateBookingStorage() {
+
+    try {
+
+        ///// Get Local Storages.
+        let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
+
+        ///// Validate Booking Storage.
+        if ( bookingStorage == '' || bookingStorage == undefined ) throw 'You are not loged in!'
+
+        return returnResponse( false, 200, bookingStorage )
+
+    } catch( validateError ) {
+        return returnResponse( true, 400, validateError )
+    }
+
+}
+
+
+
+////////////////////////////////////////
+/////// Return Validation in Element
+////////////////////////////////////////
+function validationReturn( validationElement, message ) {
+
+    validationElement.insertAdjacentHTML( 'afterbegin', `<div class="validation-error"><p>${ message }</p></div>` )
+
+    validationElement.classList.add( 'active' )
+
 }

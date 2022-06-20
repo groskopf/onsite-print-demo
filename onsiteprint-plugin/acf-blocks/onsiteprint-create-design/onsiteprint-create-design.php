@@ -34,7 +34,7 @@ $className .= ' ' . $listColumns;
 ?>
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
-    <div class="login-validation">Login Validation</div>
+    <div class="validation-info">Validation Informaiton</div>
     <div class="op-block__inner active">
 
         <div id="<?= esc_attr($id) ?>-create-design" class="op-block__wrapper post">
@@ -46,7 +46,6 @@ $className .= ' ' . $listColumns;
 
             <div class="content">
                 <div class="form-container">
-                    <div class="form-validate"></div>
                     <form class="create-design-form">
                         <div class="input-outer flex-wrap">
                             <label for="<?= esc_attr($id) ?>-name-input">Design Name</label>

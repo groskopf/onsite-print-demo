@@ -34,7 +34,7 @@ $className .= ' ' . $listColumns;
 ?>
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
-    <div class="login-validation">Login Validation</div>
+    <div class="validation-info">Login Validation</div>
     <div class="op-block__inner active">
 
         <div id="<?= esc_attr($id) ?>-get-booking" class="op-block__wrapper get">

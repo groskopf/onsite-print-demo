@@ -2,112 +2,87 @@
 /////// Create new Design
 ////////////////////////////////////////
 async function createNewDesign() {
+
     ///// Debug the function
-    let debug = false //true 
+    let debug = false // true or false 
 
     ///// Get the elements.
     let block = event.target.closest( 'section[id*="op-block"]' )
-    let loginValidation = block.querySelector( '.login-validation' )
+    let validationElement = block.querySelector( '.validation-info' )
     let formElement = block.querySelector( '.create-design-form' )
       
-    ///// Clear all elements in the element. 
-	loginValidation.innerHTML = ''
-    loginValidation.classList.remove( 'active' )
-
-    ///// Get Local Storages.
-    let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
-    let designsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_DESIGNS' ) )   
+    ///// Clear the Validation Info Element. 
+	validationElement.innerHTML = ''
+    validationElement.classList.remove( 'active' )
     
-    ///// Create Designs Storage if empty.
-    if ( ! designsStorage ) {
-        designsStorage = { 'designs' : [] }
-    }
-
-    ///// Get Designs in Designs Storage
-    let designsArray = designsStorage.designs
+    ///// Get data from the form element.
+    let formData = new FormData( formElement )
 
     ///// Validate Booking Storage.
-    if ( ! bookingStorage || bookingStorage.booking_code !== '6H7MQZVUUZFIJNI' ) {
-        console.log( 'Error: You are not loged in!' )
+    const bookingStorageValidation = validateBookingStorage()
+    consoleDebug( debug, 'bookingStorageValidation:', bookingStorageValidation )
+    if ( bookingStorageValidation.error !== false ) return validationReturn( validationElement, bookingStorageValidation.response )
+    let bookingStorageResponse = bookingStorageValidation.response   
 
-        ///// Add element to the validate.
-        loginValidation.insertAdjacentHTML( 'afterbegin', `<div><p class="validate-info"><span>*</span> You are not loged in!</p></div>` )
-        loginValidation.classList.add( 'active' )
-
-        ///// End the function.
-        return
-    } else {
-        
-        const validateFormResponse = validateForm( formElement )
-        //console.log(validateFormResponse)
-
-        if ( validateFormResponse.error !== false ) return console.log( validateFormResponse )   
-       
-        ///// Get data from the form element.
-        let formData = new FormData( formElement )
-        
-        ///// Request Options for fetch.
-        let options = {
-            ///// *GET, POST, PUT, DELETE, etc.
-            method: 'POST',
-            body: formData
-        }
-
-        ///// The URL to the API.
-        var url = 'https://api.printerboks.dk/api/v1/images/'
-
-        ///// Request the data from the API.
-        ///// fetchAPI( *url, options, 'blob/json', debug ).
-        let request = fetchAPI( url, options, 'json', debug )
-        
-        ///// Wait for Response of the Request.
-        let fetchResponse = await request
-        //console.log(fetchResponse)
-
-        let validateResponse = validateFetchResponse( fetchResponse )
-        //console.log(validateResponse)
-        
-        const response = validateResponse.response
+    ///// Validate Designs Storage.
+    const designsStorageValidation = validateDesignsStorage()
+    consoleDebug( debug, 'designsStorageValidation:', designsStorageValidation )
+    if ( designsStorageValidation.error !== false ) return validationReturn( validationElement, designsStorageValidation.response )
+    let designsStorageResponse = designsStorageValidation.response
     
-        if ( validateResponse.error == true ) {
-            loginValidation.insertAdjacentHTML( 'afterBegin', '<p>* '+response+'</p>' )
-            loginValidation.classList.add( 'active' )
-            return
-        }
+    ///// Validate Form Data.
+    const formValidation = validateForm( formElement )
+    consoleDebug( debug, 'formValidation:', formValidation )
+    if ( formValidation.error !== false ) return validationReturn( validationElement, formValidation.response )
     
-        ///// Get the element for output.
-        let container = block.querySelector( '.inner' )
-        let filename = response.filename.slice(7)      
-
-        ///// Clear all elements in the element. 
-        container.innerHTML = ''
-        
-        ///// Create new element.
-        let element = `
-            <article>
-                <p>${filename}</p>
-                <img src="https://api.printerboks.dk/api/v1/${response.filename}" width="100%" height="auto">
-            </article>
-        `
-
-        ///// Add element to the container.
-        container.insertAdjacentHTML( 'afterbegin', element )
-
-        ///// Add class to the responses.
-        block.querySelector( '.responses' ).classList.add( 'active' )
+    ///// Get Upload new Image Response from FastAPI.
+    const newImageValidation = await uploadNewImage( formData, validationElement )
+    consoleDebug( debug, 'newImageValidation:', newImageValidation )
+    let newImageResponse = newImageValidation.response
     
-        ///// Get layouts from FastAPI.
-        let nameTagType = await getNameTagTypeLayouts( bookingStorage.name_tag_type )
-        
-         ///// Define new Design variable.
-        let design = { 'creationDate' : Date.now(), 'name' : formElement[ 'name' ].value, 'filename' : filename, 'layouts' : nameTagType }
-        
-        ///// Push Design variable to Designs.
-        designsArray.push( design )
-        
-        ///// Overwite Designs in Lacal Storage.
-        localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify( designsStorage ) )
+    ///// Get Name Tag Type Response from FastAPI.
+    const nameTagTypeValidation = await getNameTagType( bookingStorageResponse.name_tag_type, validationElement )
+    consoleDebug( debug, 'nameTagTypeValidation:', nameTagTypeValidation )
+    let nameTagTypeResponse = nameTagTypeValidation.response
+    
+    ///// Get Layouts from Name Tag Type Response.
+    let nameTagTypeLaouts = nameTagTypeResponse.layouts
 
-    }
+    ///// Get the element for output.
+    let container = block.querySelector( '.inner' )
+    let filename = newImageResponse.filename.slice(7)      
+   
+    ///// Define new Design variable.
+    let design = { 'creationDate' : Date.now(), 'name' : formElement[ 'name' ].value, 'filename' : filename, 'layouts' : nameTagTypeLaouts }
+    
+    ///// Push Design variable to Designs.
+    designsStorageResponse.designs.push( design )
+    consoleDebug( debug, 'designsStorageResponse:', designsStorageResponse )
+    
+    ///// Overwite Designs in Lacal Storage.
+    localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify( designsStorageResponse ) )
 
+
+    //////////////////////////////////////////
+    ///// #NG Below must be changed later.
+    //////////////////////////////////////////
+
+
+    ///// Clear all elements in the element. 
+    container.innerHTML = ''
+    
+    ///// Create new element.
+    let element = `
+        <article>
+            <p>${filename}</p>
+            <img src="https://api.printerboks.dk/api/v1/${newImageResponse.filename}" width="100%" height="auto">
+        </article>
+    `
+
+    ///// Add element to the container.
+    container.insertAdjacentHTML( 'afterbegin', element )
+
+    ///// Add class to the responses.
+    block.querySelector( '.responses' ).classList.add( 'active' )
+    
 }
