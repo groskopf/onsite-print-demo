@@ -16,6 +16,26 @@ function checkCreateEventListBlock() {
 }
 listen( 'load', window, checkCreateEventListBlock() )
 
+
+
+////////////////////////////////////////
+/////// Check if Event List is in Local Storage
+////////////////////////////////////////
+function checkEventListUrls() {
+    let blocks = document.querySelectorAll( '.op-get-event-list-urls' )
+    //console.log(blocks)
+
+    if ( blocks ) {
+        for( var i = 0; i < blocks.length; i++ ) {
+            getEventLists( blocks[i] )
+        }
+    }
+
+}
+listen( 'load', window, checkEventListUrls() )
+
+
+
 ////////////////////////////////////////
 /////// Check if Event List is in Local Storage
 ////////////////////////////////////////
@@ -148,8 +168,11 @@ async function createNewEventList() {
     consoleDebug( debug, 'jsonValidation:', jsonValidation )
     let jsonResponse = jsonValidation.response
     
+    ///// Create Date variable.
+    let creationDate = Date.now()
+
     ///// Define new Design variable.
-    let eventList = { 'creationDate' : Date.now(), 'eventName' : formElement[ 'event-name' ].value, 'eventList' : jsonResponse }
+    let eventList = { 'creationDate' : creationDate, 'eventName' : formElement[ 'event-name' ].value, 'eventList' : jsonResponse }
     
     ///// Push Design variable to Designs.
     eventsStorageResponse.eventLists.push( eventList )
@@ -157,6 +180,67 @@ async function createNewEventList() {
     
     ///// Overwite Designs in Lacal Storage.
     localStorage.setItem( 'OP_PLUGIN_DATA_EVENTS', JSON.stringify( eventsStorageResponse ) )
+    
+    ///// Overwite Designs in Lacal Storage.
+    window.location.replace(`?event-list=${ creationDate }`)
+
+}
+
+
+
+////////////////////////////////////////
+/////// Get Event Lists 
+////////////////////////////////////////
+async function getEventLists( block ) {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    let validationElement = block.querySelector( '.validation-info' )
+    let eventListId = block.getAttribute( 'data-event-list' )
+    let blockContent = block.querySelector( '.content' )
+
+    ///// Validate Booking Storage.
+    const bookingStorageValidation = validateBookingStorage()
+    consoleDebug( debug, 'bookingStorageValidation:', bookingStorageValidation )
+    if ( bookingStorageValidation.error !== false ) return validateEventList( `Block [Show Event List] - ${ bookingStorageValidation.response }` )
+
+    ///// Validation Event List function. 
+    function validateEventList( message ) {
+        validationElement.innerHTML = ''
+        block.querySelector('.op-block__inner').remove()
+        block.setAttribute( 'data-block-disable', true )
+        validationReturn( validationElement, message )
+    }
+    
+    ///// Get Events Storage. 
+    let eventStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
+    
+    ///// Validate Event List. 
+    if ( eventListId == false || ! eventStorage || ! eventStorage.eventLists ) return validateEventList( 'Block [Show Event List] - This Page has no Event Lists to Show!' )
+    
+    ///// Get Events Lists. 
+    let eventLists = eventStorage.eventLists
+    consoleDebug( debug, 'eventLists:', eventLists )
+            
+    ///// Validate JSON Event List from Storage. 
+    if ( ! eventLists[0] ) return validateEventList( 'Block [Show Event List] - This Page could not find any Event Lists!' )
+
+    ///// Create Event List Item for each element in the array. 
+    for( var i = 0; i < eventLists.length; i++ ) {
+    
+        eventElement = `
+            <article>
+                <p><b>Event Name:</b> ${ eventLists[i].eventName }</p>
+                <a href="?event-list=${ eventLists[i].creationDate }"><b>URL:</b> ?event-list=${ eventLists[i].creationDate }</a>
+            </article>
+        `
+
+        ///// Add element to the container. 
+        blockContent.querySelector('.response').insertAdjacentHTML( 'afterbegin', eventElement )
+
+    }
 
 }
 
@@ -175,19 +259,24 @@ async function showEventList( block ) {
     let eventListId = block.getAttribute( 'data-event-list' )
     let blockContent = block.querySelector( '.content' )
 
+    ///// Validate Booking Storage.
+    const bookingStorageValidation = validateBookingStorage()
+    consoleDebug( debug, 'bookingStorageValidation:', bookingStorageValidation )
+    if ( bookingStorageValidation.error !== false ) return validateEventList( `Block [Show Event List] - ${ bookingStorageValidation.response }` )
+
     ///// Validation Event List function. 
-    function validateEventList() {
+    function validateEventList( message ) {
         validationElement.innerHTML = ''
         block.querySelector('.op-block__inner').remove()
         block.setAttribute( 'data-block-disable', true )
-        validationReturn( validationElement, 'Block [Show Event List] - This Page has no Event List to Show!' )
+        validationReturn( validationElement, message )
     }
     
     ///// Get Events Storage. 
     let eventStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
     
     ///// Validate Event List. 
-    if ( eventListId == false || ! eventStorage || ! eventStorage.eventLists ) return validateEventList()
+    if ( eventListId == false || ! eventStorage || ! eventStorage.eventLists ) return validateEventList( 'Block [Show Event List] - This Page has no Event Lists to Show!' )
     
     ///// Get Events Lists. 
     let eventLists = eventStorage.eventLists
@@ -198,7 +287,7 @@ async function showEventList( block ) {
     consoleDebug( debug, eventListId+':', eventListJson )
     
     ///// Validate JSON Event List from Storage. 
-    if ( ! eventListJson[0] ) return validateEventList()
+    if ( ! eventListJson[0] ) return validateEventList( 'Block [Show Event List] - This Page could not find and show the Event List!' )
     
     ///// Add element to the container.
     blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventListJson[0].eventName } - ${ eventListJson[0].creationDate }</h3>` )

@@ -114,6 +114,17 @@ function onsiteprint_acf_init() {
 			'keywords'			=> array( 'page', 'event', 'create', 'list', 'onsiteprint' ),
 		));
 
+		// register the [Get Event Lists URL's] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-get-event-lists-urls',
+			'title'				=> __('Get Event Lists URL\'s'),
+			'description'		=> __('[Front-end] Shows a URL list of Event Lists.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-get-event-lists-urls/onsiteprint-get-event-lists-urls.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'list-view',
+			'keywords'			=> array( 'page', 'event', 'get', 'list', 'onsiteprint' ),
+		));
+
 		// register the [Show Event List] block.
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-show-event-list',

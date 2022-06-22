@@ -7,3 +7,4 @@ First WordPress Plugin
 > - \[Block\] Create New Design
 > - \[Block\] Create New Event List
 > - \[Block\] Show Event List
+> - \[Block\] Get URL's of Event Lists

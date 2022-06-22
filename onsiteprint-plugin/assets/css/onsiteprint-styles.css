@@ -1,4 +1,4 @@
-[id*="op-block"] {
+html {
     font-size: 62.5%;
     box-sizing: border-box;
 }
@@ -6,7 +6,7 @@
 [id*="op-block"],
 [id*="op-block"] * {
     color: #3b4151;
-    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+    font-family: 'Lato', Verdana, Geneva, Tahoma, sans-serif !important;
     font-size: 1.6rem;
 }
 
@@ -263,8 +263,9 @@ body[data-loged-in="true"] [id*="-login"] .content {
 	padding: 2rem;
 }
 [id*="op-block"] h2, [id*="op-block"] h3, [id*="op-block"] h4 {
-    margin: 0;
+    font-weight: 400;
     line-height: 1.5;
+    margin: 0;
 }
 [id*="op-block"] h2 {
     font-size: 1.6rem;
