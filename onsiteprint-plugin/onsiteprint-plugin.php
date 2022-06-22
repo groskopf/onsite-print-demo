@@ -114,6 +114,17 @@ function onsiteprint_acf_init() {
 			'keywords'			=> array( 'page', 'event', 'create', 'list', 'onsiteprint' ),
 		));
 
+		// register the [Show Event List] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-show-event-list',
+			'title'				=> __('Show Event List'),
+			'description'		=> __('[Front-end] Show Event List.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-show-event-list/onsiteprint-show-event-list.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'list-view',
+			'keywords'			=> array( 'page', 'event', 'show', 'list', 'onsiteprint' ),
+		));
+
 	}
 }
 add_action('acf/init', 'onsiteprint_acf_init');
