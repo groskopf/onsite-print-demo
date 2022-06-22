@@ -53,6 +53,7 @@ $className .= ' ' . $listColumns;
                             <input id="<?= esc_attr($id) ?>-event-name-input" name="event-name" type="text" required>
                         </div>
                         <div class="input-outer flex-wrap">
+                            <div id="<?= esc_attr($id) ?>-csv-file-input-validation" class="validation-error"></div>
                             <input id="<?= esc_attr($id) ?>-csv-file-input" name="csv-file" type="file" accept=".csv" required onchange="createGridFromCsv(); return false">
                         </div>
                         <div class="event-list-grid input-outer flex-wrap responses">

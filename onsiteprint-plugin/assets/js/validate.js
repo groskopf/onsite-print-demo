@@ -52,14 +52,14 @@ function validateFetchResponse( validateRequest ) {
 ////////////////////////////////////////
 /////// Validate Form
 ////////////////////////////////////////
-function validateForm( formElemnet ) {
+function validateForm( formElemnet, debug ) {
     
     let validatedformResponse
 
     let validateErrorCode
 
     let formInputs = formElemnet.querySelectorAll( 'input[required]' )
-    //console.log(formInputs)
+    consoleDebug( debug, 'formInputs:', formInputs )
 
     let validateErrorArray = []
 
@@ -153,7 +153,7 @@ function validateEventsStorage() {
     
         ///// Create new Designs Storage if empty or undefined.
         if ( eventsStorage == '' || eventsStorage == undefined ) {
-            return returnResponse( false, 204, { 'event-lists' : [] } )
+            return returnResponse( false, 204, { 'eventLists' : [] } )
         } 
         
         if ( eventsStorage ) return returnResponse( false, 200, eventsStorage )
