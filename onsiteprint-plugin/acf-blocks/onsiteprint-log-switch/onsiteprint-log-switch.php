@@ -39,7 +39,7 @@ $className .= ' ' . $listColumns;
         <div id="<?= esc_attr($id) ?>-login" class="op-block__wrapper put active">
             <div class="content">
                 <div class="form-container">
-                    <form class="login-form">
+                    <form class="login-form" action="POST">
                         <div class="input-outer">
                         <label for="<?= esc_attr($id) ?>-booking-code-input">Booking Code</label>
                             <div id="<?= esc_attr($id) ?>-booking-code-input-validation" class="validation-error"></div>

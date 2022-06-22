@@ -46,7 +46,7 @@ $className .= ' ' . $listColumns;
 
             <div class="content">
                 <div class="form-container">
-                    <form class="create-design-form">
+                    <form class="create-design-form" action="POST">
                         <div class="input-outer flex-wrap">
                             <label for="<?= esc_attr($id) ?>-name-input">Design Name</label>
                             <div id="<?= esc_attr($id) ?>-name-input-validation" class="validation-error"></div>

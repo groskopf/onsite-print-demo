@@ -28,7 +28,6 @@ function returnResponse( error, code, response ) {
 function validateFetchResponse( validateRequest ) {
 
     let validateMessage = validateRequest.response
-    let validateDetail = validateMessage.detail
     let validateErrorCode = validateRequest.code
 
     try {
@@ -38,7 +37,7 @@ function validateFetchResponse( validateRequest ) {
         if ( validateMessage == undefined ) throw 'Undefined string!'
 
         ///// If the Response is 'detail' or empty ).
-        if ( validateDetail ) throw validateDetail
+        if ( validateMessage.detail ) throw validateMessage.detail
 
         return returnResponse( false, validateErrorCode, validateMessage )
     
@@ -93,6 +92,29 @@ function validateForm( formElemnet ) {
 
 
 ////////////////////////////////////////
+/////// Validate Booking Storage
+////////////////////////////////////////
+function validateBookingStorage() {
+
+    try {
+
+        ///// Get Local Storages.
+        let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
+
+        ///// Validate Booking Storage.
+        if ( bookingStorage == '' || bookingStorage == undefined ) throw 'You are not loged in!'
+
+        return returnResponse( false, 200, bookingStorage )
+
+    } catch( validateError ) {
+        return returnResponse( true, 400, validateError )
+    }
+
+}
+
+
+
+////////////////////////////////////////
 /////// Validate Design Storage
 ////////////////////////////////////////
 function validateDesignsStorage() {
@@ -120,20 +142,24 @@ function validateDesignsStorage() {
 
 
 ////////////////////////////////////////
-/////// Validate Booking Storage
+/////// Validate Event Storage
 ////////////////////////////////////////
-function validateBookingStorage() {
+function validateEventsStorage() {
 
     try {
 
         ///// Get Local Storages.
-        let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
+        let eventsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
+    
+        ///// Create new Designs Storage if empty or undefined.
+        if ( eventsStorage == '' || eventsStorage == undefined ) {
+            return returnResponse( false, 204, { 'event-lists' : [] } )
+        } 
+        
+        if ( eventsStorage ) return returnResponse( false, 200, eventsStorage )
 
-        ///// Validate Booking Storage.
-        if ( bookingStorage == '' || bookingStorage == undefined ) throw 'You are not loged in!'
-
-        return returnResponse( false, 200, bookingStorage )
-
+        throw 'Something went wrong with the Events Storage validation!'
+    
     } catch( validateError ) {
         return returnResponse( true, 400, validateError )
     }

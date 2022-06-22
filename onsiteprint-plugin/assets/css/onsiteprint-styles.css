@@ -39,6 +39,10 @@ section[id*="op-block"].last {
     padding: 1rem 1rem 0;
 }
 
+[id*="op-block"][data-block-disable="true"] .validation-info {
+    padding: 1rem;
+}
+
 [id*="op-block"] .validation-info,
 body[data-loged-in="false"] [id*="-logout"].op-block__wrapper,
 body[data-loged-in="true"] [id*="-login"].op-block__wrapper,
@@ -394,9 +398,20 @@ body[data-loged-in="true"] [id*="-login"] .content {
     border-radius: .3rem;
 }
 
-[id*="op-block"] .grid-list.active {
-    height: 30rem;
+[id*="op-block"] .event-list-grid.responses {
+    display: none;
 }
-[id*="op-block"] .button-save-csv {
-    margin-right: 1rem;
+
+[id*="op-block"] .event-list-grid.responses.active {
+    display: block;
+}
+
+[id*="op-block"] .event-list-grid.responses > [id*="event-list-grid"] {
+    height: 40rem;
+}
+
+[id*="op-block"] .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-top: .5rem;
 }

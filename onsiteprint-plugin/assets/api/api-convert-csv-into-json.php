@@ -19,8 +19,9 @@
             $fileContent = file_get_contents($file['tmp_name']);
             //print_r($fileContent);
             
-            $seperator = strpos( $fileContent, ';' ) != false ? ';' : ',';
-            
+            ///// Find CSV seperation
+            $seperator = strpos( $fileContent, ';' ) == true ? ';' : ',';
+
             ///// Convert file to array with one line for each element. 
             $data = explode(PHP_EOL, $fileContent);
             //print_r($data);
@@ -42,12 +43,8 @@
             //print_r($lines);
 
             ///// Get first element in array header(keys).
-            $header = str_getcsv(array_shift($lines), ';');
+            $header = str_getcsv(array_shift($lines), $seperator);
             //print_r($header);
-
-            ///// Create new header(keys).
-            $newHeader = [ 'id', 'line_1', 'line_2', 'line_3', 'line_4', 'line_5', 'date', 'active', 'prints' ];
-            //print_r($newHeader);
             
             date_default_timezone_set('Europe/Copenhagen');
             ///// Epoch Timestamp - https://www.epochconverter.com/
@@ -55,12 +52,10 @@
             ///// Create array for each element in the array.
             for ($i=0; $i < count($lines) ; $i++) { 
                 ///// Create array of the element.
-                $oldLine = str_getcsv($lines[$i], $seperator);
-                //print_r($aLine);
-                $newLine = [ uniqid(), $oldLine[0], $oldLine[1], $oldLine[2], 'line_4', 'line_5', date(time()), 0, 0 ];
-                //print_r($bLine);
+                $line = str_getcsv($lines[$i], $seperator);
+
                 ///// Combine header(keys) with the new array.
-                $result[] = array_combine($newHeader, $newLine);
+                $result[] = array_combine($header, $line);
             }
            
             ///// Return array as json.

@@ -34,9 +34,16 @@ async function loginWithBookingCode() {
     if ( designsStorageValidation.error !== false ) return validationReturn( validationElement, designsStorageValidation.response )
     let designsStorageResponse = designsStorageValidation.response    
     
+    ///// Validate Events Storage.
+    const eventsStorageValidation = validateEventsStorage()
+    consoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation )
+    if ( eventsStorageValidation.error !== false ) return validationReturn( validationElement, eventsStorageValidation.response )
+    let eventsStorageResponse = eventsStorageValidation.response
+    
     ///// Set Lacal Storage.
     localStorage.setItem( 'OP_PLUGIN_DATA_BOOKING', JSON.stringify( bookingResponse ) )
     localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify( designsStorageResponse ) )
+    localStorage.setItem( 'OP_PLUGIN_DATA_EVENTS', JSON.stringify( eventsStorageResponse ) )
 
 
     //////////////////////////////////////////

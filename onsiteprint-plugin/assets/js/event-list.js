@@ -1,81 +1,143 @@
 ////////////////////////////////////////
+/////// Check if multible [Create Event List] Blocks
+////////////////////////////////////////
+function checkCreateEventListBlock() {
+    let blocks = document.querySelectorAll( '.op-create-event-list' )
+    //console.log(blocks)
+
+    for( var i = 0; i < blocks.length; i++ ){   
+        if ( i !== 0 ) {
+            blocks[i].setAttribute( 'data-block-disable', true )
+            blocks[i].innerHTML = '<div class="validation-info active"><div class="validation-error"><p>Block [Create Event List] is already used on this page!</p></div></div>'
+        }
+    }
+}
+listen( 'load', window, checkCreateEventListBlock() )
+
+
+
+///// Variable used by the Grid
+var eventListGridElement
+
+
+
+////////////////////////////////////////
+/////// Create Grid From CSV  
+////////////////////////////////////////
+async function createGridFromCsv() {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let validationElement = block.querySelector( '.validation-info' )
+    let formElement = block.querySelector( '.event-list-form' )
+
+    ///// Clear the Validation Info Element. 
+	validationElement.innerHTML = ''
+    validationElement.classList.remove( 'active' )
+
+    ///// Validate Booking Storage.
+    const bookingStorageValidation = validateBookingStorage()
+    consoleDebug( debug, 'bookingStorageValidation:', bookingStorageValidation )
+    if ( bookingStorageValidation.error !== false ) return validationReturn( validationElement, bookingStorageValidation.response )
+
+    let blockId = block.getAttribute( 'id' )
+    let csvInput = formElement['csv-file'].value  
+
+    ///// End function if CSV input is Empty.
+    if ( ! csvInput ) return consoleDebug( debug, 'csvFile:', 'Input is Empty!' )
+
+    ///// Get data from the form element.
+    let formData = new FormData( formElement )
+
+    ///// Get Upload new Image Response from FastAPI.
+    const jsonValidation = await convertCsvIntoJson( formData, validationElement )
+    consoleDebug( debug, 'jsonValidation:', jsonValidation )
+    let jsonResponse = jsonValidation.response
+    
+    ///// Add the class active to the grid element.
+    block.querySelector( '.responses' ).classList.add('active')
+
+    eventListGridElement = new DataGridXL( `${ blockId }-event-list-grid`, {
+        data: jsonResponse,
+        /* colHeaderLabelFunction: function(index, id, field, title, labels){
+            // use id as column label
+            return String("Column #"+id);
+        } */
+    })
+    
+}
+
+
+
+////////////////////////////////////////
+/////// Log in with Booking Code
+////////////////////////////////////////
+function saveAsCsv() {
+    eventListGridElement.downloadDataAsCSV()
+}
+
+
+
+////////////////////////////////////////
 /////// Log in with Booking Code
 ////////////////////////////////////////
 async function createNewEventList() {
+
     ///// Debug the function
-    let debug = false //true 
+    let debug = false // true or false 
 
-    ///// Get the form element.
-    let formElemnet = document.forms['login-with-booking-code']
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let validationElement = block.querySelector( '.validation-info' )
+    let formElement = block.querySelector( '.event-list-form' )
     
-    ///// Get booking-code (text) value form form.
-    let bookingCode = formElemnet['booking-code'].value
+    const jsonFormGrid = JSON.stringify( eventListGridElement.getData() )
+
+    ///// Get data from the form element.
+    let formData = new FormData()
+
+    formData.append( 'json-from-grid', jsonFormGrid )
+    //gridInput.value = JSON.stringify(jsonFormGrid)
+
+    ///// Validate Booking Storage.
+    const bookingStorageValidation = validateBookingStorage()
+    consoleDebug( debug, 'bookingStorageValidation:', bookingStorageValidation )
+    if ( bookingStorageValidation.error !== false ) return validationReturn( validationElement, bookingStorageValidation.response )
+    let bookingStorageResponse = bookingStorageValidation.response
+
+    ///// Validate Designs Storage.
+    const designsStorageValidation = validateDesignsStorage()
+    consoleDebug( debug, 'designsStorageValidation:', designsStorageValidation )
+    if ( designsStorageValidation.error !== false ) return validationReturn( validationElement, designsStorageValidation.response )
+    let designsStorageResponse = designsStorageValidation.response
+
+    ///// Validate Events Storage.
+    const eventsStorageValidation = validateEventsStorage()
+    consoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation )
+    if ( eventsStorageValidation.error !== false ) return validationReturn( validationElement, eventsStorageValidation.response )
+    let eventsStorageResponse = eventsStorageValidation.response
+
+    ///// Validate Form Data.
+    const formValidation = validateForm( formElement )
+    consoleDebug( debug, 'formValidation:', formValidation )
+    if ( formValidation.error !== false ) return validationReturn( validationElement, formValidation.response )
+
+    ///// Get Upload new Image Response from FastAPI.
+    const jsonValidation = await convertGridDataIntoJson( formData, validationElement )
+    consoleDebug( debug, 'jsonValidation:', jsonValidation )
+    let jsonResponse = jsonValidation.response
     
-    ///// If the booking-code (text) value is empty.
-    if ( ! bookingCode ) {
-        console.log( 'Error: The input field is empty!' )
-        
-        ///// End the function.
-        return
-    }
+    ///// Define new Design variable.
+    let eventList = { 'creationDate' : Date.now(), 'event-name' : formElement[ 'event-name' ].value, 'event-list' : jsonResponse }
     
-    ///// The URL to the API.
-    let url = 'https://api.printerboks.dk/api/v1/bookings/'+bookingCode
-
-    ///// Request Options for fetch.
-    let options = {
-        ///// *GET, POST, PUT, DELETE, etc.
-        method: 'GET'
-    }
-
-    ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob/json', debug ).
-    let request = fetchAPI( url, options, 'json', debug )
+    ///// Push Design variable to Designs.
+    eventsStorageResponse['event-lists'].push( eventList )
+    consoleDebug( debug, 'eventsStorageResponse:', eventsStorageResponse )
     
-    ///// Wait for Response of the Request.
-    let response = await request
-
-    ///// Show the Response in Console Log.
-    //console.log(response);
-
-    ///// If the Response is empty or undefined.
-    if ( response == '' || response == undefined ) {
-        console.log( 'Error: The Response is empty or undefined.' )
-
-        ///// End the function.
-        return
-    }
-
-    ///// If the Response is 'detail' or empty ).
-    ///// Can be used in if statement instead ( Object.keys(response) == 'detail' ).
-    else if ( response.detail ) {
-
-        ///// Get the Detail array.
-        let detail = response.detail
-
-        for( let i = 0; i < detail.length; i++ ){
-
-            ///// If loc array in the Detail array contains 'image'.
-            if ( detail[i].loc[1] ) {
-                console.log( 'Message:', detail[i].loc[1], detail[i].msg )
-            } else {
-                console.log( 'Error:', response )
-            }
-       
-        }
-        
-        ///// End the function.
-        return
-    }
-
-    localStorage.setItem( 'OP_PLUGIN_DATA_BOOKING', JSON.stringify(response) )
-    checkLogin()
-
-    const designsStorage = localStorage.getItem('OP_PLUGIN_DATA_DESIGNS')
- 
-    if ( ! designsStorage ) {
-        let designsArray = { 'designs' : [] }
-        localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify(designsArray) )
-    }
+    ///// Overwite Designs in Lacal Storage.
+    localStorage.setItem( 'OP_PLUGIN_DATA_EVENTS', JSON.stringify( eventsStorageResponse ) )
 
 }

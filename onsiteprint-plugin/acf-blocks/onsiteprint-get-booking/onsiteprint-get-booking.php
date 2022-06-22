@@ -46,13 +46,13 @@ $className .= ' ' . $listColumns;
 
             <div class="content">
                 <div class="form-container">
-                    <form class="get-booking-form">
+                    <form class="get-booking-form" action="POST">
                         <div class="input-outer">
                             <label for="<?= esc_attr($id) ?>-booking-code-input">Booking Code</label>
-                            <div id="<?= esc_attr($id) ?>-booking-code-validation" class="validation-error"></div>
+                            <div id="<?= esc_attr($id) ?>-booking-code-input-validation" class="validation-error"></div>
                             <input id="<?= esc_attr($id) ?>-booking-code-input" name="booking-code" type="text" required>
                         </div>
-                        <button class="list-button" type="submit" onclick="getBookingWithBookingCode(); return false">Get Booking</button>
+                        <button class="list-button" type="submit" onclick="showBooking(); return false">Get Booking</button>
                     </form>
                 </div>
                 <div class="responses">

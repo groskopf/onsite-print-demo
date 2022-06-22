@@ -1,56 +1,31 @@
 ////////////////////////////////////////
-/////// Get Booking with Booking Code
+/////// Show Booking
 ////////////////////////////////////////
-async function getBookingWithBookingCode() {
+async function showBooking() {
     ///// Debug the function
     let debug = false //true 
 
     ///// Get the element for output.
     let block = event.target.closest('section[id*="op-block"]')
-    let blockId = block.getAttribute('id')
-    let formElemnet = block.querySelector('.get-booking-form')
-    
-    let inputValidation = block.querySelector( `#${blockId}-booking-code-validation` )   
-    inputValidation.classList.remove( 'active' )
-    inputValidation.innerHTML = ''
+    let validationElement = block.querySelector( '.validation-info' )
+    let formElement = block.querySelector('.get-booking-form')
+        
+    ///// Clear the Validation Info Element. 
+	validationElement.innerHTML = ''
+    validationElement.classList.remove( 'active' )
     
     ///// Get booking-code (text) value form form.
-    let bookingCode = formElemnet['booking-code'].value   
+    let bookingCode = formElement['booking-code'].value   
 
-    ///// If the booking-code (text) value is empty.
-    if ( ! bookingCode ) {
-        inputValidation.classList.add( 'active' )
-        inputValidation.insertAdjacentHTML( 'afterBegin', '<p>* The input field is empty!</p>' )
-        return
-    }
-    
-    ///// The URL to the API.
-    let url = 'https://api.printerboks.dk/api/v1/bookings/'+bookingCode
+    ///// Validate Form Data.
+    const formValidation = validateForm( formElement )
+    consoleDebug( debug, 'formValidation:', formValidation )
+    if ( formValidation.error !== false ) return validationReturn( validationElement, formValidation.response )
 
-    ///// Request Options for fetch.
-    let options = {
-        ///// *GET, POST, PUT, DELETE, etc.
-        method: 'GET'
-    }
-
-    ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob/json', debug ).
-    let request = fetchAPI( url, options, 'json', debug )
-    
-    ///// Wait for Response of the Request.
-    let fetchResponse = await request
-    //console.log(fetchResponse)
-    
-    let validateResponse = validateFetchResponse( fetchResponse )
-    console.log(validateResponse)
-    
-    const response = validateResponse.response
-
-    if ( validateResponse.error == true ) {
-        inputValidation.classList.add( 'active' )
-        inputValidation.insertAdjacentHTML( 'afterBegin', '<p>* '+response+'</p>' )
-        return
-    }
+    ///// Get Upload new Image Response from FastAPI.
+    const bookingValidation = await getBookingWithBookingCode( bookingCode, validationElement )
+    consoleDebug( debug, 'bookingValidation:', bookingValidation )
+    let bookingResponse = bookingValidation.response
 
     ///// Get the element for output.
     let container = block.querySelector( '.inner' )
@@ -61,11 +36,11 @@ async function getBookingWithBookingCode() {
     ///// Create new element.
     let element = `
         <article>
-            <p><b>Start Date:</b> ${response.start_date}</p>
-            <p><b>End Date:</b> ${response.end_date}</p>
-            <p><b>Name tag Type:</b> ${response.name_tag_type}</p>
-            <p><b>Printer code:</b> ${response.printer_code}</p>
-            <p><b>Booking code:</b> ${response.booking_code}</p>
+            <p><b>Start Date:</b> ${ bookingResponse.start_date }</p>
+            <p><b>End Date:</b> ${ bookingResponse.end_date }</p>
+            <p><b>Name tag Type:</b> ${ bookingResponse.name_tag_type }</p>
+            <p><b>Printer code:</b> ${ bookingResponse.printer_code }</p>
+            <p><b>Booking code:</b> ${ bookingResponse.booking_code }</p>
         </article>
     `
 
