@@ -18,17 +18,17 @@ async function createNewDesign() {
     ///// Get data from the form element.
     let formData = new FormData( formElement )
 
-    ///// Validate Booking Storage.
-    const bookingStorageValidation = validateBookingStorage()
-    consoleDebug( debug, 'bookingStorageValidation:', bookingStorageValidation )
-    if ( bookingStorageValidation.error !== false ) return validationReturn( validationElement, bookingStorageValidation.response )
-    let bookingStorageResponse = bookingStorageValidation.response   
+    ///// Validate Bookings Storage.
+    const bookingsStorageValidation = validateBookingsStorage()
+    consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
+    if ( bookingsStorageValidation.error !== false ) return validationReturn( validationElement, bookingsStorageValidation.response )
+    let bookingsStorageResponse = bookingsStorageValidation.response.bookingList[0].booking.nameTagType
 
-    ///// Validate Designs Storage.
-    const designsStorageValidation = validateDesignsStorage()
-    consoleDebug( debug, 'designsStorageValidation:', designsStorageValidation )
-    if ( designsStorageValidation.error !== false ) return validationReturn( validationElement, designsStorageValidation.response )
-    let designsStorageResponse = designsStorageValidation.response
+    ///// Validate Templates Storage.
+    const templatesStorageValidation = validateTemplatesStorage()
+    consoleDebug( debug, 'templatesStorageValidation:', templatesStorageValidation )
+    if ( templatesStorageValidation.error !== false ) return validationReturn( validationElement, templatesStorageValidation.response )
+    let templatesStorageResponse = templatesStorageValidation.response    
     
     ///// Validate Form Data.
     const formValidation = validateForm( formElement )
@@ -41,7 +41,7 @@ async function createNewDesign() {
     let newImageResponse = newImageValidation.response
     
     ///// Get Name Tag Type Response from FastAPI.
-    const nameTagTypeValidation = await getNameTagType( bookingStorageResponse.name_tag_type, validationElement )
+    const nameTagTypeValidation = await getNameTagType( bookingsStorageResponse.nameTagTypeId, validationElement )
     consoleDebug( debug, 'nameTagTypeValidation:', nameTagTypeValidation )
     let nameTagTypeResponse = nameTagTypeValidation.response
     
@@ -52,15 +52,20 @@ async function createNewDesign() {
     let container = block.querySelector( '.inner' )
     let filename = newImageResponse.filename.slice(7)      
    
-    ///// Define new Design variable.
-    let design = { 'creationDate' : Date.now(), 'name' : formElement[ 'name' ].value, 'filename' : filename, 'layouts' : nameTagTypeLaouts }
+    ///// Define new Template Item variable.
+    let templateItem = { 
+        'templateCreationDate' : Date.now(), 
+        'templateName' : formElement[ 'name' ].value, 
+        'templateFilename' : filename, 
+        'templateLayouts' : nameTagTypeLaouts
+    }
     
-    ///// Push Design variable to Designs.
-    designsStorageResponse.designs.push( design )
-    consoleDebug( debug, 'designsStorageResponse:', designsStorageResponse )
+    ///// Push Template Item variable into Template List in Lacal Storage.
+    templatesStorageResponse.templateList.push( templateItem )
+    consoleDebug( debug, 'templatesStorageResponse:', templatesStorageResponse )
     
-    ///// Overwite Designs in Lacal Storage.
-    localStorage.setItem( 'OP_PLUGIN_DATA_DESIGNS', JSON.stringify( designsStorageResponse ) )
+    ///// Set TEMPLATES in Lacal Storage.
+    localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templatesStorageResponse ) )
 
 
     //////////////////////////////////////////

@@ -92,19 +92,62 @@ function validateForm( formElemnet, debug ) {
 
 
 ////////////////////////////////////////
-/////// Validate Booking Storage
+/////// Validate Login
 ////////////////////////////////////////
-function validateBookingStorage() {
+function validateLogin( bookingCode ) {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Validate Bookings Storage.
+    const bookingsStorageValidation = validateBookingsStorage()
+    consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
+    if ( bookingsStorageValidation.error !== false ) return validationReturn( validationElement, bookingsStorageValidation.response )
+    let bookingsStorageResponse = bookingsStorageValidation.response
+
+    ///// Get Booking List.
+    let bookingList = bookingsStorageResponse.bookingList
+    consoleDebug( debug, 'bookingList:', bookingList )
+
+    ///// Validate Booking List.
+    if ( bookingList == '' || bookingList == undefined ) return returnResponse( false, 204, bookingsStorageResponse )
+
+    ///// Get Booking. 
+    let booking = bookingList.filter( bookingList => bookingList.booking.bookingId === bookingCode )
+    consoleDebug( debug, 'booking:', booking )
+
+    ///// Validate Booking. 
+    if ( booking == '' || booking == undefined ) return returnResponse( false, 204, bookingsStorageResponse )
+
+    ///// Validate Booking Id. 
+    if ( bookingCode !== booking[0].booking.bookingId ) return returnResponse( false, 204, bookingsStorageResponse )
+
+    ///// Return Booking Storage Response. 
+    return returnResponse( false, 302, bookingsStorageResponse )
+
+}
+
+
+
+////////////////////////////////////////
+/////// Validate Bookings Storage
+////////////////////////////////////////
+function validateBookingsStorage() {
 
     try {
 
         ///// Get Local Storages.
-        let bookingStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKING' ) )   
+        let bookingsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_BOOKINGS' ) )   
 
-        ///// Validate Booking Storage.
-        if ( bookingStorage == '' || bookingStorage == undefined ) throw 'You are not loged in!'
+        ///// Validate Bookings Storage.
+        ///// Create new Bookings Storage if empty or undefined.
+        if ( bookingsStorage == '' || bookingsStorage == undefined ) {
+            return returnResponse( false, 204, { bookingList : [] } )
+        } 
 
-        return returnResponse( false, 200, bookingStorage )
+        if ( bookingsStorage ) return returnResponse( false, 200, bookingsStorage )
+
+        throw 'Something went wrong with the Bookings Storage validation!'
 
     } catch( validateError ) {
         return returnResponse( true, 400, validateError )
@@ -115,23 +158,23 @@ function validateBookingStorage() {
 
 
 ////////////////////////////////////////
-/////// Validate Design Storage
+/////// Validate Template Storage
 ////////////////////////////////////////
-function validateDesignsStorage() {
+function validateTemplatesStorage() {
 
     try {
 
         ///// Get Local Storages.
-        let designsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_DESIGNS' ) )   
+        let templatesStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_TEMPLATES' ) )   
     
-        ///// Create new Designs Storage if empty or undefined.
-        if ( designsStorage == '' || designsStorage == undefined ) {
-            return returnResponse( false, 204, { designs : [] } )
+        ///// Create new Templates Storage if empty or undefined.
+        if ( templatesStorage == '' || templatesStorage == undefined ) {
+            return returnResponse( false, 204, { templateList : [] } )
         } 
         
-        if ( designsStorage ) return returnResponse( false, 200, designsStorage )
+        if ( templatesStorage ) return returnResponse( false, 200, templatesStorage )
 
-        throw 'Something went wrong with the Designs Storage validation!'
+        throw 'Something went wrong with the Templates Storage validation!'
     
     } catch( validateError ) {
         return returnResponse( true, 400, validateError )
@@ -151,9 +194,9 @@ function validateEventsStorage() {
         ///// Get Local Storages.
         let eventsStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
     
-        ///// Create new Designs Storage if empty or undefined.
+        ///// Create new Events Storage if empty or undefined.
         if ( eventsStorage == '' || eventsStorage == undefined ) {
-            return returnResponse( false, 204, { 'eventLists' : [] } )
+            return returnResponse( false, 204, { eventList : [] } )
         } 
         
         if ( eventsStorage ) return returnResponse( false, 200, eventsStorage )

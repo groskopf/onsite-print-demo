@@ -19,7 +19,7 @@ function listen( evnt, elem, func ) {
 ////////////////////////////////////////
 function checkLogin( block ) {
     
-    const login = localStorage.getItem('OP_PLUGIN_DATA_BOOKING')
+    const login = localStorage.getItem('OP_PLUGIN_DATA_BOOKINGS')
     //console.log( login )
 
     if ( ! login ) {

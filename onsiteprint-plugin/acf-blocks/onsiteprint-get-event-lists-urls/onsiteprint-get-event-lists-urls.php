@@ -19,7 +19,7 @@ if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-get-event-list-urls' . $listPageType . ' active';
+$className = 'op-get-event-lists-urls' . $listPageType . ' active';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];

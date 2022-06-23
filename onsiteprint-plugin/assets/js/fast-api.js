@@ -27,7 +27,7 @@ async function getBookingWithBookingCode( bookingCode, validationElement ) {
     consoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
        
     ///// If the Fetch Response has an Error.
-    if ( fetchResponseValidation.error !== false ) return validationReturn( validationElement, fetchResponseValidation.response )
+    if ( fetchResponseValidation.error !== false && validationElement ) return validationReturn( validationElement, fetchResponseValidation.response )
 
     ///// Return the validated response. 
     return fetchResponseValidation
@@ -66,7 +66,7 @@ async function uploadNewImage( formData, validationElement ) {
     consoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
        
     ///// If the Fetch Response has an Error.
-    if ( fetchResponseValidation.error !== false ) return validationReturn( validationElement, fetchResponseValidation.response )
+    if ( fetchResponseValidation.error !== false && validationElement ) return validationReturn( validationElement, fetchResponseValidation.response )
 
     ///// Return the validated response. 
     return fetchResponseValidation
@@ -104,7 +104,7 @@ async function getNameTagType( nameTagType, validationElement ) {
     consoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
            
     ///// If the Fetch Response has an Error.
-    if ( fetchResponseValidation.error !== false ) return validationReturn( validationElement, fetchResponseValidation.response )
+    if ( fetchResponseValidation.error !== false && validationElement ) return validationReturn( validationElement, fetchResponseValidation.response )
 
     ///// Return the validated response. 
     return fetchResponseValidation
@@ -147,7 +147,7 @@ async function convertCsvIntoJson( formData, validationElement ) {
     consoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
        
     ///// If the Fetch Response has an Error.
-    if ( fetchResponseValidation.error !== false ) return validationReturn( validationElement, fetchResponseValidation.response )
+    if ( fetchResponseValidation.error !== false && validationElement ) return validationReturn( validationElement, fetchResponseValidation.response )
 
     ///// Return the validated response. 
     return fetchResponseValidation
@@ -190,7 +190,7 @@ async function convertGridDataIntoJson( formData, validationElement ) {
     consoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
        
     ///// If the Fetch Response has an Error.
-    if ( fetchResponseValidation.error !== false ) return validationReturn( validationElement, fetchResponseValidation.response )
+    if ( fetchResponseValidation.error !== false && validationElement ) return validationReturn( validationElement, fetchResponseValidation.response )
 
     ///// Return the validated response. 
     return fetchResponseValidation

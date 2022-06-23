@@ -54,7 +54,7 @@ $className .= ' ' . $listColumns;
         <div id="<?= esc_attr($id) ?>-logout" class="op-block__wrapper delete active">
             <div class="content">
                 <div class="form-container">
-                    <button class="list-button" onclick="localStorage.removeItem('OP_PLUGIN_DATA_BOOKING'); location.reload()">Log out</button>
+                    <button class="list-button" onclick="localStorage.removeItem('OP_PLUGIN_DATA_BOOKINGS'); location.reload()">Log out</button>
                 </div>
             </div>       
         </div><!-- #<?= esc_attr($id) ?>-logout -->
