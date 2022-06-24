@@ -344,6 +344,11 @@ body[data-loged-in="true"] [id*="-login"] .content {
     margin-right: 1rem;
 }
 
+[id*="op-block"] .flex-row-wrap {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 [id*="op-block"] form label {
     font-size: 1.3rem;
     margin-right: .5rem;

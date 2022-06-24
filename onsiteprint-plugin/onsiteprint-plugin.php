@@ -32,8 +32,8 @@ function onsiteprint_enqueue_scripts() {
 	wp_enqueue_script( 'onsiteprint-bookings-js', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-bookings-js', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-design-js', ONSITEPRINT_DIR . '/assets/js/design.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-design-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-template-js', ONSITEPRINT_DIR . '/assets/js/template.js', array(),  wp_get_theme()->get( 'Version' ), true );
+	wp_script_add_data( 'onsiteprint-template-js', 'async', true );
 
 	wp_enqueue_script( 'onsiteprint-event-list-js', ONSITEPRINT_DIR . '/assets/js/event-list.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-event-list-js', 'async', true );
@@ -92,15 +92,15 @@ function onsiteprint_acf_init() {
 			'keywords'			=> array( 'page', 'booking', 'login', 'logout', 'onsiteprint' ),
 		));
 
-		// register the [Create Design] block.
+		// register the [Create Template] block.
 		acf_register_block(array(
-			'name'				=> 'onsiteprint-create-design',
-			'title'				=> __('Create Design'),
-			'description'		=> __('Create Design to a Name Tag Type.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-create-design/onsiteprint-create-design.php',
+			'name'				=> 'onsiteprint-create-template',
+			'title'				=> __('Create Template'),
+			'description'		=> __('Create Template to a Name Tag Type.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-create-template/onsiteprint-create-template.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'admin-appearance',
-			'keywords'			=> array( 'page', 'booking', 'create', 'design', 'onsiteprint' ),
+			'keywords'			=> array( 'page', 'booking', 'create', 'template', 'onsiteprint' ),
 		));
 
 		// register the [Create Event List] block.

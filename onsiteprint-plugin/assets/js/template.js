@@ -1,7 +1,56 @@
 ////////////////////////////////////////
-/////// Create new Design
+/////// Check if multible [Create Event List] Blocks is on page
 ////////////////////////////////////////
-async function createNewDesign() {
+function checkCreateNewTemplateBlock() {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    let blocks = document.querySelectorAll( '.op-create-template' )
+    consoleDebug( true, 'blocks:', blocks )
+
+    let layoutElement
+
+    if ( blocks ) {
+        blocks.forEach( block => {
+            
+            let blockId = block.getAttribute( 'id' )
+            let container = block.querySelector( `#${ blockId }-radio-input` )
+            console.log( blockId )
+
+            ///// Validate Bookings Storage.
+            const bookingsStorageValidation = validateBookingsStorage()
+            consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
+            if ( bookingsStorageValidation.error !== false ) return validationReturn( validationElement, bookingsStorageValidation.response )
+            let nameTagTypeLayouts = bookingsStorageValidation.response.bookingList[0].booking.nameTagType.nameTagTypeLayouts
+
+            for( var i = 0; i < nameTagTypeLayouts.length; i++ ) {
+                consoleDebug( debug, 'nameTagTypeLayout-'+i+':', nameTagTypeLayouts[i] )
+
+                layoutElement = `
+                    <div class="input-inner">
+                        <input type="radio" id="${ blockId }-${ nameTagTypeLayouts[i] }-input" name="layout" value="${ nameTagTypeLayouts[i] }">
+                        <label for="${ blockId }-${ nameTagTypeLayouts[i] }-input" class="input-outer flex-wrap">
+                            ${ nameTagTypeLayouts[i] }
+                            <img src="https://www.ejl.dk/images/joomlart/supported-layout/magazine.png" alt="Prøve" width="100" height="auto">
+                        </label>
+                    </div>
+                `
+
+                ///// Add element to the container.
+                container.insertAdjacentHTML( 'beforeEnd', layoutElement )
+            }           
+        })
+    }
+}
+listen( 'load', window, checkCreateNewTemplateBlock() )
+
+
+
+////////////////////////////////////////
+/////// Create new Template
+////////////////////////////////////////
+async function createNewTemplate() {
 
     ///// Debug the function
     let debug = false // true or false 
@@ -9,7 +58,7 @@ async function createNewDesign() {
     ///// Get the elements.
     let block = event.target.closest( 'section[id*="op-block"]' )
     let validationElement = block.querySelector( '.validation-info' )
-    let formElement = block.querySelector( '.create-design-form' )
+    let formElement = block.querySelector( '.create-template-form' )
       
     ///// Clear the Validation Info Element. 
 	validationElement.innerHTML = ''
@@ -40,14 +89,6 @@ async function createNewDesign() {
     consoleDebug( debug, 'newImageValidation:', newImageValidation )
     let newImageResponse = newImageValidation.response
     
-    ///// Get Name Tag Type Response from FastAPI.
-    const nameTagTypeValidation = await getNameTagType( bookingsStorageResponse.nameTagTypeId, validationElement )
-    consoleDebug( debug, 'nameTagTypeValidation:', nameTagTypeValidation )
-    let nameTagTypeResponse = nameTagTypeValidation.response
-    
-    ///// Get Layouts from Name Tag Type Response.
-    let nameTagTypeLaouts = nameTagTypeResponse.layouts
-
     ///// Get the element for output.
     let container = block.querySelector( '.inner' )
     let filename = newImageResponse.filename.slice(7)      
@@ -57,7 +98,7 @@ async function createNewDesign() {
         'templateCreationDate' : Date.now(), 
         'templateName' : formElement[ 'name' ].value, 
         'templateFilename' : filename, 
-        'templateLayouts' : nameTagTypeLaouts
+        'templateLayout' : formElement[ 'layout' ].value
     }
     
     ///// Push Template Item variable into Template List in Lacal Storage.

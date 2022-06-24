@@ -54,9 +54,7 @@ function validateFetchResponse( validateRequest ) {
 ////////////////////////////////////////
 function validateForm( formElemnet, debug ) {
     
-    let validatedformResponse
-
-    let validateErrorCode
+    let validatedformResponse, validateErrorCode
 
     let formInputs = formElemnet.querySelectorAll( 'input[required]' )
     consoleDebug( debug, 'formInputs:', formInputs )
@@ -66,7 +64,7 @@ function validateForm( formElemnet, debug ) {
     formInputs.forEach( formInput => {
         let inputId = formInput.getAttribute( 'id' )
         let inputType = formInput.getAttribute( 'type' )
-        let inputValidation = document.querySelector( `#${ inputId }-validation` )   
+        let inputValidation = document.querySelector( `#${ inputId }-validation` )
         
         inputValidation.innerHTML = ''
         inputValidation.classList.remove( 'active' )
