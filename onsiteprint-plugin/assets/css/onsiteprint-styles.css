@@ -404,15 +404,15 @@ body[data-loged-in="true"] [id*="-login"] .content {
     border-radius: .3rem;
 }
 
-[id*="op-block"] .event-list-grid.responses {
+[id*="op-block"] .event-grid.responses {
     display: none;
 }
 
-[id*="op-block"] .event-list-grid.responses.active {
+[id*="op-block"] .event-grid.responses.active {
     display: block;
 }
 
-[id*="op-block"] .event-list-grid.responses > [id*="event-list-grid"] {
+[id*="op-block"] .event-grid.responses > [id*="event-grid"] {
     height: 40rem;
 }
 

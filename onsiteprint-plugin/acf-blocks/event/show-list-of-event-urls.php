@@ -19,7 +19,7 @@ if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-get-event-lists-urls' . $listPageType . ' active';
+$className = 'op-show-list-of-event-urls' . $listPageType . ' active';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -37,10 +37,10 @@ $className .= ' ' . $listColumns;
     <div class="validation-info">Validation Informaiton</div>
     <div class="op-block__inner active">
 
-        <div id="<?= esc_attr($id) ?>-event-list-info" class="op-block__wrapper post">
+        <div id="<?= esc_attr($id) ?>-show-list-of-event-urls-info" class="op-block__wrapper post">
 
             <header onclick="openContent()">               
-                <h3><span>Get</span>Get URL list of Event Lists</h3>
+                <h3><span>Get</span>Show List of Event URL's</h3>
                 <div class="arrow"></div>
             </header>
 
@@ -48,7 +48,7 @@ $className .= ' ' . $listColumns;
                 <div class="response"></div>
             </div>
 
-        </div><!-- #<?= esc_attr($id) ?>-event-list-info -->
+        </div><!-- #<?= esc_attr($id) ?>-show-list-of-event-urls-info -->
 
     </div>
 </section><!-- #<?= esc_attr($id) ?> -->

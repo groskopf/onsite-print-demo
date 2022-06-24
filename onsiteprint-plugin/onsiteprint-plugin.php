@@ -35,8 +35,8 @@ function onsiteprint_enqueue_scripts() {
 	wp_enqueue_script( 'onsiteprint-template-js', ONSITEPRINT_DIR . '/assets/js/template.js', array(),  wp_get_theme()->get( 'Version' ), true );
 	wp_script_add_data( 'onsiteprint-template-js', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-event-list-js', ONSITEPRINT_DIR . '/assets/js/event-list.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-event-list-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-event-js', ONSITEPRINT_DIR . '/assets/js/event.js', array(),  wp_get_theme()->get( 'Version' ), true );
+	wp_script_add_data( 'onsiteprint-event-js', 'async', true );
 }
 add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_scripts' );
 
@@ -75,7 +75,7 @@ function onsiteprint_acf_init() {
 			'name'				=> 'onsiteprint-get-booking',
 			'title'				=> __('Get Booking'),
 			'description'		=> __('Get Booking infomation with a booking code from FastAPI.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-get-booking/onsiteprint-get-booking.php',
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/booking/get-booking.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'calendar-alt',
 			'keywords'			=> array( 'page', 'booking', 'onsiteprint' ),
@@ -86,7 +86,7 @@ function onsiteprint_acf_init() {
 			'name'				=> 'onsiteprint-log-switch',
 			'title'				=> __('Log in/out'),
 			'description'		=> __('Log in with a booking code.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-log-switch/onsiteprint-log-switch.php',
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/login/login-switch.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'lock',
 			'keywords'			=> array( 'page', 'booking', 'login', 'logout', 'onsiteprint' ),
@@ -95,45 +95,45 @@ function onsiteprint_acf_init() {
 		// register the [Create Template] block.
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-create-template',
-			'title'				=> __('Create Template'),
-			'description'		=> __('Create Template to a Name Tag Type.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-create-template/onsiteprint-create-template.php',
+			'title'				=> __('Create new Template'),
+			'description'		=> __('Create new Template'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/template/create-template.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'admin-appearance',
-			'keywords'			=> array( 'page', 'booking', 'create', 'template', 'onsiteprint' ),
+			'keywords'			=> array( 'page', 'template', 'create', 'onsiteprint' ),
 		));
 
-		// register the [Create Event List] block.
+		// register the [Create Event] block.
 		acf_register_block(array(
-			'name'				=> 'onsiteprint-create-event-list',
-			'title'				=> __('Create Event List'),
-			'description'		=> __('[Front-end] Create new Event List from CSV-file.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-create-event-list/onsiteprint-create-event-list.php',
+			'name'				=> 'onsiteprint-create-event',
+			'title'				=> __('Create new Event'),
+			'description'		=> __('[Front-end] Create new Event.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event/create-event.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
-			'keywords'			=> array( 'page', 'event', 'create', 'list', 'onsiteprint' ),
+			'keywords'			=> array( 'page', 'event', 'create', 'onsiteprint' ),
 		));
 
-		// register the [Get Event Lists URL's] block.
+		// register the [Show List of Event URL's] block.
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-get-event-lists-urls',
-			'title'				=> __('Get Event Lists URL\'s'),
-			'description'		=> __('[Front-end] Shows a URL list of Event Lists.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-get-event-lists-urls/onsiteprint-get-event-lists-urls.php',
+			'title'				=> __('Show List of Event URL\'s'),
+			'description'		=> __('[Front-end] Shows a URL list of Events.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event/show-list-of-event-urls.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
-			'keywords'			=> array( 'page', 'event', 'get', 'list', 'onsiteprint' ),
+			'keywords'			=> array( 'page', 'event', 'show', 'list', 'onsiteprint' ),
 		));
 
-		// register the [Show Event List] block.
+		// register the [Show Event Participants] block.
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-show-event-list',
 			'title'				=> __('Show Event List'),
 			'description'		=> __('[Front-end] Shows a Single Event List.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/onsiteprint-show-event-list/onsiteprint-show-event-list.php',
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event/show-event-participants.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
-			'keywords'			=> array( 'page', 'event', 'show', 'list', 'onsiteprint' ),
+			'keywords'			=> array( 'page', 'event', 'show', 'participants', 'onsiteprint' ),
 		));
 
 	}

@@ -1,61 +1,61 @@
 ////////////////////////////////////////
-/////// Check if multible [Create Event List] Blocks is on page
+/////// Check if multible [Create new Event] Blocks is on page
 ////////////////////////////////////////
-function checkCreateEventListBlock() {
-    let blocks = document.querySelectorAll( '.op-create-event-list' )
+function checkCreateEventBlock() {
+    let blocks = document.querySelectorAll( '.op-create-event' )
     //console.log(blocks)
 
     if ( blocks ) {
         for( var i = 0; i < blocks.length; i++ ) {   
             if ( i !== 0 ) {
                 blocks[i].setAttribute( 'data-block-disable', true )
-                blocks[i].innerHTML = '<div class="validation-info active"><div class="validation-error"><p>Block [Create Event List] is already used on this Page!</p></div></div>'
+                blocks[i].innerHTML = '<div class="validation-info active"><div class="validation-error"><p>Block [Create new Event] is already used on this Page!</p></div></div>'
             }
         }
     }
 }
-listen( 'load', window, checkCreateEventListBlock() )
+listen( 'load', window, checkCreateEventBlock() )
 
 
 
 ////////////////////////////////////////
-/////// Check if [Get Event Lists urls] Blocks is on page
+/////// Check if [Show List of Event URL's] Blocks is on page
 ////////////////////////////////////////
-function checkEventListsUrls() {
-    let blocks = document.querySelectorAll( '.op-get-event-lists-urls' )
+function checkShowListOfEventUrlsBlock() {
+    let blocks = document.querySelectorAll( '.op-show-list-of-event-urls' )
     //console.log(blocks)
 
     if ( blocks ) {
         for( var i = 0; i < blocks.length; i++ ) {
-            getEventListsUrls( blocks[i] )
+            showListOfEventUrls( blocks[i] )
         }
     }
 
 }
-listen( 'load', window, checkEventListsUrls() )
+listen( 'load', window, checkShowListOfEventUrlsBlock() )
 
 
 
 ////////////////////////////////////////
-/////// Check if Event List is in Local Storage
+/////// Check if [Show Event Participants] Blocks is on page
 ////////////////////////////////////////
-function checkEventList() {
-    let blocks = document.querySelectorAll( '.op-show-event-list-single' )
+function checkShowEventParticipantsBlock() {
+    let blocks = document.querySelectorAll( '.op-show-event-participants' )
     //console.log(blocks)
 
     if ( blocks ) {
         for( var i = 0; i < blocks.length; i++ ) {
-            showEventList( blocks[i] )
+            showEventParticipants( blocks[i] )
         }
     }
 
 }
-listen( 'load', window, checkEventList() )
+listen( 'load', window, checkShowEventParticipantsBlock() )
 
 
 
 ///// Variable used by the Grid
-var eventListGridElement
+var eventGridElement
 
 
 
@@ -70,7 +70,7 @@ async function createGridFromCsv() {
     ///// Get the elements.
     let block = event.target.closest( 'section[id*="op-block"]' )
     let validationElement = block.querySelector( '.validation-info' )
-    let formElement = block.querySelector( '.event-list-form' )
+    let formElement = block.querySelector( '.event-form' )
 
     ///// Clear the Validation Info Element. 
 	validationElement.innerHTML = ''
@@ -98,7 +98,7 @@ async function createGridFromCsv() {
     ///// Add the class active to the grid element.
     block.querySelector( '.responses' ).classList.add('active')
 
-    eventListGridElement = new DataGridXL( `${ blockId }-event-list-grid`, {
+    eventGridElement = new DataGridXL( `${ blockId }-event-grid`, {
         data: jsonResponse,
         /* colHeaderLabelFunction: function(index, id, field, title, labels){
             // use id as column label
@@ -114,15 +114,15 @@ async function createGridFromCsv() {
 /////// Save Grid as CSV
 ////////////////////////////////////////
 function saveAsCsv() {
-    eventListGridElement.downloadDataAsCSV()
+    eventGridElement.downloadDataAsCSV()
 }
 
 
 
 ////////////////////////////////////////
-/////// Create new Event List
+/////// Create new Event
 ////////////////////////////////////////
-async function createNewEventList() {
+async function createNewEvent() {
 
     ///// Debug the function
     let debug = false // true or false 
@@ -130,27 +130,25 @@ async function createNewEventList() {
     ///// Get the elements.
     let block = event.target.closest( 'section[id*="op-block"]' )
     let validationElement = block.querySelector( '.validation-info' )
-    let formElement = block.querySelector( '.event-list-form' )
+    let formElement = block.querySelector( '.event-form' )
     
-    const jsonFormGrid = JSON.stringify( eventListGridElement.getData() )
+    const jsonFormGrid = JSON.stringify( eventGridElement.getData() )
 
     ///// Get data from the form element.
     let formData = new FormData()
 
+    ///// Add JSON from Grid to Form Element
     formData.append( 'json-from-grid', jsonFormGrid )
-    //gridInput.value = JSON.stringify(jsonFormGrid)
 
     ///// Validate Bookings Storage.
     const bookingsStorageValidation = validateBookingsStorage()
     consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
     if ( bookingsStorageValidation.error !== false ) return validationReturn( validationElement, bookingsStorageValidation.response )
-    let bookingsStorageResponse = bookingsStorageValidation.response
 
     ///// Validate Templates Storage.
     const templatesStorageValidation = validateTemplatesStorage()
     consoleDebug( debug, 'templatesStorageValidation:', templatesStorageValidation )
     if ( templatesStorageValidation.error !== false ) return validationReturn( validationElement, templatesStorageValidation.response )
-    let templatesStorageResponse = templatesStorageValidation.response    
 
     ///// Validate Events Storage.
     const eventsStorageValidation = validateEventsStorage()
@@ -191,29 +189,24 @@ async function createNewEventList() {
     //////////////////////////////////////////
 
 
-    window.location.replace(`?event-list=${ creationDate }`)
+    window.location.replace(`?event=${ creationDate }`)
 
 }
 
 
 
 ////////////////////////////////////////
-/////// Get URL list of Event Lists 
+/////// Show List of Event URL's
 ////////////////////////////////////////
-async function getEventListsUrls( block ) {
+async function showListOfEventUrls( block ) {
 
     ///// Debug the function
-    let debug = false // true or false 
+    let debug = false // true or false
 
     ///// Get the elements.
     let validationElement = block.querySelector( '.validation-info' )
-    let eventListId = block.getAttribute( 'data-event-list' )
+    let eventListId = block.getAttribute( 'data-event-id' )
     let blockContent = block.querySelector( '.content' )
-
-    ///// Validate Bookings Storage.
-    const bookingsStorageValidation = validateBookingsStorage()
-    consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
-    if ( bookingsStorageValidation.error !== false ) return validateEventList( `Block [Show Event List] - ${ bookingsStorageValidation.response }` )
 
     ///// Validation Event List function. 
     function validateEventList( message ) {
@@ -223,31 +216,36 @@ async function getEventListsUrls( block ) {
         validationReturn( validationElement, message )
     }
     
+    ///// Validate Bookings Storage.
+    const bookingsStorageValidation = validateBookingsStorage()
+    consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
+    if ( bookingsStorageValidation.error !== false ) return validateEventList( `Block [Show List of Event URL's] - ${ bookingsStorageValidation.response }` )
+
     ///// Get Events Storage. 
     let eventStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
     
     ///// Validate Event List. 
-    if ( eventListId == false || ! eventStorage || ! eventStorage.eventList ) return validateEventList( 'Block [Show Event List] - This Page has no Event Lists to Show!' )
+    if ( eventListId == false || ! eventStorage || ! eventStorage.eventList ) return validateEventList( `Block [Show List of Event URL's] - This Page has no Event ULR's to Show!` )
     
-    ///// Get Events Lists. 
+    ///// Get Event List. 
     let eventList = eventStorage.eventList
     consoleDebug( debug, 'eventList:', eventList )
             
     ///// Validate JSON Event List from Storage. 
-    if ( ! eventList[0] ) return validateEventList( 'Block [Show Event List] - This Page could not find any Event Lists!' )
+    if ( ! eventList[0] ) return validateEventParticipants( `Block [Show List of Event URL's] - This Page could not find any Event ULR's!` )
 
-    ///// Create Event List Item for each element in the array. 
+    ///// For each Event create URL Element.
     for( var i = 0; i < eventList.length; i++ ) {
     
-        eventElement = `
+        urlElement = `
             <article>
                 <p><b>Event Name:</b> ${ eventList[i].eventName }</p>
-                <a href="?event-list=${ eventList[i].eventCreationDate }"><b>URL:</b> ?event-list=${ eventList[i].eventCreationDate }</a>
+                <a href="?event=${ eventList[i].eventCreationDate }"><b>URL:</b> ?event=${ eventList[i].eventCreationDate }</a>
             </article>
         `
 
         ///// Add element to the container. 
-        blockContent.querySelector('.response').insertAdjacentHTML( 'afterbegin', eventElement )
+        blockContent.querySelector('.response').insertAdjacentHTML( 'afterbegin', urlElement )
 
     }
 
@@ -256,22 +254,17 @@ async function getEventListsUrls( block ) {
 
 
 ////////////////////////////////////////
-/////// Show Event List
+/////// Show Event Participants
 ////////////////////////////////////////
-async function showEventList( block ) {
+async function showEventParticipants( block ) {
 
     ///// Debug the function
-    let debug = false // true or false 
+    let debug = false // true or false
 
     ///// Get the elements.
     let validationElement = block.querySelector( '.validation-info' )
-    let eventListId = block.getAttribute( 'data-event-list' )
+    let eventListId = block.getAttribute( 'data-event-id' )
     let blockContent = block.querySelector( '.content' )
-
-    ///// Validate Bookings Storage.
-    const bookingsStorageValidation = validateBookingsStorage()
-    consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
-    if ( bookingsStorageValidation.error !== false ) return validateEventList( `Block [Show Event List] - ${ bookingsStorageValidation.response }` )
 
     ///// Validation Event List function. 
     function validateEventList( message ) {
@@ -281,75 +274,81 @@ async function showEventList( block ) {
         validationReturn( validationElement, message )
     }
     
+    ///// Validate Bookings Storage.
+    const bookingsStorageValidation = validateBookingsStorage()
+    consoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
+    if ( bookingsStorageValidation.error !== false ) return validateEventList( `Block [Show Event Participants] - ${ bookingsStorageValidation.response }` )
+
     ///// Get Events Storage. 
     let eventStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
     
     ///// Validate Event List. 
-    if ( eventListId == false || ! eventStorage || ! eventStorage.eventList ) return validateEventList( 'Block [Show Event List] - This Page has no Event Lists to Show!' )
+    if ( eventListId == false || ! eventStorage || ! eventStorage.eventList ) return validateEventList( 'Block [Show Event Participants] - This Page has no Event to Show!' )
     
-    ///// Get Events Lists. 
+    ///// Get Event List. 
     let eventList = eventStorage.eventList
     consoleDebug( debug, 'eventList:', eventList )
     
-    ///// Get Events Lists JSON. 
-    let eventListJson = eventList.filter( eventList => eventList.eventCreationDate === Number( eventListId ) )
-    consoleDebug( debug, eventListId+':', eventListJson )
+    ///// Get Event Item. 
+    let eventItem = eventList.filter( eventList => eventList.eventCreationDate === Number( eventListId ) )
+    consoleDebug( debug, eventListId+':', eventItem )
     
-    ///// Validate JSON Event List from Storage. 
-    if ( ! eventListJson[0] ) return validateEventList( 'Block [Show Event List] - This Page could not find and show the Event List!' )
+    ///// Validate Event Item from Storage. 
+    if ( ! eventItem[0] ) return validateEventList( 'Block [Show Event Participants] - This Page could not find any Event to Show!' )
     
     ///// Add element to the container.
-    blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventListJson[0].eventName } - ${ eventListJson[0].eventCreationDate }</h3>` )
+    blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem[0].eventName } - ${ eventItem[0].eventCreationDate }</h3>` )
     
-    ///// Get JSON Event List array. 
-    let eventParticipants = eventListJson[0].eventParticipants
+    ///// Get Participants. 
+    let eventParticipants = eventItem[0].eventParticipants
     consoleDebug( debug, 'eventParticipants:', eventParticipants )
     
-    ///// Create variables. 
-    let eventId, eventline1, eventline2, eventline3, eventline4, eventline5, eventPrints, eventTime, eventActive, eventElement
+    ///// Create Participant variables. 
+    let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTime, participantActive, participantElement
     
-    ///// Create Event List Item for each element in the array. 
+    ///// For each Participant create Participant Element. 
     for( var i = 0; i < eventParticipants.length; i++ ) {
 
-        eventId = eventParticipants[i].id
-        eventline1 = eventParticipants[i].line1
-        eventline2 = eventParticipants[i].line2
-        eventline3 = eventParticipants[i].line3
-        eventline4 = eventParticipants[i].line4
-        eventline5 = eventParticipants[i].line5
-        eventPrints = eventParticipants[i].prints
-        eventTime = eventParticipants[i].time
-        eventActive = eventParticipants[i].active
+        participantId = eventParticipants[i].id
+        participantline1 = eventParticipants[i].line1
+        participantline2 = eventParticipants[i].line2
+        participantline3 = eventParticipants[i].line3
+        participantline4 = eventParticipants[i].line4
+        participantline5 = eventParticipants[i].line5
+        participantPrints = eventParticipants[i].prints
+        participantTime = eventParticipants[i].time
+        participantActive = eventParticipants[i].active
         
-        eventElement = `
-            <artikle id="op-item-${ eventId }" class="op-event-list-item" data-op-arrival="${ eventActive }" data-op-prints="${ eventPrints }">
+        participantElement = `
+            <artikle id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
                 <header>
                     <figure>
                         <span class="icon"></span>
                     </figure>
                     <div class="arrival-time">
-                        <p>${ eventTime }</p>
+                        <p>${ participantTime }</p>
                     </div>
                     <div class="list-info">
-                        <p class="line-1">${ eventline1 }</p>
-                        <p class="line-2">${ eventline2 }</p>
-                        <p class="line-3">${ eventline3 }</p>
-                        <p class="line-4">${ eventline4 }</p>
+                        <p class="line-1">${ participantline1 }</p>
+                        <p class="line-2">${ participantline2 }</p>
+                        <p class="line-3">${ participantline3 }</p>
+                        <p class="line-4">${ participantline4 }</p>
+                        <p class="line-5">${ participantline5 }</p>
                     </div>
                     <figure>
                         <button class="print-button">Print</button>
-                        <figcaption class="amount-of-print">${ eventPrints }</figcaption>
+                        <figcaption class="amount-of-print">${ participantPrints }</figcaption>
                     </figure>
                 </header>
                 <footer>
                     <p class="message"></p>
-                    <p class="arrival-time">${ eventTime }</p>
+                    <p class="arrival-time">${ participantTime }</p>
                 </footer>
             </artikle>
         `
 
         ///// Add element to the container. 
-        blockContent.querySelector('.inner').insertAdjacentHTML( 'afterbegin', eventElement )
+        blockContent.querySelector('.inner').insertAdjacentHTML( 'afterbegin', participantElement )
 
     }
 

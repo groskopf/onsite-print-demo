@@ -1,8 +1,8 @@
 <?php
 /**
- * [Block] Show Event List.
+ * [Block] Show Event Participants.
  *
- * [Front-end] Shows a Single Event List.
+ * [Front-end] Shows a List of Event Participants.
  *
  * @link https://www.advancedcustomfields.com/resources/
  *
@@ -15,14 +15,14 @@
 
 $id = 'op-' . $block['id'];
 
-$eventList = ( ! empty( $_GET['event-list'] ) ) ? $_GET['event-list'] : false;
+$eventList = ( ! empty( $_GET['event'] ) ) ? $_GET['event'] : false;
 
 
 if ( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-show-event-list-single' . $listPageType . ' active';
+$className = 'op-show-event-participants' . $listPageType . ' active';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -37,14 +37,14 @@ $className .= ' ' . $listColumns;
 
 ?>
 
-<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-event-list="<?= esc_attr($eventList) ?>">
+<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-event-id="<?= esc_attr($eventList) ?>">
     <div class="validation-info">Validation Informaiton</div>
     <div class="op-block__inner active">
 
-        <div id="<?= esc_attr($id) ?>-event-list-info" class="op-block__wrapper get active">
+        <div id="<?= esc_attr($id) ?>-show-event-participants-info" class="op-block__wrapper get active">
 
             <header onclick="openContent()">               
-                <h3><span>Get</span>Show Single Event List</h3>
+                <h3><span>Get</span>Show List of Event Participants</h3>
                 <div class="arrow"></div>
             </header>
 
@@ -54,7 +54,7 @@ $className .= ' ' . $listColumns;
                 </div>
             </div>
 
-        </div><!-- #<?= esc_attr($id) ?>-event-list-info -->
+        </div><!-- #<?= esc_attr($id) ?>-show-event-participants-info -->
 
     </div>
 </section><!-- #<?= esc_attr($id) ?> -->

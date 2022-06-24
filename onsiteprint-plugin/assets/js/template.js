@@ -7,7 +7,7 @@ function checkCreateNewTemplateBlock() {
     let debug = false // true or false 
 
     let blocks = document.querySelectorAll( '.op-create-template' )
-    consoleDebug( true, 'blocks:', blocks )
+    consoleDebug( debug, 'blocks:', blocks )
 
     let layoutElement
 
@@ -16,7 +16,6 @@ function checkCreateNewTemplateBlock() {
             
             let blockId = block.getAttribute( 'id' )
             let container = block.querySelector( `#${ blockId }-radio-input` )
-            console.log( blockId )
 
             ///// Validate Bookings Storage.
             const bookingsStorageValidation = validateBookingsStorage()

@@ -4,7 +4,7 @@ First WordPress Plugin
 ## List of functions:
 > - \[Block\] Get Booking with Booking Code
 > - \[Block\] Log in/out
-> - \[Block\] Create New Design
-> - \[Block\] Create New Event List
-> - \[Block\] Show Event List
-> - \[Block\] Get URL's of Event Lists
+> - \[Block\] Create New Template
+> - \[Block\] Create New Event
+> - \[Block\] Show List of Event Participants
+> - \[Block\] Show List of Event URL’s
