@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-/////// Check if multible [Create Event List] Blocks is on page
+/////// Check if multible [Create new Template] Blocks is on page
 ////////////////////////////////////////
 function checkCreateNewTemplateBlock() {
 

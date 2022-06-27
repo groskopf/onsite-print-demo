@@ -404,10 +404,17 @@ body[data-loged-in="true"] [id*="-login"] .content {
     border-radius: .3rem;
 }
 
+[id*="op-block"] .event-templates-radio-option.active + .event-template-option,
+[id*="op-block"] .event-template-option.active .no-input,
+[id*="op-block"] .event-template-option .event-template-option-input,
+[id*="op-block"] .event-templates-radio-option,
 [id*="op-block"] .event-grid.responses {
     display: none;
 }
 
+[id*="op-block"] .event-template-option .no-input,
+[id*="op-block"] .event-template-option.active .event-template-option-input,
+[id*="op-block"] .event-templates-radio-option.active,
 [id*="op-block"] .event-grid.responses.active {
     display: block;
 }

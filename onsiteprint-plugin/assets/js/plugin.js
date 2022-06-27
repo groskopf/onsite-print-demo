@@ -15,6 +15,25 @@ function listen( evnt, elem, func ) {
 
 
 ////////////////////////////////////////
+///////  Retrieve GET parameters from JavaScript
+////////////////////////////////////////
+function getSearchParameters() {
+    let prmstr = window.location.search.substr(1)
+    return prmstr != null && prmstr != '' ? transformToAssocArray( prmstr ) : {}
+}
+function transformToAssocArray( prmstr ) {
+    let params = {}
+    let prmarr = prmstr.split('&')
+    for ( let i = 0; i < prmarr.length; i++) {
+        let tmparr = prmarr[i].split('=')
+        params[tmparr[0]] = tmparr[1]
+    }
+    return params
+}
+
+
+
+////////////////////////////////////////
 /////// Check if the user are Loged in
 ////////////////////////////////////////
 function checkLogin( block ) {

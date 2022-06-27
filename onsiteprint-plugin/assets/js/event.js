@@ -2,14 +2,38 @@
 /////// Check if multible [Create new Event] Blocks is on page
 ////////////////////////////////////////
 function checkCreateEventBlock() {
+
+    ///// Debug the function.
+    let debug = false // true or false 
+
     let blocks = document.querySelectorAll( '.op-create-event' )
-    //console.log(blocks)
+    consoleDebug( debug, 'blocks:', blocks )
 
     if ( blocks ) {
         for( var i = 0; i < blocks.length; i++ ) {   
             if ( i !== 0 ) {
                 blocks[i].setAttribute( 'data-block-disable', true )
-                blocks[i].innerHTML = '<div class="validation-info active"><div class="validation-error"><p>Block [Create new Event] is already used on this Page!</p></div></div>'
+                blocks[i].innerHTML = '<div class="validation-info active"><div class="validation-error"><p>Block [Create new Event] is already used on this Page!</p></div></div>'               
+            } else {
+                let templateId = getSearchParameters().template
+
+                if ( templateId ) {                  
+
+                    const eventTemplates = openEventTemplates( blocks[i], templateId )
+                    consoleDebug( debug, 'eventTemplates:', eventTemplates )
+
+                    if ( eventTemplates.error == false ) {
+                        let blockId = blocks[i].getAttribute( 'id' )
+                        let radioInput = blocks[i].querySelector( `#${ blockId }-${ templateId }-input` )
+                        
+                        radioInput.checked = true
+                        closeEventTemplates( templateId, blocks[i] )
+                    } else {
+                        closeEventTemplates( false, blocks[i] )
+                    }
+
+
+                }
             }
         }
     }
@@ -51,6 +75,117 @@ function checkShowEventParticipantsBlock() {
 
 }
 listen( 'load', window, checkShowEventParticipantsBlock() )
+
+
+
+////////////////////////////////////////
+/////// Block [Create new Event] - Open Templates option. 
+////////////////////////////////////////
+function openEventTemplates( block, templateId ) {
+
+    ///// Debug the function.
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    if ( ! block ) {
+        block = event.target.closest( 'section[id*="op-block"]' )
+    }
+
+    let validationElement = block.querySelector( '.validation-info' )
+    consoleDebug( debug, 'block:', block )         
+    let blockId = block.getAttribute( 'id' )
+    let container = block.querySelector( '.event-templates-radio-option' )
+    let optionInput = block.querySelector( '.event-template-option' )
+
+    ///// Validate Templates Storage.
+    const templatesStorageValidation = validateTemplatesStorage()
+    consoleDebug( debug, 'templatesStorageValidation:', templatesStorageValidation )
+    if ( templatesStorageValidation.error !== false ) return validationReturn( validationElement, templatesStorageValidation.response )
+    let templateList = templatesStorageValidation.response.templateList
+    
+    ///// Get Template radio elements.
+    const radioList = block.querySelectorAll( '.template-radio-input' )
+    consoleDebug( debug, 'radioList:', radioList )
+
+    ///// Set default to 'false'.
+    let radioAndTemplate = false
+
+    ///// For each Template in Storage.
+    for( let i = 0; i < templateList.length; i++ ) {
+        consoleDebug( debug, 'templateList-'+i+':', templateList[i] )
+
+        if ( templateId == templateList[i].templateCreationDate ) {
+            radioAndTemplate = true
+        }
+
+        ///// Create Template radio element.
+        templateElement = `                               
+            <label for="${ blockId }-${ templateList[i].templateCreationDate }-input" class="template-radio-input input-outer flex-wrap" onclick="closeEventTemplates(${ templateList[i].templateCreationDate })">
+                <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" name="event-template" value="${ templateList[i].templateCreationDate }">
+                <p>${ templateList[i].templateName }</p>
+            </label>
+        `
+
+        ///// Set default to 'false'.
+        let radioListInput = false
+
+        ///// For each Template radio element.
+        radioList.forEach( radioElement => {
+            consoleDebug( debug, 'radioElement:', radioElement )           
+            ///// Set to 'true' if Template radio element Id is the same as Template in Storage.
+            if ( templateList[i].templateCreationDate == radioElement.querySelector( 'input' ).value ) {
+                radioListInput = true
+            }
+        })
+
+        ///// If the variable is 'false'.
+        if ( radioListInput === false ){
+            ///// Add element to the container.
+            container.insertAdjacentHTML( 'beforeEnd', templateElement )
+        }
+    }
+
+    ///// Add and remove classes to elements.
+    optionInput.classList.remove('active')
+    container.classList.add('active')
+
+    if ( radioAndTemplate === true ) {
+        return returnResponse( false, 200, 'Template Found.' )
+    } else {
+        return returnResponse( true, 400, 'Could not find Template.' )
+    }
+}
+
+
+
+////////////////////////////////////////
+/////// Block [Create new Event] - Close Templates option. 
+////////////////////////////////////////
+function closeEventTemplates( templateId, block ) {
+    ///// Get the elements.
+    if ( ! block ) {
+        block = event.target.closest( 'section[id*="op-block"]' )
+    }
+
+    let optionInput = block.querySelector( '.event-template-option' )
+    let container = block.querySelector( '.event-templates-radio-option' )
+    
+    if ( templateId != false ) {
+        let blockId = block.getAttribute( 'id' )
+
+        let radioElement = block.querySelector( `[for="${ blockId }-${ templateId }-input"]` )
+        let radioText = radioElement.querySelector('p').textContent
+
+        ///// Add text to element.
+        optionInput.querySelector('.event-template-option-input').innerHTML = radioText
+        
+        ///// Add class to element.
+        optionInput.classList.add('active')
+    }
+    
+    ///// Remove class to element.
+    container.classList.remove('active')
+}
 
 
 
@@ -98,6 +233,7 @@ async function createGridFromCsv() {
     ///// Add the class active to the grid element.
     block.querySelector( '.responses' ).classList.add('active')
 
+    ///// Create new Grid Element.
     eventGridElement = new DataGridXL( `${ blockId }-event-grid`, {
         data: jsonResponse,
         /* colHeaderLabelFunction: function(index, id, field, title, labels){
@@ -173,6 +309,7 @@ async function createNewEvent() {
     let eventItem = { 
         eventCreationDate : creationDate, 
         eventName : formElement[ 'event-name' ].value, 
+        eventTemplate : formElement[ 'event-template' ].value,
         eventParticipants : jsonResponse
     }
     
@@ -232,7 +369,7 @@ async function showListOfEventUrls( block ) {
     consoleDebug( debug, 'eventList:', eventList )
             
     ///// Validate JSON Event List from Storage. 
-    if ( ! eventList[0] ) return validateEventParticipants( `Block [Show List of Event URL's] - This Page could not find any Event ULR's!` )
+    if ( ! eventList[0] ) return validateEventList( `Block [Show List of Event URL's] - This Page could not find any Event ULR's!` )
 
     ///// For each Event create URL Element.
     for( var i = 0; i < eventList.length; i++ ) {
@@ -297,7 +434,7 @@ async function showEventParticipants( block ) {
     if ( ! eventItem[0] ) return validateEventList( 'Block [Show Event Participants] - This Page could not find any Event to Show!' )
     
     ///// Add element to the container.
-    blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem[0].eventName } - ${ eventItem[0].eventCreationDate }</h3>` )
+    blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem[0].eventName } - ${ eventItem[0].eventCreationDate } | <b>Template:</b> ${ eventItem[0].eventTemplate }</h3>` )
     
     ///// Get Participants. 
     let eventParticipants = eventItem[0].eventParticipants
