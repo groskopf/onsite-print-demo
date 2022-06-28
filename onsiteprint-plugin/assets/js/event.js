@@ -490,3 +490,122 @@ async function showEventParticipants( block ) {
     }
 
 }
+
+
+
+////////////////////////////////////////
+/////// Show Event Participants
+////////////////////////////////////////
+async function searchEventParticipants() {
+
+    ///// Debug the function
+    let debug = false // true or false
+    
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let blockId = block.getAttribute( 'id' )
+    let validationElement = block.querySelector( '.validation-info' )
+    let showEventBlock, showEventBlocks = document.querySelectorAll( '.op-show-event-participants' )
+    consoleDebug( debug, 'showEventBlocks:', showEventBlocks )
+
+    ///// Clear the Validation Info Element. 
+	validationElement.innerHTML = ''
+    validationElement.classList.remove( 'active' )
+  
+    if ( showEventBlocks.length == 0 ) {
+        return validationReturn( validationElement, 'There are no block!' )
+    } else {
+        for( var i = 0; i < showEventBlocks.length; i++ ) {   
+            showEventBlock = showEventBlocks[i]
+            consoleDebug( debug, 'showEventBlock:', showEventBlocks[i] )
+            
+            let searchInput = block.querySelector(`#${ blockId }-event-search-input`)//.value
+            let eventListId = showEventBlock.getAttribute( 'data-event-id' )
+            let blockContent = showEventBlock.querySelector( '.content' )
+
+            ///// Clear the Block Content Element. 
+            blockContent.innerHTML = ''
+
+            ///// Get Events Storage.
+            let eventStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
+            
+            ///// Validate Event List. 
+            if ( eventListId == false || ! eventStorage || ! eventStorage.eventList ) return validationReturn( validationElement, 'Block [Show Event Participants] - This Page has no Event to Show!' )
+            
+            ///// Get Event List. 
+            let eventList = eventStorage.eventList
+            consoleDebug( debug, 'eventList:', eventList )
+
+            ///// Search in Event List.
+            const eventSearch = searchInObject( eventList, 'eventCreationDate', Number( eventListId ) )
+            consoleDebug( debug, 'eventSearch:', eventSearch )
+            if ( eventSearch.error !== false ) return validationReturn( validationElement, eventSearch.response )
+            let eventItem = eventSearch.response.search
+            
+            ///// Validate Event Item from Storage. 
+            if ( ! eventItem ) return validationReturn( validationElement, 'Block [Show Event Participants] - This Page could not find any Event to Show!' )
+            
+            ///// Add element to the container.
+            blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem.eventName } - ${ eventItem.eventCreationDate } | <b>Template:</b> ${ eventItem.eventTemplate }</h3><div class="inner"></div>` )
+            
+            ///// Get Participant List. 
+            let participantList = eventItem.eventParticipants
+            consoleDebug( debug, 'participantList:', participantList )
+
+            const eventParticipants = universalSearch( searchInput, participantList, ['line1'] )
+            consoleDebug( debug, 'search:', eventParticipants )
+            
+            ///// Create Participant variables.
+            let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTime, participantActive, participantElement
+            
+            ///// For each Participant create Participant Element. 
+            for( var i = 0; i < eventParticipants.length; i++ ) {
+
+                participantId = eventParticipants[i].id
+                participantline1 = eventParticipants[i].line1
+                participantline2 = eventParticipants[i].line2
+                participantline3 = eventParticipants[i].line3
+                participantline4 = eventParticipants[i].line4
+                participantline5 = eventParticipants[i].line5
+                participantPrints = eventParticipants[i].prints
+                participantTime = timeConverter( eventParticipants[i].time, 'time' )
+                participantActive = eventParticipants[i].active
+                
+                participantElement = `
+                    <artikle id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
+                        <header>
+                            <figure>
+                                <span class="icon"></span>
+                            </figure>
+                            <div class="time">
+                                <p class="arrival-time">${ participantTime }</p>
+                            </div>
+                            <div class="list-info">
+                                <p class="line-1">${ participantline1 }</p>
+                                <p class="line-2">${ participantline2 }</p>
+                                <p class="line-3">${ participantline3 }</p>
+                                <p class="line-4">${ participantline4 }</p>
+                                <p class="line-5">${ participantline5 }</p>
+                            </div>
+                            <figure>
+                                <button class="print-button" onclick="printParticipant('${ participantId }'); return false">Print</button>
+                                <figcaption class="amount-of-print">${ participantPrints }</figcaption>
+                            </figure>
+                        </header>
+                        <footer>
+                            <p class="message"></p>
+                            <p class="arrival-time">${ participantTime }</p>
+                        </footer>
+                    </artikle>
+                `
+
+                ///// Add element to the container. 
+                blockContent.querySelector('.inner').insertAdjacentHTML( 'afterbegin', participantElement )
+
+            }
+
+        }
+    }
+
+
+}

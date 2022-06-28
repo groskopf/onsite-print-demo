@@ -131,13 +131,24 @@ function onsiteprint_acf_init() {
 
 		// register the [Show Event Participants] block.
 		acf_register_block(array(
-			'name'				=> 'onsiteprint-show-event-list',
-			'title'				=> __('Show Event List'),
-			'description'		=> __('[Front-end] Shows a Single Event List.'),
+			'name'				=> 'onsiteprint-show-event-participants',
+			'title'				=> __('Show Event Participants'),
+			'description'		=> __('[Front-end] Shows a list of Event Participants.'),
 			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event/show-event-participants.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
 			'keywords'			=> array( 'page', 'event', 'show', 'participants', 'onsiteprint' ),
+		));
+
+		// register the [Search for Event Participants] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-search-event-participants',
+			'title'				=> __('Search for Event Participants'),
+			'description'		=> __('[Front-end] Search for Event Participants.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event/search-event-participants.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'search',
+			'keywords'			=> array( 'page', 'event', 'search', 'participants', 'onsiteprint' ),
 		));
 
 	}

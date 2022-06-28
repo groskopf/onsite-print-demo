@@ -108,7 +108,7 @@ async function printParticipant( participantId ) {
     consoleDebug( debug, 'fetchResponse:', fetchResponse )
 
     const fetchResponseValidation = validateFetchResponse( fetchResponse )
-    consoleDebug( true, 'fetchResponseValidation:', fetchResponseValidation )
+    consoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
 
     ///// If the Fetch Response has an Error.
     if ( fetchResponseValidation.error !== false && validationElement ) return validationReturn( validationElement, fetchResponseValidation.response )
@@ -120,7 +120,7 @@ async function printParticipant( participantId ) {
         let dateNow = Date.now()
 
         for( var i = 0; i < participantList.length; i++ ) {
-            consoleDebug( true, 'Participant:', participantList[i] )
+            consoleDebug( debug, 'Participant:', participantList[i] )
 
             if ( participantList[i].id === participantId ) {
                 consoleDebug( debug, `${ participantList[i].id }:`, 'Participant was updated!' )
