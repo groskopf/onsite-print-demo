@@ -453,7 +453,7 @@ async function showEventParticipants( block ) {
         participantline4 = eventParticipants[i].line4
         participantline5 = eventParticipants[i].line5
         participantPrints = eventParticipants[i].prints
-        participantTime = eventParticipants[i].time
+        participantTime = timeConverter( eventParticipants[i].time, 'time' )
         participantActive = eventParticipants[i].active
         
         participantElement = `
@@ -462,8 +462,8 @@ async function showEventParticipants( block ) {
                     <figure>
                         <span class="icon"></span>
                     </figure>
-                    <div class="arrival-time">
-                        <p>${ participantTime }</p>
+                    <div class="time">
+                        <p class="arrival-time">${ participantTime }</p>
                     </div>
                     <div class="list-info">
                         <p class="line-1">${ participantline1 }</p>
@@ -473,7 +473,7 @@ async function showEventParticipants( block ) {
                         <p class="line-5">${ participantline5 }</p>
                     </div>
                     <figure>
-                        <button class="print-button">Print</button>
+                        <button class="print-button" onclick="printParticipant('${ participantId }'); return false">Print</button>
                         <figcaption class="amount-of-print">${ participantPrints }</figcaption>
                     </figure>
                 </header>

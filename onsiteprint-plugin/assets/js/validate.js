@@ -210,6 +210,46 @@ function validateEventsStorage() {
 
 
 ////////////////////////////////////////
+/////// Search in Array / JSON / Object
+////////////////////////////////////////
+function searchInObject( object, perimeter, value ) {
+
+    try {
+
+        ///// If the function Perimeters are missing.
+        if ( ! object || ! perimeter || ! value ) {
+            throw 'Missing function Perimeters!'
+        }
+        
+        let list, 
+            searchElement, 
+            searchObject = object.filter( template => template[ perimeter ] === value )
+    
+        ///// If Search are empty or undefined.
+        if ( searchObject == '' || searchObject == undefined ) {
+            throw 'Could not find anything!'
+        }
+        
+        ///// If Search are a list.
+        if ( searchObject.length === 1 ) {
+            list = false
+            searchElement = searchObject[0]
+        } else {
+            list = true
+            searchElement = searchObject
+        }
+
+        return returnResponse( false, 200, searchElement = { list: list, search: searchElement } )
+    
+    } catch( validateError ) {
+        return returnResponse( true, 400, validateError )
+    }
+
+}
+
+
+
+////////////////////////////////////////
 /////// Return Validation in Element
 ////////////////////////////////////////
 function validationReturn( validationElement, message ) {

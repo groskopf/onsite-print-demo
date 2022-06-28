@@ -57,6 +57,38 @@ listen( 'load', window, checkLogin() )
 
 
 ////////////////////////////////////////
+/////// Time Converter
+////////////////////////////////////////
+function timeConverter( timestamp, display ){
+    
+    let time
+    let a = new Date( timestamp )
+
+    if ( a == 'Invalid Date' ) {
+        return ''
+    }
+
+    let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    let year = a.getFullYear()
+    let month = months[ a.getMonth() ]
+    let date = a.getDate()
+    let hour = a.getHours()
+    let min = a.getMinutes()
+    let sec = a.getSeconds()
+
+    if ( display == 'time' ) {
+        time = `${hour}:${min}`
+    } if ( display == 'fuld' ) {
+        time = `${date}. ${month} - ${year} (${hour}:${min}:${sec})`
+    }
+
+    return time
+
+}
+
+
+
+////////////////////////////////////////
 /////// Open Content
 ////////////////////////////////////////
 function openContent() {

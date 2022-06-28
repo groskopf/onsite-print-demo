@@ -428,3 +428,17 @@ body[data-loged-in="true"] [id*="-login"] .content {
     justify-content: space-between;
     padding-top: .5rem;
 }
+
+
+
+[id*="op-block"] .op-event-item .icon {
+    background: #61affe;
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 5rem;
+}
+
+[id*="op-block"] .op-event-item[data-op-arrival="1"] .icon {
+    background: #49cc90;
+}

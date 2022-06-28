@@ -3,47 +3,51 @@
  * Plugin Name: OnsitePrint Plugin
  * Plugin URI: http://onsiteprint.dk/
  * Description: This is a plugin to the site http://onsiteprint.dk/.
- * Version: 1.0
+ * Version: 1.0.0.1
  * Author: Gerdes Group
  * Author URI: https://www.clarify.nu/
  */
 
 
 define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
+define( 'ONSITEPRINT_VERSION', '1.0.0.1' );
 
 
 /*	Enqueue scripts. */ 
 function onsiteprint_enqueue_scripts() {
-	wp_enqueue_script( 'onsiteprint-datagridxl-js', 'https://code.datagridxl.com/datagridxl2.js', array(),  '', true );
+	wp_enqueue_script( 'onsiteprint-datagridxl', 'https://code.datagridxl.com/datagridxl2.js', array(),  '', true );
 
-	wp_enqueue_script( 'onsiteprint-plugin-js', ONSITEPRINT_DIR . '/assets/js/plugin.js', array(),  wp_get_theme()->get( 'Version' ), true );
+	wp_enqueue_script( 'onsiteprint-plugin', ONSITEPRINT_DIR . '/assets/js/plugin.js', array(),  ONSITEPRINT_VERSION, true );
 
-	wp_enqueue_script( 'onsiteprint-validate-js', ONSITEPRINT_DIR . '/assets/js/validate.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-validate-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-validate', ONSITEPRINT_DIR . '/assets/js/validate.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-validate', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-fetch-js', ONSITEPRINT_DIR . '/assets/js/fetch.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-fetch-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-fetch', ONSITEPRINT_DIR . '/assets/js/fetch.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-fetch', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-log-switch-js', ONSITEPRINT_DIR . '/assets/js/log-switch.js', array(),  wp_get_theme()->get( 'Version' ), true );
+	wp_enqueue_script( 'onsiteprint-log-switch', ONSITEPRINT_DIR . '/assets/js/log-switch.js', array(),  ONSITEPRINT_VERSION, true );
 
-	wp_enqueue_script( 'onsiteprint-fast-api-js', ONSITEPRINT_DIR . '/assets/js/fast-api.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-fast-api-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-fast-api', ONSITEPRINT_DIR . '/assets/js/fast-api.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-fast-api', 'async', true );
 	
-	wp_enqueue_script( 'onsiteprint-bookings-js', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-bookings-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-bookings', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-bookings', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-template-js', ONSITEPRINT_DIR . '/assets/js/template.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-template-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-template', ONSITEPRINT_DIR . '/assets/js/template.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-template', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-event-js', ONSITEPRINT_DIR . '/assets/js/event.js', array(),  wp_get_theme()->get( 'Version' ), true );
-	wp_script_add_data( 'onsiteprint-event-js', 'async', true );
+	wp_enqueue_script( 'onsiteprint-event', ONSITEPRINT_DIR . '/assets/js/event.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-event', 'async', true );
+
+	wp_enqueue_script( 'onsiteprint-print', ONSITEPRINT_DIR . '/assets/js/print.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_script_add_data( 'onsiteprint-print', 'async', true );
 }
 add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_scripts' );
 
 
 /*	Enqueue styles. */ 
 function onsiteprint_enqueue_styles() {
-	wp_enqueue_style( 'onsiteprint-styles-css', ONSITEPRINT_DIR . '/assets/css/onsiteprint-styles.css', array(), wp_get_theme()->get( 'Version' ) );
+	wp_enqueue_style( 'onsiteprint-plugin-styles', ONSITEPRINT_DIR . '/assets/css/onsiteprint-styles.css', array(), ONSITEPRINT_VERSION );
 }
 add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_styles', 20, 1 );
 
