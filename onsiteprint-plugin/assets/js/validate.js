@@ -221,7 +221,6 @@ function searchInObject( object, perimeter, value ) {
             throw 'Missing function Perimeters!'
         }
         
-        console.log( perimeter, value )
         let list, 
             searchElement, 
             searchObject = object.filter( template => template[ perimeter ] == value )

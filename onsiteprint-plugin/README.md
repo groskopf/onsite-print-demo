@@ -8,3 +8,4 @@ First WordPress Plugin
 > - \[Block\] Create New Event
 > - \[Block\] Show List of Event Participants
 > - \[Block\] Show List of Event URL’s
+> - \[Block\] Search for Event Participants

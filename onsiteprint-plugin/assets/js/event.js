@@ -1,7 +1,55 @@
 ////////////////////////////////////////
+/////// Check [Search Event Participants] Blocks is on page
+////////////////////////////////////////
+function checkSearchEventParticipantsBlocks() {
+
+    ///// Debug the function.
+    let debug = false // true or false 
+
+    let blocks = document.querySelectorAll( '.op-search-event-participants' )
+    consoleDebug( debug, 'blocks:', blocks )
+
+    if ( blocks ) {
+        for( var i = 0; i < blocks.length; i++ ) {   
+
+            ///// Get the elements.
+            let blockId = blocks[i].getAttribute( 'id' )
+            let filterRadioElement, filterElement = blocks[i].querySelector('.filter-radio-options')
+            let strings = [ 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5' ]
+
+            blocks[i].querySelector('.filter-option').innerText = strings[0]
+
+            if ( strings ) {                  
+
+                ///// For each Template in Storage.
+                for( let i = 0; i < strings.length; i++ ) {
+                    consoleDebug( debug, `string-${i}:`, strings[i] )
+
+                    ///// Create Template radio element.
+                    filterRadioElement = `                               
+                        <label for="${ blockId }-line-${ i+1 }-input" class="filter-radio-input input-outer flex-wrap" onclick="searchFilterToggle('radio','line${ i+1 }')">
+                            <input type="radio" id="${ blockId }-line-${ i+1 }-input" name="filter-option" value="line${ i+1 }">
+                            <p>${ strings[i] }</p>
+                        </label>
+                    `
+
+                    ///// Add element to the container.
+                    filterElement.insertAdjacentHTML( 'beforeEnd', filterRadioElement )
+                }
+
+                searchFilterToggle( 'fucktion', 'line1', blocks[i] )
+            }
+        }
+    }
+}
+listen( 'load', window, checkSearchEventParticipantsBlocks() )
+
+
+
+////////////////////////////////////////
 /////// Check if multible [Create new Event] Blocks is on page
 ////////////////////////////////////////
-function checkCreateEventBlock() {
+function checkCreateEventBlocks() {
 
     ///// Debug the function.
     let debug = false // true or false 
@@ -15,7 +63,7 @@ function checkCreateEventBlock() {
                 blocks[i].setAttribute( 'data-block-disable', true )
                 blocks[i].innerHTML = '<div class="validation-info active"><div class="validation-error"><p>Block [Create new Event] is already used on this Page!</p></div></div>'               
             } else {
-                let templateId = getSearchParameters().template
+                let templateId = getUrlParameters().template
 
                 if ( templateId ) {                  
 
@@ -38,14 +86,14 @@ function checkCreateEventBlock() {
         }
     }
 }
-listen( 'load', window, checkCreateEventBlock() )
+listen( 'load', window, checkCreateEventBlocks() )
 
 
 
 ////////////////////////////////////////
 /////// Check if [Show List of Event URL's] Blocks is on page
 ////////////////////////////////////////
-function checkShowListOfEventUrlsBlock() {
+function checkShowListOfEventUrlsBlocks() {
     let blocks = document.querySelectorAll( '.op-show-list-of-event-urls' )
     //console.log(blocks)
 
@@ -56,14 +104,14 @@ function checkShowListOfEventUrlsBlock() {
     }
 
 }
-listen( 'load', window, checkShowListOfEventUrlsBlock() )
+listen( 'load', window, checkShowListOfEventUrlsBlocks() )
 
 
 
 ////////////////////////////////////////
 /////// Check if [Show Event Participants] Blocks is on page
 ////////////////////////////////////////
-function checkShowEventParticipantsBlock() {
+function checkShowEventParticipantsBlocks() {
     let blocks = document.querySelectorAll( '.op-show-event-participants' )
     //console.log(blocks)
 
@@ -74,7 +122,7 @@ function checkShowEventParticipantsBlock() {
     }
 
 }
-listen( 'load', window, checkShowEventParticipantsBlock() )
+listen( 'load', window, checkShowEventParticipantsBlocks() )
 
 
 
@@ -519,7 +567,9 @@ async function searchEventParticipants() {
             showEventBlock = showEventBlocks[i]
             consoleDebug( debug, 'showEventBlock:', showEventBlocks[i] )
             
-            let searchInput = block.querySelector(`#${ blockId }-event-search-input`)//.value
+            let formElement = block.querySelector( '.search-form' )
+            let searchInput = formElement['search-input']
+            let filterInput = formElement['filter-option'].value
             let eventListId = showEventBlock.getAttribute( 'data-event-id' )
             let blockContent = showEventBlock.querySelector( '.content' )
 
@@ -552,7 +602,7 @@ async function searchEventParticipants() {
             let participantList = eventItem.eventParticipants
             consoleDebug( debug, 'participantList:', participantList )
 
-            const eventParticipants = universalSearch( searchInput, participantList, ['line1'] )
+            const eventParticipants = universalSearch( searchInput, participantList, [filterInput] )
             consoleDebug( debug, 'search:', eventParticipants )
             
             ///// Create Participant variables.
@@ -606,6 +656,37 @@ async function searchEventParticipants() {
 
         }
     }
+}
 
+
+
+////////////////////////////////////////
+/////// Toggle [Search Event Participants] Block filter element
+////////////////////////////////////////
+function searchFilterToggle( type, radioId, block ) {
+
+    ///// Get the elements.
+    if ( ! block ) {
+        block = event.target.closest( 'section[id*="op-block"]' )
+    }
+
+    let filterElement = block.querySelector('.filter-radio-options')
+    
+    if ( type != false ) {
+        let blockId = block.getAttribute( 'id' )
+        let filterRadio = block.querySelector(`#${ blockId }-line-${ radioId.charAt(4) }-input`)
+
+        if ( type != 'radio' && radioId === 'line1' ) return filterRadio.checked = true
+
+        filterRadio.checked = true
+        block.querySelector('.filter-option').innerText = filterRadio.value
+
+        ///// Add and remove classes to elements.
+        filterElement.classList.remove('active')
+
+    } else {
+        ///// Add and remove classes to elements.
+        filterElement.classList.add('active')
+    }
 
 }

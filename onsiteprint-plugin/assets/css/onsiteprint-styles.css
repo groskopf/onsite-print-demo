@@ -46,7 +46,8 @@ section[id*="op-block"].last {
 [id*="op-block"] .validation-info,
 body[data-loged-in="false"] [id*="-logout"].op-block__wrapper,
 body[data-loged-in="true"] [id*="-login"].op-block__wrapper,
-[id*="op-block"] .op-block__inner:not(.active) .op-block__wrapper {
+[id*="op-block"] .op-block__inner:not(.active) .op-block__wrapper,
+[id*="op-block"] .filter-radio-options:not(.active) {
     display: none;
 }
 

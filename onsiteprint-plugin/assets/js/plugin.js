@@ -15,9 +15,9 @@ function listen( evnt, elem, func ) {
 
 
 ////////////////////////////////////////
-///////  Retrieve GET parameters from JavaScript
+///////  Retrieve GET parameters URL
 ////////////////////////////////////////
-function getSearchParameters() {
+function getUrlParameters() {
     let prmstr = window.location.search.substr(1)
     return prmstr != null && prmstr != '' ? transformToAssocArray( prmstr ) : {}
 }
