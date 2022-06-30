@@ -443,3 +443,36 @@ body[data-loged-in="true"] [id*="-login"] .content {
 [id*="op-block"] .op-event-item[data-op-arrival="1"] .icon {
     background: #49cc90;
 }
+
+
+
+@media print {
+
+    table .row-list-info,
+    table .op-event-item header {
+        display: grid;
+        grid-template-columns: auto auto 1fr auto;
+    }
+
+    table .list-info {
+        display: grid;
+        grid-template-columns: repeat( 4, 25% );
+    }
+
+    table.pdf-container {
+        page-break-after: always;
+    }
+
+    table.pdf-container article {
+        page-break-inside: avoid;
+    }
+
+    thead.pdf-header {
+        display: table-header-group;
+    }
+
+    tfoot.pdf-footer {
+        display: table-footer-group;
+    }
+
+}

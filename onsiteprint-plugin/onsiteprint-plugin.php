@@ -151,6 +151,17 @@ function onsiteprint_acf_init() {
 			'keywords'			=> array( 'page', 'event', 'search', 'participants', 'onsiteprint' ),
 		));
 
+		// register the [Print Event Participants] block.
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-print-event-participants',
+			'title'				=> __('Print Event Participants'),
+			'description'		=> __('[Front-end] Print Event Participants.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event/print-event-participants.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'printer',
+			'keywords'			=> array( 'page', 'event', 'print', 'participants', 'onsiteprint' ),
+		));
+
 	}
 }
 add_action('acf/init', 'onsiteprint_acf_init');

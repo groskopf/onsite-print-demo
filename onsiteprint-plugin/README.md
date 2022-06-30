@@ -9,3 +9,4 @@ First WordPress Plugin
 > - \[Block\] Show List of Event Participants
 > - \[Block\] Show List of Event URL’s
 > - \[Block\] Search for Event Participants
+> - \[Block\] Print Event Participants

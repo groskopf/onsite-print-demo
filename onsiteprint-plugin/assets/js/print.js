@@ -151,3 +151,113 @@ async function printParticipant( participantId ) {
     window.open(windowUrl, '_blank').focus()
 
 }
+
+
+
+////////////////////////////////////////
+/////// Print Event Participants
+////////////////////////////////////////
+function printEventParticipanta( eventListId ) {
+
+    ///// Debug the function
+    let debug = false // true or false 
+    
+    ///// Get Events Storage. 
+    let eventStorage = JSON.parse( localStorage.getItem( 'OP_PLUGIN_DATA_EVENTS' ) )   
+    
+    ///// Validate Event List. 
+    if ( eventListId == false || ! eventStorage || ! eventStorage.eventList ) return validateEventList( 'Block [Show Event Participants] - This Page has no Event to Show!' )
+    
+    ///// Get Event List. 
+    let eventList = eventStorage.eventList
+    consoleDebug( debug, 'eventList:', eventList )
+    
+    ///// Get Event Item. 
+    let eventItem = eventList.filter( eventList => eventList.eventCreationDate === Number( eventListId ) )
+    consoleDebug( debug, eventListId+':', eventItem )
+    
+    ///// Validate Event Item from Storage. 
+    if ( ! eventItem[0] ) return validateEventList( 'Block [Show Event Participants] - This Page could not find any Event to Show!' )
+
+    let eventName = eventItem[0].eventName
+
+    let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
+    
+    printWindow = window.open( '', 'PRINT', 'height=' + screen.height + ',width=' + screen.width )
+    printWindow.document.write( `<html><head><title>${ pageTitle }</title><link rel="stylesheet" id="onsiteprint-plugin-styles-css" href="http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles.css" media="all"></head>` )
+    printWindow.document.write( '<body onafterprint="self.close()">' )
+
+    let strings = [ 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5' ]
+    
+    let header = `<h3><b>Event:</b> ${ eventItem[0].eventName } | <b>OnsitePrint.dk</b></h3>`
+    
+    let rowListInfo = `<div class="row-list-info"><p>Id</p><p>Time</p><div class="list-info"><p>${ strings[0] }</p><p>${ strings[1] }</p><p>${ strings[2] }</p><p>${ strings[3] }</p><p>${ strings[4] }</p></div><p>Prints</p></div>`
+    
+    ///// Add element to the container.
+    printWindow.document.write( `
+        <table id="op-block class="pdf-container">
+            <thead class="pdf-header">
+                <tr><th class="pdf-header-cell">
+                    <div class="header-info">${ header }${ rowListInfo }</div>
+                </th></tr>
+            </thead>
+            <tfoot class="pdf-footer">
+                <tr><td class="pdf-footer-cell">
+                    <div class="footer-info">${ rowListInfo }</div>
+                </td></tr>
+            </tfoot>
+            <tbody class="pdf-content">
+        `
+    )
+        
+    ///// Get Participants. 
+    let eventParticipants = eventItem[0].eventParticipants
+    consoleDebug( debug, 'eventParticipants:', eventParticipants )
+    
+    ///// Create Participant variables. 
+    let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTime, participantActive, participantElement
+    
+    ///// For each Participant create Participant Element. 
+    for( var i = 0; i < eventParticipants.length; i++ ) {
+
+        participantId = eventParticipants[i].id
+        participantline1 = eventParticipants[i].line1
+        participantline2 = eventParticipants[i].line2
+        participantline3 = eventParticipants[i].line3
+        participantline4 = eventParticipants[i].line4
+        participantline5 = eventParticipants[i].line5
+        participantPrints = eventParticipants[i].prints
+        participantTime = timeConverter( eventParticipants[i].time, 'time' )
+        participantActive = eventParticipants[i].active
+        
+        participantElement = `
+            <tr class="pdf-row"><td>
+                <article id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
+                    <header>
+                        <p class="number">${ i+1 }</p>
+                        <p class="arrival-time">${ participantTime }</p>
+                        <div class="list-info">
+                            <p class="line-1">${ participantline1 }</p>
+                            <p class="line-2">${ participantline2 }</p>
+                            <p class="line-3">${ participantline3 }</p>
+                            <p class="line-4">${ participantline4 }</p>
+                            <p class="line-5">${ participantline5 }</p>
+                        </div>
+                        <p class="amount-of-print">${ participantPrints }</p>
+                    </header>
+                </article>
+            </td></tr>
+        `
+
+        ///// Add element to the container. 
+        printWindow.document.write( participantElement );
+        
+    }
+    
+    printWindow.document.write( '</tbody></table></body></html>' );
+
+    printWindow.print()
+    printWindow.close()
+
+    return true
+}

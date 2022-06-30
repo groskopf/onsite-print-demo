@@ -505,7 +505,7 @@ async function showEventParticipants( block ) {
         participantActive = eventParticipants[i].active
         
         participantElement = `
-            <artikle id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
+            <article id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
                 <header>
                     <figure>
                         <span class="icon"></span>
@@ -529,7 +529,7 @@ async function showEventParticipants( block ) {
                     <p class="message"></p>
                     <p class="arrival-time">${ participantTime }</p>
                 </footer>
-            </artikle>
+            </article>
         `
 
         ///// Add element to the container. 
@@ -622,7 +622,7 @@ async function searchEventParticipants() {
                 participantActive = eventParticipants[i].active
                 
                 participantElement = `
-                    <artikle id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
+                    <article id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
                         <header>
                             <figure>
                                 <span class="icon"></span>
@@ -646,7 +646,7 @@ async function searchEventParticipants() {
                             <p class="message"></p>
                             <p class="arrival-time">${ participantTime }</p>
                         </footer>
-                    </artikle>
+                    </article>
                 `
 
                 ///// Add element to the container. 
