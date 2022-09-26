@@ -1,16 +1,166 @@
-/*
-Theme Name: Onsiteprint.dk
-Theme URI: https://wordpress.org/themes/twentytwentytwo/
-Template: twentytwentytwo
-Author: Gerdes Group
-Author URI: https://www.clarify.nu/
-Description: This is a child theme of the WordPress theme Twenty Twenty-Two.
-Tags: one-column,custom-colors,custom-menu,custom-logo,editor-style,featured-images,full-site-editing,block-patterns,rtl-language-support,sticky-post,threaded-comments
-Version: 1.2.1654777763
-Updated: 2022-06-09 12:29:23
+/* ------------------------------------------------------------------------
 
-*/
+ *  Theme Name: Onsiteprint.dk
+ *  Theme URI: https://wordpress.org/themes/twentytwentytwo/
+ *  Template: twentytwentytwo
+ *  Author: Gerdes Group
+ *  Author URI: https://www.clarify.nu/
+ *  Description: This is a theme based of the WordPress theme Twenty Twenty-Two 1.0.
+ *  Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments
+ *  Version: 1.0.0.5
+ ?  Updated: (Y:m:d - H:i) 2022-12-08 - 10:13
+
+---------------------------------------------------------------------------
+ #  TABLE OF CONTENTS:
+---------------------------------------------------------------------------
+
+	0. 	List of upcoming tasks
+	1. 	CSS Reset
+	2. 	Document Setup
+	3. 	Element Base
+	4. 	Additional Classes
+	5. 	Site Header
+    6. 	Menu Modal
+	7. 	Search Modal
+	8. 	Page Templates
+		a. 	Template: Cover Template
+		c. 	Template: Full Width
+	9.  Post: Archive
+	10. Post: Single
+	11. Blocks
+		a. 	ACF Blocks
+	12. Entry Content
+	13. Comments
+	14. Site Pagination
+	15. Error 404
+	16. Widgets
+	17. Site Footer
+	18. Media Queries
+    
+---------------------------------------------------------------------------
+ &  0. List of upcoming tasks
+---------------------------------------------------------------------------
+
+    1. More variables of Colors and Icons
+    2. Media Queries
+
+---------------------------------------------------------------------------
+ #  1. CSS Reset
+--------------------------------------------------------------------------- */
 
 html {
     font-size: 62.5%;
+    background-color: #f2f2f2;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Heebo, Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* ------------------------------------------------------------------------
+ #  2. Document Setup
+--------------------------------------------------------------------------- */
+
+:root {
+    /* HEX colors */
+    --hex-blue: #339;
+    --hex-blue-light: #33C;
+    --hex-teal: #3CC;
+    --hex-teal-light: #3DD;
+    
+    /* RGB colors */
+    --rgb-blue: 51, 51, 153;
+    --rgb-blue-light: 51, 51, 204;   
+    --rgb-teal: 51, 204, 204;
+    --rgb-teal-light: 51, 221, 221;
+}
+
+/* ------------------------------------------------------------------------
+ #  3. Element Base
+--------------------------------------------------------------------------- */
+
+.wp-site-blocks #main-wrapper {
+    gap: unset;
+}
+
+#main-header,
+#main-header header,
+#main-header header > .wp-block-group,
+#main-sidebar,
+#main-content {
+	display: flex;
+}
+
+#main-header {
+	justify-content: center;
+	position: relative;
+}
+
+#main-header header {
+	position: sticky;
+	width: 100%;
+    max-height: 100vh;
+    top: 0;
+}
+
+#main-header header > .wp-block-group {
+	flex-direction: column;
+    justify-content: space-between;
+	width: 100%;
+}
+
+#main-sidebar {
+	flex-direction: column;
+}
+
+#main-content {
+	flex-direction: column;
+}
+
+/* ------------------------------------------------------------------------
+ #  4. Additional Classes
+--------------------------------------------------------------------------- */
+
+body .full-height {
+    min-height: 100vh;
+}
+
+.logged-in .wp-site-blocks > .full-height {
+    min-height: calc(100vh - 46px);
+}
+
+body .margin-bottom-null{
+    margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------------
+ #  8. Page Templates
+---------------------------------------------------------------------------
+ >  8a. Template: Cover Template
+------------------------------------------------------------ */
+
+/* ---------------------------------------------------------
+ >  8b. Template: Full Width
+------------------------------------------------------------ */
+
+
+
+/* ------------------------------------------
+ >  XXX
+--------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------
+ #  3. Media Queries
+--------------------------------------------------------------------------- */
+
+@media screen and (min-width: 783px) {
+	/* --------------------------------------------------------------------
+	 #  4. Additional Classes
+	----------------------------------------------------------------------- */
+
+	.logged-in .wp-site-blocks > .full-height {
+		min-height: calc(100vh - 32px);
+	}
 }

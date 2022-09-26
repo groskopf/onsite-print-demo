@@ -1,0 +1,601 @@
+/* ------------------------------------------------------------------------
+ *  Theme Name: OnsitePrint Theme
+ *  Theme URI: https://wordpress.org/themes/twentytwentytwo/
+ *  Author: Gerdes Group
+ *  Author URI: https://www.clarify.nu/
+ *  Description: This is a theme based of the WordPress theme Twenty Twenty-Two 1.0.
+ *	Requires at least: 5.9
+ *	Tested up to: 6.0
+ *	Requires PHP: 5.6
+ *	Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments
+ *  Version: 1.0.0.2
+ ?  Updated: (Y:m:d - H:i) 2022-09-09 - 10:16
+
+---------------------------------------------------------------------------
+ #  TABLE OF CONTENTS:
+---------------------------------------------------------------------------
+
+	0. 	List of upcoming tasks
+	1. 	Document Setup
+	2. 	CSS Reset
+	3. 	Element Base
+	4. 	Additional Classes
+	5. 	Site Header
+    6. 	Menu Modal
+	7. 	Search Modal
+	8. 	Page Templates
+		a. 	Template: Cover Template
+		c. 	Template: Full Width
+	9.  Post: Archive
+	10. Post: Single
+	11. Blocks
+		a.	WP Blocks
+			1.	Site Logo 
+			2.	Site Title 
+			3.	Navigation 
+		b. 	ACF Blocks
+	12. Entry Content
+	13. Comments
+	14. Site Pagination
+	15. Error 404
+	16. Widgets
+	17. Site Footer
+	18. Media Queries
+    
+---------------------------------------------------------------------------
+ &  0. List of upcoming tasks
+---------------------------------------------------------------------------
+
+    1. More variables of Colors and Icons
+    1. Menu Modal - overflow
+    1. Aside Modal
+    2. Media Queries
+
+---------------------------------------------------------------------------
+ #  1. Document Setup
+--------------------------------------------------------------------------- */
+
+:root {
+    /* Main Sizes */
+    --size-nav-width: 100vw;
+    --size-nav-height: 5rem;
+    --size-sidebar-width: 100%;
+    --size-sidebar-height: 100%;
+
+	/* HEX colors */
+    --hex-blue: #339;
+    --hex-blue-light: #33C;
+    --hex-teal: #3CC;
+    --hex-teal-light: #3DD;
+    
+    /* RGB colors */
+    --rgb-blue: 51, 51, 153;
+    --rgb-blue-light: 51, 51, 204;   
+    --rgb-teal: 51, 204, 204;
+    --rgb-teal-light: 51, 221, 221;
+	
+    /* Font Awesome Icons */
+    --fa-icon-exclamation: "\21";
+    --fa-icon-circle-exclamation: "\f06a";
+    --fa-icon-house: "\f015";
+    --fa-icon-table-cells: "\f00a";
+    --fa-icon-circle-question: "\f059";
+    --fa-icon-user: "\f007";
+    --fa-icon-check: "\f00c";
+
+	/* OnsitePrint Icons */
+    --op-icon-dashboard: url('assets/icons/icon-dashboard.svg');
+
+}
+
+[data-icon="dashboard"] a::before {
+	content: '';
+	background-image: var(--op-icon-dashboard);
+    background-repeat: no-repeat;
+    background-size: 3.2rem;
+    background-position: center;
+}
+
+[data-icon="house"] a::before {
+	content: var(--fa-icon-house);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="table-cells"] a::before {
+	content: var(--fa-icon-table-cells);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="circle-question"] a::before {
+	content: var(--fa-icon-circle-question);
+    font: var(--fa-font-regular);
+}
+
+
+/* ------------------------------------------------------------------------
+ #  2. CSS Reset
+--------------------------------------------------------------------------- */
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+	padding-top: var(--size-nav-height);
+}
+
+body.admin-bar {
+    height: calc(100vh - var(--wp-admin--admin-bar--height));
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 1rem;
+	height: 1rem;
+}
+  
+/* Track */
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+	background-color: var(--wp--preset--color--primary-80); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background-color: var(--wp--preset--color--primary-100); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--wp--preset--color--accent-60);
+}
+
+* {
+    box-sizing: border-box;
+	scrollbar-color: var(--wp--preset--color--primary-100) var(--wp--preset--color--primary-80);
+  	scrollbar-width: thin;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	margin: 0;
+}
+
+
+/* ------------------------------------------------------------------------
+ #  3. Element Base
+--------------------------------------------------------------------------- */
+
+.wp-site-blocks,
+.wp-site-blocks > header,
+.wp-site-blocks > aside,
+.wp-site-blocks > main {
+	display: flex;
+}
+
+.wp-site-blocks,
+.wp-site-blocks > aside,
+.wp-site-blocks > main {
+	flex-direction: column;
+}
+
+.wp-site-blocks {
+	background-color: var(--wp--preset--color--neutral-10);
+	background-image: var(--wp--preset--gradient--vertical-neutral-20-to-10);
+    height: calc(100vh - var(--size-nav-height));
+	overflow: auto;
+}
+
+.showing-button-toggle-modal .wp-site-blocks {
+	overflow: hidden;
+}
+
+.admin-bar .wp-site-blocks {
+    height: calc(100vh - (var(--wp-admin--admin-bar--height) + var(--size-nav-height)));
+}
+
+.wp-site-blocks > header {
+	background-color: var(--wp--preset--color--primary-90);
+	flex-direction: row;
+    justify-content: space-between;
+	width: 100%;
+	height: var(--size-nav-height);
+	padding: 0;
+    position: fixed;
+    top: 0;
+	left: 0;
+	z-index: 999;
+}
+
+.admin-bar .wp-site-blocks > header {
+	top: var(--wp-admin--admin-bar--height);
+}
+
+.wp-site-blocks > header::after {
+	background-color: inherit;
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+
+.wp-site-blocks > aside {
+	background-color: var(--wp--preset--color--primary-100);
+	width: var(--size-sidebar-width);
+}
+
+
+/* ------------------------------------------------------------------------
+ #  4. Additional Classes
+--------------------------------------------------------------------------- */
+
+body .width-100 {
+	width: 100%;
+}
+
+body .flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+body .flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+body .hide-on-mobile {
+	display: none;
+}
+
+body .hide-on-desktop {
+	display: flex;
+}
+
+body .margin-bottom-null {
+    margin-bottom: 0;
+}
+
+body .padding-top {
+    padding-top: 1rem;
+}
+
+body .padding-right {
+	padding-right: 1rem;
+}
+
+body .padding-bottom {
+    padding-bottom: 1rem;
+}
+
+body .padding-left {
+    padding-left: 1rem;
+}
+
+
+/* ------------------------------------------------------------------------
+ #  5. Site Header
+--------------------------------------------------------------------------- */
+
+header.wp-block-template-part {
+	color: var(--wp--preset--color--neutral-10);
+}
+
+/* ------------------------------------------------------------------------
+ #  6. Menu Modal
+--------------------------------------------------------------------------- */
+
+.wp-block-navigation__responsive-container.is-menu-open {
+	padding: 0;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+	max-height: calc(100vh - var(--size-nav-height));
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content.overflow {
+	overflow-y: scroll;
+}
+
+body.admin-bar .wp-block-navigation__responsive-container {
+	top: var(--size-nav-height);
+}
+
+
+/* ------------------------------------------------------------------------
+ #  8. Page Templates
+---------------------------------------------------------------------------
+ >  8a. Template: Cover Template
+------------------------------------------------------------ */
+
+/* ---------------------------------------------------------
+ >  8b. Template: Full Width
+------------------------------------------------------------ */
+
+
+
+
+
+/* ------------------------------------------------------------------------
+ #  11. Blocks
+---------------------------------------------------------------------------
+ >  11a. WP Blocks
+------------------------------------------------------------
+ >  11a-1. Site Logo
+--------------------------------------------- */
+
+.wp-block-site-logo {
+	/* background-color: var(--wp--preset--color--accent-60); */
+}
+
+.wp-block-site-logo,
+.wp-block-site-logo img {
+	height: var(--size-nav-height);
+    width: auto;
+}
+
+.wp-block-site-logo, 
+.wp-block-site-logo a {
+	display: flex;
+	position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.wp-block-site-logo a::after {
+    content: "";
+	width: calc(100% - 1.4rem);
+    height: calc(100% - 1.4rem);
+    position: absolute;
+    z-index: 0;
+    border: 0.2rem solid transparent;
+    border-radius: 0.4rem;
+	transition: all 0.2s ease-in-out;
+}
+
+.wp-block-site-logo a:hover::after {
+    border-color: white;
+}
+
+/* ------------------------------------------
+ >  11a-2. Site Title
+--------------------------------------------- */
+
+.wp-block-site-title {
+	/* background-color: var(--wp--preset--color--accent-60); */
+	display: flex;
+	justify-content: center;
+	padding: 0;
+}
+
+.wp-block-site-title a {
+	text-decoration: unset;
+	padding: 1rem 2rem;
+    height: var(--size-nav-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+
+/* ------------------------------------------
+ >  11a-3. Navigation
+--------------------------------------------- */
+.wp-block-navigation.width-100 .wp-block-navigation__container,
+.wp-block-navigation.width-100.is-vertical .wp-block-navigation-link,
+.wp-block-navigation.width-100.is-vertical .wp-block-navigation-item,
+.wp-block-navigation.width-100.is-vertical .wp-block-navigation-item__content {
+	width: inherit;
+	display: flex;
+    flex-wrap: var(--navigation-layout-wrap,wrap);
+    flex-direction: var(--navigation-layout-direction,initial);
+    justify-content: var(--navigation-layout-justify,initial);
+    align-items: var(--navigation-layout-align,initial);
+}
+
+.wp-block-navigation.width-100.is-vertical .wp-block-navigation-item__content {
+	flex-direction: row;
+    justify-content: flex-start;
+}
+
+.wp-block-navigation.width-100 .wp-block-navigation__container {
+	padding: 0 1rem;	
+}
+
+.wp-block-navigation.width-100.is-vertical .wp-block-navigation-item {
+	padding: 1rem;	
+}
+
+.wp-block-navigation .wp-block-navigation-item__content::before {
+	font-size: 2.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 1rem;
+    border-radius: 0.4rem;
+	transition: all 0.2s ease-in-out;
+}
+
+.wp-block-navigation :where(.current-menu-item) .wp-block-navigation-item__content::before {
+	background-color: var(--wp--preset--color--primary-100);
+}
+
+.wp-block-navigation .wp-block-navigation-item__content:where( :hover, :focus )::before {
+	background-color: var(--wp--preset--color--accent-60);
+	text-decoration: none;
+	border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.wp-block-navigation .wp-block-navigation-item__content .wp-block-navigation-item__label {
+    font-weight: 500;
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	height: 5rem;
+	padding: 1rem 2rem;
+	border-radius: 0 0.4rem 0.4rem 0;
+	transition: all 0.2s ease-in-out;
+}
+
+.wp-block-navigation .wp-block-navigation-item__content:hover .wp-block-navigation-item__label {
+    background-color: var(--wp--preset--color--accent-70);
+}
+
+
+/* ---------------------------------------------------------
+ >  11a. ACF Blocks
+------------------------------------------------------------ */
+
+
+
+/* ------------------------------------------------------------------------
+ #  18. Media Queries
+--------------------------------------------------------------------------- */
+
+@media screen and ( min-width: 783px ) {
+   
+	/* --------------------------------------------------------------------
+	 #  1. Document Setup
+	----------------------------------------------------------------------- */
+
+	:root {
+		/* Main Sizes */
+		--size-nav-width: 9rem;
+		--size-nav-height: 100%;
+		--size-sidebar-width: 40rem;
+		--size-sidebar-height: 100%;
+	}
+
+
+	/* ------------------------------------------------------------------------
+	 #  2. CSS Reset
+	--------------------------------------------------------------------------- */
+
+	body {
+		padding-top: 0;
+		padding-left: var(--size-nav-width);
+	}
+
+
+	/* --------------------------------------------------------------------
+	 #  3. Element Base
+	----------------------------------------------------------------------- */
+
+	.wp-site-blocks {
+		display: grid;
+		grid-template-columns: var(--size-sidebar-width) auto;
+		height: 100vh;
+	}
+
+	.admin-bar .wp-site-blocks {
+		height: calc(100vh - var(--wp-admin--admin-bar--height));
+	}
+
+	.wp-site-blocks > header {
+		flex-direction: column;
+		justify-content: flex-start;
+		width: var(--size-nav-width);
+		height: var(--size-nav-height);
+	}
+	
+	.admin-bar .wp-site-blocks > header {
+		height: calc(var(--size-nav-height) - var(--wp-admin--admin-bar--height));
+	}
+
+	.wp-site-blocks > header > #header-top {
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+	
+	body .wp-site-blocks > header > :last-child {
+		margin-top: auto;
+	}
+
+	.wp-site-blocks > aside {
+		width: var(--size-sidebar-width);
+	}
+
+
+	/* --------------------------------------------------------------------
+	 #  4. Additional Classes
+	----------------------------------------------------------------------- */
+
+	body .hide-on-mobile {
+		display: flex;
+	}
+
+	body .hide-on-desktop {
+		display: none;
+	}
+	
+
+	/* ------------------------------------------------------------------------
+	 #  11. Blocks
+	---------------------------------------------------------------------------
+	 >  11a. WP Blocks
+	------------------------------------------------------------
+	 >  11a-1. Site Logo
+	--------------------------------------------- */
+
+	.wp-block-site-logo,
+	.wp-block-site-logo img {
+		height: auto;
+		width: var(--size-nav-width);
+	}
+
+	.wp-block-site-logo, 
+	.wp-block-site-logo a {
+		display: flex;
+	}
+
+	
+	/* ------------------------------------------
+	 >  11a-2. Site Title
+	--------------------------------------------- */
+
+	.wp-block-site-title {
+		font-size: var(--wp--preset--font-size--x-small);
+		width: var(--size-nav-width);
+	}
+	
+	.wp-block-site-title a {
+		padding: 0.6rem 1rem;
+	}
+
+		
+	/* ------------------------------------------
+	>  11a-3. Navigation
+	--------------------------------------------- */
+	.wp-block-navigation.width-100.is-vertical .wp-block-navigation-item__content {
+		flex-direction: var(--navigation-layout-direction,initial);
+		justify-content: var(--navigation-layout-justify,initial);
+	}
+
+	.wp-block-navigation .wp-block-navigation-item__content {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.wp-block-navigation .wp-block-navigation-item__content:where( :hover, :focus ) {
+		overflow: visible;
+	}
+
+	.wp-block-navigation .wp-block-navigation-item__content .wp-block-navigation-item__label {
+		position: absolute;
+		left: 100%;
+		z-index: 0;
+		opacity: 0;
+	}
+
+	.wp-block-navigation .wp-block-navigation-item__content:hover .wp-block-navigation-item__label {
+		opacity: 1;
+	}
+
+
+}
