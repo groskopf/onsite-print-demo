@@ -39,22 +39,9 @@ $className .= ' ' . $listColumns;
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-event-id="<?= esc_attr($eventList) ?>">
     <div class="validation-info">Validation Informaiton</div>
-    <div class="op-block__inner active">
+    <div class="op-block__inner">
 
-        <div id="<?= esc_attr($id) ?>-show-event-participants-info" class="op-block__wrapper get active">
-
-            <header onclick="openContent()">               
-                <h3><span>Get</span>Show List of Event Participants</h3>
-                <div class="arrow"></div>
-            </header>
-
-            <div class="content">
-                <div class="inner">
-                    
-                </div>
-            </div>
-
-        </div><!-- #<?= esc_attr($id) ?>-show-event-participants-info -->
+        <div id="<?= esc_attr($id) ?>-show-event-participants-info" class="op-block__wrapper"></div>
 
     </div>
 </section><!-- #<?= esc_attr($id) ?> -->

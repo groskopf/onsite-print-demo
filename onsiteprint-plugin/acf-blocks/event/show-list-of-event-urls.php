@@ -37,18 +37,7 @@ $className .= ' ' . $listColumns;
     <div class="validation-info">Validation Informaiton</div>
     <div class="op-block__inner active">
 
-        <div id="<?= esc_attr($id) ?>-show-list-of-event-urls-info" class="op-block__wrapper post">
-
-            <header onclick="openContent()">               
-                <h3><span>Get</span>Show List of Event URL's</h3>
-                <div class="arrow"></div>
-            </header>
-
-            <div class="content">
-                <div class="response"></div>
-            </div>
-
-        </div><!-- #<?= esc_attr($id) ?>-show-list-of-event-urls-info -->
+        <div id="<?= esc_attr($id) ?>-show-list-of-event-urls-info" class="op-block__wrapper"></div>
 
     </div>
 </section><!-- #<?= esc_attr($id) ?> -->

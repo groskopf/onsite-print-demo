@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-/////// Return the Response
+/////// Return the Response - #NG: Moved
 ////////////////////////////////////////
 function consoleDebug( debug, name, response ) {
     if ( debug == true ) console.log( name, response )
@@ -8,7 +8,7 @@ function consoleDebug( debug, name, response ) {
 
 
 ////////////////////////////////////////
-/////// Return the Response
+/////// Return the Response - #NG: Moved
 ////////////////////////////////////////
 function returnResponse( error, code, response ) {
 
@@ -52,11 +52,11 @@ function validateFetchResponse( validateRequest ) {
 ////////////////////////////////////////
 /////// Validate Form
 ////////////////////////////////////////
-function validateForm( formElemnet, debug ) {
+function validateForm( formElement, debug ) {
     
-    let validatedformResponse, validateErrorCode
+    let validatedFormResponse, validateErrorCode
 
-    let formInputs = formElemnet.querySelectorAll( 'input[required]' )
+    let formInputs = formElement.querySelectorAll( 'input[required]' )
     consoleDebug( debug, 'formInputs:', formInputs )
 
     let validateErrorArray = []
@@ -75,16 +75,16 @@ function validateForm( formElemnet, debug ) {
                 validateErrorCode = 400
                 throw 'The input field is empty!'
             }
-            validatedformResponse = returnResponse( false, 200, 'Validation is approved!' )
+            validatedFormResponse = returnResponse( false, 200, 'Validation is approved!' )
         } catch( validateError ) {
             inputValidation.classList.add( 'active' )
             inputValidation.insertAdjacentHTML( 'afterBegin', `<p>* ${ validateError }</p>` )
             validateErrorArray.push( { id : inputId, type : inputType, message : validateError } )
-            validatedformResponse = returnResponse( true, validateErrorCode, validateErrorArray )
+            validatedFormResponse = returnResponse( true, validateErrorCode, validateErrorArray )
         }
     })
 
-    return validatedformResponse
+    return validatedFormResponse
 }
 
 
@@ -128,7 +128,7 @@ function validateLogin( bookingCode ) {
 
 
 ////////////////////////////////////////
-/////// Validate Bookings Storage
+/////// Validate Bookings Storage - #NG: Moved
 ////////////////////////////////////////
 function validateBookingsStorage() {
 
@@ -156,7 +156,7 @@ function validateBookingsStorage() {
 
 
 ////////////////////////////////////////
-/////// Validate Template Storage
+/////// Validate Template Storage - #NG: Moved
 ////////////////////////////////////////
 function validateTemplatesStorage() {
 
@@ -183,7 +183,7 @@ function validateTemplatesStorage() {
 
 
 ////////////////////////////////////////
-/////// Validate Event Storage
+/////// Validate Event Storage - #NG: Moved
 ////////////////////////////////////////
 function validateEventsStorage() {
 
@@ -298,7 +298,7 @@ function universalSearch( element, objectData = [], combinations = [] ) {
 
 
 ////////////////////////////////////////
-/////// Return Validation in Element
+/////// Return Validation in Element - #NG: Moved
 ////////////////////////////////////////
 function validationReturn( validationElement, message ) {
 

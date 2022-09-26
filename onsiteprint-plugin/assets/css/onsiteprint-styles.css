@@ -1,450 +1,735 @@
-html {
-    font-size: 62.5%;
-    box-sizing: border-box;
+/* ------------------------------------------------------------------------
+
+ *  Plugin Name: OnsitePrint Plugin
+ *  Description: This is the Styles to the OnsitePrint Plugin.
+ *  Author: Gerdes Group
+ *  Author URI: https://www.clarify.nu/
+ ?  Updated: 2022-09-25 - 13:08 (Y:m:d - H:i)
+
+---------------------------------------------------------------------------
+ #  TABLE OF CONTENTS:
+---------------------------------------------------------------------------
+
+	0. 	List of upcoming tasks 
+	1. 	Plugin Setup
+	2. 	ACF Custom Blocks
+		a. 	Block Styles
+		b. 	Block Validation
+		c. 	Blocks:
+            1. 	Log In/Out Button
+            2. 	Toggle Button
+            3. 	Booking Information
+            4. 	Print Information
+            5. 	Event Information
+            6. 	Event Design Information
+
+            x. 	Log in/out (Switch)
+            x. 	Log in
+            x. 	Create new Template
+            x. 	Create new Event
+            x. 	Show List of Event URL's
+            x. 	Show Event Participants
+            x. 	Search for Event Participants
+            x. 	Print Event Participants
+	3. Media Queries
+	4. Print Style
+
+---------------------------------------------------------------------------
+ &  0. List of upcoming tasks
+---------------------------------------------------------------------------
+
+    1. More variables of Colors and Icons
+    2. Media Queries
+
+---------------------------------------------------------------------------
+ #  1. Plugin Setup
+--------------------------------------------------------------------------- */
+
+:root {
+    /* HEX colors */
+    --op-hex-blue: #339;
+    --op-hex-blue-light: #33C;
+    --op-hex-teal: #3CC;
+    --op-hex-teal-light: #3DD;
+    
+    /* RGB colors */
+    --op-rgb-blue: 51, 51, 153;
+    --op-rgb-blue-light: 51, 51, 204;   
+    --op-rgb-teal: 51, 204, 204;
+    --op-rgb-teal-light: 51, 221, 221;
+
+    /* Font Awesome Icons */
+    --op-icon-user: "\f007";
+    --op-icon-check: "\f00c";
 }
 
-[id*="op-block"],
-[id*="op-block"] * {
-    color: #3b4151;
-    font-family: 'Lato', Verdana, Geneva, Tahoma, sans-serif !important;
-    font-size: 1.6rem;
-}
-
-section[id*="op-block"] {
-    background: white;
-    margin-bottom: 1rem;
-    border: .1rem solid darkgrey;
-    border-radius: .3rem;
-    overflow: hidden;
-}
-
-section[id*="op-block"].last {
-    margin: 0;
-}
-
-[id*="op-block"].active .op-block__inner {
-    display: flex;
-    flex-direction: column;
-}
-
-[id*="op-block"] .op-block__inner,
-[id*="op-block"] .active .op-block__inner,
-[id*="op-block"] .active .op-block__wrapper {
-    display: block;
-    padding: .5rem;
-}
-
-[id*="op-block"] .validation-info.active {
-    display: block;
-    padding: 1rem 1rem 0;
-}
-
-[id*="op-block"][data-block-disable="true"] .validation-info {
-    padding: 1rem;
-}
-
-[id*="op-block"] .validation-info,
-body[data-loged-in="false"] [id*="-logout"].op-block__wrapper,
-body[data-loged-in="true"] [id*="-login"].op-block__wrapper,
-[id*="op-block"] .op-block__inner:not(.active) .op-block__wrapper,
-[id*="op-block"] .filter-radio-options:not(.active) {
-    display: none;
-}
-
-
-body[data-loged-in="false"] [id*="-logout"] .content {
-    border-color: #f93e3e;
-    background: rgba(249,62,62,.1);
-}
-
-body[data-loged-in="true"] [id*="-login"] .content {
-    border-color: #49cc90;
-    background: rgba(73,204,144,.1);
-}
-
-[id*="op-block"] header,
-[id*="op-block"] .responses {
-    border-radius: .3rem;
-    overflow: hidden;
-}
-
-[id*="op-block"].active header {
-    border-radius: .3rem .3rem 0 0;
-}
-
-[id*="op-block"] header {
-    cursor: pointer;
-}
-
-[id*="op-block"] header,
-[id*="op-block"] .op-block__wrapper.active .content {
-    display: flex;
-    padding: 1rem;
-    position: relative;
-    border: .1rem solid darkgrey;
-}
-
-[id*="op-block"] header.header-parrent {
-    background: #eee;
-    padding: 1.5rem 2rem;
-    border-width: 0 0 .1rem 0;
-}
-
-[id*="op-block"]:not(.active) > .header-parrent {
-    border: none;
-}
-
-[id*="op-block"] .content {
-    display: none;
-    flex-direction: column;
-    border-radius: .3rem;
-}
-
-[id*="op-block"] .op-block__wrapper.active header ~ .content {
-    border-top: none;
-    border-radius: 0 0 .3rem .3rem;
-    overflow: hidden;
-}
-
-[id*="op-block"] .responses {
-    background: white;
-    display: none;
-    margin-top: 1rem;
-    padding: 1rem;
-    border: .1rem solid darkgrey;
-}
-
-[id*="op-block"] .responses.active {
-    display: block;
-}
-
-[id*="op-block"] .responses .inner {
-    padding-top: 1rem;
-}
-
-[id*="op-block"] .op-block__wrapper.get header,
-[id*="op-block"] .op-block__wrapper.get .content {
-    background: rgba(97,175,254,.1);
-    border-color: #61affe;
-}
-
-[id*="op-block"] .op-block__wrapper.get .responses {
-    border-color: #61affe;
-}
-
-[id*="op-block"] .op-block__wrapper.get h3 span,
-[id*="op-block"] .op-block__wrapper.get button {
-    background: #61affe;
-    border-color: #61affe;
-}
-
-[id*="op-block"] .op-block__wrapper.post header,
-[id*="op-block"] .op-block__wrapper.post .content {
-    background: rgba(73,204,144,.1);
-    border-color: #49cc90;
-}
-
-[id*="op-block"] .op-block__wrapper.post .responses {
-    border-color: #49cc90;
-}
-
-[id*="op-block"] .op-block__wrapper.post h3 span,
-[id*="op-block"] .op-block__wrapper.post button {
-    background: #49cc90;
-    border-color: #49cc90;
-}
-
-[id*="op-block"] .op-block__wrapper.put header,
-[id*="op-block"] .op-block__wrapper.put .content {
-    background: rgba(252,161,48,.1);
-    border-color: #fca130;
-}
-
-[id*="op-block"] .op-block__wrapper.put .responses {
-    border-color: #fca130;
-}
-
-[id*="op-block"] .op-block__wrapper.put h3 span,
-[id*="op-block"] .op-block__wrapper.put button {
-    background: #fca130;
-    border-color: #fca130;
-}
-
-[id*="op-block"] .op-block__wrapper.delete header,
-[id*="op-block"] .op-block__wrapper.delete .content {
-    background: rgba(249,62,62,.1);
-    border-color: #f93e3e;
-}
-
-[id*="op-block"] .op-block__wrapper.delete .responses {
-    border-color: #f93e3e;
-}
-
-[id*="op-block"] .op-block__wrapper.delete h3 span,
-[id*="op-block"] .op-block__wrapper.delete button {
-    background: #f93e3e;
-    border-color: #f93e3e;
-}
-
-[id*="op-block"] header,
-[id*="op-block"] .start-date,
-[id*="op-block"] .end-date {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-[id*="op-block"] .form-container {
-	display: flex;
-	justify-content: flex-end;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-[id*="op-block"] .form-container form {
-    display: flex;
-	justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    flex: 1;
-    gap: 1rem;
-}
-
-[id*="op-block"] .form-validate,
-[id*="op-block"] .content .flex-wrap {
-    flex: 1 100%;
-    margin: 0;
-}
-
-[id*="op-block"] .form-validate div {
-    background: white;
-    margin-bottom: 1rem;
-    border-radius: .3rem;
-}
-
-[id*="op-block"] .validation-error {
-    background: white;
-    display: none;
-    border-radius: .3rem;
-}
-
-[id*="op-block"] .validation-info.active .validation-error,
-[id*="op-block"] .validation-error.active {
-    display: block;
-}
-
-[id*="op-block"] .validation-error.active ~ input {
-    border: .1rem solid #f93e3e;
-}
-
-[id*="op-block"] .validation-info p,
-[id*="op-block"] .validation-error p {
-    background: rgba(249,62,62,.1);
-    font-size: 1.4rem;
-    line-height: 1;
-    margin: 0;
-    padding: 1rem;
-    border: .1rem solid #f93e3e;
-    border-radius: .3rem;
-}
-
-[id*="op-block"] .validation-info p span,
-[id*="op-block"] .validation-info p span {
-    color: #f93e3e;
-    font-weight: bold;
-}
-
-[id*="op-block"] .form-inner {
-    display: flex;
-    align-items: center;
-    flex: 1;
-}
-
-[id*="op-block"] h1 {
-	padding: 2rem;
-}
-[id*="op-block"] h2, [id*="op-block"] h3, [id*="op-block"] h4 {
-    font-weight: 400;
-    line-height: 1.5;
-    margin: 0;
-}
-[id*="op-block"] h2 {
-    font-size: 1.6rem;
-}
-[id*="op-block"] h3 {
-    font-size: 1.4rem;
-}
-[id*="op-block"] h4 {
-    font-size: 1.2rem;
-}
-
-[id*="op-block"] .arrow {
-    width: 1rem;
-    height: 1rem;
-    position: absolute;
-    right: 2rem;
-    border-right: .2rem solid #3b4151;
-    border-bottom: .2rem solid #3b4151;
-    transform: rotate(45deg) translateX(-.5rem);
-}
-[id*="op-block"].active > header > .arrow {
-    transform: rotate(-135deg) translateX(-.5rem);
-    right: 2.7rem;
-}
-
-[id*="op-block"] h3 span {
-    color: white;
-    font-size: 1.3rem;
-    font-weight: 500;
-    line-height: 1.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+/* overordnet knapper fuld border-radius*/
+button.op-button,
+.amount-of-print {
     display: inline-flex;
+    align-items: center;
     justify-content: center;
-    min-width: 6rem;
-    margin-right: 1rem;
-    padding: .7rem 1.4rem;
-    border-radius: .3rem;
-    text-shadow: 0 .1rem 0 rgba(0,0,0,.2);
-}
-
-[id*="op-block"] .list-button {
-    color: white;
-    font-size: 1.3rem;
-    font-weight: 500;
-    line-height: 1.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    align-self: flex-end;
-    min-width: 15rem;
-    padding: .6rem 1.2rem;
-    border: .1rem solid black;
-    border-radius: .3rem;
+    padding: 1.6rem 3.2rem;
+    font-size: 1.6rem;
+    min-width: 10ch;
+    min-height: 5rem;
+    font-family: inherit;
     cursor: pointer;
-    text-shadow: 0 .1rem 0 rgba(0,0,0,.2);
+    border-radius: 0.5rem;
+    text-align: center;
+    line-height: 1.1;
+    transition: 220ms all ease-in-out;
 }
 
-[id*="op-block"] button.list-button:hover,
-[id*="op-block"] input:hover {
-    border-color: black;
+.op-button-solid {
+    color: #fff;
+    background-color: var(--wp--preset--color--primary-90);
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
 }
 
-[id*="op-block"] .list-item {
-    background: white;
-    width: 20rem;
-    margin-bottom: 1rem;
+.op-button-solid:hover {
+    background-color: var(--wp--preset--color--accent-60);
+}
+
+.op-button-stroke,
+.amount-of-print {
+    color: var(--wp--preset--color--primary-90);
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
+    background-color: transparent;
+}
+
+.op-button-stroke:hover {
+    color: var(--wp--preset--color--accent-60);
+    border: 0.1rem solid var(--wp--preset--color--accent-60);
+    background-color: var(--wp--preset--color--accent-60);
+}
+
+.op-button-solid-new {
+    color: #ffffff;
+    background-color: var(--wp--preset--color--accent-60);
+    border: none;
+}
+
+.op-button-solid-new:hover {
+    background-color: var(--wp--preset--color--accent-60);
+}
+
+/* ------------------------------------------------------------------------
+ #  2. ACF Custom Blocks
+---------------------------------------------------------------------------
+ >  2a. Block Style
+------------------------------------------------------------ */
+
+/* ---------------------------------------------------------
+ >  2b. Block Validation
+------------------------------------------------------------ */
+
+[id*="op-block"][data-block-disable="true"] {
+    color: var(--wp--preset--color--black);
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+[id*="op-block"][data-block-disable="true"] .block__inner {
+    background: var(--wp--preset--color--neutral-20);
+    background-image: var(--wp--preset--gradient--vertical-neutral-20-to-10);
     padding: 1rem;
-    border: .1rem solid rgba(29,161,242,1);
+    border-radius: 0.4rem;
 }
 
-[id*="op-block"] .image-form-input,
-[id*="op-block"] .input-outer {
+[id*="op-block"][data-block-disable="true"] .validation-error {
+    background-color: var(--wp--preset--color--error-20);
+    padding: 1rem 4rem 1rem 1rem;
+    position: relative;
+    border: 0.1rem solid var(--wp--preset--color--error-100);
+    border-radius: 0.4rem;
+}
+
+[id*="op-block"][data-block-disable="true"] .validation-error::before {
+    content: var(--fa-icon-circle-exclamation);
+    color: var(--wp--preset--color--error-100);
+    font: var(--fa-font-solid);
+    font-size: 2.4rem;
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+}
+
+[id*="op-block"][data-block-disable="true"] .label {
+    color: var(--wp--preset--color--error-100);
+    font-weight: 500;
+}
+
+
+/* ---------------------------------------------------------
+ >  2c. Blocks
+------------------------------------------------------------
+ >  2c-1. Log In/Out Button
+--------------------------------------------- */
+
+.op-button-loginout,
+.op-button-loginout .block__inner {
     display: flex;
     flex-direction: column;
-    gap: .4rem;
-    margin-right: 1rem;
 }
 
-[id*="op-block"] .flex-row-wrap {
-    flex-direction: row;
-    flex-wrap: wrap;
+.op-button-loginout {
+    padding: 0 1rem;
 }
 
-[id*="op-block"] form label {
-    font-size: 1.3rem;
-    margin-right: .5rem;
+.op-button-loginout .block__inner {
+    padding: 1rem;
 }
 
-[id*="op-block"] input {
-    background: white;
-    font-size: 1.4rem;
-    line-height: 1.8rem;
+.op-button-loginout button {
+    background: transparent;
+    color: currentColor;
+    font-family: var(--wp--preset--font-family--montserrat);
+    font-size: var(--wp--preset--font-size--small);
+    font-weight: 500;
+    line-height: var(--wp--custom--typography--line-height--normal);
+    display: none;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+}
+
+[data-logged-in="false"] .op-button-loginout .button-login,
+[data-logged-in="true"] .op-button-loginout .button-logout {
+    display: flex;
+}
+
+.op-button-loginout .button-icon {
+	font-size: 2.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    padding: 1rem;
+    border-radius: 0.4rem;
+	transition: all 0.2s ease-in-out;
+}
+
+.op-button-loginout button:where( :hover, :focus ) .button-icon {
+	background-color: var(--wp--preset--color--accent-60);
+	text-decoration: none;
+	border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.op-button-loginout .button-text {
+    white-space: nowrap;
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	height: 5rem;
+	padding: 1rem 2rem;
+	border-radius: 0 0.4rem 0.4rem 0;
+	transition: all 0.2s ease-in-out;
+}
+
+.op-button-loginout button:hover .button-text {
+    background-color: var(--wp--preset--color--accent-70);
+}
+
+
+/* ------------------------------------------
+ >  2c-2. Toggle Button
+--------------------------------------------- */
+
+.op-button-toggle {
+    display: flex;
+}
+
+.op-button-toggle .button-toggle {
+    background: none;
+    color: currentColor;
     padding: 0.5rem;
-    border: .1rem solid darkgrey;
-    border-radius: .3rem;
-    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    transition: padding 0.2s ease-in-out;
 }
 
-[id*="op-block"] .inner {
+.op-button-toggle .button__inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+	border: 0.2rem solid transparent;
+    border-radius: 0.4rem;
+    transition: border 0.2s ease-in-out;
+}
+
+.op-button-toggle .button-toggle:hover .button__inner {
+	border: 0.2rem solid currentColor;
+}
+
+.op-button-toggle .button-icon {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    width: 3.6rem;
+    height: 3.6rem;
+    position: relative;
+    border-radius: 50%;
+}
+
+.op-button-toggle .button-icon [class*="icon-line"] {
+	background-color: currentColor;
+	align-self: center;
+	height: .2rem;
+	width: 2rem;
+	position: absolute;
+	border-radius: .2rem;
+	transition: transform .5s ease-in-out, width .6s ease-in-out, background-color .2s ease-in-out;
+}
+
+.op-button-toggle .button-toggle:hover .button-icon  [class*="icon-line"] {
+	transition: transform .5s ease-in-out, width .6s ease-in-out, background-color .2s ease-in-out;
+}
+
+.op-button-toggle .button-icon .icon-line-1 {
+	top: 1rem;
+}
+
+.op-button-toggle .button-icon .icon-line-2 {
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+
+.op-button-toggle .button-icon .icon-line-3 {
+	bottom: 1rem;
+}
+
+.op-button-toggle [aria-expanded="true"] .button-icon .icon-line-1 {
+	transform: translateY(0.8rem) translateY(-50%) rotate(-45deg);
+}
+
+.op-button-toggle [aria-expanded="true"] .button-icon .icon-line-2 {
+	width: 0;
+	transition: width 1s ease-in-out, background-color .2s ease-in-out;
+}
+
+.op-button-toggle [aria-expanded="true"] .button-icon .icon-line-3 {
+	transform: translateY(-0.8rem) translateY(50%) rotate(45deg);
+}
+
+.op-button-toggle .button-text {
+    padding-right: 1rem;
+}
+
+.op-button-toggle .button-text:not([data-text-visibility="1"]) {
+    word-wrap: normal;
+    word-break: normal;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    position: absolute;
+    overflow: hidden;
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+}
+
+:not([data-button-toggle-active="true"]) [data-button-toggle-modal] {
+    background-color: var(--wp--preset--color--primary-80);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 0;
+    padding: 0;
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+
+.admin-bar :not([data-button-toggle-active="true"]) [data-button-toggle-modal] {
+    top: calc(-100vh - var(--wp-admin--admin-bar--height));
+}
+
+:is([data-button-toggle-active="true"]) [data-button-toggle-modal] {
+    height: 100vh;
+    padding-top: 5rem;
+    top: 0;
+    overflow-y: auto;
+    transition: all 0.5s ease-in-out;
+}
+
+.admin-bar :is([data-button-toggle-active="true"]) [data-button-toggle-modal] {
+    top: 0;
+    height: calc(100vh - var(--wp-admin--admin-bar--height));
+}
+
+
+/* ---------------------------------------------------------
+ >  2c-3. Booking Information
+------------------------------------------------------------ */
+
+.op-booking-information {
+    color: var(--wp--preset--color--white);
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.op-booking-information .label {
+    color: var(--wp--preset--color--primary-30);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+.op-booking-information .booking-code {
+    font-size: var(--wp--preset--font-size--medium);
+    overflow-wrap: break-word;
+    padding-bottom: 2rem;
+}
+
+.op-booking-information .booking-date {
+    font-size: var(--wp--preset--font-size--normal);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.op-booking-information .booking-date > * {
+    padding-bottom: 0;
+}
+
+.op-booking-information .booking-date .divider {
+    background: var(--wp--preset--color--primary-30);
+    width: 0.1rem;
+    margin: 0 2rem;
+}
+
+
+/* ---------------------------------------------------------
+ >  2c-4. Printer Information
+------------------------------------------------------------ */
+
+.op-printer-information {
+    color: var(--wp--preset--color--white);
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+.op-printer-information .block__inner {
+    background: var(--wp--preset--color--primary-60);
+    background-image: var(--wp--preset--gradient--horizontal-primary-60-to-80);
+    padding: 2rem 2rem 1.7rem;
+    border-radius: 0.4rem;
+}
+
+.op-printer-information .label {
+    color: var(--wp--preset--color--primary-20);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+.op-printer-information .printer-id {
+    font-size: var(--wp--preset--font-size--normal);
+    overflow-wrap: break-word;
+}
+
+
+/* ---------------------------------------------------------
+ >  2c-5. Event Information
+------------------------------------------------------------ */
+
+.op-event-information {
+    color: var(--wp--preset--color--white);
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+.op-event-information .block__inner {
+    background: var(--wp--preset--color--accent-60);
+    background-image: var(--wp--preset--gradient--horizontal-accent-60-to-80);
+    padding: 2rem;
+    border-radius: 0.4rem;
+}
+
+.op-event-information .label {
+    color: var(--wp--preset--color--accent-20);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+.op-event-information .event-name {
+    padding-bottom: 2rem;
+}
+
+.op-event-information .event-participants {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
-[id*="op-block"] #get-all-images .inner {
-    flex-direction: row;
-}
-
-[id*="op-block"] #get-all-images .inner article {
-    flex-basis: calc((100% - 2rem) / 3);
-}
-
-[id*="op-block"] article {
-    background: #3b4151;
+.op-event-information .event-participants .text {
+    text-align: center;
     padding: 1rem;
-    border: .1rem solid #3b4151;
-    border-radius: .3rem;
-    box-sizing: border-box;
-}
-[id*="op-block"] article:last-child {
-    margin-bottom: 0;
-}
-[id*="op-block"] article * {
-    color: white;
-    font-size: 1.2rem;
-}
-[id*="op-block"] article p {
-    margin: 0 0 1rem;
-}
-[id*="op-block"] article p:last-child {
-    margin: 0;
-}
-[id*="op-block"] article iframe {
-    border: none;
-    border-radius: .3rem;
+    border: 0.1rem solid var(--wp--preset--color--accent-40);
+    border-radius: 0.4rem;
 }
 
-[id*="op-block"] .event-templates-radio-option.active + .event-template-option,
-[id*="op-block"] .event-template-option.active .no-input,
-[id*="op-block"] .event-template-option .event-template-option-input,
-[id*="op-block"] .event-templates-radio-option,
-[id*="op-block"] .event-grid.responses {
+
+
+/* ---------------------------------------------------------
+ >  2c-6. Event Design Information
+------------------------------------------------------------ */
+
+.op-event-design-information {
+    color: var(--wp--preset--color--white);
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+.op-event-design-information .block__inner {
+    background: var(--wp--preset--color--secondary-60);
+    background-image: var(--wp--preset--gradient--horizontal-secondary-60-to-80);
+    padding: 2rem 2rem 1.7rem;
+    border-radius: 0.4rem;
+}
+
+.op-event-design-information .label {
+    color: var(--wp--preset--color--secondary-20);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+.op-event-design-information .printer-id {
+    font-size: var(--wp--preset--font-size--normal);
+    overflow-wrap: break-word;
+}
+
+
+
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Log in/out (Switch)
+------------------------------------------------------------ */
+
+.op-log-switch {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Log in
+------------------------------------------------------------ */
+
+.op-log-in {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Create new Template
+------------------------------------------------------------ */
+
+.op-create-template {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Create new Event
+------------------------------------------------------------ */
+
+.op-create-event {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Show List of Event URL's
+------------------------------------------------------------ */
+
+.op-show-list-of-event-urls {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Show Event Participants
+------------------------------------------------------------ */
+
+.op-show-event-participants {
+    display: flex;
+}
+
+.op-show-event-participants .op-event-item .participant-content {
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-columns: auto auto 1fr auto;
+    font-size: 1.6rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0.2rem 0.5rem #e6e6e6;
+    gap: 1rem
+}
+
+/* container inden i med csv content*/
+.op-show-event-participants .op-event-item .list-info {
+    display: grid;
+    justify-content: start;
+    align-items: center;
+    grid-template-columns: repeat(4, 25%);
+    gap: 1rem
+}
+
+.op-show-event-participants .op-event-item .line-5 {
     display: none;
 }
 
-[id*="op-block"] .event-template-option .no-input,
-[id*="op-block"] .event-template-option.active .event-template-option-input,
-[id*="op-block"] .event-templates-radio-option.active,
-[id*="op-block"] .event-grid.responses.active {
-    display: block;
+/* tiden */
+.op-show-event-participants .op-event-item .time {
+    padding: 0 3.2rem 0 3.2rem;
 }
 
-[id*="op-block"] .event-grid.responses > [id*="event-grid"] {
-    height: 40rem;
-}
-
-[id*="op-block"] .buttons-wrapper {
+/* ikonet */
+.op-show-event-participants .op-event-item .icon {
+    background-color: rgba(var(--op-rgb-blue-light), 0.1);
+    color: var(--op-hex-blue);
+    font: var(--fa-font-solid);
+    font-size: 2.5rem;
+    text-align: center;
     display: flex;
-    justify-content: space-between;
-    padding-top: .5rem;
+    justify-content: center;
+    align-items: center;
+    min-width: 5rem;
+    min-height: 5rem;
+    border: 0.1rem solid var(--op-hex-blue);
+    border-radius: 0.5rem;
 }
 
+.op-show-event-participants .op-event-item .icon::after {
+    content: "\f007";
+}
 
+/* ankommet ikon */
+.op-show-event-participants .op-event-item[data-op-arrival="1"] .icon {
+    background-color: rgba(var(--op-rgb-teal), 0.1);
+    color: var(--op-hex-teal);
+    border-color: var(--op-hex-teal);
 
-[id*="op-block"] .op-event-item .icon {
-    background: #61affe;
+}
+.op-show-event-participants .op-event-item[data-op-arrival="1"] .icon::after {
+    content: "\f00c";
+}
+
+/* container inden i med printknap og antal */
+.op-show-event-participants .op-event-item .print {
     display: flex;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 5rem;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+
 }
 
-[id*="op-block"] .op-event-item[data-op-arrival="1"] .icon {
-    background: #49cc90;
+/* solid blå print knap m kun 2 border-radius hjørner */
+.op-show-event-participants .op-event-item .op-button-solid {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* stroke print knap m kun 2 border-radius hjørner */
+.op-show-event-participants .op-event-item .amount-of-print {
+    min-width: 3ch;
+    padding: 1.6rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.op-show-event-participants .op-event-item .arrival-time {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
 }
 
 
+/* ---------------------------------------------------------
+ >  2x. Block: Search for Event Participants
+------------------------------------------------------------ */
+
+.op-search-event-participants {
+    display: flex;
+}
+
+
+/* ---------------------------------------------------------
+ >  2x. Block: Print Event Participants
+------------------------------------------------------------ */
+
+.op-print-event-participants {
+    display: flex;
+}
+
+
+/* ------------------------------------------------------------------------
+ #  18. Media Queries
+--------------------------------------------------------------------------- */
+
+@media screen and ( min-width: 783px ) {
+   
+	/* --------------------------------------------------------------------
+	 #  1.  Plugin Setup
+	----------------------------------------------------------------------- */
+
+    /* --------------------------------------------------------------------
+     #  2. ACF Custom Blocks
+    -----------------------------------------------------------------------
+     >  2a. Block: Log In/Out Button
+    -------------------------------------------------------- */
+
+	.op-button-loginout button {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.op-button-loginout button:where( :hover, :focus ) {
+		overflow: visible;
+	}
+
+	.op-button-loginout button .button-text {
+		position: absolute;
+		left: 100%;
+		z-index: 0;
+		opacity: 0;
+	}
+
+	.op-button-loginout button:hover .button-text {
+		opacity: 1;
+	}
+
+
+}
+
+
+/* ------------------------------------------------------------------------
+ #  4. Print Style
+--------------------------------------------------------------------------- */
 
 @media print {
 

@@ -374,7 +374,7 @@ async function createNewEvent() {
     //////////////////////////////////////////
 
 
-    window.location.replace(`?event=${ creationDate }`)
+    window.location.replace(`event/?event=${ creationDate }`)
 
 }
 
@@ -391,7 +391,7 @@ async function showListOfEventUrls( block ) {
     ///// Get the elements.
     let validationElement = block.querySelector( '.validation-info' )
     let eventListId = block.getAttribute( 'data-event-id' )
-    let blockContent = block.querySelector( '.content' )
+    let blockContent = block.querySelector( '.op-block__wrapper' )
 
     ///// Validation Event List function. 
     function validateEventList( message ) {
@@ -423,14 +423,15 @@ async function showListOfEventUrls( block ) {
     for( var i = 0; i < eventList.length; i++ ) {
     
         urlElement = `
-            <article>
-                <p><b>Event Name:</b> ${ eventList[i].eventName }</p>
-                <a href="?event=${ eventList[i].eventCreationDate }"><b>URL:</b> ?event=${ eventList[i].eventCreationDate }</a>
+            <article id="event-url-item-${ eventList[i].eventCreationDate }">
+                <a href="event/?event=${ eventList[i].eventCreationDate }">
+                    <span><b>Event Name:</b> ${ eventList[i].eventName }</span>
+                </a>
             </article>
         `
 
         ///// Add element to the container. 
-        blockContent.querySelector('.response').insertAdjacentHTML( 'afterbegin', urlElement )
+        blockContent.insertAdjacentHTML( 'afterbegin', urlElement )
 
     }
 
@@ -449,7 +450,7 @@ async function showEventParticipants( block ) {
     ///// Get the elements.
     let validationElement = block.querySelector( '.validation-info' )
     let eventListId = block.getAttribute( 'data-event-id' )
-    let blockContent = block.querySelector( '.content' )
+    let blockContent = block.querySelector( '.op-block__wrapper' )
 
     ///// Validation Event List function. 
     function validateEventList( message ) {
@@ -482,8 +483,8 @@ async function showEventParticipants( block ) {
     if ( ! eventItem[0] ) return validateEventList( 'Block [Show Event Participants] - This Page could not find any Event to Show!' )
     
     ///// Add element to the container.
-    blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem[0].eventName } - ${ eventItem[0].eventCreationDate } | <b>Template:</b> ${ eventItem[0].eventTemplate }</h3>` )
-    
+    /*blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem[0].eventName } - ${ eventItem[0].eventCreationDate } | <b>Template:</b> ${ eventItem[0].eventTemplate }</h3>` )*/
+
     ///// Get Participants. 
     let eventParticipants = eventItem[0].eventParticipants
     consoleDebug( debug, 'eventParticipants:', eventParticipants )
@@ -506,10 +507,10 @@ async function showEventParticipants( block ) {
         
         participantElement = `
             <article id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
-                <header>
-                    <figure>
+                <header class="participant-content">
+                    <div>
                         <span class="icon"></span>
-                    </figure>
+                    </div>
                     <div class="time">
                         <p class="arrival-time">${ participantTime }</p>
                     </div>
@@ -520,10 +521,10 @@ async function showEventParticipants( block ) {
                         <p class="line-4">${ participantline4 }</p>
                         <p class="line-5">${ participantline5 }</p>
                     </div>
-                    <figure>
-                        <button class="print-button" onclick="printParticipant('${ participantId }'); return false">Print</button>
+                    <div class="print">
+                        <button class="print-button op-button op-button-solid" onclick="printParticipant('${ participantId }'); return false">Print</button>
                         <figcaption class="amount-of-print">${ participantPrints }</figcaption>
-                    </figure>
+                    </div>
                 </header>
                 <footer>
                     <p class="message"></p>
@@ -533,7 +534,7 @@ async function showEventParticipants( block ) {
         `
 
         ///// Add element to the container. 
-        blockContent.querySelector('.inner').insertAdjacentHTML( 'afterbegin', participantElement )
+        blockContent.insertAdjacentHTML( 'afterbegin', participantElement )
 
     }
 
@@ -542,7 +543,7 @@ async function showEventParticipants( block ) {
 
 
 ////////////////////////////////////////
-/////// Show Event Participants
+/////// Search Event Participants
 ////////////////////////////////////////
 async function searchEventParticipants() {
 
@@ -571,7 +572,7 @@ async function searchEventParticipants() {
             let searchInput = formElement['search-input']
             let filterInput = formElement['filter-option'].value
             let eventListId = showEventBlock.getAttribute( 'data-event-id' )
-            let blockContent = showEventBlock.querySelector( '.content' )
+            let blockContent = showEventBlock.querySelector( '.op-block__wrapper' )
 
             ///// Clear the Block Content Element. 
             blockContent.innerHTML = ''
@@ -596,7 +597,7 @@ async function searchEventParticipants() {
             if ( ! eventItem ) return validationReturn( validationElement, 'Block [Show Event Participants] - This Page could not find any Event to Show!' )
             
             ///// Add element to the container.
-            blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem.eventName } - ${ eventItem.eventCreationDate } | <b>Template:</b> ${ eventItem.eventTemplate }</h3><div class="inner"></div>` )
+            /*blockContent.insertAdjacentHTML( 'afterbegin', `<h3><b>Event:</b> ${ eventItem.eventName } - ${ eventItem.eventCreationDate } | <b>Template:</b> ${ eventItem.eventTemplate }</h3><div class="inner"></div>` ) */
             
             ///// Get Participant List. 
             let participantList = eventItem.eventParticipants
@@ -623,10 +624,10 @@ async function searchEventParticipants() {
                 
                 participantElement = `
                     <article id="op-item-${ participantId }" class="op-event-item" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
-                        <header>
-                            <figure>
+                        <header class="participant-content">
+                            <div>
                                 <span class="icon"></span>
-                            </figure>
+                            </div>
                             <div class="time">
                                 <p class="arrival-time">${ participantTime }</p>
                             </div>
@@ -637,10 +638,10 @@ async function searchEventParticipants() {
                                 <p class="line-4">${ participantline4 }</p>
                                 <p class="line-5">${ participantline5 }</p>
                             </div>
-                            <figure>
-                                <button class="print-button" onclick="printParticipant('${ participantId }'); return false">Print</button>
+                            <div class="print">
+                                <button class="print-button op-button op-button-solid" onclick="printParticipant('${ participantId }'); return false">Print</button>
                                 <figcaption class="amount-of-print">${ participantPrints }</figcaption>
-                            </figure>
+                            </div>
                         </header>
                         <footer>
                             <p class="message"></p>
@@ -650,7 +651,7 @@ async function searchEventParticipants() {
                 `
 
                 ///// Add element to the container. 
-                blockContent.querySelector('.inner').insertAdjacentHTML( 'afterbegin', participantElement )
+                blockContent.insertAdjacentHTML( 'afterbegin', participantElement )
 
             }
 

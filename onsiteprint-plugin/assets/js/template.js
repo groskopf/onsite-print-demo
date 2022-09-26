@@ -49,7 +49,7 @@ listen( 'load', window, checkCreateNewTemplateBlock() )
 ////////////////////////////////////////
 /////// Create new Template
 ////////////////////////////////////////
-async function createNewTemplate() {
+async function createNewTemplate( relocate ) {
 
     ///// Debug the function
     let debug = false // true or false 
@@ -89,12 +89,13 @@ async function createNewTemplate() {
     let newImageResponse = newImageValidation.response
     
     ///// Get the element for output.
-    let container = block.querySelector( '.inner' )
     let filename = newImageResponse.filename.slice(7)      
    
+    let dateNow = Date.now()
+
     ///// Define new Template Item variable.
     let templateItem = { 
-        'templateCreationDate' : Date.now(), 
+        'templateCreationDate' : dateNow, 
         'templateName' : formElement[ 'name' ].value, 
         'templateFilename' : filename, 
         'templateLayout' : formElement[ 'layout' ].value
@@ -107,27 +108,12 @@ async function createNewTemplate() {
     ///// Set TEMPLATES in Lacal Storage.
     localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templatesStorageResponse ) )
 
-
     //////////////////////////////////////////
     ///// #NG Below must be changed later.
     //////////////////////////////////////////
 
+    if ( relocate ) return window.location.replace( `${ relocate }` )
 
-    ///// Clear all elements in the element. 
-    container.innerHTML = ''
-    
-    ///// Create new element.
-    let element = `
-        <article>
-            <p>${filename}</p>
-            <img src="https://api.printerboks.dk/api/v1/${newImageResponse.filename}" width="100%" height="auto">
-        </article>
-    `
+    window.location.replace(`opret-event/?template=${ dateNow }`)
 
-    ///// Add element to the container.
-    container.insertAdjacentHTML( 'afterbegin', element )
-
-    ///// Add class to the responses.
-    block.querySelector( '.responses' ).classList.add( 'active' )
-    
 }

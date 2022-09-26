@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-/////// Cross-browser implementation of element.addEventListener()
+/////// Cross-browser implementation of element.addEventListener() - #NG: Moved
 ////////////////////////////////////////
 function listen( evnt, elem, func ) {
     if ( elem.addEventListener )  // W3C DOM
@@ -32,6 +32,31 @@ function transformToAssocArray( prmstr ) {
 }
 
 
+////////////////////////////////////////
+///////  Get Current Script
+////////////////////////////////////////
+function getCurrentScript() {
+    if ( document.currentScript ) {
+        return document.currentScript.src
+    } else {
+        //var scripts = document.getElementsByTagName('script')
+        //return scripts[scripts.length - 1].src
+        return document.getElementById('onsiteprint-plugin-js').src
+    }
+}
+
+
+////////////////////////////////////////
+///////  Get Current Script
+////////////////////////////////////////
+function getCurrentScriptPath() {
+    var script = getCurrentScript()
+    var path = script.substring(0, script.lastIndexOf('/'))
+    return path
+}
+
+
+
 
 ////////////////////////////////////////
 /////// Check if the user are Loged in
@@ -43,11 +68,11 @@ function checkLogin( block ) {
 
     if ( ! login ) {
         //console.log( 'Ohhh!!!' )
-        document.body.setAttribute( 'data-loged-in', false )
+        document.body.setAttribute( 'data-logged-in', false )
         if ( block ) return { login : false }
     } else {
         //console.log( 'Yeah!!!' )       
-        document.body.setAttribute('data-loged-in', true )
+        document.body.setAttribute('data-logged-in', true )
         if ( block ) return { login : true }
     }
     

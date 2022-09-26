@@ -1,7 +1,7 @@
 ////////////////////////////////////////
 /////// Log in with Booking Code
 ////////////////////////////////////////
-async function loginWithBookingCode() {
+async function loginWithBookingCode( relocate ) {
 
     ///// Debug the function
     let debug = false // true or false 
@@ -101,7 +101,7 @@ async function loginWithBookingCode() {
     ///// #NG Below must be changed later.
     //////////////////////////////////////////
 
-
-    window.location.reload()
+    document.body.classList.add('booking-active')
+    window.location.href = relocate
 
 }
