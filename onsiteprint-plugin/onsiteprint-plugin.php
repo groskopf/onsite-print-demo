@@ -6,8 +6,8 @@
  *	Description: This is a plugin to the site http://onsiteprint.dk/.
  *	Author: Gerdes Group
  *	Author URI: https://www.clarify.nu/
- ?	Version: 1.0.0.11 (Check the Version variable)
- ?	Updated: 2022-09-26 - 11:10 (Y:M:D - H:M)
+ ?	Version: 1.0.0.14 (Check the Version variable)
+ ?	Updated: 2022-09-27 - 19:36 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -50,7 +50,7 @@
  >  1a. Definition of variables
 ------------------------------------------------------------ */
 define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
-define( 'ONSITEPRINT_VERSION', '1.0.0.11' );
+define( 'ONSITEPRINT_VERSION', '1.0.0.14' );
 
 
 /* ---------------------------------------------------------

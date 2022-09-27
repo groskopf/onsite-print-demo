@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-09-25 - 13:08 (Y:m:d - H:i)
+ ?  Updated: 2022-09-27 - 19:37 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -64,8 +64,7 @@
 }
 
 /* overordnet knapper fuld border-radius*/
-button.op-button,
-.amount-of-print {
+button.op-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +81,7 @@ button.op-button,
 }
 
 .op-button-solid {
-    color: #fff;
+    color: var(--wp--preset--color--white);
     background-color: var(--wp--preset--color--primary-90);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
 }
@@ -92,7 +91,7 @@ button.op-button,
 }
 
 .op-button-stroke,
-.amount-of-print {
+.op-amount-of-print {
     color: var(--wp--preset--color--primary-90);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
     background-color: transparent;
@@ -392,6 +391,7 @@ button.op-button,
 
 .op-booking-information .booking-code {
     font-size: var(--wp--preset--font-size--medium);
+    font-variant-numeric: tabular-nums;
     overflow-wrap: break-word;
     padding-bottom: 2rem;
 }
@@ -404,6 +404,10 @@ button.op-button,
 
 .op-booking-information .booking-date > * {
     padding-bottom: 0;
+}
+
+.op-booking-information .booking-date .text {
+    font-variant-numeric: tabular-nums;
 }
 
 .op-booking-information .booking-date .divider {
@@ -441,6 +445,7 @@ button.op-button,
 
 .op-printer-information .printer-id {
     font-size: var(--wp--preset--font-size--normal);
+    font-variant-numeric: tabular-nums;
     overflow-wrap: break-word;
 }
 
@@ -482,6 +487,7 @@ button.op-button,
 }
 
 .op-event-information .event-participants .text {
+    font-variant-numeric: tabular-nums;
     text-align: center;
     padding: 1rem;
     border: 0.1rem solid var(--wp--preset--color--accent-40);
@@ -519,6 +525,358 @@ button.op-button,
 .op-event-design-information .printer-id {
     font-size: var(--wp--preset--font-size--normal);
     overflow-wrap: break-word;
+}
+
+/* ---------------------------------------------------------
+ >  2c-7. Event Participant List
+------------------------------------------------------------ */
+.op-event-participant-list {
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+.op-event-participant-list .op-participant-list {
+    gap: 0.3rem;
+}
+
+.op-event-participant-list article {
+    font-weight: 500;
+}
+
+.op-participant-info p .label,
+.op-event-participant-list .op-amount-of-print,
+.op-event-participant-list .op-arrival-time {
+    font-variant-numeric: tabular-nums;
+}
+
+.op-event-participant-list article header {
+    background-color: var(--wp--preset--color--white);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    position: relative;
+    z-index: 2;
+    border-left: 0.4rem solid var(--wp--preset--color--primary-90);
+    border-radius: 0.4rem;
+    box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-event-participant-list article[data-op-arrival="1"] header {
+    border-color: var(--wp--preset--color--accent-60);
+}
+
+.op-event-participant-list article.op-print-active header {
+    border-color: var(--wp--preset--color--action-60);
+}
+
+.op-event-participant-list .op-participant-info {
+    padding-left: 1rem;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-participant-info p {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 0;
+}
+
+.op-participant-info p .label {
+    color: var(--wp--preset--color--neutral-50);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    height: 2rem;
+    width: 2rem;
+    border: 0.1rem solid var(--wp--preset--color--neutral-30);
+    border-radius: 50%;
+}
+
+.op-participant-info p:not(:last-child) {
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-event-participant-list .op-print-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.op-event-participant-list .op-print-info .op-print-button {
+    color: var(--wp--preset--color--white);
+    font-size: var(--wp--preset--font-size--small);
+    text-align: center;
+    line-height: 1.1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    min-width: 5rem;
+    min-height: 5rem;
+    padding: 1rem;
+    border-radius: 0.4rem 0.4rem 0 0;
+    cursor: pointer;
+    transition: 220ms all ease-in-out;
+}
+
+.op-event-participant-list .op-print-info .op-print-button::before {
+	content: var(--fa-icon-print);
+    font: var(--fa-font-solid);
+    font-size: 2.6rem;
+}
+
+.op-event-participant-list .op-print-info .op-amount-of-print {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border-top: none;
+    border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.op-event-participant-list article header :is( .op-icon, .op-arrival-time, .op-print-button .text) {
+    display: none;
+}
+
+.op-event-participant-list article footer {
+    background: var(--wp--preset--color--neutral-10);
+    font-size: var(--wp--preset--font-size--x-small);
+    color: var(--wp--preset--color--neutral-70);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 2rem);
+    max-height: 1rem;
+    margin: -1rem auto 0;
+    padding: 0 1.4rem;
+    position: relative;
+    z-index: 1;
+    border-radius: 0 0 0.4rem 0.4rem;
+    box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
+    overflow: hidden;
+    transform: translateY(-100%);
+    transition: all 0.2s ease-in-out;
+}
+
+.op-event-participant-list article[data-op-arrival="1"]:is( .op-active, .op-print-active ) footer {
+    padding: 1.6rem 1.4rem 0.6rem;
+    max-height: 5rem;
+    transform: translateY(0);
+}
+
+.op-event-participant-list :where( .op-message, .op-arrival-time ) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.op-event-participant-list :where( .op-message, .op-arrival-time )::before {
+    font: var(--fa-font-solid);
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+.op-event-participant-list .op-message::before {
+    content: var(--fa-icon-user);
+    background-color: var(--wp--preset--color--primary-10);
+    color: var(--wp--preset--color--primary-90);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
+    border-radius: 3rem;
+}
+
+.op-event-participant-list article[data-op-arrival="1"] .op-message::before {
+    content: var(--fa-icon-check);
+    background-color: var(--wp--preset--color--accent-10);
+    color: var(--wp--preset--color--accent-60);
+    border-color: var(--wp--preset--color--accent-60);
+}
+
+.op-event-participant-list article[data-op-arrival="1"].op-print-active .op-message::before {
+    content: var(--fa-icon-print);
+    background-color: var(--wp--preset--color--action-10);
+    color: var(--wp--preset--color--action-60);
+    border-color: var(--wp--preset--color--action-60);
+}
+
+.op-event-participant-list .op-arrival-time::before {
+    content: var(--fa-icon-clock);
+    color: var(--wp--preset--color--neutral-50);
+}
+
+.op-event-participant-list .op-participant-list-cols {
+    display: none;
+}
+
+
+
+@media screen and/*  ( max-width: 900px ) and ( min-width: 600px ),  */( min-width: 1300px ) {
+
+    .op-event-participant-list article header {
+        grid-template-columns: auto 1fr calc( 5ch + 4rem ) auto;
+        gap: 0;
+    }
+
+    .op-event-participant-list article header :is( .op-icon, .op-arrival-time, .op-print-button .text) {
+        display: flex;
+    }
+
+    .op-event-participant-list .op-participant-info {
+        display: grid;
+        grid-template-columns: repeat(3, calc(100% / 3));
+        padding: 0;
+    }
+
+    .op-event-participant-list :where( .op-icon )::before {
+        font: var(--fa-font-solid);
+        font-size: 2.4rem;
+    }
+    
+    .op-event-participant-list .op-icon::before {
+        content: var(--fa-icon-user);
+        background-color: var(--wp--preset--color--primary-10);
+        color: var(--wp--preset--color--primary-90);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 5rem;
+        height: 5rem;
+        border: 0.1rem solid var(--wp--preset--color--primary-90);
+        border-radius: 0.4rem;
+    }
+    
+    .op-event-participant-list article[data-op-arrival="1"] .op-icon::before {
+        content: var(--fa-icon-check);
+        background-color: var(--wp--preset--color--accent-10);
+        color: var(--wp--preset--color--accent-60);
+        border-color: var(--wp--preset--color--accent-60);
+    }
+    
+    .op-event-participant-list article[data-op-arrival="1"].op-print-active .op-icon::before {
+        content: var(--fa-icon-print);
+        background-color: var(--wp--preset--color--action-10);
+        color: var(--wp--preset--color--action-60);
+        border-color: var(--wp--preset--color--action-60);
+    }
+    
+    .op-participant-info p:not(:last-child) {
+        border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+        border-bottom: none;
+    }
+
+    .op-participant-info p {
+        min-width: 0;
+        padding: 0.9rem 2rem;
+    }
+
+    .op-participant-info p .label {
+        display: none;
+    }
+
+    .op-participant-info p .text {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .op-event-participant-list .op-arrival-time {
+        padding: 0 2rem;
+    }
+
+    .op-event-participant-list .op-print-info {
+        flex-direction: row-reverse;
+    }
+
+    .op-event-participant-list .op-print-info .op-print-button {
+        font-weight: 500;
+        min-width: 15rem;
+        padding: 1rem 2.4rem;
+        border-radius: 0 0.4rem 0.4rem 0;
+    }
+
+    .op-event-participant-list .op-print-info .op-print-button::before {
+        font-size: 2.4rem;
+        display: none;
+        margin-right: 1rem;
+    }
+
+    .op-event-participant-list .op-print-info .op-amount-of-print {
+        width: 5rem;
+        border-top: 0.1rem solid;
+        border-right: none;
+        border-radius: 0.4rem 0 0 0.4rem;
+    }
+
+    .op-event-participant-list header .op-arrival-time::before {
+        display: none;
+    }
+
+
+
+    .op-event-participant-list .op-participant-list-cols {
+        background-color: var(--wp--preset--color--white);
+        display: grid;
+        grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem 15rem;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem 1rem 1rem 1.4rem;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        border-radius: 0.4rem;
+        box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
+    }
+    .op-participant-list-cols p {
+        font-weight: 600;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 1rem 2rem;
+        border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+    }
+
+    .op-participant-list-cols :is( .op-participant-list-option, .op-col-time, .op-col-prints ) {
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+    .op-participant-list-cols :is( .op-participant-list-option, .op-col-time, .op-col-prints )::before {
+        color: var(--wp--preset--color--neutral-60);
+        font: var(--fa-font-solid);
+        font-size: 2rem;
+    }
+    
+    .op-participant-list-cols .op-participant-list-option::before {
+        content: var(--fa-icon-user);
+    }
+    
+    .op-participant-list-cols .op-col-time::before {
+        content: var(--fa-icon-clock);
+    }
+    
+    .op-participant-list-cols .op-col-prints::before {
+        content: var(--fa-icon-print);
+    }
+
+    .op-participant-list-cols .op-participant-list-print-all {
+        font-weight: 500;
+    }
+   
+    .op-participant-list-cols .op-participant-list-print-all:hover {
+        color: var(--wp--preset--color--white);
+    }
+   
+
 }
 
 
@@ -687,6 +1045,15 @@ button.op-button,
 }
 
 
+
+/* #NG */
+.grid-content {
+    height: 50rem;
+}
+
+
+
+
 /* ------------------------------------------------------------------------
  #  18. Media Queries
 --------------------------------------------------------------------------- */
@@ -700,7 +1067,7 @@ button.op-button,
     /* --------------------------------------------------------------------
      #  2. ACF Custom Blocks
     -----------------------------------------------------------------------
-     >  2a. Block: Log In/Out Button
+     >  2c-1. Block: Log In/Out Button
     -------------------------------------------------------- */
 
 	.op-button-loginout button {
@@ -722,7 +1089,6 @@ button.op-button,
 	.op-button-loginout button:hover .button-text {
 		opacity: 1;
 	}
-
 
 }
 

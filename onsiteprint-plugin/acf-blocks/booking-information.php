@@ -63,12 +63,12 @@ if( ! $bookingEndDateLabel ) {
         <div class="booking-date">
             <p class="booking-start-date has-text-align-right flex-col">
                 <span class="label"><?= esc_attr($bookingStartDateLabel) ?></span>
-                <span class="text">Loading...</span>
+                <time class="text">Loading...</time>
             </p>
             <div class="divider"></div>
             <p class="booking-end-date flex-col">
                 <span class="label"><?= esc_attr($bookingEndDateLabel) ?></span>
-                <span class="text">Loading...</span>
+                <time class="text">Loading...</time>
             </p>
         </div>
 

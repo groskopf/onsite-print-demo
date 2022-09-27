@@ -19,7 +19,7 @@ if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-create-event' . $listPageType . ' active';
+$className = 'op-create-event flex-col' . $listPageType . ' active';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -66,7 +66,7 @@ $className .= ' ' . $listColumns;
                             <input id="<?= esc_attr($id) ?>-csv-file-input" name="csv-file" type="file" accept=".csv" required onchange="createGridFromCsv(); return false">
                         </div>
                         <div class="event-grid input-outer flex-wrap responses">
-                            <div id="<?= esc_attr($id) ?>-event-grid" class="grid-content"></div>
+                            <div id="<?= esc_attr($id) ?>-event-grid" class="grid-content" style="height:50rem"></div>
                             <div class="buttons-wrapper">
                                 <button class="button-save-csv list-button" onclick="saveAsCsv(); return false">Save as CSV</button>
                                 <button class="list-button" type="submit" onclick="createNewEvent(); return false">Create new Event</button>

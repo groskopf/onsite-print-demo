@@ -72,6 +72,50 @@ function opReturnResponse( error, code, response ) {
 }
 
 /* ---------------------------------------------------------
+ >  1b. Time Converter
+------------------------------------------------------------ */
+function opTimeConverter( timestamp, display, language ){
+    
+    let time, year, months, month, monthName, date, hour, min, sec
+
+    let currentDate = new Date( timestamp )
+
+    if ( currentDate == 'Invalid Date' ) {
+        return ''
+    }
+
+    if ( language == 'da') {
+        months = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec']
+    } else {
+        months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    }
+
+    year = currentDate.getFullYear()
+    monthName = months[ currentDate.getMonth() ]
+    month = months.indexOf( monthName ) + 1
+    date = currentDate.getDate()
+    hour = currentDate.getHours()
+    min = currentDate.getMinutes()
+    sec = currentDate.getSeconds()
+
+    if ( min.toString().length == 1 ) min = `0${ min }` 
+    if ( hour.toString().length == 1 ) hour = `0${ hour }`
+
+    if ( display == 'hour-min' ) {
+        time = `${hour}:${min}`
+    } else if ( display == 'date-month-year' && language == 'da' ) {
+        time = `${date}. ${monthName}. - ${year}`
+    } else if ( display == 'full' && language == 'da' ) {
+        time = `${date}. ${month} - ${year} (${hour}:${min}:${sec})`
+    } else if ( display == 'full' ) {
+        time = `${year}-${month}-${date} ${hour}:${min}`
+    }
+
+    return time
+
+}
+
+/* ---------------------------------------------------------
  >  1c. Add Event Listener
  *  Cross-browser implementation of element.addEventListener()
  *  Use: opListener( 'event name', element, function )
@@ -134,6 +178,16 @@ function opCheckFunctionExist ( functionNames, execute ) {
     }
 }
 
+/* ---------------------------------------------------------
+ >  1f. Toggle Active Class
+------------------------------------------------------------ */
+function opToggleActive( element, closestElement ) {
+    if ( element == 'class') {
+        closestElement = `[class*="${ closestElement }"]`
+    }
+
+    event.target.closest( closestElement ).classList.toggle('op-active')
+}
 
 /* ------------------------------------------------------------------------
  #  2. Validation Functions 
@@ -192,7 +246,7 @@ function opValidationReturn( validationElement, message ) {
 
     validationElement.insertAdjacentHTML( 'afterbegin', `<div class="validation-error"><p>${ message }</p></div>` )
 
-    validationElement.classList.add( 'active' )
+    validationElement.classList.add( 'op-active' )
 
 }
 
@@ -484,6 +538,11 @@ async function opPrintParticipant( participantId ) {
     ///// If the Fetch Response has Code 201 (Created).
     if ( fetchResponseValidation.code === 201 ) { 
 
+        let eventPrintActive = block.getAttribute( 'data-print-active' )
+        participantElement.querySelector( 'footer .op-message' ).innerText = eventPrintActive
+        
+        participantElement.classList.add( 'op-print-active' )
+
         let participantPrints = ( participant.prints + 1 )
         let dateNow = Date.now()
 
@@ -494,20 +553,29 @@ async function opPrintParticipant( participantId ) {
     
         participantElement.setAttribute( 'data-op-arrival', '1' )
         participantElement.setAttribute( 'data-op-prints', participantPrints )
-        participantElement.querySelector( 'header .amount-of-print' ).innerText = participantPrints
-        participantElement.querySelector( 'header .arrival-time' ).innerText = timeConverter( dateNow, 'time' )
-        participantElement.querySelector( 'footer .arrival-time' ).innerText = timeConverter( dateNow, 'time' )
-    
+        participantElement.querySelector( 'header .op-amount-of-print' ).innerText = participantPrints
+        participantElement.querySelector( 'header .op-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
+        participantElement.querySelector( 'footer .op-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
+
+        setTimeout( function () {
+            let eventPrintSuccess = block.getAttribute( 'data-print-success' )
+            participantElement.querySelector( 'footer .op-message' ).innerText = eventPrintSuccess
+            participantElement.classList.remove( 'op-print-active' )
+            participantElement.classList.add( 'op-active' )
+        }, 3000 );
+        
     }
-
-
+    
+    
     //////////////////////////////////////////
     ///// #NG Below must be changed later.
     //////////////////////////////////////////
-
+    
+    // If error:
+    //participantElement.querySelector( 'footer .op-message' ).innerText = 'Error!!!'
 
     let windowUrl = `${ opGetFastApiInfo( 'url' ) + fetchResponseValidation.response.filename }`
-    window.open(windowUrl, '_blank').focus()
+    //window.open(windowUrl, '_blank').focus()
 
 }
 
@@ -610,9 +678,17 @@ function opBookingInformationBlocks() {
 
             const bookingInformation = bookingsStorageValidation.response.bookingList[0].booking
 
+            let bookingStartDate = opTimeConverter( bookingInformation.bookingStartDate, 'date-month-year', 'da' )
+            let bookingEndDate = opTimeConverter( bookingInformation.bookingEndDate, 'date-month-year', 'da' )
+
+            let bookingStartDateFull = opTimeConverter( bookingInformation.bookingStartDate, 'full' )
+            let bookingEndDateFull = opTimeConverter( bookingInformation.bookingEndDate, 'full' )
+
             block.querySelector('.booking-code .text').innerHTML = bookingInformation.bookingId
-            block.querySelector('.booking-start-date .text').innerHTML = bookingInformation.bookingStartDate
-            block.querySelector('.booking-end-date .text').innerHTML = bookingInformation.bookingEndDate
+            block.querySelector('.booking-start-date .text').innerHTML = bookingStartDate
+            block.querySelector('.booking-end-date .text').innerHTML = bookingEndDate
+            block.querySelector('.booking-start-date .text').setAttribute('datetime', bookingStartDateFull)
+            block.querySelector('.booking-end-date .text').setAttribute('datetime', bookingEndDateFull)
 
         })
     }
@@ -797,7 +873,7 @@ function opEventParticipantListBlocks() {
             let eventListId = block.getAttribute( 'data-event-id' )
 
             ///// Get the elements.
-            let participantListElement = block.querySelector( '.participant-list' )
+            let participantListElement = block.querySelector( '.op-participant-list' )
 
 
             // #NG: Missing login validation
@@ -828,9 +904,10 @@ function opEventParticipantListBlocks() {
             //opConsoleDebug( true, 'participants:', participants )
            
             participantListElement.innerHTML = ''
+            let eventPrintSuccess = block.getAttribute( 'data-print-success' )
 
             ///// Create Participant variables. 
-            let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTime, participantActive, participantElement
+            let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTimeFull, participantTimeHour, participantActive, participantElement
             
             ///// For each Participant create Participant Element. 
             for( var i = 0; i < participants.length; i++ ) {
@@ -842,33 +919,37 @@ function opEventParticipantListBlocks() {
                 participantline4 = participants[i].line4
                 participantline5 = participants[i].line5
                 participantPrints = participants[i].prints
-                participantTime = timeConverter( participants[i].time, 'time' )
+                participantTimeFull = opTimeConverter( participants[i].time, 'full' )
+                participantTimeHour = opTimeConverter( participants[i].time, 'hour-min' )
                 participantActive = participants[i].active
                 
                 participantElement = `
-                    <article class="op-participant_${ participantId }" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }">
-                        <header class="participant-content">
-                            <div>
-                                <span class="icon"></span>
+                    <article class="op-participant_${ participantId }" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }" onclick="opToggleActive( 'class', 'op-participant_' )">
+                        <header>
+                            <div class="op-icon"></div>
+                            <div class="op-participant-info">
+                                <p class="op-line-1">
+                                    <span class="label">1</span>
+                                    <span class="text">${ participantline1 }</span>
+                                </p>
+                                <p class="op-line-2">
+                                    <span class="label">2</span>
+                                    <span class="text">${ participantline3 }</span>
+                                </p>
+                                <p class="op-line-3">
+                                    <span class="label">3</span>
+                                    <span class="text">${ participantline2 }</span>
+                                </p>
                             </div>
-                            <div class="time">
-                                <p class="arrival-time">${ participantTime }</p>
-                            </div>
-                            <div class="list-info">
-                                <p class="line-1">${ participantline1 }</p>
-                                <p class="line-2">${ participantline2 }</p>
-                                <p class="line-3">${ participantline3 }</p>
-                                <p class="line-4">${ participantline4 }</p>
-                                <p class="line-5">${ participantline5 }</p>
-                            </div>
-                            <div class="print">
-                                <button class="print-button op-button op-button-solid" onclick="opPrintParticipant('${participantId}'); return false">Print</button>
-                                <figcaption class="amount-of-print">${ participantPrints }</figcaption>
+                            <time class="op-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
+                            <div class="op-print-info">
+                                <button class="op-print-button op-button op-button-solid" onclick="opPrintParticipant('${participantId}'); return false"><span class="text">Print</span></button>
+                                <p class="op-amount-of-print">${ participantPrints }</p>
                             </div>
                         </header>
                         <footer>
-                            <p class="message"></p>
-                            <p class="arrival-time">${ participantTime }</p>
+                            <p class="op-message">${ eventPrintSuccess }</p>
+                            <time class="op-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
                         </footer>
                     </article>
                 `
