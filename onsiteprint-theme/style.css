@@ -8,8 +8,8 @@
  *	Tested up to: 6.0
  *	Requires PHP: 5.6
  *	Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments
- *  Version: 1.0.0.2
- ?  Updated: (Y:m:d - H:i) 2022-09-09 - 10:16
+ *  Version: 1.0.0.3
+ ?  Updated: (Y:m:d - H:i) 2022-09-27 - 18:34
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -82,6 +82,8 @@
     --fa-icon-circle-question: "\f059";
     --fa-icon-user: "\f007";
     --fa-icon-check: "\f00c";
+    --fa-icon-print: "\f02f";
+    --fa-icon-clock: "\f017";
 
 	/* OnsitePrint Icons */
     --op-icon-dashboard: url('assets/icons/icon-dashboard.svg');
@@ -247,6 +249,8 @@ body .flex-col {
 	flex-direction: column;
 }
 
+
+body .hide-temp,
 body .hide-on-mobile {
 	display: none;
 }
