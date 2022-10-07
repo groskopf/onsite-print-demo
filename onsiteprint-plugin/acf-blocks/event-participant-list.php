@@ -59,7 +59,7 @@ if( ! $eventParticipantPrintSuccess ) {
             <p class="op-col-3">Kolonne 3</p>
             <p class="op-col-time"></p>
             <p class="op-col-prints"></p>
-            <button class="op-participant-list-print-all op-button op-button-stroke"onclick="printEventParticipanta(<?= esc_attr($eventId) ?>); return false">Print Alle</button>
+            <button class="op-participant-list-print-all op-button op-button-stroke"onclick="printEventParticipants(<?= esc_attr($eventId) ?>); return false">Print Alle</button>
         </div>
 
         <div class="op-participant-list flex-col">

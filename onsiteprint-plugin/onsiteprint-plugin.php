@@ -6,8 +6,8 @@
  *	Description: This is a plugin to the site http://onsiteprint.dk/.
  *	Author: Gerdes Group
  *	Author URI: https://www.clarify.nu/
- ?	Version: 1.0.0.14 (Check the Version variable)
- ?	Updated: 2022-09-27 - 19:36 (Y:M:D - H:M)
+ ?	Version: 1.0.0.15 (Check the Version variable)
+ ?	Updated: 2022-10-07 - 11:36 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -25,7 +25,7 @@
 		c. 	Block: Booking Information
 		d. 	Block: Printer Information
 		e. 	Block: Event Information
-		f. 	Block: Event Design Information
+		f. 	Block: Event Template Information
 		g. 	Block: Event Participant List
 
 
@@ -50,7 +50,7 @@
  >  1a. Definition of variables
 ------------------------------------------------------------ */
 define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
-define( 'ONSITEPRINT_VERSION', '1.0.0.14' );
+define( 'ONSITEPRINT_VERSION', '1.0.0.15' );
 
 
 /* ---------------------------------------------------------
@@ -193,16 +193,16 @@ function onsiteprint_acf_init() {
 		));
 	
 		/* ---------------------------------------------------------
-		 >  2f. Block: Event Design Information
+		 >  2f. Block: Event Template Information
 		------------------------------------------------------------ */
 		acf_register_block(array(
-			'name'				=> 'onsiteprint-event-design-information',
-			'title'				=> __('Event Design Information'),
-			'description'		=> __('Displaying Event Design Information of the current Event, if the User is logged in.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event-design-information.php',
+			'name'				=> 'onsiteprint-event-template-information',
+			'title'				=> __('Event Template Information'),
+			'description'		=> __('Displaying Event Template Information of the current Event, if the User is logged in.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event-template-information.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'info',
-			'keywords'			=> array( 'onsiteprint', 'event', 'design,', 'information' ),
+			'keywords'			=> array( 'onsiteprint', 'event', 'template,', 'information' ),
 		));
 	
 		/* ---------------------------------------------------------

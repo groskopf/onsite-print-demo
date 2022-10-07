@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-09-26 - 21:06 (Y:m:d - H:i)
+ ?  Updated: 2022-10-07 - 11:18 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -14,9 +14,11 @@
 	1. 	Basic Functions
         a. 	Console Log the Debug
         b. 	Return Response as JSON
-        c. 	Add Event Listener
-        d. 	Execute Function By Name
-		e. 	Check if Function exist
+        c. 	Time Converter
+        d. 	Add Event Listener
+        e. 	Execute Function By Name
+		f. 	Check if Function exist
+		g. 	Toggle Active Class
     2. 	Validation Functions
         a. 	Validate Local Storage
         b. 	Validation of OnsitePrint Blocks
@@ -41,7 +43,7 @@
             3. 	Booking Information
             4. 	Print Information
             5. 	Event Information
-            6. 	Event Design Information
+            6. 	Event Template Information
             7. 	Event Participant List
     7. 	Document is Ready Function
 
@@ -72,7 +74,7 @@ function opReturnResponse( error, code, response ) {
 }
 
 /* ---------------------------------------------------------
- >  1b. Time Converter
+ >  1c. Time Converter
 ------------------------------------------------------------ */
 function opTimeConverter( timestamp, display, language ){
     
@@ -116,7 +118,7 @@ function opTimeConverter( timestamp, display, language ){
 }
 
 /* ---------------------------------------------------------
- >  1c. Add Event Listener
+ >  1d. Add Event Listener
  *  Cross-browser implementation of element.addEventListener()
  *  Use: opListener( 'event name', element, function )
 ------------------------------------------------------------ */
@@ -131,7 +133,7 @@ function opListener( evnt, elem, func ) {
 }
 
 /* ---------------------------------------------------------
- >  1d. Execute Function By Name (String)
+ >  1e. Execute Function By Name (String)
 ------------------------------------------------------------ */
 function opExecuteFunctionByName( functionName, context /*, args */ ) {
     
@@ -148,7 +150,7 @@ function opExecuteFunctionByName( functionName, context /*, args */ ) {
 }
 
 /* ---------------------------------------------------------
- >  1e. Check if Function exist
+ >  1f. Check if Function exist
  *  Execute the Function if execute is true
 ------------------------------------------------------------ */
 function opCheckFunctionExist ( functionNames, execute ) {
@@ -179,7 +181,7 @@ function opCheckFunctionExist ( functionNames, execute ) {
 }
 
 /* ---------------------------------------------------------
- >  1f. Toggle Active Class
+ >  1g. Toggle Active Class
 ------------------------------------------------------------ */
 function opToggleActive( element, closestElement ) {
     if ( element == 'class') {
@@ -235,8 +237,7 @@ function opValidateBlock( block, blockName, message ) {
     block.setAttribute( 'data-block-disable', true )
     validationElement = block.querySelector('.block__inner')
     validationElement.innerHTML = ''
-    validationElement.insertAdjacentHTML( 'afterbegin', `<p class="validation-error flex-col"><span class="label">${ blockName }</span>
-    <span class="text">${ message }</span></p>` )
+    validationElement.insertAdjacentHTML( 'afterbegin', `<p class="validation-error flex-col"><span class="label">${ blockName }</span><span class="text">${ message }</span></p>` )
 }
 
 /* ---------------------------------------------------------
@@ -262,7 +263,13 @@ function opGetFastApiInfo( object ) {
         'https://api.printerboks.dk/api/v1/'
     ]
 
+    ///// List of FastAPI Tokens
+    const fastApiToken = [
+        '123admin'
+    ]
+
     if ( object === 'url' ) return fastApiUrl[ 0 ]
+    if ( object === 'token' ) return fastApiToken[ 0 ]
 }
 
 
@@ -396,7 +403,7 @@ function opUpdateParticipant( eventListId, participantId, participantPrints, dat
 
     ///// Filter Event Items.
     let eventItems = eventList.filter( eventItem => eventItem.eventCreationDate === Number( eventListId ) )
-    opConsoleDebug( true, `eventItem-${eventListId}:`, eventItems[0] )
+    opConsoleDebug( debug, `eventItem-${eventListId}:`, eventItems[0] )
     
     ///// Get Participant List. 
     const participantList = eventItems[0].eventParticipants
@@ -460,7 +467,7 @@ async function opPrintParticipant( participantId ) {
 
     ///// Get Event Item. 
     const eventItem = eventList.response
-    opConsoleDebug( true, 'eventItem:', eventItem )
+    opConsoleDebug( debug, 'eventItem:', eventItem )
 
 
     //////////////////// #NG: Needs to be looked at again - Search.
@@ -485,7 +492,7 @@ async function opPrintParticipant( participantId ) {
     ///// Create Variables.
     let bookingCode = booking.bookingId
     let layout = template.templateLayout
-    let imageFilename = template.templateFilename
+    let imageFilename = template.templateFilenameUploaded
     let string1 = participant.line1
     let string2 = participant.line2
     let string3 = participant.line3
@@ -515,7 +522,7 @@ async function opPrintParticipant( participantId ) {
         headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            'access_token': '123admin'
+            'access_token': opGetFastApiInfo( 'token' )
         },
         body: bodyInput
     }
@@ -527,7 +534,7 @@ async function opPrintParticipant( participantId ) {
     
     ///// Wait for Response of the Request.
     let fetchResponse = await request
-    opConsoleDebug( true, 'fetchResponse:', fetchResponse )
+    opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
 
     const fetchResponseValidation = validateFetchResponse( fetchResponse )
     opConsoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
@@ -548,7 +555,7 @@ async function opPrintParticipant( participantId ) {
 
         ///// Update Participant. 
         const participantUpdate = opUpdateParticipant( eventListId, participantId, participantPrints, dateNow )
-        if ( participantUpdate.error !== false ) return opConsoleDebug( true, 'participantUpdate:', participantUpdate.response )
+        if ( participantUpdate.error !== false ) return opConsoleDebug( debug, 'participantUpdate:', participantUpdate.response )
         
     
         participantElement.setAttribute( 'data-op-arrival', '1' )
@@ -562,6 +569,8 @@ async function opPrintParticipant( participantId ) {
             participantElement.querySelector( 'footer .op-message' ).innerText = eventPrintSuccess
             participantElement.classList.remove( 'op-print-active' )
             participantElement.classList.add( 'op-active' )
+
+            opEventInformationBlocks()
         }, 3000 );
         
     }
@@ -792,17 +801,17 @@ function opEventInformationBlocks() {
 }
 
 /* ---------------------------------------------------------
- >  6c-6. Event Design Information
- *  Check if multiple (Event Design Information) Blocks is on page
+ >  6c-6. Event Template Information
+ *  Check if multiple (Event Template Information) Blocks is on page
 ------------------------------------------------------------ */
-function opEventDesignInformationBlocks() {
+function opEventTemplateInformationBlocks() {
 
     ///// Debug the function
     let debug = false // true or false 
 
     ///// Get the elements.
-    let blockName = 'Event Design Information'
-    let blocks = document.querySelectorAll( '.op-event-design-information' )
+    let blockName = 'Event Template Information'
+    let blocks = document.querySelectorAll( '.op-event-template-information' )
     opConsoleDebug( debug, 'blocks:', blocks )
 
     ///// Get each Block.
@@ -830,23 +839,24 @@ function opEventDesignInformationBlocks() {
             
             ///// Filter Event Items. 
             let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
-            opConsoleDebug( debug, eventListId+':', eventItems )
+            opConsoleDebug( true, eventListId+':', eventItems )
             
             ///// Validate Event Item. 
-            if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
-        
-            ///// Get Event Participants. 
-            let participants = eventItems[0].eventParticipants
+            if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Template Information could be found to display!' )
 
-            ///// Filter Event Participants.
-            let participantItems = participants.filter( participant => participant.active === 1 )
-            opConsoleDebug( debug, 'participantItems', participantItems )
+
+            ///// Get Template Item. 
+            const templateItem = opGetTemplate( eventItems[0].eventTemplate )
+            if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
+
+            ///// Get Template. 
+            const template = templateItem.response
+            opConsoleDebug( true, 'template:', template )
 
             ///// Add to Elements.
-            block.querySelector('.event-name .text').innerHTML = eventItems[0].eventName
-            block.querySelector('.event-participants-total .text').innerHTML = participants.length
-            block.querySelector('.event-participants-registered .text').innerHTML = participantItems.length
-
+            block.querySelector('.op-template-name .op-text').innerHTML = template.templateName
+            block.querySelector('.op-template-layout .op-text').innerHTML = template.templateLayout
+            block.querySelector('.op-template-logo .op-text').innerHTML = template.templateFilenameOriginal
         })
     }
 }
@@ -986,7 +996,7 @@ function opDocumentReady() {
             'opBookingInformationBlocks',
             'opPrinterInformationBlocks',
             'opEventInformationBlocks',
-            'opEventDesignInformationBlocks',
+            'opEventTemplateInformationBlocks',
             'opEventParticipantListBlocks'
         ]
 

@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-09-27 - 19:37 (Y:m:d - H:i)
+ ?  Updated: 2022-10-07 - 16:12 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -21,7 +21,7 @@
             3. 	Booking Information
             4. 	Print Information
             5. 	Event Information
-            6. 	Event Design Information
+            6. 	Event Template Information
 
             x. 	Log in/out (Switch)
             x. 	Log in
@@ -61,40 +61,84 @@
     /* Font Awesome Icons */
     --op-icon-user: "\f007";
     --op-icon-check: "\f00c";
+
+    --fa-icon-pen: "\f304";
+    --fa-icon-eye: "\f06e";
 }
 
-/* overordnet knapper fuld border-radius*/
-button.op-button {
+[data-icon="pen"] .op-icon::before {
+	content: var(--fa-icon-pen);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="eye"] .op-icon::before {
+	content: var(--fa-icon-eye);
+    font: var(--fa-font-solid);
+}
+
+.op-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.op-flex-row-reverse {
+    flex-direction: row-reverse;
+}
+
+.op-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.op-align-start {
+    align-items: flex-start;
+}
+
+.op-flex-fill {
+    flex: 1;
+}
+
+.op-gap-1 {
+    gap: 1rem;
+}
+
+
+.op-button {
+    background-color: var(--wp--preset--color--white);
+    color: var(--wp--preset--color--black);
+    font-family: var(--wp--preset--font-family--montserrat);
+    font-size: var(--wp--preset--font-size--small);
+    line-height: var(--wp--custom--typography--line-height--normal);
+    text-align: center;
     display: inline-flex;
-    align-items: center;
     justify-content: center;
-    padding: 1.6rem 3.2rem;
-    font-size: 1.6rem;
+    align-items: center;
     min-width: 10ch;
     min-height: 5rem;
-    font-family: inherit;
+    padding: 1.1rem 2.1rem;
+    border: none;
+    border-radius: 0.4rem;
     cursor: pointer;
-    border-radius: 0.5rem;
-    text-align: center;
-    line-height: 1.1;
-    transition: 220ms all ease-in-out;
+    transition: 0.2s all ease-in-out;
+}
+
+.op-button:hover {
+    background-color: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
 }
 
 .op-button-solid {
-    color: var(--wp--preset--color--white);
     background-color: var(--wp--preset--color--primary-90);
+    color: var(--wp--preset--color--white);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
-}
-
-.op-button-solid:hover {
-    background-color: var(--wp--preset--color--accent-60);
 }
 
 .op-button-stroke,
 .op-amount-of-print {
-    color: var(--wp--preset--color--primary-90);
-    border: 0.1rem solid var(--wp--preset--color--primary-90);
     background-color: transparent;
+    color: var(--wp--preset--color--primary-90);
+    padding: 1rem 2rem;
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
 }
 
 .op-button-stroke:hover {
@@ -103,15 +147,77 @@ button.op-button {
     background-color: var(--wp--preset--color--accent-60);
 }
 
-.op-button-solid-new {
-    color: #ffffff;
-    background-color: var(--wp--preset--color--accent-60);
-    border: none;
+.op-button-small {
+    min-height: 4rem;
+    padding: 0.6rem 1.6rem;
 }
 
-.op-button-solid-new:hover {
-    background-color: var(--wp--preset--color--accent-60);
+.op-button-small.op-button-stroke {
+    padding: 0.5rem 1.5rem;
 }
+
+
+.op-button-show:is( .op-button-small ):is( .op-button-stroke ) {
+    background-color: transparent;
+    min-width: auto;
+    padding: 0;
+    position: relative;
+    border: none;
+    border-radius: unset;
+    overflow: hidden;
+}
+
+.op-button-show:is( .op-button-small ):is( .op-button-stroke ):where( :hover, :focus ) {
+    overflow: visible;
+}
+
+.op-button-show .op-icon {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 5rem;
+    min-height: 5rem;
+    border-radius: 0.4rem;
+}
+
+.op-button-show:where( :hover, :focus ) .op-icon {
+	background-color: var(--wp--preset--color--accent-60);
+	border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.op-button-show.op-flex-row-reverse:where( :hover, :focus ) .op-icon {
+	border-radius: 0 0.4rem 0.4rem 0;
+}
+
+.op-button-show .op-button-text {
+    font-weight: 500;
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	height: 5rem;
+	padding: 1rem 2rem;
+	border-radius: 0 0.4rem 0.4rem 0;
+    position: absolute;
+    left: 100%;
+    z-index: 0;
+    opacity: 0;
+}
+
+.op-button-show.op-flex-row-reverse .op-button-text {
+    right: 100%;
+    left: auto;
+}
+
+.op-button-show.op-flex-row-reverse:where( :hover, :focus ) .op-button-text {
+	border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.op-button-show:where( :hover, :focus ) .op-button-text {
+    opacity: 1;
+    background-color: var(--wp--preset--color--accent-70);
+}
+
 
 /* ------------------------------------------------------------------------
  #  2. ACF Custom Blocks
@@ -495,12 +601,11 @@ button.op-button {
 }
 
 
-
 /* ---------------------------------------------------------
- >  2c-6. Event Design Information
+ >  2c-6. Event Template Information
 ------------------------------------------------------------ */
 
-.op-event-design-information {
+.op-event-template-information {
     color: var(--wp--preset--color--white);
     line-height: 1;
     display: flex;
@@ -508,23 +613,66 @@ button.op-button {
     padding: 1rem 2rem;
 }
 
-.op-event-design-information .block__inner {
+.op-event-template-information .op-block__inner {
     background: var(--wp--preset--color--secondary-60);
     background-image: var(--wp--preset--gradient--horizontal-secondary-60-to-80);
     padding: 2rem 2rem 1.7rem;
     border-radius: 0.4rem;
 }
 
-.op-event-design-information .label {
+.op-event-template-information .op-block__inner > *:not(:last-child) {
+    padding-bottom: 1rem;
+}
+
+.op-event-template-information .op-label {
     color: var(--wp--preset--color--secondary-20);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
-    padding-bottom: 0.5rem;
+    padding: 0.4rem 0;
 }
 
-.op-event-design-information .printer-id {
-    font-size: var(--wp--preset--font-size--normal);
-    overflow-wrap: break-word;
+.op-event-template-information .op-text:last-child {
+    padding-bottom: 0.4rem;
+}
+
+.op-event-template-information .op-button.op-x {
+    color: var(--wp--preset--color--secondary-40);
+    min-width: 4rem;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-color: var(--wp--preset--color--secondary-60);
+}
+
+.op-event-template-information .op-button.op-x:hover .op-button-text {
+    background: var(--wp--preset--color--secondary-50);
+    white-space: nowrap;
+    height: auto;
+    width: auto;
+    padding: 0.6rem 1.6rem;
+    right: 100%;
+    clip: unset;
+    clip-path: unset;
+    border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.op-event-template-information .op-button.op-x:hover {
+    color: currentColor;
+    background-color: var(--wp--preset--color--secondary-40);
+    border-color: var(--wp--preset--color--secondary-40);
+    border-radius: 0 0.4rem 0.4rem 0;
+}
+
+.op-event-template-information .op-button.op-x:hover .op-button-text {
+    background: var(--wp--preset--color--secondary-50);
+    white-space: nowrap;
+    height: auto;
+    width: auto;
+    padding: 0.6rem 1.6rem;
+    right: 100%;
+    clip: unset;
+    clip-path: unset;
+    border-radius: 0.4rem 0 0 0.4rem;
 }
 
 /* ---------------------------------------------------------

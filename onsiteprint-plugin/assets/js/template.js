@@ -89,15 +89,19 @@ async function createNewTemplate( relocate ) {
     let newImageResponse = newImageValidation.response
     
     ///// Get the element for output.
-    let filename = newImageResponse.filename.slice(7)      
+    let filenameUploaded = newImageResponse.filename.slice(7)      
    
     let dateNow = Date.now()
+
+    let fileInput = formElement[ 'image' ];   
+    let filenameOriginal = fileInput.files[0].name;
 
     ///// Define new Template Item variable.
     let templateItem = { 
         'templateCreationDate' : dateNow, 
         'templateName' : formElement[ 'name' ].value, 
-        'templateFilename' : filename, 
+        'templateFilenameOriginal' : filenameOriginal,
+        'templateFilenameUploaded' : filenameUploaded,
         'templateLayout' : formElement[ 'layout' ].value
     }
     
