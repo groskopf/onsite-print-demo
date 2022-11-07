@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-10-07 - 11:18 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 16:20 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -546,7 +546,7 @@ async function opPrintParticipant( participantId ) {
     if ( fetchResponseValidation.code === 201 ) { 
 
         let eventPrintActive = block.getAttribute( 'data-print-active' )
-        participantElement.querySelector( 'footer .op-message' ).innerText = eventPrintActive
+        participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintActive
         
         participantElement.classList.add( 'op-print-active' )
 
@@ -560,13 +560,13 @@ async function opPrintParticipant( participantId ) {
     
         participantElement.setAttribute( 'data-op-arrival', '1' )
         participantElement.setAttribute( 'data-op-prints', participantPrints )
-        participantElement.querySelector( 'header .op-amount-of-print' ).innerText = participantPrints
-        participantElement.querySelector( 'header .op-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
-        participantElement.querySelector( 'footer .op-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
+        participantElement.querySelector( 'header .op-col-amount-of-prints' ).innerText = participantPrints
+        participantElement.querySelector( 'header .op-col-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
+        participantElement.querySelector( 'footer .op-col-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
 
         setTimeout( function () {
             let eventPrintSuccess = block.getAttribute( 'data-print-success' )
-            participantElement.querySelector( 'footer .op-message' ).innerText = eventPrintSuccess
+            participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintSuccess
             participantElement.classList.remove( 'op-print-active' )
             participantElement.classList.add( 'op-active' )
 
@@ -581,7 +581,7 @@ async function opPrintParticipant( participantId ) {
     //////////////////////////////////////////
     
     // If error:
-    //participantElement.querySelector( 'footer .op-message' ).innerText = 'Error!!!'
+    //participantElement.querySelector( 'footer .op-message .op-text' ).innerText = 'Error!!!'
 
     let windowUrl = `${ opGetFastApiInfo( 'url' ) + fetchResponseValidation.response.filename }`
     //window.open(windowUrl, '_blank').focus()
@@ -883,7 +883,7 @@ function opEventParticipantListBlocks() {
             let eventListId = block.getAttribute( 'data-event-id' )
 
             ///// Get the elements.
-            let participantListElement = block.querySelector( '.op-participant-list' )
+            let participantListElement = block.querySelector( '.op-participant-rows' )
 
 
             // #NG: Missing login validation
@@ -936,30 +936,38 @@ function opEventParticipantListBlocks() {
                 participantElement = `
                     <article class="op-participant_${ participantId }" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }" onclick="opToggleActive( 'class', 'op-participant_' )">
                         <header>
-                            <div class="op-icon"></div>
-                            <div class="op-participant-info">
-                                <p class="op-line-1">
-                                    <span class="label">1</span>
-                                    <span class="text">${ participantline1 }</span>
+                            <p class="op-col-icon" data-icon="user">
+                                <span class="op-icon" role="img" aria-label="User Icon"></span>
+                            </p>
+                            <div class="op-col-lines">
+                                <p class="op-col-line-1">
+                                    <span class="op-label">1</span>
+                                    <span class="op-text">${ participantline1 }</span>
                                 </p>
-                                <p class="op-line-2">
-                                    <span class="label">2</span>
-                                    <span class="text">${ participantline3 }</span>
+                                <p class="op-col-line-2">
+                                    <span class="op-label">2</span>
+                                    <span class="op-text">${ participantline3 }</span>
                                 </p>
-                                <p class="op-line-3">
-                                    <span class="label">3</span>
-                                    <span class="text">${ participantline2 }</span>
+                                <p class="op-col-line-3">
+                                    <span class="op-label">3</span>
+                                    <span class="op-text">${ participantline2 }</span>
                                 </p>
                             </div>
-                            <time class="op-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
-                            <div class="op-print-info">
-                                <button class="op-print-button op-button op-button-solid" onclick="opPrintParticipant('${participantId}'); return false"><span class="text">Print</span></button>
-                                <p class="op-amount-of-print">${ participantPrints }</p>
+                            <time class="op-col-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
+                            <div class="op-col-print-info">
+                                <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left" onclick="opPrintParticipant('${participantId}'); return false"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title">Print</span></button>
+                                <p class="op-col-amount-of-prints">${ participantPrints }</p>
                             </div>
                         </header>
                         <footer>
-                            <p class="op-message">${ eventPrintSuccess }</p>
-                            <time class="op-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
+                            <p class="op-message" data-icon="user">
+                                <span class="op-icon" role="img" aria-label="User Icon"></span>
+                                <span class="op-text">${ eventPrintSuccess }</span>
+                            </p>
+                            <time class="op-col-arrival-time" datetime="${ participantTimeFull }" data-icon="clock">
+                                <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+                                <span class="op-text">${ participantTimeHour }</span>
+                            </time>
                         </footer>
                     </article>
                 `

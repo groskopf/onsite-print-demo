@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-07 - 11:40 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 16:20 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -109,6 +109,21 @@
     font: var(--fa-font-solid);
 }
 
+[data-icon="print"] .op-icon::before {
+	content: var(--fa-icon-print);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="user"] .op-icon::before {
+	content: var(--fa-icon-user);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="clock"] .op-icon::before {
+	content: var(--fa-icon-clock);
+    font: var(--fa-font-solid);
+}
+
 .op-flex-row {
     display: flex;
     flex-direction: row;
@@ -160,6 +175,7 @@
     text-align: center;
     text-decoration: none;
     overflow-wrap: anywhere;
+    padding: 0;
     border: 0.1rem solid transparent;
     cursor: pointer;
     transition: all 200ms ease-in-out;
@@ -971,9 +987,11 @@
     border-radius: 0.4rem 0 0 0.4rem;
 }
 
+
 /* ---------------------------------------------------------
  >  2c-8. Event Participant List
 ------------------------------------------------------------ */
+
 .op-event-participant-list {
     line-height: 1;
     display: flex;
@@ -981,17 +999,59 @@
     padding: 1rem 2rem;
 }
 
-.op-event-participant-list .op-participant-list {
+.op-event-participant-list p .op-icon {
+    color: var(--wp--preset--color--neutral-60);
+    font-size: 2rem;
+}
+
+/* ------------------------------------------
+ >  Participant Column Info
+--------------------------------------------- */
+
+.op-event-participant-list .op-participant-col-info {
+    background-color: var(--wp--preset--color--white);
+    display: none;
+    grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem 16rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 1rem 1rem 1.4rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-radius: 0.4rem;
+    box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-event-participant-list .op-participant-col-info p {
+    font-weight: 500;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 1rem 2rem;
+}
+
+.op-event-participant-list .op-participant-col-info p:not( .op-col-amount-of-prints ) {
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-event-participant-list .op-participant-col-info p:is( .op-col-icon, .op-col-arrival-time, .op-col-amount-of-prints ) {
+    justify-content: center;
+    padding: 0;
+}
+
+/* ------------------------------------------
+ >  Participant Rows
+--------------------------------------------- */
+
+.op-event-participant-list .op-participant-rows {
+    font-weight: 500;
     gap: 0.3rem;
 }
 
-.op-event-participant-list article {
-    font-weight: 500;
-}
-
-.op-participant-info p .label,
-.op-event-participant-list .op-amount-of-print,
-.op-event-participant-list .op-arrival-time {
+.op-event-participant-list .op-label,
+.op-event-participant-list .op-col-amount-of-prints,
+.op-event-participant-list .op-col-arrival-time {
     font-variant-numeric: tabular-nums;
 }
 
@@ -1017,18 +1077,56 @@
     border-color: var(--wp--preset--color--action-60);
 }
 
-.op-event-participant-list .op-participant-info {
+.op-event-participant-list article header .op-col-icon .op-icon {
+    background-color: var(--wp--preset--color--primary-10);
+    color: var(--wp--preset--color--primary-90);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
+    border-radius: 0.4rem;
+}
+
+.op-event-participant-list article[data-op-arrival="1"] .op-col-icon .op-icon {
+    background-color: var(--wp--preset--color--accent-10);
+    color: var(--wp--preset--color--accent-60);
+    border-color: var(--wp--preset--color--accent-60);
+}
+
+.op-event-participant-list article[data-op-arrival="1"] .op-col-icon .op-icon::before {
+    content: var(--fa-icon-check);
+}
+
+.op-event-participant-list article.op-print-active .op-col-icon .op-icon {
+    background-color: var(--wp--preset--color--action-10);
+    color: var(--wp--preset--color--action-60);
+    border-color: var(--wp--preset--color--action-60);
+}
+
+.op-event-participant-list article.op-print-active .op-col-icon .op-icon::before {
+    content: var(--fa-icon-print);
+}
+
+.op-event-participant-list .op-col-lines {
+    display: flex;
+    flex-direction: column;
     padding-left: 1rem;
     border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
 }
 
-.op-participant-info p {
+.op-event-participant-list .op-col-lines p {
     display: flex;
     align-items: center;
     padding: 0.9rem 0;
 }
 
-.op-participant-info p .label {
+.op-event-participant-list .op-col-lines p:not(:last-child) {
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-event-participant-list .op-col-lines .op-label {
     color: var(--wp--preset--color--neutral-50);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
@@ -1042,48 +1140,32 @@
     border-radius: 50%;
 }
 
-.op-participant-info p:not(:last-child) {
-    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
-}
-
-.op-event-participant-list .op-print-info {
+.op-event-participant-list .op-col-print-info {
     display: flex;
     flex-direction: column;
 }
 
-.op-event-participant-list .op-print-info .op-print-button {
-    color: var(--wp--preset--color--white);
-    font-size: var(--wp--preset--font-size--small);
-    text-align: center;
-    line-height: 1.1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.op-event-participant-list .op-col-print-info .op-button {
     flex: 1;
     min-width: 5rem;
-    min-height: 5rem;
-    padding: 1rem;
     border-radius: 0.4rem 0.4rem 0 0;
-    cursor: pointer;
-    transition: 220ms all ease-in-out;
 }
 
-.op-event-participant-list .op-print-info .op-print-button::before {
-	content: var(--fa-icon-print);
-    font: var(--fa-font-solid);
-    font-size: 2.6rem;
+.op-event-participant-list .op-col-print-info .op-button .op-icon {
+    padding: 0;
 }
 
-.op-event-participant-list .op-print-info .op-amount-of-print {
+.op-event-participant-list .op-col-print-info .op-col-amount-of-prints {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
     border-top: none;
     border-radius: 0 0 0.4rem 0.4rem;
 }
 
-.op-event-participant-list article header :is( .op-icon, .op-arrival-time, .op-print-button .text) {
+.op-event-participant-list article header :is( .op-col-icon, .op-col-arrival-time, .op-button .op-button-title ) {
     display: none;
 }
 
@@ -1107,221 +1189,155 @@
     transition: all 0.2s ease-in-out;
 }
 
-.op-event-participant-list article[data-op-arrival="1"]:is( .op-active, .op-print-active ) footer {
+.op-event-participant-list article.op-active:is( [data-op-arrival="1"], .op-print-active ) footer {
     padding: 1.6rem 1.4rem 0.6rem;
     max-height: 5rem;
     transform: translateY(0);
 }
 
-.op-event-participant-list :where( .op-message, .op-arrival-time ) {
+.op-event-participant-list footer :where( .op-message, .op-col-arrival-time ) {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.op-event-participant-list :where( .op-message, .op-arrival-time )::before {
-    font: var(--fa-font-solid);
+.op-event-participant-list footer :where( .op-message, .op-col-arrival-time ) .op-icon {
     font-size: 1.2rem;
     margin-right: 1rem;
 }
 
-.op-event-participant-list .op-message::before {
-    content: var(--fa-icon-user);
+.op-event-participant-list footer .op-message .op-icon {
     background-color: var(--wp--preset--color--primary-10);
     color: var(--wp--preset--color--primary-90);
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 2rem;
+    height: 2rem;
     border: 0.1rem solid var(--wp--preset--color--primary-90);
     border-radius: 3rem;
 }
 
-.op-event-participant-list article[data-op-arrival="1"] .op-message::before {
-    content: var(--fa-icon-check);
+.op-event-participant-list article[data-op-arrival="1"] footer .op-message .op-icon {
     background-color: var(--wp--preset--color--accent-10);
     color: var(--wp--preset--color--accent-60);
     border-color: var(--wp--preset--color--accent-60);
 }
 
-.op-event-participant-list article[data-op-arrival="1"].op-print-active .op-message::before {
-    content: var(--fa-icon-print);
+.op-event-participant-list article[data-op-arrival="1"] footer .op-message .op-icon::before {
+    content: var(--fa-icon-check);
+}
+
+.op-event-participant-list article.op-print-active footer .op-message .op-icon {
     background-color: var(--wp--preset--color--action-10);
     color: var(--wp--preset--color--action-60);
     border-color: var(--wp--preset--color--action-60);
 }
 
-.op-event-participant-list .op-arrival-time::before {
-    content: var(--fa-icon-clock);
+.op-event-participant-list article.op-print-active footer .op-message .op-icon::before {
+    content: var(--fa-icon-print);
+}
+
+.op-event-participant-list footer .op-col-arrival-time .op-icon::before {
     color: var(--wp--preset--color--neutral-50);
 }
 
-.op-event-participant-list .op-participant-list-cols {
-    display: none;
-}
+
+
 
 
 
 @media screen and/*  ( max-width: 900px ) and ( min-width: 600px ),  */( min-width: 1300px ) {
+
+    /* #NG - 2022-11-07 */
+
+    /* ------------------------------------------------------------------------
+    #  2. ACF Custom Blocks
+    ---------------------------------------------------------------------------
+    >  2c-8. Event Participant List
+    ------------------------------------------------------------ */
+
+
+    /* ------------------------------------------
+    >  Participant Column Info
+    --------------------------------------------- */
+
+    .op-event-participant-list .op-participant-col-info {
+        display: grid;
+    }
+
+    /* ------------------------------------------
+    >  Participant Rows
+    --------------------------------------------- */
 
     .op-event-participant-list article header {
         grid-template-columns: auto 1fr calc( 5ch + 4rem ) auto;
         gap: 0;
     }
 
-    .op-event-participant-list article header :is( .op-icon, .op-arrival-time, .op-print-button .text) {
+    .op-event-participant-list article header :is( .op-col-icon, .op-col-arrival-time, .op-button .op-button-title ) {
         display: flex;
     }
 
-    .op-event-participant-list .op-participant-info {
+    .op-event-participant-list .op-col-lines {
         display: grid;
         grid-template-columns: repeat(3, calc(100% / 3));
         padding: 0;
+    }
+
+    .op-event-participant-list .op-col-print-info .op-button {
+        min-width: 16rem;
+        border-radius: 0 0.4rem 0.4rem 0;
+    }
+        
+    .op-event-participant-list .op-col-print-info .op-button .op-icon {
+        padding: 1.2rem 1.4rem 1.2rem 2.1rem;
     }
 
     .op-event-participant-list :where( .op-icon )::before {
         font: var(--fa-font-solid);
         font-size: 2.4rem;
     }
-    
-    .op-event-participant-list .op-icon::before {
-        content: var(--fa-icon-user);
-        background-color: var(--wp--preset--color--primary-10);
-        color: var(--wp--preset--color--primary-90);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 5rem;
-        height: 5rem;
-        border: 0.1rem solid var(--wp--preset--color--primary-90);
-        border-radius: 0.4rem;
+
+    .op-event-participant-list .op-col-lines p {
+        min-width: 0;
+        padding: 0.9rem 2rem;
     }
     
-    .op-event-participant-list article[data-op-arrival="1"] .op-icon::before {
-        content: var(--fa-icon-check);
-        background-color: var(--wp--preset--color--accent-10);
-        color: var(--wp--preset--color--accent-60);
-        border-color: var(--wp--preset--color--accent-60);
-    }
-    
-    .op-event-participant-list article[data-op-arrival="1"].op-print-active .op-icon::before {
-        content: var(--fa-icon-print);
-        background-color: var(--wp--preset--color--action-10);
-        color: var(--wp--preset--color--action-60);
-        border-color: var(--wp--preset--color--action-60);
-    }
-    
-    .op-participant-info p:not(:last-child) {
+    .op-event-participant-list .op-col-lines p:not(:last-child) {
         border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
         border-bottom: none;
     }
 
-    .op-participant-info p {
-        min-width: 0;
-        padding: 0.9rem 2rem;
-    }
-
-    .op-participant-info p .label {
+    .op-event-participant-list .op-col-lines p .op-label {
         display: none;
     }
 
-    .op-participant-info p .text {
+    .op-event-participant-list .op-col-lines p .op-text {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
     }
 
-    .op-event-participant-list .op-arrival-time {
+    .op-event-participant-list .op-col-arrival-time {
         padding: 0 2rem;
     }
 
-    .op-event-participant-list .op-print-info {
+    .op-event-participant-list .op-col-print-info {
         flex-direction: row-reverse;
     }
 
-    .op-event-participant-list .op-print-info .op-print-button {
-        font-weight: 500;
-        min-width: 15rem;
-        padding: 1rem 2.4rem;
-        border-radius: 0 0.4rem 0.4rem 0;
-    }
-
-    .op-event-participant-list .op-print-info .op-print-button::before {
-        font-size: 2.4rem;
-        display: none;
-        margin-right: 1rem;
-    }
-
-    .op-event-participant-list .op-print-info .op-amount-of-print {
+    .op-event-participant-list .op-col-print-info .op-amount-of-print {
         width: 5rem;
         border-top: 0.1rem solid;
         border-right: none;
         border-radius: 0.4rem 0 0 0.4rem;
     }
 
-    .op-event-participant-list header .op-arrival-time::before {
+    .op-event-participant-list header .op-col-arrival-time::before {
         display: none;
     }
 
-    .op-event-participant-list .op-participant-list-cols {
-        background-color: var(--wp--preset--color--white);
-        display: grid;
-        grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem 15rem;
-        align-items: center;
-        margin-bottom: 2rem;
-        padding: 1rem 1rem 1rem 1.4rem;
-        position: sticky;
-        top: 0;
-        z-index: 999;
-        border-radius: 0.4rem;
-        box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
-    }
-
-    .op-participant-list-cols p {
-        font-weight: 600;
-        line-height: 1;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        padding: 1rem 2rem;
-    }
-    
-    .op-participant-list-cols p:not( .op-col-prints ) {
-        border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
-    }
-
-    .op-participant-list-cols :is( .op-participant-list-option, .op-col-time, .op-col-prints ) {
-        justify-content: center;
-        align-items: center;
-        padding: 0;
-    }
-    .op-participant-list-cols :is( .op-participant-list-option, .op-col-time, .op-col-prints )::before {
-        color: var(--wp--preset--color--neutral-60);
-        font: var(--fa-font-solid);
-        font-size: 2rem;
-    }
-    
-    .op-participant-list-cols .op-participant-list-option::before {
-        content: var(--fa-icon-user);
-    }
-    
-    .op-participant-list-cols .op-col-time::before {
-        content: var(--fa-icon-clock);
-    }
-    
-    .op-participant-list-cols .op-col-prints::before {
-        content: var(--fa-icon-print);
-    }
-
-    .op-participant-list-cols .op-participant-list-print-all {
-        font-weight: 500;
-    }
-   
-    .op-participant-list-cols .op-participant-list-print-all:hover {
-        color: var(--wp--preset--color--white);
-    }
-   
 
 }
 

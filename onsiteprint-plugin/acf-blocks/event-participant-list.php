@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-10-28 - 14:42 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 16:20 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -50,21 +50,27 @@ if( ! $eventParticipantPrintSuccess ) {
 ?>
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-event-id="<?= esc_attr($eventId) ?>" data-print-active="<?= esc_attr($eventParticipantPrintActive) ?>" data-print-success="<?= esc_attr($eventParticipantPrintSuccess) ?>">
-    <div class="block__inner">
+    <div class="op-block__inner">
 
-        <div class="op-participant-list-cols flex-row">
-            <p class="op-participant-list-option"></p>
-            <p class="op-col-1">Kolonne 1</p>
-            <p class="op-col-2">Kolonne 2</p>
-            <p class="op-col-3">Kolonne 3</p>
-            <p class="op-col-time"></p>
-            <p class="op-col-prints"></p>
-            <button class="op-participant-list-print-all op-button op-button-size-medium op-button-style-outline"  data-color="primary-90" onclick="printEventParticipants(<?= esc_attr($eventId) ?>); return false">Print Alle</button>
+        <div class="op-participant-col-info">
+            <p class="op-col-icon" data-icon="user">
+                <span class="op-icon" role="img" aria-label="User Icon"></span>
+            </p>
+            <p class="op-col-line-1">Kolonne 1</p>
+            <p class="op-col-line-2">Kolonne 2</p>
+            <p class="op-col-line-3">Kolonne 3</p>
+            <p class="op-col-arrival-time" data-icon="clock">
+                <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+            </p>
+            <p class="op-col-amount-of-prints" data-icon="print">
+                <span class="op-icon" role="img" aria-label="Printer Icon"></span>
+            </p>
+            <button class="op-button op-button-size-medium op-button-style-outline"  data-color="primary-90" onclick="printEventParticipants(<?= esc_attr($eventId) ?>); return false"><span class="op-button-title">Print Alle</span></button>
         </div>
 
-        <div class="op-participant-list flex-col">
-            <p class="flex-col">
-                <span class="text">Loading...</span>
+        <div class="op-participant-rows op-flex-col">
+            <p class="op-flex-col">
+                <span class="op-text">Loading...</span>
             </p>
         </div>
 
