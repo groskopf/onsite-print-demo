@@ -1,2 +1,2 @@
 # onsite-print-demo
-First WordPress Child Theme
+OnsitePrint Theme (Based on WordPress Theme - Twenty Twenty-Two)
