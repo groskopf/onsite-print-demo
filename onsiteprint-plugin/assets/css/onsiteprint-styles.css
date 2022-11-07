@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-07 - 09:49 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 11:40 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -52,25 +52,46 @@
 }/* #NG - To Child */
 
 :root {
-    /* HEX colors */
-    --op-hex-blue: #339;
-    --op-hex-blue-light: #33C;
-    --op-hex-teal: #3CC;
-    --op-hex-teal-light: #3DD;
-    
-    /* RGB colors */
-    --op-rgb-blue: 51, 51, 153;
-    --op-rgb-blue-light: 51, 51, 204;   
-    --op-rgb-teal: 51, 204, 204;
-    --op-rgb-teal-light: 51, 221, 221;
-
     /* Font Awesome Icons */
-    --op-icon-user: "\f007";
-    --op-icon-check: "\f00c";
-
+    --fa-icon-exclamation: "\21";
+    --fa-icon-circle-exclamation: "\f06a";
+    --fa-icon-house: "\f015";
+    --fa-icon-table-cells: "\f00a";
+    --fa-icon-circle-question: "\f059";
+    --fa-icon-user: "\f007";
+    --fa-icon-check: "\f00c";
+    --fa-icon-print: "\f02f";
+    --fa-icon-clock: "\f017";
     --fa-icon-arrow-up-right-from-square: "\f08e";
     --fa-icon-pen: "\f304";
     --fa-icon-eye: "\f06e";
+
+	/* OnsitePrint Icons */
+    --op-icon-dashboard: url('assets/icons/icon-dashboard.svg');
+
+}
+
+[data-icon="dashboard"] a::before {
+	content: '';
+	background-image: var(--op-icon-dashboard);
+    background-repeat: no-repeat;
+    background-size: 3.2rem;
+    background-position: center;
+}
+
+[data-icon="house"] a::before {
+	content: var(--fa-icon-house);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="table-cells"] a::before {
+	content: var(--fa-icon-table-cells);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="circle-question"] a::before {
+	content: var(--fa-icon-circle-question);
+    font: var(--fa-font-regular);
 }
 
 [data-icon="link"] .op-icon::before {
