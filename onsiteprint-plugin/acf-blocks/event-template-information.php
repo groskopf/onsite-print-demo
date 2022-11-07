@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-11-07 - 09:48 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 11:50 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -79,7 +79,7 @@ if( ! $eventTemplateViewLogoButton ) {
                 <span class="op-label"><?= esc_attr($eventTemplateNameLabel) ?></span>
                 <span class="op-text">Loading...</span>
             </p>
-            <button class="op-button op-button-size-small op-button-style-outline" data-color="secondary-20" data-icon="pen" data-icon-position="right" data-title-visibility="1">
+            <button class="op-button op-button-size-small op-button-style-outline hide-temp" data-color="secondary-20" data-icon="pen" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="Edit Icon"></span>
                 <span class="op-button-title"><?= esc_attr($eventTemplateEditButton) ?></span>
             </button>
@@ -90,7 +90,7 @@ if( ! $eventTemplateViewLogoButton ) {
                 <span class="op-label"><?= esc_attr($eventTemplateLayoutLabel) ?></span>
                 <span class="op-text">Loading...</span>
             </p>
-            <button class="op-button op-button-size-small op-button-style-outline" data-color="secondary-20" data-icon="eye" data-icon-position="right" data-title-visibility="1">
+            <button class="op-button op-button-size-small op-button-style-outline hide-temp" data-color="secondary-20" data-icon="eye" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="Eye Icon"></span>
                 <span class="op-button-title"><?= esc_attr($eventTemplateViewLayoutButton) ?></span>
             </button>
@@ -101,7 +101,7 @@ if( ! $eventTemplateViewLogoButton ) {
                 <span class="op-label"><?= esc_attr($eventTemplateLogoLabel) ?></span>
                 <span class="op-text">Loading...</span>
             </p>
-            <button class="op-button op-button-size-small op-button-style-outline" data-color="secondary-20" data-icon="eye" data-icon-position="right" data-title-visibility="1">
+            <button class="op-button op-button-size-small op-button-style-outline hide-temp" data-color="secondary-20" data-icon="eye" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="Eye Icon"></span>
                 <span class="op-button-title"><?= esc_attr($eventTemplateViewLogoButton) ?></span>
             </button>
