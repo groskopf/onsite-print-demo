@@ -1,7 +1,16 @@
 # onsite-print-demo
 First WordPress Plugin  
 
-## List of functions:
+## List of new ACF Custom Blocks:
+> - a. \[Block\] Link Button
+> - b. \[Block\] Log In/Out Button
+> - c. \[Block\] Toggle Button
+> - d. \[Block\] Booking Information
+> - e. \[Block\] Printer Information
+> - f. \[Block\] Event Information
+> - g. \[Block\] Event Template Information
+> - h. \[Block\] Event Participant List
+## List of old blocks:
 > - \[Block\] Get Booking with Booking Code
 > - \[Block\] Log in/out
 > - \[Block\] Create New Template
