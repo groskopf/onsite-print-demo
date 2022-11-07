@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: (Y:m:d - H:i) 2022-09-27 - 15:58
+ ?  Updated: 2022-10-28 - 14:42 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -59,7 +59,7 @@ if( ! $eventParticipantPrintSuccess ) {
             <p class="op-col-3">Kolonne 3</p>
             <p class="op-col-time"></p>
             <p class="op-col-prints"></p>
-            <button class="op-participant-list-print-all op-button op-button-stroke"onclick="printEventParticipants(<?= esc_attr($eventId) ?>); return false">Print Alle</button>
+            <button class="op-participant-list-print-all op-button op-button-size-medium op-button-style-outline"  data-color="primary-90" onclick="printEventParticipants(<?= esc_attr($eventId) ?>); return false">Print Alle</button>
         </div>
 
         <div class="op-participant-list flex-col">

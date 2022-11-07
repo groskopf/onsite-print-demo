@@ -976,11 +976,6 @@ function opEventParticipantListBlocks() {
 
 
 
-
-
-
-
-
 /* ------------------------------------------------------------------------
  #  7. Document is Ready
 --------------------------------------------------------------------------- */
@@ -1008,4 +1003,4 @@ function opDocumentReady() {
         opConsoleDebug( debug, 'opDocumentReady:', error )
     }
 }
-opListener( 'load', window, opDocumentReady() )
+opListener( 'load', window, opDocumentReady )

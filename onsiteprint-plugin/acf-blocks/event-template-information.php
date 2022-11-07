@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-10-07 - 14:50 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 09:48 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -79,9 +79,9 @@ if( ! $eventTemplateViewLogoButton ) {
                 <span class="op-label"><?= esc_attr($eventTemplateNameLabel) ?></span>
                 <span class="op-text">Loading...</span>
             </p>
-            <button class="op-button op-button-small op-button-stroke op-button-show op-flex-row-reverse" data-icon="pen" onclick="; return false">
+            <button class="op-button op-button-size-small op-button-style-outline" data-color="secondary-20" data-icon="pen" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="Edit Icon"></span>
-                <span class="op-button-text"><?= esc_attr($eventTemplateEditButton) ?></span>
+                <span class="op-button-title"><?= esc_attr($eventTemplateEditButton) ?></span>
             </button>
         </div>
 
@@ -90,9 +90,9 @@ if( ! $eventTemplateViewLogoButton ) {
                 <span class="op-label"><?= esc_attr($eventTemplateLayoutLabel) ?></span>
                 <span class="op-text">Loading...</span>
             </p>
-            <button class="op-button op-button-small op-button-stroke op-button op-flex-row-reverse" data-icon="eye" onclick="; return false">
+            <button class="op-button op-button-size-small op-button-style-outline" data-color="secondary-20" data-icon="eye" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="Eye Icon"></span>
-                <span class="op-button-text"><?= esc_attr($eventTemplateViewLayoutButton) ?></span>
+                <span class="op-button-title"><?= esc_attr($eventTemplateViewLayoutButton) ?></span>
             </button>
         </div>
         
@@ -101,11 +101,12 @@ if( ! $eventTemplateViewLogoButton ) {
                 <span class="op-label"><?= esc_attr($eventTemplateLogoLabel) ?></span>
                 <span class="op-text">Loading...</span>
             </p>
-            <button class="op-button op-button-small op-button-stroke op-x" data-icon="eye" onclick="; return false">
+            <button class="op-button op-button-size-small op-button-style-outline" data-color="secondary-20" data-icon="eye" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="Eye Icon"></span>
-                <span class="op-button-text screen-reader-text"><?= esc_attr($eventTemplateViewLogoButton) ?></span>
+                <span class="op-button-title"><?= esc_attr($eventTemplateViewLogoButton) ?></span>
             </button>
         </div>
+
 
     </div><!-- .block__inner -->
 </section><!-- #<?= esc_attr($id) ?> -->

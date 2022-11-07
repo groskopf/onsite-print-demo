@@ -6,8 +6,9 @@
  *	Description: This is a plugin to the site http://onsiteprint.dk/.
  *	Author: Gerdes Group
  *	Author URI: https://www.clarify.nu/
- ?	Version: 1.0.0.15 (Check the Version variable)
- ?	Updated: 2022-10-07 - 11:36 (Y:M:D - H:M)
+ *	Version: 1.0.0.22
+ ?	(Check the Version variable)
+ ?	Updated: 2022-11-07 - 09:50 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -20,13 +21,14 @@
         c. 	Enqueue Styles
 	2. 	Custom Block Category Registration
 	3. 	ACF Custom Blocks Registration
-		a. 	Block: Log In/Out Button
-        b. 	Block: Toggle Button
-		c. 	Block: Booking Information
-		d. 	Block: Printer Information
-		e. 	Block: Event Information
-		f. 	Block: Event Template Information
-		g. 	Block: Event Participant List
+		a. 	Block: Link Button
+		b. 	Block: Log In/Out Button
+        c. 	Block: Toggle Button
+		d. 	Block: Booking Information
+		e. 	Block: Printer Information
+		f. 	Block: Event Information
+		g. 	Block: Event Template Information
+		h. 	Block: Event Participant List
 
 
 		x. 	Block: Log in/out (Switch)
@@ -50,7 +52,7 @@
  >  1a. Definition of variables
 ------------------------------------------------------------ */
 define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
-define( 'ONSITEPRINT_VERSION', '1.0.0.15' );
+define( 'ONSITEPRINT_VERSION', '1.0.0.22' );
 
 
 /* ---------------------------------------------------------
@@ -128,7 +130,23 @@ function onsiteprint_acf_init() {
 	if( function_exists('acf_register_block') ) {
 	
 		/* ---------------------------------------------------------
-		 >  2a. Block: Log In/Out Button
+		 >  2a. Block: Link Button
+		------------------------------------------------------------ */
+		acf_register_block(array(
+			'name'				=> 'onsiteprint-button-link',
+			'title'				=> __('Link Button'),
+			'description'		=> __('Displaying a Button with a Custom Link.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/button-link.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'button',
+			'supports'          => array(
+                'align' 		=> false,
+            ),
+			'keywords'			=> array(  'onsiteprint', 'button', 'link' ),
+		));
+	
+		/* ---------------------------------------------------------
+		 >  2b. Block: Log In/Out Button
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-button-loginout',
@@ -141,7 +159,7 @@ function onsiteprint_acf_init() {
 		));
 
 		/* ---------------------------------------------------------
-		 >  2b. Block: Toggle Button
+		 >  2c. Block: Toggle Button
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-button-toggle',
@@ -154,7 +172,7 @@ function onsiteprint_acf_init() {
 		));
 
 		/* ---------------------------------------------------------
-		 >  2c. Block: Booking Information
+		 >  2d. Block: Booking Information
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-booking-information',
@@ -167,7 +185,7 @@ function onsiteprint_acf_init() {
 		));
 	
 		/* ---------------------------------------------------------
-		 >  2d. Block: Printer Information
+		 >  2e. Block: Printer Information
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-printer-information',
@@ -180,7 +198,7 @@ function onsiteprint_acf_init() {
 		));
 	
 		/* ---------------------------------------------------------
-		 >  2e. Block: Event Information
+		 >  2f. Block: Event Information
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-event-information',
@@ -193,7 +211,7 @@ function onsiteprint_acf_init() {
 		));
 	
 		/* ---------------------------------------------------------
-		 >  2f. Block: Event Template Information
+		 >  2g. Block: Event Template Information
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-event-template-information',
@@ -206,7 +224,7 @@ function onsiteprint_acf_init() {
 		));
 	
 		/* ---------------------------------------------------------
-		 >  2g. Block: Event Participant List
+		 >  2h. Block: Event Participant List
 		------------------------------------------------------------ */
 		acf_register_block(array(
 			'name'				=> 'onsiteprint-event-participant-list',

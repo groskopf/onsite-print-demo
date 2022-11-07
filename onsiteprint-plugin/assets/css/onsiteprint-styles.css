@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-10-07 - 16:12 (Y:m:d - H:i)
+ ?  Updated: 2022-11-07 - 09:49 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -12,6 +12,9 @@
 
 	0. 	List of upcoming tasks 
 	1. 	Plugin Setup
+	 	a. Buttons
+            1. 	Sizes
+            2. 	Colors/Styles
 	2. 	ACF Custom Blocks
 		a. 	Block Styles
 		b. 	Block Validation
@@ -44,6 +47,9 @@
 ---------------------------------------------------------------------------
  #  1. Plugin Setup
 --------------------------------------------------------------------------- */
+.page-template-default .wp-site-blocks {
+    display: flex;
+}/* #NG - To Child */
 
 :root {
     /* HEX colors */
@@ -62,8 +68,14 @@
     --op-icon-user: "\f007";
     --op-icon-check: "\f00c";
 
+    --fa-icon-arrow-up-right-from-square: "\f08e";
     --fa-icon-pen: "\f304";
     --fa-icon-eye: "\f06e";
+}
+
+[data-icon="link"] .op-icon::before {
+	content: var(--fa-icon-arrow-up-right-from-square);
+    font: var(--fa-font-solid);
 }
 
 [data-icon="pen"] .op-icon::before {
@@ -79,6 +91,7 @@
 .op-flex-row {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .op-flex-row-reverse {
@@ -88,6 +101,11 @@
 .op-flex-col {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.op-flex-nowrap {
+    flex-wrap: nowrap;
 }
 
 .op-align-start {
@@ -102,120 +120,367 @@
     gap: 1rem;
 }
 
+.op-min-content {
+    width: min-content;
+}        
+
+
+/* ---------------------------------------------------------
+ >  1a. Buttons
+------------------------------------------------------------ */
 
 .op-button {
-    background-color: var(--wp--preset--color--white);
-    color: var(--wp--preset--color--black);
+    --solid-background-color: var(--wp--preset--color--white);
+    --solid-color: var(--wp--preset--color--black);
+    --outline-color: var(--wp--preset--color--black);
+    --outline-border-color: var(--wp--preset--color--black);
     font-family: var(--wp--preset--font-family--montserrat);
-    font-size: var(--wp--preset--font-size--small);
-    line-height: var(--wp--custom--typography--line-height--normal);
+    font-weight: 500;
     text-align: center;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 10ch;
-    min-height: 5rem;
-    padding: 1.1rem 2.1rem;
-    border: none;
-    border-radius: 0.4rem;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    border: 0.1rem solid transparent;
     cursor: pointer;
-    transition: 0.2s all ease-in-out;
+    transition: all 200ms ease-in-out;
 }
 
-.op-button:hover {
-    background-color: var(--wp--preset--color--accent-60);
-    color: var(--wp--preset--color--white);
-}
-
-.op-button-solid {
-    background-color: var(--wp--preset--color--primary-90);
-    color: var(--wp--preset--color--white);
-    border: 0.1rem solid var(--wp--preset--color--primary-90);
-}
-
-.op-button-stroke,
-.op-amount-of-print {
-    background-color: transparent;
-    color: var(--wp--preset--color--primary-90);
-    padding: 1rem 2rem;
-    border: 0.1rem solid var(--wp--preset--color--primary-90);
-}
-
-.op-button-stroke:hover {
-    color: var(--wp--preset--color--accent-60);
-    border: 0.1rem solid var(--wp--preset--color--accent-60);
-    background-color: var(--wp--preset--color--accent-60);
-}
-
-.op-button-small {
-    min-height: 4rem;
-    padding: 0.6rem 1.6rem;
-}
-
-.op-button-small.op-button-stroke {
-    padding: 0.5rem 1.5rem;
-}
-
-
-.op-button-show:is( .op-button-small ):is( .op-button-stroke ) {
-    background-color: transparent;
-    min-width: auto;
-    padding: 0;
-    position: relative;
-    border: none;
-    border-radius: unset;
-    overflow: hidden;
-}
-
-.op-button-show:is( .op-button-small ):is( .op-button-stroke ):where( :hover, :focus ) {
-    overflow: visible;
-}
-
-.op-button-show .op-icon {
-    background-color: var(--wp--preset--color--white);
+.op-button,
+.op-button .op-icon,
+.op-button .op-icon::before {
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 5rem;
-    min-height: 5rem;
     border-radius: 0.4rem;
 }
 
-.op-button-show:where( :hover, :focus ) .op-icon {
-	background-color: var(--wp--preset--color--accent-60);
+.op-button:is( :hover, :focus ) {
+    background-color: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
+    border: 0.1rem solid var(--wp--preset--color--accent-60);
+    transition: all 200ms ease-in-out, color 100ms ease-in-out;
+}
+
+.op-button:is( [data-color="accent-60"] ):is( .op-button-style-solid ):is( :hover, :focus ),
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover, :focus ) {
+    background-color: var(--wp--preset--color--primary-90);
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
+}
+
+.op-button:is( [data-icon-position="right"] ) {
+    flex-direction: row-reverse;
+}
+
+
+/* ------------------------------------------
+ >  1a-1. Button Sizes
+---------------------------------------------
+ >  Button Size - Small
+------------------------------ */
+
+.op-button:is( .op-button-size-small ) {
+    font-size: var(--wp--preset--font-size--small);
+    line-height: calc( var(--wp--preset--font-size--small) + ( var(--wp--preset--font-size--small) / 4 ) );
+    min-height: 4rem;
+}
+
+.op-button:is( .op-button-size-small ) :is( .op-icon, .op-button-title ) {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+
+.op-button:is( .op-button-size-small ):where( [data-icon-position="left"] ) .op-icon {
+    padding-right: 1.2rem;
+    padding-left: 1.6rem;
+}
+
+.op-button:is( .op-button-size-small ):where( [data-icon-position="right"] ) .op-icon {
+    padding-right: 1.6rem;
+    padding-left: 1.2rem;
+}
+
+.op-button:is( .op-button-size-small ) .op-icon::before {
+    width: 2rem;
+    height: 2rem;
+}
+
+.op-button:is( .op-button-size-small ):where( [data-icon-position="left"] ) .op-button-title {
+    padding-right: 1.8rem;
+}
+
+.op-button:is( .op-button-size-small ):where( [data-icon-position="right"] ) .op-button-title {
+    padding-left: 1.8rem;
+}
+
+.op-button:is( .op-button-size-small ):not( [data-icon-position="left"], [data-icon-position="right"] ) .op-button-title {
+    padding-right: 1.8rem;
+    padding-left: 1.8rem;
+}
+
+.op-button:is( .op-button-size-small )[data-title-visibility="1"] .op-icon {
+    padding: 0.9rem;
+}
+
+.op-button:is( .op-button-size-small )[data-title-visibility="1"] .op-button-title {
+    padding-right: 1.8rem;
+    padding-left: 1.8rem;
+}
+
+/* ---------------------------
+ >  Button Size - Medium
+------------------------------ */
+
+.op-button:is( .op-button-size-medium ) {
+    font-size: calc( var(--wp--preset--font-size--small) + ( var(--wp--preset--font-size--small) / 4 ) );
+    line-height: calc( var(--wp--preset--font-size--small) + ( var(--wp--preset--font-size--small) / 2 ) );
+    min-height: 5rem;
+}
+
+.op-button:is( .op-button-size-medium ) :is( .op-icon, .op-button-title ) {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+}
+
+.op-button:is( .op-button-size-medium ):where( [data-icon-position="left"] ) .op-icon {
+    padding-right: 1.4rem;
+    padding-left: 2.1rem;
+}
+
+.op-button:is( .op-button-size-medium ):where( [data-icon-position="right"] ) .op-icon {
+    padding-right: 2.1rem;
+    padding-left: 1.4rem;
+}
+
+.op-button:is( .op-button-size-medium ) .op-icon::before {
+    width: 2.4rem;
+    height: 2.4rem;
+}
+
+.op-button:is( .op-button-size-medium ):where( [data-icon-position="left"] ) .op-button-title {
+    padding-right: 2.4rem;
+}
+
+.op-button:is( .op-button-size-medium ):where( [data-icon-position="right"] ) .op-button-title {
+    padding-left: 2.4rem;
+}
+
+.op-button:is( .op-button-size-medium ):not( [data-icon-position="left"], [data-icon-position="right"] ) .op-button-title {
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+}
+
+.op-button:is( .op-button-size-medium )[data-title-visibility="1"] .op-icon {
+    padding: 1.2rem;
+}
+
+.op-button:is( .op-button-size-medium )[data-title-visibility="1"] .op-button-title {
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+}
+
+/* ---------------------------
+ >  Button Size - Large
+------------------------------ */
+
+.op-button:is( .op-button-size-large ) {
+    font-size: var(--wp--preset--font-size--medium);
+    line-height: calc( var(--wp--preset--font-size--medium) + ( var(--wp--preset--font-size--medium) / 4 ) );
+    min-height: 6rem;
+}
+
+.op-button:is( .op-button-size-large ) :is( .op-icon, .op-button-title ) {
+    padding-top: 1.4rem;
+    padding-bottom: 1.4rem;
+}
+
+.op-button:is( .op-button-size-large ):where( [data-icon-position="left"] ) .op-icon {
+    padding-right: 1.6rem;
+    padding-left: 2.6rem;
+}
+
+.op-button:is( .op-button-size-large ):where( [data-icon-position="right"] ) .op-icon {
+    padding-right: 2.6rem;
+    padding-left: 1.6rem;
+}
+
+.op-button:is( .op-button-size-large ) .op-icon::before {
+    width: 3rem;
+    height: 3rem;
+}
+
+.op-button:is( .op-button-size-large ):where( [data-icon-position="left"] ) .op-button-title {
+    padding-right: 3rem;
+}
+
+.op-button:is( .op-button-size-large ):where( [data-icon-position="right"] ) .op-button-title {
+    padding-left: 3rem;
+}
+
+.op-button:is( .op-button-size-large ):not( [data-icon-position="left"], [data-icon-position="right"] ) .op-button-title {
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+
+.op-button:is( .op-button-size-large )[data-title-visibility="1"] .op-icon {
+    padding: 1.4rem;
+}
+
+.op-button:is( .op-button-size-large )[data-title-visibility="1"] .op-button-title {
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+
+
+/* ------------------------------------------
+ >  1a-2. Button Colors/Styles
+---------------------------------------------
+ >  Button Colors
+------------------------------ */
+
+.op-button:where( [data-color="white"] ) {
+    --solid-background-color: var(--wp--preset--color--white);
+    --solid-color: var(--wp--preset--color--primary-90);
+}
+
+.op-button:where( [data-color="black"] ) {
+    --solid-background-color: var(--wp--preset--color--black);
+    --solid-color: var(--wp--preset--color--white);
+}
+
+.op-button:where( [data-color="primary-100"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-100);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-100);
+    --outline-border-color: var(--wp--preset--color--primary-100);
+}
+
+.op-button:where( [data-color="primary-90"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-90);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-90);
+    --outline-border-color: var(--wp--preset--color--primary-90);
+}
+
+.op-button:where( [data-color="primary-60"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-60);
+    --outline-border-color: var(--wp--preset--color--primary-60);
+}
+
+.op-button:where( [data-color="primary-20"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-20);
+    --solid-color: var(--wp--preset--color--primary-100);
+    --outline-color: var(--wp--preset--color--primary-10);
+    --outline-border-color: var(--wp--preset--color--primary-20);
+}
+
+.op-button:where( [data-color="secondary-60"] ) {
+    --solid-background-color: var(--wp--preset--color--secondary-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--secondary-60);
+    --outline-border-color: var(--wp--preset--color--secondary-60);
+}
+
+.op-button:where( [data-color="secondary-20"] ) {
+    --solid-background-color: var(--wp--preset--color--secondary-20);
+    --solid-color: var(--wp--preset--color--secondary-100);
+    --outline-color: var(--wp--preset--color--secondary-10);
+    --outline-border-color: var(--wp--preset--color--secondary-20);
+}
+
+.op-button:where( [data-color="accent-60"] ) {
+    --solid-background-color: var(--wp--preset--color--accent-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--accent-80);
+    --outline-border-color: var(--wp--preset--color--accent-60);
+}
+
+.op-button:where( [data-color="accent-20"] ) {
+    --solid-background-color: var(--wp--preset--color--accent-20);
+    --solid-color: var(--wp--preset--color--accent-100);
+    --outline-color: var(--wp--preset--color--accent-10);
+    --outline-border-color: var(--wp--preset--color--accent-20);
+}
+
+/* ---------------------------
+>  Button Style - Solid
+------------------------------ */
+
+.op-button:where( .op-button-style-solid ) {
+    background-color: var(--solid-background-color);
+    color: var(--solid-color);
+    border: 0.1rem solid var(--solid-background-color);
+}
+
+/* ---------------------------
+ >  Button Style - Outline
+------------------------------ */
+
+.op-button:where( .op-button-style-outline ) {
+    background-color: transparent;
+    color: var(--outline-color);
+    border: 0.1rem solid var(--outline-border-color);
+}
+
+/* ---------------------------
+ >  Button Style - Flow
+ *  Show the Title when hover.
+------------------------------ */
+
+.op-button[data-title-visibility="1"] {
+    min-width: auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.op-button[data-title-visibility="1"]:where( :hover, :focus ) {
+    overflow: visible;
+}
+
+.op-button[data-title-visibility="1"]:where( :hover, :focus ) {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button-show.op-flex-row-reverse:where( :hover, :focus ) .op-icon {
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover, :focus ) {
 	border-radius: 0 0.4rem 0.4rem 0;
 }
 
-.op-button-show .op-button-text {
-    font-weight: 500;
-	display: flex;
-	align-items: center;
-	flex-grow: 1;
-	height: 5rem;
-	padding: 1rem 2rem;
-	border-radius: 0 0.4rem 0.4rem 0;
+.op-button[data-title-visibility="1"] .op-button-title {
+    background-color: var(--wp--preset--color--accent-70);
+    color: var(--wp--preset--color--white);
+    width: max-content;
+    max-width: 24rem;
+    padding-right: 0;
+	padding-left: 0;
     position: absolute;
+    top: -0.1rem;
     left: 100%;
     z-index: 0;
     opacity: 0;
+    border: 0.1rem solid var(--wp--preset--color--accent-70);
+    border-radius: 0 0.4rem 0.4rem 0;
 }
 
-.op-button-show.op-flex-row-reverse .op-button-text {
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ) .op-button-title {
     right: 100%;
     left: auto;
 }
 
-.op-button-show.op-flex-row-reverse:where( :hover, :focus ) .op-button-text {
+.op-button[data-title-visibility="1"]:where( :hover, :focus ) .op-button-title {
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+}
+
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover, :focus ) .op-button-title {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button-show:where( :hover, :focus ) .op-button-text {
-    opacity: 1;
-    background-color: var(--wp--preset--color--accent-70);
+.op-button[data-title-visibility="1"]:is( [data-color="accent-60"] ):is( .op-button-style-solid ):is( :hover, :focus ) .op-button-title,
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover, :focus ) .op-button-title {
+    background-color: var(--wp--preset--color--primary-100);
+    border-color: var(--wp--preset--color--primary-100);
 }
 
 
@@ -271,7 +536,17 @@
 /* ---------------------------------------------------------
  >  2c. Blocks
 ------------------------------------------------------------
- >  2c-1. Log In/Out Button
+ >  2c-1. Link Button
+--------------------------------------------- */
+
+.op-event-template-information .op-button:where( [data-color="secondary-20"] ) {
+    --outline-color: var(--wp--preset--color--secondary-30);
+    --outline-border-color: var(--wp--preset--color--secondary-40);
+}
+
+
+/* ------------------------------------------
+ >  2c-2. Log In/Out Button
 --------------------------------------------- */
 
 .op-button-loginout,
@@ -341,7 +616,7 @@
 
 
 /* ------------------------------------------
- >  2c-2. Toggle Button
+ >  2c-3. Toggle Button
 --------------------------------------------- */
 
 .op-button-toggle {
@@ -476,7 +751,7 @@
 
 
 /* ---------------------------------------------------------
- >  2c-3. Booking Information
+ >  2c-4. Booking Information
 ------------------------------------------------------------ */
 
 .op-booking-information {
@@ -524,7 +799,7 @@
 
 
 /* ---------------------------------------------------------
- >  2c-4. Printer Information
+ >  2c-5. Printer Information
 ------------------------------------------------------------ */
 
 .op-printer-information {
@@ -557,7 +832,7 @@
 
 
 /* ---------------------------------------------------------
- >  2c-5. Event Information
+ >  2c-6. Event Information
 ------------------------------------------------------------ */
 
 .op-event-information {
@@ -602,7 +877,7 @@
 
 
 /* ---------------------------------------------------------
- >  2c-6. Event Template Information
+ >  2c-7. Event Template Information
 ------------------------------------------------------------ */
 
 .op-event-template-information {
@@ -676,7 +951,7 @@
 }
 
 /* ---------------------------------------------------------
- >  2c-7. Event Participant List
+ >  2c-8. Event Participant List
 ------------------------------------------------------------ */
 .op-event-participant-list {
     line-height: 1;
@@ -968,8 +1243,6 @@
         display: none;
     }
 
-
-
     .op-event-participant-list .op-participant-list-cols {
         background-color: var(--wp--preset--color--white);
         display: grid;
@@ -983,6 +1256,7 @@
         border-radius: 0.4rem;
         box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
     }
+
     .op-participant-list-cols p {
         font-weight: 600;
         line-height: 1;
@@ -990,6 +1264,9 @@
         align-items: center;
         height: 100%;
         padding: 1rem 2rem;
+    }
+    
+    .op-participant-list-cols p:not( .op-col-prints ) {
         border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
     }
 
