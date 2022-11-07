@@ -8,8 +8,8 @@
  *	Tested up to: 6.0
  *	Requires PHP: 5.6
  *	Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments
- *  Version: 1.0.0.2
- ?  Updated: 2022-11-07 - 10:24 (Y:m:d - H:i)
+ *  Version: 1.0.0.04
+ ?  Updated: 2022-11-07 - 11:34 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -61,58 +61,7 @@
     --size-nav-height: 5rem;
     --size-sidebar-width: 100%;
     --size-sidebar-height: 100%;
-
-	/* HEX colors */
-    --hex-blue: #339;
-    --hex-blue-light: #33C;
-    --hex-teal: #3CC;
-    --hex-teal-light: #3DD;
-    
-    /* RGB colors */
-    --rgb-blue: 51, 51, 153;
-    --rgb-blue-light: 51, 51, 204;   
-    --rgb-teal: 51, 204, 204;
-    --rgb-teal-light: 51, 221, 221;
-	
-    /* Font Awesome Icons */
-    --fa-icon-exclamation: "\21";
-    --fa-icon-circle-exclamation: "\f06a";
-    --fa-icon-house: "\f015";
-    --fa-icon-table-cells: "\f00a";
-    --fa-icon-circle-question: "\f059";
-    --fa-icon-user: "\f007";
-    --fa-icon-check: "\f00c";
-    --fa-icon-print: "\f02f";
-    --fa-icon-clock: "\f017";
-
-	/* OnsitePrint Icons */
-    --op-icon-dashboard: url('assets/icons/icon-dashboard.svg');
-
 }
-
-[data-icon="dashboard"] a::before {
-	content: '';
-	background-image: var(--op-icon-dashboard);
-    background-repeat: no-repeat;
-    background-size: 3.2rem;
-    background-position: center;
-}
-
-[data-icon="house"] a::before {
-	content: var(--fa-icon-house);
-    font: var(--fa-font-solid);
-}
-
-[data-icon="table-cells"] a::before {
-	content: var(--fa-icon-table-cells);
-    font: var(--fa-font-solid);
-}
-
-[data-icon="circle-question"] a::before {
-	content: var(--fa-icon-circle-question);
-    font: var(--fa-font-regular);
-}
-
 
 /* ------------------------------------------------------------------------
  #  2. CSS Reset
@@ -141,12 +90,12 @@ body.admin-bar {
 /* Track */
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-corner {
-	background-color: var(--wp--preset--color--primary-80); 
+	background-color: rgba(0, 0, 0, 0.1); 
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background-color: var(--wp--preset--color--primary-100); 
+	background-color: rgba(0, 0, 0, 0.2); 
 }
 
 /* Handle on hover */
@@ -179,13 +128,14 @@ h1, h2, h3, h4, h5, h6, p {
 .wp-site-blocks,
 .wp-site-blocks > aside,
 .wp-site-blocks > main {
+	height: 100%;
 	flex-direction: column;
 }
 
 .wp-site-blocks {
-	background-color: var(--wp--preset--color--neutral-10);
-	background-image: var(--wp--preset--gradient--vertical-neutral-20-to-10);
+	background-color: var(--wp--preset--color--primary-90);
     height: calc(100vh - var(--size-nav-height));
+	padding: 0.5rem 0.5rem 0.5rem 0;
 	overflow: auto;
 }
 
@@ -228,8 +178,21 @@ h1, h2, h3, h4, h5, h6, p {
 .wp-site-blocks > aside {
 	background-color: var(--wp--preset--color--primary-100);
 	width: var(--size-sidebar-width);
+	overflow-y: auto;
+	border-radius: 0.4rem 0 0 0.4rem;
 }
 
+.wp-site-blocks > main {
+	background-color: var(--wp--preset--color--neutral-10);
+    background-image: var(--wp--preset--gradient--vertical-neutral-20-to-10);
+	height: 100%;
+    overflow: hidden;
+    border-radius: 0 0.4rem 0.4rem 0;
+}
+
+.wp-site-blocks > main > .wp-block-post-content {
+	overflow-y: auto;
+}
 
 /* ------------------------------------------------------------------------
  #  4. Additional Classes
