@@ -4,13 +4,14 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-07 - 16:20 (Y:m:d - H:i)
+ ?  Updated: 2022-11-15 - 16:58 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
-	0. 	List of upcoming tasks 
+	0. 	List of upcoming tasks
+
 	1. 	Basic Functions
         a. 	Console Log the Debug
         b. 	Return Response as JSON
@@ -18,13 +19,20 @@
         d. 	Add Event Listener
         e. 	Execute Function By Name
 		f. 	Check if Function exist
-		g. 	Toggle Active Class
+		g. 	Universal Search in Array / JSON / Object
+		h. 	Toggle Active Class
+        i.  Fetch from API (Async function)
+
     2. 	Validation Functions
-        a. 	Validate Local Storage
-        b. 	Validation of OnsitePrint Blocks
-        c. 	Return Validation in Element
+        a. 	Fetch Response
+        b. 	Local Storage
+        c. 	OnsitePrint Blocks
+        d. 	Return Validation in Element
+
 	3. 	FastAPI Functions
         a. 	Get FastAPI Info
+        b.  Fetch from FastAPI
+
 	4. 	Local Storage Functions
         a. 	Bookings Storage
         b. 	Template Storage
@@ -33,8 +41,10 @@
             1. 	Get Event List
             2. 	Get Participant
             3. 	Update Participant
+
 	5. 	Print Functions
         a. 	Print Participant
+
 	6. 	Functions to ACF Custom Blocks
 		a. 	Block Functions
 		c. 	Blocks:
@@ -45,6 +55,7 @@
             5. 	Event Information
             6. 	Event Template Information
             7. 	Event Participant List
+
     7. 	Document is Ready Function
 
 ---------------------------------------------------------------------------
@@ -181,7 +192,53 @@ function opCheckFunctionExist ( functionNames, execute ) {
 }
 
 /* ---------------------------------------------------------
- >  1g. Toggle Active Class
+ >  1g. Universal Search in Array / JSON / Object
+------------------------------------------------------------ */
+function opUniversalSearch( element, objectData = [], combinations = [] ) {
+    // sniff out user input/search values and convert to lower-case
+    const input = element.value.toLowerCase()
+
+    // store the filtered results in : "const result"
+    const result = objectData.filter( ( data ) => {
+        // initialize a variable to store combos in : "let combinationQueries = ""
+        let combinationQueries = ""
+
+        // loop over the combo values paseed by users
+        combinations.forEach( ( arg ) => {
+            // first check if the current combo value exists in the object then ...
+            // add them together
+            combinationQueries +=
+            data.hasOwnProperty( arg ) && data[ arg ].toLowerCase().trim() + " "
+        })
+        /*
+            loop over current "Object keys" and return the first
+            successful search match (".some()" at work here)
+        */
+        return Object.keys( data ).some( ( key ) => {
+            /**
+             * return first successful search query match but...
+             * do not return if value is "undefined", "null", false, true,  and...
+             * trim values to remove trailing whitespaces
+             */
+            return (
+                ( data[ key ] !== undefined &&
+                    data[ key ] !== null &&
+                    /**
+                     * activate/uncomment the feature/code below if you don't wanna filter by boolean values
+                     * e.g isActive fields, or isActivated fields
+                     */
+                     data[key] !== false && data[key] == true &&
+                    JSON.stringify( data[ key ] ).toLowerCase().trim().includes( input ) ) ||
+                combinationQueries.trim().includes( input )
+            )
+        })
+    })
+    // function to recieve the result of the search query data
+    return result
+}
+
+/* ---------------------------------------------------------
+ >  1h. Toggle Active Class
 ------------------------------------------------------------ */
 function opToggleActive( element, closestElement ) {
     if ( element == 'class') {
@@ -191,12 +248,93 @@ function opToggleActive( element, closestElement ) {
     event.target.closest( closestElement ).classList.toggle('op-active')
 }
 
+/* ---------------------------------------------------------
+ >  1i. Fetch from API (Async function)
+------------------------------------------------------------ */
+async function opFetchFromAPI( debug, url, options, output ) {
+
+    ///// Check for browser support of fetch in the window interface.
+    if ( ! ( 'fetch' in window ) ) {
+        return opReturnResponse( true, 405, 'Your Browser does not support The Fetch Function, please upgrade your browser.' )
+    }
+    
+    ///// Fetch from API.
+    let request = await fetch( url, options )
+        
+    var error, code = request.status, message
+    
+    try {
+        
+        error = false
+
+        if ( code >= 200 && code <= 299 ) {
+
+            ///// Return the Data as a Blob or JSON.
+            if ( output == 'blob' ) message = await request.blob()
+            
+            else if ( output == 'json' ) message = await request.json()
+            
+            else throw 'Missing Output parameter in function!'
+
+        }
+        
+        else if ( code >= 400 && code <= 499 ) throw await request.json()
+        
+        else throw await request.text()
+        
+    } catch( errorMessage ) {
+        error = true, message = errorMessage
+    }
+
+    if ( error !== false ) {
+        opConsoleDebug( true, `Error FetchAPI:`, message )
+    } else {
+        opConsoleDebug( debug, `Debug FetchAPI:`, message )
+        return opReturnResponse( error, code, message )
+    }
+
+}
+
+
 /* ------------------------------------------------------------------------
  #  2. Validation Functions 
 ---------------------------------------------------------------------------
- >  2a. Validate Local Storage
+ >  2a. Validate Fetch Response
 ------------------------------------------------------------ */
-function opValidateLocalStorage( localStorageName ) {
+function opValidateFetchResponse( debug, request ) {
+
+    let error, code, message
+
+    try {
+        
+        ///// If the Response is empty or undefined.
+        if ( request.response == '' ) throw 'Empty string!'
+        if ( request.response == undefined ) throw 'Undefined string!'
+
+        ///// If the Response has detail.
+        if ( request.response.detail ) throw request.response.detail
+
+        error = request.error, code = request.code, message = request.response
+    
+    } catch( errorMessage ) {
+        error = true, code = 400, message = errorMessage
+    }
+
+    if ( error !== false ) {
+        opConsoleDebug( true, `Error Validate Response:`, message )
+    } else {
+        opConsoleDebug( debug, `Debug Validate Response:`, message )
+        return opReturnResponse( error, code, message )
+    }
+
+}
+
+/* ---------------------------------------------------------
+ >  2b. Validate Local Storage
+------------------------------------------------------------ */
+function opValidateLocalStorage( debug, localStorageName ) {
+
+    let error, code, message
 
     try {
 
@@ -205,33 +343,41 @@ function opValidateLocalStorage( localStorageName ) {
             throw 'Missing Local Storage Name!'
         }
     
-        const storageName = localStorageName.toUpperCase()
+        var storageName = localStorageName.toUpperCase()
 
         ///// Get Local Storages.
         let storage = JSON.parse( localStorage.getItem( `OP_PLUGIN_DATA_${ storageName }` ) )
         
-        ///// Validate Bookings Storage.
-        if ( storage == '' || storage == undefined ) {
-            ///// Create new Local Storage if empty or undefined.
+        ///// Validate Local Storage.
+        if ( storage ) {
+            error = false, code = 200, message = storage
+        } else if ( storage == '' || storage == undefined ) {
             if ( localStorageName === 'BOOKINGS' ){
-                return opReturnResponse( false, 204, { bookingList : [] } )
+                error = false, code = 204, message = { bookingList : [] }
             } else if ( localStorageName === 'TEMPLATES' ){
-                return opReturnResponse( false, 204, { templateList : [] } )   
+                error = false, code = 204, message = { templateList : [] }
             } else if ( localStorageName === 'EVENTS' ){
-                return opReturnResponse( false, 204, { eventList : [] } )   
+                error = false, code = 204, message = { eventList : [] }
             }
-        } else if ( storage ) return opReturnResponse( false, 200, storage )
+        } else {
+            throw `Something went wrong with the Local Storage (${ storageName }) validation!`
+        }
 
-        throw `Something went wrong with the Local Storage (${ storageName }) validation!`
+    } catch( errorMessage ) {
+        error = true, code = 400, message = errorMessage
+    }
 
-    } catch( validateError ) {
-        return opReturnResponse( true, 400, validateError )
+    if ( error !== false ) {
+        opConsoleDebug( true, `Local Storage (${ localStorageName }):`, message )
+    } else {
+        opConsoleDebug( debug, `Local Storage (${ localStorageName }):`, message )
+        return opReturnResponse( error, code, message )
     }
 
 }
 
 /* ---------------------------------------------------------
- >  2b. Validation of OnsitePrint Blocks.
+ >  2c. Validate OnsitePrint Blocks
 ------------------------------------------------------------ */
 function opValidateBlock( block, blockName, message ) {
     block.setAttribute( 'data-block-disable', true )
@@ -241,7 +387,7 @@ function opValidateBlock( block, blockName, message ) {
 }
 
 /* ---------------------------------------------------------
- >  2c. Return Validation in Element
+ >  2d. Return Validation in Element
 ------------------------------------------------------------ */
 function opValidationReturn( validationElement, message ) {
 
@@ -272,6 +418,32 @@ function opGetFastApiInfo( object ) {
     if ( object === 'token' ) return fastApiToken[ 0 ]
 }
 
+/* ---------------------------------------------------------
+ >  3b. Fetch from FastAPI
+------------------------------------------------------------ */
+function opFetchFromFastAPI( debug, method, bodyInput, url, type ) {
+    return new Promise( resolve => {
+
+        ///// Request Options for fetch.
+        ////* method (GET, POST, PUT, DELETE, etc.)
+        let options = {
+            method: method,
+            headers: {
+                accept: 'application/json',
+                'Content-Type': 'application/json',
+                'access_token': opGetFastApiInfo( 'token' )
+            },
+            body: bodyInput
+        }
+        
+        ///// Request the data from the API and Validate data after.
+        ///// fetchAPI( *url, options, 'blob/json', debug ).
+        opFetchFromAPI( debug, url, options, type ).then( response => {
+            resolve( opValidateFetchResponse( debug, response ) )           
+        })
+        
+    })
+}
 
 /* ------------------------------------------------------------------------
  #  4. Local Storage Functions
@@ -287,15 +459,13 @@ function opGetFastApiInfo( object ) {
 function opGetTemplate( templateId ) {
 
     ///// Debug the function
-    let debug = false // true or false 
+    let debug = false // true or false
 
-    ///// Validate Local Storage of Templates.
-    const templatesStorageValidation = opValidateLocalStorage( 'Templates' )
-    opConsoleDebug( debug, 'templatesStorageValidation:', templatesStorageValidation )
-    if ( templatesStorageValidation.error !== false ) return opConsoleDebug( debug, 'templatesStorageValidation:', templatesStorageValidation.response )
+    ///// Get Local Storage of Templates.
+    const templatesStorage = opValidateLocalStorage( debug, 'Templates' )
 
-    ///// Get Template List. 
-    const templateList = templatesStorageValidation.response.templateList
+    ///// Get Template List.
+    const templateList = templatesStorage.response.templateList
     opConsoleDebug( debug, 'templateList:', templateList )
 
     ///// Validate Template List.
@@ -325,12 +495,10 @@ function opGetEventList( eventListId ) {
     let debug = false // true or false 
 
     ///// Validate Local Storage of Events.
-    const eventsStorageValidation = opValidateLocalStorage( 'Events' )
-    opConsoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation )
-    if ( eventsStorageValidation.error !== false ) return opConsoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation.response )
+    const eventsStorage = opValidateLocalStorage( debug, 'Events' )
 
-    ///// Get Event List. 
-    const eventList = eventsStorageValidation.response.eventList
+    ///// Get Event List.
+    const eventList = eventsStorage.response.eventList
     opConsoleDebug( debug, 'eventList:', eventList )
 
     ///// Validate Event List.
@@ -390,9 +558,7 @@ function opUpdateParticipant( eventListId, participantId, participantPrints, dat
     let debug = false // true or false
 
     ///// Validate Local Storage of Events.
-    const eventsStorage = opValidateLocalStorage( 'Events' )
-    opConsoleDebug( debug, 'eventsStorage:', eventsStorage )
-    if ( eventsStorage.error !== false ) return opConsoleDebug( debug, 'eventsStorage:', eventsStorage.response )
+    const eventsStorage = opValidateLocalStorage( debug, 'Events' )
 
     ///// Get Event List.
     const eventList = eventsStorage.response.eventList
@@ -448,15 +614,13 @@ async function opPrintParticipant( participantId ) {
     let blockId = block.getAttribute( 'id' ).substring(9)
     let eventListId = block.getAttribute( 'data-event-id' )
     
-
-    //////////////////// #NG: Needs to be looked at again - Search.
+    //////////////////// #NG: Missing login validation
     ///// Validate Local Storage of Bookings.
-    const bookingsStorageValidation = opValidateLocalStorage( 'Bookings' )
-    opConsoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
-    if ( bookingsStorageValidation.error !== false ) return opConsoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation.response )
-
-    ///// Get Booking. 
-    const booking = bookingsStorageValidation.response.bookingList[0].booking
+    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Booking.
+    const booking = bookingsStorage.response.bookingList[0].booking
     opConsoleDebug( debug, 'booking:', booking )
 
 
@@ -485,7 +649,7 @@ async function opPrintParticipant( participantId ) {
     const participantItem = opGetParticipant( eventListId, participantId )
     if ( participantItem.error !== false ) return opConsoleDebug( debug, 'participantItem:', participantItem.response )
 
-    ///// Get Participant. 
+    ///// Get Participant.
     const participant = participantItem.response
     opConsoleDebug( debug, 'participant:', participant )
    
@@ -515,75 +679,52 @@ async function opPrintParticipant( participantId ) {
         }
     )
 
-    ///// Request Options for fetch.
-    ////* GET, POST, PUT, DELETE, etc.
-    let options = {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            'access_token': opGetFastApiInfo( 'token' )
-        },
-        body: bodyInput
-    }
+    ///// Fetch from the FastAPI.
+    opFetchFromFastAPI( debug, 'POST', bodyInput, url, 'json' ).then( fetchResponse => {
+        opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
+
+        ///// If the Fetch Response has Code 201 (Created).
+        if ( fetchResponse.code === 201 ) { 
+       
+            let participantPrints = ( participant.prints + 1 )
+            let dateNow = Date.now()
     
-
-    ///// Request the data from the API.
-    ///// fetchAPI( *url, options, 'blob/json', debug ).
-    let request = fetchAPI( url, options, 'json', debug )
+            ///// Update Participant in Local Storage. 
+            const participantUpdate = opUpdateParticipant( eventListId, participantId, participantPrints, dateNow )
+            if ( participantUpdate.error !== false ) return opConsoleDebug( debug, 'participantUpdate:', participantUpdate.response )
+            
+            ///// Update Event Participant List Block. 
+            let eventPrintActive = block.getAttribute( 'data-print-active' )
+            participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintActive
+            participantElement.classList.add( 'op-print-active' )
+            participantElement.setAttribute( 'data-op-arrival', '1' )
+            participantElement.setAttribute( 'data-op-prints', participantPrints )
+            participantElement.querySelector( 'header .op-col-amount-of-prints' ).innerText = participantPrints
+            participantElement.querySelector( 'header .op-col-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
+            participantElement.querySelector( 'footer .op-col-arrival-time .op-text' ).innerText = opTimeConverter( dateNow, 'hour-min' )
     
-    ///// Wait for Response of the Request.
-    let fetchResponse = await request
-    opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
-
-    const fetchResponseValidation = validateFetchResponse( fetchResponse )
-    opConsoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation )
-
-    ///// If the Fetch Response has an Error.
-    if ( fetchResponseValidation.error !== false && validationElement ) return opConsoleDebug( debug, 'fetchResponseValidation:', fetchResponseValidation.response )
-
-    ///// If the Fetch Response has Code 201 (Created).
-    if ( fetchResponseValidation.code === 201 ) { 
-
-        let eventPrintActive = block.getAttribute( 'data-print-active' )
-        participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintActive
-        
-        participantElement.classList.add( 'op-print-active' )
-
-        let participantPrints = ( participant.prints + 1 )
-        let dateNow = Date.now()
-
-        ///// Update Participant. 
-        const participantUpdate = opUpdateParticipant( eventListId, participantId, participantPrints, dateNow )
-        if ( participantUpdate.error !== false ) return opConsoleDebug( debug, 'participantUpdate:', participantUpdate.response )
-        
+            setTimeout( function () {
+                let eventPrintSuccess = block.getAttribute( 'data-print-success' )
+                participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintSuccess
+                participantElement.classList.remove( 'op-print-active' )
+                participantElement.classList.add( 'op-active' )
     
-        participantElement.setAttribute( 'data-op-arrival', '1' )
-        participantElement.setAttribute( 'data-op-prints', participantPrints )
-        participantElement.querySelector( 'header .op-col-amount-of-prints' ).innerText = participantPrints
-        participantElement.querySelector( 'header .op-col-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
-        participantElement.querySelector( 'footer .op-col-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
+                ///// Update Event Information Blocks. 
+                opEventInformationBlocks()
+            }, 3000 );
+            
+            let windowUrl = `${ opGetFastApiInfo( 'url' ) + fetchResponse.response.filename }`
+            opConsoleDebug( debug, 'windowUrl:', windowUrl )
 
-        setTimeout( function () {
-            let eventPrintSuccess = block.getAttribute( 'data-print-success' )
-            participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintSuccess
-            participantElement.classList.remove( 'op-print-active' )
-            participantElement.classList.add( 'op-active' )
+        }
+    
+    })
 
-            opEventInformationBlocks()
-        }, 3000 );
-        
-    }
     
-    
-    //////////////////////////////////////////
-    ///// #NG Below must be changed later.
-    //////////////////////////////////////////
-    
+    //////////////////// #NG: Below must be deleted later.    
     // If error:
     //participantElement.querySelector( 'footer .op-message .op-text' ).innerText = 'Error!!!'
-
-    let windowUrl = `${ opGetFastApiInfo( 'url' ) + fetchResponseValidation.response.filename }`
+    //let windowUrl = `${ opGetFastApiInfo( 'url' ) + request.response.filename }`
     //window.open(windowUrl, '_blank').focus()
 
 }
@@ -592,7 +733,201 @@ async function opPrintParticipant( participantId ) {
  #  6. Functions to ACF Custom Blocks
 ---------------------------------------------------------------------------
  >  6a. Block Functions
------------------------------------------------------------- */
+------------------------------------------------------------
+ >  6a-1. Add Event Participant to Block
+--------------------------------------------- */
+function opAddEventParticipant( debug, participant, eventPrintSuccess ) {
+
+    ///// Debug the function.
+    opConsoleDebug( debug, 'participant:', participant )
+    opConsoleDebug( debug, 'eventPrintSuccess:', eventPrintSuccess )
+
+    //////////////////// #NG: Missing Layout Information.
+
+    ///// Create Participant variables.
+    let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTimeFull, participantTimeHour, participantActive, participantElement
+
+    participantId = participant.id
+    participantline1 = participant.line1
+    participantline2 = participant.line2
+    participantline3 = participant.line3
+    participantline4 = participant.line4
+    participantline5 = participant.line5
+    participantPrints = participant.prints
+    participantTimeFull = opTimeConverter( participant.time, 'full' )
+    participantTimeHour = opTimeConverter( participant.time, 'hour-min' )
+    participantActive = participant.active
+    
+    participantElement = `
+        <article class="op-participant_${ participantId }" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }" onclick="opToggleActive( 'class', 'op-participant_' )">
+            <header>
+                <p class="op-col-icon" data-icon="user">
+                    <span class="op-icon" role="img" aria-label="User Icon"></span>
+                </p>
+                <div class="op-col-lines">
+                    <p class="op-col-line-1">
+                        <span class="op-label">1</span>
+                        <span class="op-text">${ participantline1 }</span>
+                    </p>
+                    <p class="op-col-line-2">
+                        <span class="op-label">2</span>
+                        <span class="op-text">${ participantline2 }</span>
+                    </p>
+                    <p class="op-col-line-3">
+                        <span class="op-label">3</span>
+                        <span class="op-text">${ participantline3 }</span>
+                    </p>
+                </div>
+                <time class="op-col-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
+                <div class="op-col-print-info">
+                    <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left" onclick="opPrintParticipant('${participantId}'); return false"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title">Print</span></button>
+                    <p class="op-col-amount-of-prints">${ participantPrints }</p>
+                </div>
+            </header>
+            <footer>
+                <p class="op-message" data-icon="user">
+                    <span class="op-icon" role="img" aria-label="User Icon"></span>
+                    <span class="op-text">${ eventPrintSuccess }</span>
+                </p>
+                <time class="op-col-arrival-time" datetime="${ participantTimeFull }" data-icon="clock">
+                    <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+                    <span class="op-text">${ participantTimeHour }</span>
+                </time>
+            </footer>
+        </article>
+    `
+
+    return new Promise( resolve => {
+        resolve( { element: participantElement } )
+    })
+
+}
+
+/* ------------------------------------------
+ >   >  6a-2. Filter the Search of Event Participants
+--------------------------------------------- */
+function opEventTemplateSearchFilter( block, eventId ) {
+
+    ///// The URL to the API.
+    let  url = `${ opGetFastApiInfo( 'url' ) }name_tags/${ bookingCode }?layout=${ layout }`
+
+    ///// The Body Input to Request Options.
+    let bodyInput = JSON.stringify(
+        {
+        "line_1": string1,
+        "line_2": string2,
+        "line_3": string3,
+        "line_4": string4,
+        "line_5": string5,
+        "image_name": imageFilename,
+        "qr_code": "string"
+        }
+    )
+
+    ///// Fetch from the FastAPI.
+    opFetchFromFastAPI( debug, 'POST', bodyInput, url, 'json' ).then( fetchResponse => {
+        opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
+
+        ///// If the Fetch Response has Code 201 (Created).
+        if ( fetchResponse.code === 201 ) {
+
+        }
+
+    })
+
+    ///// Get the elements.
+    let filterElement = block.querySelector('.op-filter-radio-options')
+    
+    if ( type != false ) {
+        let blockId = block.getAttribute( 'id' )
+        let filterRadio = block.querySelector(`#${ blockId }-line-${ radioId.charAt(4) }-input`)
+
+        if ( type != 'radio' && radioId === 'line1' ) return filterRadio.checked = true
+
+        filterRadio.checked = true
+        block.querySelector('.filter-option').innerText = filterRadio.value
+
+        ///// Add and remove classes to elements.
+        filterElement.classList.remove('active')
+
+    } else {
+        ///// Add and remove classes to elements.
+        filterElement.classList.add('active')
+    }
+
+}
+
+/* ------------------------------------------
+ >   >  6a-3. Search after Event Participants
+--------------------------------------------- */
+function opSearchEventParticipants() {
+
+    ///// Debug the function
+    let debug = false // true or false
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    opConsoleDebug( debug, 'block:', block )
+
+    let formElement = block.querySelector( '.op-search-form' )
+    let searchInput = formElement['op-search-input']
+    let filterInput = formElement['op-filter-option'].value == '' ? [ 'line1', 'line2', 'line3' ] : formElement['op-filter-option'].value
+    
+
+    opConsoleDebug( true, 'filterInput:', filterInput )
+    return
+
+    opConsoleDebug( debug, 'searchInput:', searchInput )
+    
+
+    ///// Get Event Id. 
+    let eventListId = block.getAttribute( 'data-event-id' )
+
+    ///// Get the elements.
+    let participantListElement = block.querySelector( '.op-participant-rows' )
+
+    
+    //////////////////// #NG: Missing login validation
+
+
+    ///// Validate Local Storage of Events.
+    const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+
+    ///// Get Event List. 
+    const eventList = eventsStorage.response.eventList
+    opConsoleDebug( debug, 'eventList:', eventList )
+
+    ///// Validate Event List.
+    if ( ! eventList || ! eventList[0] ) return opValidateBlock( block, blockName, 'No Events have been created yet!' )
+    
+    ///// Filter Event Items.
+    let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
+    opConsoleDebug( debug, eventListId+':', eventItems )
+    
+    ///// Validate Event Item. 
+    if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
+
+    ///// Get Event Participants. 
+    let participantList = eventItems[0].eventParticipants
+
+    const participants = opUniversalSearch( searchInput, participantList , ['line1', 'line2'] )
+    opConsoleDebug( true, 'search:', participants )
+    
+    participantListElement.innerHTML = ''
+    
+    let eventPrintSuccess = block.getAttribute( 'data-print-success' )
+
+    ///// For each Participant create Participant Element.
+    for( let i = 0; i < participants.length; ++i ) {
+
+        opAddEventParticipant( debug, participants[i], eventPrintSuccess ).then( response => {
+            opConsoleDebug( debug, 'Response:', response )
+            participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
+        })
+
+    }
+
+}
 
 /* ---------------------------------------------------------
  >  6b. Block Validation Functions
@@ -606,7 +941,7 @@ async function opPrintParticipant( participantId ) {
 function opButtonLoginout( relocate, log ) {
     
 
-    // #NG: Missing login validation
+    //////////////////// #NG: Missing login validation
 
 
     if( ! log ) localStorage.removeItem('OP_PLUGIN_DATA_BOOKINGS')
@@ -673,19 +1008,12 @@ function opBookingInformationBlocks() {
     if ( blocks ) {
         blocks.forEach( block => {
 
-
-            // #NG: Missing login validation
-
-            
-            let blockId = block.getAttribute( 'id' )
-            //let container = block.querySelector( `#${ blockId }-radio-input` )
-
+            //////////////////// #NG: Missing login validation
             ///// Validate Local Storage of Bookings.
-            const bookingsStorageValidation = opValidateLocalStorage( 'Bookings' )
-            opConsoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
-            if ( bookingsStorageValidation.error !== false ) return opValidationReturn( validationElement, bookingsStorageValidation.response )
+            const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
 
-            const bookingInformation = bookingsStorageValidation.response.bookingList[0].booking
+            //////////////////// #NG: Needs to be looked at again - Search.
+            const bookingInformation = bookingsStorage.response.bookingList[0].booking
 
             let bookingStartDate = opTimeConverter( bookingInformation.bookingStartDate, 'date-month-year', 'da' )
             let bookingEndDate = opTimeConverter( bookingInformation.bookingEndDate, 'date-month-year', 'da' )
@@ -720,19 +1048,12 @@ function opPrinterInformationBlocks() {
     if ( blocks ) {
         blocks.forEach( block => {
 
-
-            // #NG: Missing login validation
-
-            
-            let blockId = block.getAttribute( 'id' )
-            //let container = block.querySelector( `#${ blockId }-radio-input` )
-
+            //////////////////// #NG: Missing login validation
             ///// Validate Local Storage of Bookings.
-            const bookingsStorageValidation = opValidateLocalStorage( 'Bookings' )
-            opConsoleDebug( debug, 'bookingsStorageValidation:', bookingsStorageValidation )
-            if ( bookingsStorageValidation.error !== false ) return opValidationReturn( validationElement, bookingsStorageValidation.response )
+            const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
 
-            const bookingInformation = bookingsStorageValidation.response.bookingList[0].booking
+            //////////////////// #NG: Needs to be looked at again - Search.
+            const bookingInformation = bookingsStorage.response.bookingList[0].booking
 
             block.querySelector('.printer-id .text').innerHTML = bookingInformation.printerId
 
@@ -762,16 +1083,14 @@ function opEventInformationBlocks() {
             let eventListId = block.getAttribute( 'data-event-id' )
 
 
-            // #NG: Missing login validation
+            //////////////////// #NG: Missing login validation
 
 
             ///// Validate Local Storage of Events.
-            const eventsStorageValidation = opValidateLocalStorage( 'Events' )
-            opConsoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation )
-            if ( eventsStorageValidation.error !== false ) return opValidateBlock( block, blockName, eventsStorageValidation.response )
+            const eventsStorage = opValidateLocalStorage( debug, 'Events' )
 
             ///// Get Event List. 
-            const eventList = eventsStorageValidation.response.eventList
+            const eventList = eventsStorage.response.eventList
             opConsoleDebug( debug, 'eventList:', eventList )
 
             ///// Validate Event List. 
@@ -822,16 +1141,14 @@ function opEventTemplateInformationBlocks() {
             let eventListId = block.getAttribute( 'data-event-id' )
 
 
-            // #NG: Missing login validation
+            //////////////////// #NG: Missing login validation
 
 
             ///// Validate Local Storage of Events.
-            const eventsStorageValidation = opValidateLocalStorage( 'Events' )
-            opConsoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation )
-            if ( eventsStorageValidation.error !== false ) return opValidateBlock( block, blockName, eventsStorageValidation.response )
+            const eventsStorage = opValidateLocalStorage( debug, 'Events' )
 
             ///// Get Event List. 
-            const eventList = eventsStorageValidation.response.eventList
+            const eventList = eventsStorage.response.eventList
             opConsoleDebug( debug, 'eventList:', eventList )
 
             ///// Validate Event List. 
@@ -839,7 +1156,7 @@ function opEventTemplateInformationBlocks() {
             
             ///// Filter Event Items. 
             let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
-            opConsoleDebug( true, eventListId+':', eventItems )
+            opConsoleDebug( debug, eventListId+':', eventItems )
             
             ///// Validate Event Item. 
             if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Template Information could be found to display!' )
@@ -851,7 +1168,7 @@ function opEventTemplateInformationBlocks() {
 
             ///// Get Template. 
             const template = templateItem.response
-            opConsoleDebug( true, 'template:', template )
+            opConsoleDebug( debug, 'template:', template )
 
             ///// Add to Elements.
             block.querySelector('.op-template-name .op-text').innerHTML = template.templateName
@@ -884,18 +1201,16 @@ function opEventParticipantListBlocks() {
 
             ///// Get the elements.
             let participantListElement = block.querySelector( '.op-participant-rows' )
+        
 
-
-            // #NG: Missing login validation
+            //////////////////// #NG: Missing login validation
 
 
             ///// Validate Local Storage of Events.
-            const eventsStorageValidation = opValidateLocalStorage( 'Events' )
-            opConsoleDebug( debug, 'eventsStorageValidation:', eventsStorageValidation )
-            if ( eventsStorageValidation.error !== false ) return opValidateBlock( block, blockName, eventsStorageValidation.response )
+            const eventsStorage = opValidateLocalStorage( debug, 'Events' )
 
             ///// Get Event List. 
-            const eventList = eventsStorageValidation.response.eventList
+            const eventList = eventsStorage.response.eventList
             opConsoleDebug( debug, 'eventList:', eventList )
 
             ///// Validate Event List.
@@ -916,64 +1231,13 @@ function opEventParticipantListBlocks() {
             participantListElement.innerHTML = ''
             let eventPrintSuccess = block.getAttribute( 'data-print-success' )
 
-            ///// Create Participant variables. 
-            let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTimeFull, participantTimeHour, participantActive, participantElement
-            
-            ///// For each Participant create Participant Element. 
-            for( var i = 0; i < participants.length; i++ ) {
+            ///// For each Participant create Participant Element.
+            for( let i = 0; i < participants.length; ++i ) {
 
-                participantId = participants[i].id
-                participantline1 = participants[i].line1
-                participantline2 = participants[i].line2
-                participantline3 = participants[i].line3
-                participantline4 = participants[i].line4
-                participantline5 = participants[i].line5
-                participantPrints = participants[i].prints
-                participantTimeFull = opTimeConverter( participants[i].time, 'full' )
-                participantTimeHour = opTimeConverter( participants[i].time, 'hour-min' )
-                participantActive = participants[i].active
-                
-                participantElement = `
-                    <article class="op-participant_${ participantId }" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }" onclick="opToggleActive( 'class', 'op-participant_' )">
-                        <header>
-                            <p class="op-col-icon" data-icon="user">
-                                <span class="op-icon" role="img" aria-label="User Icon"></span>
-                            </p>
-                            <div class="op-col-lines">
-                                <p class="op-col-line-1">
-                                    <span class="op-label">1</span>
-                                    <span class="op-text">${ participantline1 }</span>
-                                </p>
-                                <p class="op-col-line-2">
-                                    <span class="op-label">2</span>
-                                    <span class="op-text">${ participantline3 }</span>
-                                </p>
-                                <p class="op-col-line-3">
-                                    <span class="op-label">3</span>
-                                    <span class="op-text">${ participantline2 }</span>
-                                </p>
-                            </div>
-                            <time class="op-col-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
-                            <div class="op-col-print-info">
-                                <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left" onclick="opPrintParticipant('${participantId}'); return false"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title">Print</span></button>
-                                <p class="op-col-amount-of-prints">${ participantPrints }</p>
-                            </div>
-                        </header>
-                        <footer>
-                            <p class="op-message" data-icon="user">
-                                <span class="op-icon" role="img" aria-label="User Icon"></span>
-                                <span class="op-text">${ eventPrintSuccess }</span>
-                            </p>
-                            <time class="op-col-arrival-time" datetime="${ participantTimeFull }" data-icon="clock">
-                                <span class="op-icon" role="img" aria-label="Clock Icon"></span>
-                                <span class="op-text">${ participantTimeHour }</span>
-                            </time>
-                        </footer>
-                    </article>
-                `
-
-                ///// Add element to the container. 
-                participantListElement.insertAdjacentHTML( 'afterbegin', participantElement )
+                opAddEventParticipant( debug, participants[i], eventPrintSuccess ).then( response => {
+                    opConsoleDebug( debug, 'Response:', response )
+                    participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
+                })
 
             }
 

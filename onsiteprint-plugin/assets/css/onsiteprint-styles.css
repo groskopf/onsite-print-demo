@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-07 - 16:20 (Y:m:d - H:i)
+ ?  Updated: 2022-11-15 - 16:58 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1004,6 +1004,15 @@
     font-size: 2rem;
 }
 
+.op-event-participant-list .op-block__inner > header {
+    background: var(--wp--preset--color--white);
+    position: sticky;
+    top: 2rem;
+    z-index: 999;
+    border-radius: 0.4rem;
+    box-shadow: 0 -3rem 2rem 2rem var(--wp--preset--color--white);
+}
+
 /* ------------------------------------------
  >  Participant Column Info
 --------------------------------------------- */
@@ -1015,9 +1024,6 @@
     align-items: center;
     margin-bottom: 2rem;
     padding: 1rem 1rem 1rem 1.4rem;
-    position: sticky;
-    top: 0;
-    z-index: 999;
     border-radius: 0.4rem;
     box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
@@ -1053,6 +1059,10 @@
 .op-event-participant-list .op-col-amount-of-prints,
 .op-event-participant-list .op-col-arrival-time {
     font-variant-numeric: tabular-nums;
+}
+
+.op-event-participant-list article {
+    width: 100%;
 }
 
 .op-event-participant-list article header {
@@ -1116,10 +1126,12 @@
     border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
 }
 
-.op-event-participant-list .op-col-lines p {
+.op-event-participant-list .op-col-lines p,
+.op-event-participant-list header .op-col-arrival-time {
+    overflow-wrap: anywhere;
     display: flex;
     align-items: center;
-    padding: 0.9rem 0;
+    padding: 0.9rem 1rem 0.9rem 0;
 }
 
 .op-event-participant-list .op-col-lines p:not(:last-child) {
@@ -1169,13 +1181,18 @@
     display: none;
 }
 
+/* ---------------------------
+ >  Participant Row - Info
+------------------------------ */
+
 .op-event-participant-list article footer {
     background: var(--wp--preset--color--neutral-10);
     font-size: var(--wp--preset--font-size--x-small);
     color: var(--wp--preset--color--neutral-70);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
     width: calc(100% - 2rem);
     max-height: 1rem;
     margin: -1rem auto 0;
@@ -1190,8 +1207,8 @@
 }
 
 .op-event-participant-list article.op-active:is( [data-op-arrival="1"], .op-print-active ) footer {
-    padding: 1.6rem 1.4rem 0.6rem;
-    max-height: 5rem;
+    padding: 2.6rem 1.4rem 1.6rem;
+    max-height: 100%;
     transform: translateY(0);
 }
 
@@ -1203,6 +1220,10 @@
 
 .op-event-participant-list footer :where( .op-message, .op-col-arrival-time ) .op-icon {
     font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 2rem;
     margin-right: 1rem;
 }
 
@@ -1247,7 +1268,7 @@
 
 
 
-@media screen and/*  ( max-width: 900px ) and ( min-width: 600px ),  */( min-width: 1300px ) {
+@media screen and /* ( max-width: 900px ) and ( min-width: 600px ), */ ( min-width: 1300px ) {
 
     /* #NG - 2022-11-07 */
 
@@ -1299,7 +1320,8 @@
         font-size: 2.4rem;
     }
 
-    .op-event-participant-list .op-col-lines p {
+    .op-event-participant-list .op-col-lines p, 
+    .op-event-participant-list header .op-col-arrival-time {
         min-width: 0;
         padding: 0.9rem 2rem;
     }
@@ -1319,23 +1341,32 @@
         overflow: hidden;
     }
 
-    .op-event-participant-list .op-col-arrival-time {
-        padding: 0 2rem;
+    .op-event-participant-list header .op-col-arrival-time::before {
+        display: none;
     }
 
     .op-event-participant-list .op-col-print-info {
         flex-direction: row-reverse;
     }
 
-    .op-event-participant-list .op-col-print-info .op-amount-of-print {
+    .op-event-participant-list .op-col-print-info .op-col-amount-of-prints {
         width: 5rem;
         border-top: 0.1rem solid;
         border-right: none;
         border-radius: 0.4rem 0 0 0.4rem;
     }
 
-    .op-event-participant-list header .op-col-arrival-time::before {
-        display: none;
+    .op-event-participant-list article footer {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .op-event-participant-list article.op-active:is( [data-op-arrival="1"], .op-print-active ) footer {
+        padding: 1.6rem 1.4rem 0.6rem;
+    }
+
+    .op-event-participant-list footer .op-col-arrival-time .op-icon {
+        height: 2rem;
     }
 
 
