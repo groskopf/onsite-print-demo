@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-15 - 16:58 (Y:m:d - H:i)
+ ?  Updated: 2022-11-21 - 16:54 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -65,6 +65,8 @@
     --fa-icon-arrow-up-right-from-square: "\f08e";
     --fa-icon-pen: "\f304";
     --fa-icon-eye: "\f06e";
+    --fa-icon-sliders: "\f1de";
+    --fa-icon-magnifying-glass: "\f002";
 
 	/* OnsitePrint Icons */
     --op-icon-dashboard: url('../img/svg/icon-dashboard.svg');
@@ -106,6 +108,16 @@
 
 [data-icon="eye"] .op-icon::before {
 	content: var(--fa-icon-eye);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="sliders"] .op-icon::before {
+	content: var(--fa-icon-sliders);
+    font: var(--fa-font-solid);
+}
+
+[data-icon="magnifying-glass"] .op-icon::before {
+	content: var(--fa-icon-magnifying-glass);
     font: var(--fa-font-solid);
 }
 
@@ -1006,11 +1018,137 @@
 
 .op-event-participant-list .op-block__inner > header {
     background: var(--wp--preset--color--white);
+    align-items: center;
+    margin-bottom: 2rem;
     position: sticky;
     top: 2rem;
-    z-index: 999;
+    z-index: 100;
     border-radius: 0.4rem;
-    box-shadow: 0 -3rem 2rem 2rem var(--wp--preset--color--white);
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30), 0 -3rem 2rem 2rem var(--wp--preset--color--white);
+}
+
+/* ------------------------------------------
+ >  Participant Search Filter
+--------------------------------------------- */
+
+.op-event-participant-list .op-participants-search {
+    padding: 1rem;
+}
+
+.op-event-participant-list .op-search-form {
+    background: var(--wp--preset--color--primary-10);
+    display: flex;
+    border: 0.1rem solid var(--wp--preset--color--primary-90);
+    border-radius: 0.4rem;
+}
+
+.op-event-participant-list .op-search-filter {
+    margin: 0;
+    padding: 0.5rem;
+    position: relative;
+    border: none;
+    border-radius: 0.4rem;
+}
+
+.op-event-participant-list :is( .op-search-label, .op-search-label input ) {
+    display: flex;
+    flex: 1;
+}
+
+.op-event-participant-list .op-search-label {
+    color: var(--wp--preset--color--primary-40);
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;;
+}
+
+.op-event-participant-list .op-search-label:is( :active, :hover, :focus, :focus-within, :focus-visible ) {
+    color: var(--wp--preset--color--primary-100);
+    font-weight: 600;
+}
+
+.op-event-participant-list .op-search-label .op-icon {
+    color: currentColor;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5.3rem;
+    border-right: 0.1rem solid transparent;
+    cursor: pointer;
+}
+
+.op-event-participant-list .op-filter-label .op-button-title {
+    display: none;
+}
+
+.op-event-participant-list .op-search-label input {
+    background-color: transparent;
+    color: currentColor;
+    padding: 1rem 1rem 1rem 0;
+    border: none;
+    font: inherit;
+    outline: none;
+}
+
+.op-event-participant-list .op-search-label input::placeholder {
+    color: currentColor;
+    font-weight: 500;
+}
+
+.op-event-participant-list [id*=__filter-button] {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px,1px,1px,1px);
+    clip-path: inset(50%);
+}
+
+.op-event-participant-list :where(.op-filter-label) {
+    background-color: var(--wp--preset--color--white);
+    min-width: 4rem;
+    max-width: 4rem;
+}
+
+.op-event-participant-list .op-filter-label .op-icon {
+    padding: 0.9rem;
+}
+
+.op-event-participant-list [id*=__filter-button]:checked ~ .op-filter-label {
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-event-participant-list [id*=__filter-button] ~ .op-filter-options {
+    background-color: var(--wp--preset--color--white);
+    display: none;
+    flex-direction: column;
+    width: 20.5rem;
+    position: absolute;
+    top: calc(100% - 0.6rem);
+    right: 0.5rem;
+    border: 0.1rem solid var(--wp--preset--color--primary-100);
+    border-radius: 0.4rem 0 0.4rem 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-event-participant-list [id*=__filter-button]:checked ~ .op-filter-options {
+    display: flex;
+}
+
+.op-event-participant-list .op-filter-options .op-filter-input-label {
+    padding: 1rem;
+}
+
+.op-event-participant-list .op-filter-options .op-filter-input-label:not( :last-child ) {
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-event-participant-list .op-filter-options .op-filter-input-label:first-child {
+    border-color: var(--wp--preset--color--primary-20);
 }
 
 /* ------------------------------------------
@@ -1018,14 +1156,11 @@
 --------------------------------------------- */
 
 .op-event-participant-list .op-participant-col-info {
-    background-color: var(--wp--preset--color--white);
     display: none;
     grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem 16rem;
     align-items: center;
-    margin-bottom: 2rem;
-    padding: 1rem 1rem 1rem 1.4rem;
+    padding: 0 1rem 1rem 1.4rem;
     border-radius: 0.4rem;
-    box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
 
 .op-event-participant-list .op-participant-col-info p {
@@ -1076,7 +1211,7 @@
     z-index: 2;
     border-left: 0.4rem solid var(--wp--preset--color--primary-90);
     border-radius: 0.4rem;
-    box-shadow: 0.2rem 0.5rem 1rem var(--wp--preset--color--neutral-30);
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
 
 .op-event-participant-list article[data-op-arrival="1"] header {
@@ -1278,6 +1413,36 @@
     >  2c-8. Event Participant List
     ------------------------------------------------------------ */
 
+
+    /* ------------------------------------------
+    >  Participant Search Filter
+    --------------------------------------------- */
+
+    .op-event-participant-list .op-search-label .op-icon {
+        border-right-color: var(--wp--preset--color--primary-20);
+    }
+
+    .op-event-participant-list .op-search-label input {
+        padding-left: 2rem;
+    }
+
+    .op-event-participant-list :where(.op-filter-label) {
+        min-width: 20.5rem;
+        max-width: 20.5rem;
+    }
+    
+    .op-event-participant-list .op-filter-label .op-icon {
+        padding-right: 1.2rem;
+        padding-left: 1.6rem;
+    }
+
+    .op-event-participant-list .op-filter-label .op-button-title {
+        display: flex;
+    }
+    
+    .op-event-participant-list [id*=__filter-button] ~ .op-filter-options {
+        border-radius: 0 0 0.4rem 0.4rem;
+    }    
 
     /* ------------------------------------------
     >  Participant Column Info

@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-15 - 16:58 (Y:m:d - H:i)
+ ?  Updated: 2022-11-21 - 16:54 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -804,56 +804,73 @@ function opAddEventParticipant( debug, participant, eventPrintSuccess ) {
 }
 
 /* ------------------------------------------
- >   >  6a-2. Filter the Search of Event Participants
+ >   >  6a-2. Add Search Filter to the Event Participants List block
 --------------------------------------------- */
-function opEventTemplateSearchFilter( block, eventId ) {
+function opAddSearchFilter( debug, block, templateId ) {
 
-    ///// The URL to the API.
-    let  url = `${ opGetFastApiInfo( 'url' ) }name_tags/${ bookingCode }?layout=${ layout }`
+    let error, code, message
 
-    ///// The Body Input to Request Options.
-    let bodyInput = JSON.stringify(
-        {
-        "line_1": string1,
-        "line_2": string2,
-        "line_3": string3,
-        "line_4": string4,
-        "line_5": string5,
-        "image_name": imageFilename,
-        "qr_code": "string"
+    try {
+
+        ///// Get the elements.
+        let filterElement = block.querySelector( '.op-filter-options' )
+
+        ///// Get Template Item.
+        const templateItem = opGetTemplate( templateId )
+        if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
+
+        ///// Get Template Layout.
+        const templateLayout = templateItem.response.templateLayout
+        opConsoleDebug( debug, 'templateLayout:', templateLayout )
+
+        let numberOfLines = templateLayout.charAt(7)
+        let lineNames = [ 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5' ]
+        let blockId = block.getAttribute( 'id' )
+
+        for ( let i = 0; i < numberOfLines; i++ ) {
+            opConsoleDebug( debug, `Column ${i+1}:`, lineNames[i] )
+
+            ///// Create Radio Element.
+            let filterRadioElement = `                             
+                <label for="${ blockId }__filter-input-${ i+1 }" class="op-filter-input-label" onclick="opToggleSearchFilter('${ i+1 }')">
+                    <input type="radio" id="${ blockId }__filter-input-${ i+1 }" name="op-filter-input" value="${ i+1 }">
+                    <span class="op-text">${ lineNames[i] }</span>
+                </label>
+            `
+
+            ///// Add element to the container.
+            filterElement.insertAdjacentHTML( 'beforeEnd', filterRadioElement )
+
         }
-    )
 
-    ///// Fetch from the FastAPI.
-    opFetchFromFastAPI( debug, 'POST', bodyInput, url, 'json' ).then( fetchResponse => {
-        opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
+        error = false, code = 200, message = 'Search Filter was added.'
+        
+    } catch( errorMessage ) {
+        error = true, code = 400, message = errorMessage
+    }
 
-        ///// If the Fetch Response has Code 201 (Created).
-        if ( fetchResponse.code === 201 ) {
+    if ( error !== false ) {
+        opConsoleDebug( true, `Error Validate Response:`, message )
+    } else {
+        opConsoleDebug( debug, `Debug Validate Response:`, message )
+        return opReturnResponse( error, code, message )
+    }
 
-        }
+}
 
-    })
+/* ------------------------------------------
+ >   >  6a-2. Toggle Filter Search of Event Participants
+--------------------------------------------- */
+function opToggleSearchFilter( filterId ) {
 
     ///// Get the elements.
-    let filterElement = block.querySelector('.op-filter-radio-options')
-    
-    if ( type != false ) {
-        let blockId = block.getAttribute( 'id' )
-        let filterRadio = block.querySelector(`#${ blockId }-line-${ radioId.charAt(4) }-input`)
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let blockId = block.getAttribute( 'id' )
+    let filterInputText = block.querySelector( `[for="${ blockId }__filter-input-${ filterId }"] .op-text` ).innerText
 
-        if ( type != 'radio' && radioId === 'line1' ) return filterRadio.checked = true
+    block.querySelector( '.op-filter-label .op-button-title' ).innerText = filterInputText
 
-        filterRadio.checked = true
-        block.querySelector('.filter-option').innerText = filterRadio.value
-
-        ///// Add and remove classes to elements.
-        filterElement.classList.remove('active')
-
-    } else {
-        ///// Add and remove classes to elements.
-        filterElement.classList.add('active')
-    }
+    opSearchEventParticipants()
 
 }
 
@@ -870,14 +887,15 @@ function opSearchEventParticipants() {
     opConsoleDebug( debug, 'block:', block )
 
     let formElement = block.querySelector( '.op-search-form' )
+
     let searchInput = formElement['op-search-input']
-    let filterInput = formElement['op-filter-option'].value == '' ? [ 'line1', 'line2', 'line3' ] : formElement['op-filter-option'].value
+    opConsoleDebug( debug, 'searchInput:', searchInput.value )
+
+    let filterInput = formElement['op-filter-input'].value == 0 ? [ 'line1', 'line2', 'line3','line4', 'line5' ] : [ `line${formElement['op-filter-input'].value}` ]
+    opConsoleDebug( debug, 'filterInput:', filterInput )
     
 
-    opConsoleDebug( true, 'filterInput:', filterInput )
-    return
 
-    opConsoleDebug( debug, 'searchInput:', searchInput )
     
 
     ///// Get Event Id. 
@@ -910,8 +928,8 @@ function opSearchEventParticipants() {
     ///// Get Event Participants. 
     let participantList = eventItems[0].eventParticipants
 
-    const participants = opUniversalSearch( searchInput, participantList , ['line1', 'line2'] )
-    opConsoleDebug( true, 'search:', participants )
+    const participants = opUniversalSearch( searchInput, participantList , filterInput )
+    opConsoleDebug( debug, 'search:', participants )
     
     participantListElement.innerHTML = ''
     
@@ -1195,7 +1213,7 @@ function opEventParticipantListBlocks() {
     ///// Get each Block.
     if ( blocks ) {
         blocks.forEach( block => {
-            
+                       
             ///// Get Event Id. 
             let eventListId = block.getAttribute( 'data-event-id' )
 
@@ -1218,15 +1236,18 @@ function opEventParticipantListBlocks() {
             
             ///// Filter Event Items.
             let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
-            opConsoleDebug( debug, eventListId+':', eventItems )
+            opConsoleDebug( debug, `event-${eventListId}:`, eventItems )
             
             ///// Validate Event Item. 
             if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
-        
+
+            ///// Add Search Filter to the Event Participants List block. 
+            const searchFilter = opAddSearchFilter( debug, block, eventItems[0].eventTemplate )
+            opConsoleDebug( debug, 'searchFilter:', searchFilter )
+
             ///// Get Event Participants. 
             let participants = eventItems[0].eventParticipants
-
-            //opConsoleDebug( true, 'participants:', participants )
+            opConsoleDebug( debug, 'participants:', participants )
            
             participantListElement.innerHTML = ''
             let eventPrintSuccess = block.getAttribute( 'data-print-success' )

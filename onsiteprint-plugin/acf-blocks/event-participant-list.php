@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-11-15 - 16:57 (Y:m:d - H:i)
+ ?  Updated: 2022-11-21 - 16:54 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -56,17 +56,23 @@ if( ! $eventParticipantPrintSuccess ) {
 
             <div class="op-participants-search">
                 <form class="op-search-form" action="POST" onsubmit="return false">
-                    <fieldset class="op-search-filter">
-                        <label for="<?= esc_attr($id) ?>__op-filter-button" class="op-filter-label"  data-icon="filter">
-                            <input id="<?= esc_attr($id) ?>__op-filter-button" name="op-filter-button" type="checkbox" value="Filter">
-                            <span class="op-icon" role="img" aria-label="Filter Icon"></span>
-                            <span class="op-text">Filter</span>
-                        </label>
-                        <div class="op-filter-radio-options"></div>
-                    </fieldset>
-                    <label for="<?= esc_attr($id) ?>__search-input" class="op-search-label">
-                        <input id="<?= esc_attr($id) ?>__search-input" name="op-search-input" type="search" oninput="opSearchEventParticipants()">
+                    <label for="<?= esc_attr($id) ?>__search-input" class="op-search-label" data-icon="magnifying-glass">
+                        <span class="op-icon" role="img" aria-label="Filter Icon"></span>
+                        <input id="<?= esc_attr($id) ?>__search-input" name="op-search-input" type="search" placeholder="Søg efter deltagere..." oninput="opSearchEventParticipants()">
                     </label>
+                    <fieldset class="op-search-filter">
+                        <input id="<?= esc_attr($id) ?>__filter-button" name="op-filter-button" type="checkbox" value="Filter">
+                        <label for="<?= esc_attr($id) ?>__filter-button" class="op-filter-label op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="sliders" data-icon-position="left">
+                            <span class="op-icon" role="img" aria-label="Filter Icon"></span>
+                            <span class="op-button-title">All Columns</span>
+                        </label>
+                        <div class="op-filter-options">
+                            <label for="<?= esc_attr($id) ?>__filter-input-0" class="op-filter-input-label" onclick="opToggleSearchFilter('0')">
+                                <input type="radio" id="<?= esc_attr($id) ?>__filter-input-0" name="op-filter-input" value="0" checked>
+                                <span class="op-text">All Columns</span>
+                            </label>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
 
