@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-22 - 09:31 (Y:m:d - H:i)
+ ?  Updated: 2022-11-22 - 15:27 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -729,6 +729,97 @@ async function opPrintParticipant( participantId ) {
 
 }
 
+/* ---------------------------------------------------------
+ >  5a. Print All Participants
+------------------------------------------------------------ */
+function opPrintEventParticipants( eventListId ) {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block_"]' )
+    
+    ///// Get Id's. 
+    let blockId = block.getAttribute( 'id' ).substring(9)
+    
+    //////////////////// #NG: Missing login validation
+    ///// Validate Local Storage of Bookings.
+    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Booking.
+    const booking = bookingsStorage.response.bookingList[0].booking
+    opConsoleDebug( debug, 'booking:', booking )
+
+
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Event List. 
+    const eventList = opGetEventList( eventListId )
+    if ( eventList.error !== false ) return opConsoleDebug( debug, 'eventList:', eventList.response )
+
+    ///// Get Event Item. 
+    const eventItem = eventList.response
+    opConsoleDebug( debug, 'eventItem:', eventItem )
+
+
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Template Item. 
+    const templateItem = opGetTemplate( eventItem.eventTemplate )
+    if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
+
+    ///// Get Template. 
+    const template = templateItem.response
+    opConsoleDebug( debug, 'template:', template )
+
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Participant Item. 
+    const participantList = eventItem.eventParticipants
+    let eventName = eventItem.eventName
+
+    let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
+    
+    printWindow = window.open( '', 'PRINT', 'height=' + screen.height + ',width=' + screen.width )
+    printWindow.document.write( `<html><head><title>${ pageTitle }</title><link rel="stylesheet" id="onsiteprint-plugin-styles-css" href="http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles.css" media="all"></head>` )
+    printWindow.document.write( '<body onafterprint="self.close()">' )
+
+    let strings = [ 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5' ]
+    
+    let header = `<h3><b>Event:</b> ${ eventItem.eventName } | <b>OnsitePrint.dk</b></h3>`
+
+    let colInfo = block.querySelector( '.op-participant-col-info' ).textContent
+    let rowList = block.querySelectorAll( '.op-participant-rows article' )
+
+    ///// Add element to the container.
+    printWindow.document.write( `
+        <table id="op-block class="pdf-container">
+            <thead class="pdf-header">
+                <tr><th class="pdf-header-cell">
+                    <div class="header-info">${ header }${ colInfo }</div>
+                </th></tr>
+            </thead>
+            <tfoot class="pdf-footer">
+                <tr><td class="pdf-footer-cell">
+                    <div class="footer-info">${ colInfo }</div>
+                </td></tr>
+            </tfoot>
+            <tbody class="pdf-content">
+        `
+    )
+
+    for(let i = 0; i< rowList.length; i++){
+        printWindow.document.write( `<tr class="pdf-row"><td>${i+1}</td><td>${rowList[i].textContent}</td></tr>` );
+    }
+
+    printWindow.document.write( '</tbody></table></body></html>' );
+
+    printWindow.print()
+    printWindow.close()
+
+    return false
+
+}
+
 /* ------------------------------------------------------------------------
  #  6. Functions to ACF Custom Blocks
 ---------------------------------------------------------------------------
@@ -736,7 +827,11 @@ async function opPrintParticipant( participantId ) {
 ------------------------------------------------------------
  >  6a-1. Add Event Participant to Block
 --------------------------------------------- */
-function opAddEventParticipant( debug, participant, eventPrintSuccess ) {
+function opAddEventParticipant( debug, block, participant ) {
+
+    ///// Get the elements.
+    let eventPrintSuccess = block.getAttribute( 'data-print-success' )
+    let eventPrintButton = block.getAttribute( 'data-print-button' )
 
     ///// Debug the function.
     opConsoleDebug( debug, 'participant:', participant )
@@ -780,7 +875,7 @@ function opAddEventParticipant( debug, participant, eventPrintSuccess ) {
                 </div>
                 <time class="op-col-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
                 <div class="op-col-print-info">
-                    <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left" onclick="opPrintParticipant('${participantId}'); return false"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title">Print</span></button>
+                    <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left" onclick="opPrintParticipant('${participantId}'); return false"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title">${ eventPrintButton }</span></button>
                     <p class="op-col-amount-of-prints">${ participantPrints }</p>
                 </div>
             </header>
@@ -935,12 +1030,10 @@ function opSearchEventParticipants() {
     
     participantListElement.innerHTML = ''
     
-    let eventPrintSuccess = block.getAttribute( 'data-print-success' )
-
     ///// For each Participant create Participant Element.
     for( let i = 0; i < participants.length; ++i ) {
 
-        opAddEventParticipant( debug, participants[i], eventPrintSuccess ).then( response => {
+        opAddEventParticipant( debug, block, participants[i] ).then( response => {
             opConsoleDebug( debug, 'Response:', response )
             participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
         })
@@ -1252,12 +1345,11 @@ function opEventParticipantListBlocks() {
             opConsoleDebug( debug, 'participants:', participants )
            
             participantListElement.innerHTML = ''
-            let eventPrintSuccess = block.getAttribute( 'data-print-success' )
 
             ///// For each Participant create Participant Element.
             for( let i = 0; i < participants.length; ++i ) {
 
-                opAddEventParticipant( debug, participants[i], eventPrintSuccess ).then( response => {
+                opAddEventParticipant( debug, block, participants[i] ).then( response => {
                     opConsoleDebug( debug, 'Response:', response )
                     participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
                 })

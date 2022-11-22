@@ -6,9 +6,9 @@
  *	Description: This is a plugin to the site http://onsiteprint.dk/.
  *	Author: Gerdes Group
  *	Author URI: https://www.clarify.nu/
- *	Version: 1.0.0.24
+ *	Version: 1.0.0.29
  ?	(Check the Version variable)
- ?	Updated: 2022-11-22 - 09:31 (Y:M:D - H:M)
+ ?	Updated: 2022-11-22 - 15:27 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -44,7 +44,7 @@
  &  0. List of upcoming tasks
 ---------------------------------------------------------------------------
 
-    1. More Blocks
+    1. Enqueue Styles - Editor
 
 ---------------------------------------------------------------------------
  #  1. Plugin Setup
@@ -52,7 +52,7 @@
  >  1a. Definition of variables
 ------------------------------------------------------------ */
 define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
-define( 'ONSITEPRINT_VERSION', '1.0.0.24' );
+define( 'ONSITEPRINT_VERSION', '1.0.0.29' );
 
 
 /* ---------------------------------------------------------
@@ -101,6 +101,11 @@ function onsiteprint_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_styles', 20, 1 );
 
+//////////////////// #NG: Needs to be looked at again.
+function onsiteprint_enqueue_editor_styles() {
+	wp_enqueue_style( 'onsiteprint-plugin-editor-styles', ONSITEPRINT_DIR . '/assets/css/onsiteprint-styles.css', array(), ONSITEPRINT_VERSION );
+}
+add_action( 'enqueue_block_editor_assets', 'onsiteprint_enqueue_editor_styles', 20, 1 );
 
 /* ------------------------------------------------------------------------
  #  2. Custom Block Category Registration
@@ -127,16 +132,17 @@ add_filter( 'block_categories', 'onsiteprint_plugin_block_categories', 10, 2 );
  *	Create a new custom block to the Block view.
 --------------------------------------------------------------------------- */
 function onsiteprint_acf_init() {
-	if( function_exists('acf_register_block') ) {
+	if( function_exists('acf_register_block_type') ) {
 	
 		/* ---------------------------------------------------------
 		 >  2a. Block: Link Button
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-button-link',
 			'title'				=> __('Link Button'),
 			'description'		=> __('Displaying a Button with a Custom Link.'),
 			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/button-link.php',
+			//'enqueue_style'     => plugin_dir_path(__FILE__) . 'acf-blocks/testimonial/testimonial.css',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'button',
 			'supports'          => array(
@@ -148,7 +154,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2b. Block: Log In/Out Button
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-button-loginout',
 			'title'				=> __('Log In/Out Button'),
 			'description'		=> __('Displaying a Button to Log In/Out of the website.'),
@@ -161,7 +167,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2c. Block: Toggle Button
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-button-toggle',
 			'title'				=> __('Toggle Button'),
 			'description'		=> __('Displaying a Toggle Button. Adding an Additional Data Attribute to the parent or sibling element.'),
@@ -174,7 +180,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2d. Block: Booking Information
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-booking-information',
 			'title'				=> __('Booking Information'),
 			'description'		=> __('Displaying Booking Information, if the User is logged in.'),
@@ -187,7 +193,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2e. Block: Printer Information
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-printer-information',
 			'title'				=> __('Printer Information'),
 			'description'		=> __('Displaying Printer Information, if the User is logged in.'),
@@ -200,7 +206,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2f. Block: Event Information
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-event-information',
 			'title'				=> __('Event Information'),
 			'description'		=> __('Displaying Event Information of the current Event, if the User is logged in.'),
@@ -213,7 +219,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2g. Block: Event Template Information
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-event-template-information',
 			'title'				=> __('Event Template Information'),
 			'description'		=> __('Displaying Event Template Information of the current Event, if the User is logged in.'),
@@ -226,7 +232,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2h. Block: Event Participant List
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-event-participant-list',
 			'title'				=> __('Event Participant List'),
 			'description'		=> __('Displaying the current Event List of Participants, if the User is logged in.'),
@@ -244,7 +250,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Log In/Out (Switch)
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-log-switch',
 			'title'				=> __('Log in/out'),
 			'description'		=> __('Log in with a booking code.'),
@@ -257,7 +263,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Log In
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-log-in',
 			'title'				=> __('Log in'),
 			'description'		=> __('Log in with a booking code.'),
@@ -270,7 +276,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Create new Template
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-create-template',
 			'title'				=> __('Create new Template'),
 			'description'		=> __('Create new Template'),
@@ -283,7 +289,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Create new Event
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-create-event',
 			'title'				=> __('Create new Event'),
 			'description'		=> __('[Front-end] Create new Event.'),
@@ -296,7 +302,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Show List of Event URL's
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-get-event-lists-urls',
 			'title'				=> __('Show List of Event URL\'s'),
 			'description'		=> __('[Front-end] Shows a URL list of Events.'),
@@ -309,7 +315,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Show Event Participants
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-show-event-participants',
 			'title'				=> __('Show Event Participants'),
 			'description'		=> __('[Front-end] Shows a list of Event Participants.'),
@@ -322,7 +328,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Search for Event Participants
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-search-event-participants',
 			'title'				=> __('Search for Event Participants'),
 			'description'		=> __('[Front-end] Search for Event Participants.'),
@@ -335,7 +341,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Print Event Participants
 		------------------------------------------------------------ */
-		acf_register_block(array(
+		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-print-event-participants',
 			'title'				=> __('Print Event Participants'),
 			'description'		=> __('[Front-end] Print Event Participants.'),
@@ -348,3 +354,46 @@ function onsiteprint_acf_init() {
 	}
 }
 add_action('acf/init', 'onsiteprint_acf_init');
+
+
+
+
+/////// #NG: Is not used!!
+// This function or its code might be handy other places. TG-2021-06-28 	
+// Eller benyt fx current_user_can('upload_files') når man blot vil tjekke den aktuelle bruger.
+function get_highest_user_role( $user_ID ) {
+	//Se https://wordpress.org/support/article/roles-and-capabilities/  
+	//	 https://developer.wordpress.org/reference/functions/user_can/
+	//Andre steder kan det være relevant blot at spørge current_user_can(), fx if (current_user_can('activate_plugins')) 
+	/*
+		De engelske betegnelser for standardrollerne og det de giver adgang til i Wordpress:
+		Administrator – nothing is off limits
+		Editor – has access to all posts, pages, comments, categories, tags, and links.
+		Author – can write, upload photos to, edit, and publish their own posts.
+		Contributor – has no publishing or uploading capability, but can write and edit their own posts until they are published
+		(Follower - (public sites) / Viewer (private sites only) – can read and comment on posts and pages)
+		Subscriber - (Business plan or higher with active plugins) – similar to the Follower / Viewer role; can read and comment on posts and pages.
+	*/
+
+	$userRole = 'WP-unknown role';
+
+	if ( user_can( $user_ID, 'activate_plugins') ) {
+		///// da: Administrator
+		$userRole = 'Administrator';
+	} elseif ( user_can( $user_ID, 'edit_pages') ) {
+		///// da: Redaktør
+		$userRole = 'Editor';
+	} elseif ( user_can( $user_ID, 'upload_files') ) {
+		///// da: Forfatter
+		$userRole = 'Author';
+	} elseif ( user_can( $user_ID, 'edit_posts' ) ) {
+		///// da: Bidragyder
+		$userRole = 'Contributer';
+	} elseif ( user_can( $user_ID, 'read' ) ) {
+		///// da: Abonnent
+		$userRole = 'Subscriber';
+	}
+
+	return $userRole;
+
+}

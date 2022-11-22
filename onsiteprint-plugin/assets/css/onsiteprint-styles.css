@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-22 - 09:31 (Y:m:d - H:i)
+ ?  Updated: 2022-11-22 - 15:27 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -47,6 +47,11 @@
 ---------------------------------------------------------------------------
  #  1. Plugin Setup
 --------------------------------------------------------------------------- */
+
+html {
+    font-size: 62.5%
+}
+
 .page-template-default .wp-site-blocks {
     display: flex;
 }/* #NG - To Child */
@@ -539,6 +544,19 @@
  >  2a. Block Style
 ------------------------------------------------------------ */
 
+section[id*="op-block"] {
+    color: var(--wp--preset--color--neutral-100);
+    font-family: var(--wp--preset--font-family--montserrat);
+    font-size: var(--wp--preset--font-size--small);
+    font-weight: var(--wp--custom--typography--font-weight--regular);
+    line-height: var(--wp--custom--typography--line-height--normal);
+}
+
+.op-event-template-information .op-button:where( [data-color="secondary-20"] ) {
+    --outline-color: var(--wp--preset--color--secondary-30);
+    --outline-border-color: var(--wp--preset--color--secondary-40);
+}
+
 /* ---------------------------------------------------------
  >  2b. Block Validation
 ------------------------------------------------------------ */
@@ -587,11 +605,6 @@
 ------------------------------------------------------------
  >  2c-1. Link Button
 --------------------------------------------- */
-
-.op-event-template-information .op-button:where( [data-color="secondary-20"] ) {
-    --outline-color: var(--wp--preset--color--secondary-30);
-    --outline-border-color: var(--wp--preset--color--secondary-40);
-}
 
 
 /* ------------------------------------------
@@ -1025,6 +1038,11 @@
     z-index: 100;
     border-radius: 0.4rem;
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30), 0 -3rem 2rem 2rem var(--wp--preset--color--white);
+}
+
+.wp-admin .op-event-participant-list .op-block__inner > header {
+    position: static;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
 
 /* ------------------------------------------
@@ -1516,7 +1534,11 @@
     }
         
     .op-event-participant-list .op-col-print-info .op-button .op-icon {
-        padding: 1.2rem 1.4rem 1.2rem 2.1rem;
+        display: none;
+    }
+
+    .op-event-participant-list .op-col-print-info .op-button .op-button-title {
+        padding-left: 2.4rem;
     }
 
     .op-event-participant-list :where( .op-icon )::before {
