@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-11-21 - 16:54 (Y:m:d - H:i)
+ ?  Updated: 2022-11-22 - 09:31 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -58,7 +58,7 @@ if( ! $eventParticipantPrintSuccess ) {
                 <form class="op-search-form" action="POST" onsubmit="return false">
                     <label for="<?= esc_attr($id) ?>__search-input" class="op-search-label" data-icon="magnifying-glass">
                         <span class="op-icon" role="img" aria-label="Filter Icon"></span>
-                        <input id="<?= esc_attr($id) ?>__search-input" name="op-search-input" type="search" placeholder="Søg efter deltagere..." oninput="opSearchEventParticipants()">
+                        <input id="<?= esc_attr($id) ?>__search-input" name="op-search-input" type="search" placeholder="Søg efter deltagere her..." oninput="opSearchEventParticipants()">
                     </label>
                     <fieldset class="op-search-filter">
                         <input id="<?= esc_attr($id) ?>__filter-button" name="op-filter-button" type="checkbox" value="Filter">
@@ -69,6 +69,7 @@ if( ! $eventParticipantPrintSuccess ) {
                         <div class="op-filter-options">
                             <label for="<?= esc_attr($id) ?>__filter-input-0" class="op-filter-input-label" onclick="opToggleSearchFilter('0')">
                                 <input type="radio" id="<?= esc_attr($id) ?>__filter-input-0" name="op-filter-input" value="0" checked>
+                                <span class="op-check"></span>
                                 <span class="op-text">All Columns</span>
                             </label>
                         </div>

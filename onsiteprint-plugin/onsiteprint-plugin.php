@@ -8,7 +8,7 @@
  *	Author URI: https://www.clarify.nu/
  *	Version: 1.0.0.24
  ?	(Check the Version variable)
- ?	Updated: 2022-11-21 - 16:54 (Y:M:D - H:M)
+ ?	Updated: 2022-11-22 - 09:31 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:

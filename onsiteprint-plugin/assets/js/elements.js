@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-21 - 16:54 (Y:m:d - H:i)
+ ?  Updated: 2022-11-22 - 09:31 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -834,6 +834,7 @@ function opAddSearchFilter( debug, block, templateId ) {
             let filterRadioElement = `                             
                 <label for="${ blockId }__filter-input-${ i+1 }" class="op-filter-input-label" onclick="opToggleSearchFilter('${ i+1 }')">
                     <input type="radio" id="${ blockId }__filter-input-${ i+1 }" name="op-filter-input" value="${ i+1 }">
+                    <span class="op-check"></span>
                     <span class="op-text">${ lineNames[i] }</span>
                 </label>
             `
@@ -869,6 +870,7 @@ function opToggleSearchFilter( filterId ) {
     let filterInputText = block.querySelector( `[for="${ blockId }__filter-input-${ filterId }"] .op-text` ).innerText
 
     block.querySelector( '.op-filter-label .op-button-title' ).innerText = filterInputText
+    block.querySelector( '[name="op-filter-button"]').checked = false
 
     opSearchEventParticipants()
 
