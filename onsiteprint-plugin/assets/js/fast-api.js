@@ -44,7 +44,9 @@ async function getBookingWithBookingCode( bookingCode, validationElement ) {
         ///// *GET, POST, PUT, DELETE, etc.
         method: 'GET',
         headers: {
-            'access_token': '123admin'
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'access_token': 'iZiICytrYEikgyNO'
         }
     }
 
@@ -86,7 +88,9 @@ async function uploadNewImage( formData, validationElement ) {
         method: 'POST',
         body: formData,
         headers: {
-            'access_token': '123admin'
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'access_token': 'iZiICytrYEikgyNO'
         }
     }
 
@@ -127,7 +131,9 @@ async function getNameTagType( nameTagType, validationElement ) {
         ///// *GET, POST, PUT, DELETE, etc.
         method: 'GET',
         headers: {
-            'access_token': '123admin'
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'access_token': 'iZiICytrYEikgyNO'
         }
     }
 

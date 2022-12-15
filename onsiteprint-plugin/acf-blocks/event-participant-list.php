@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-11-22 - 15:27 (Y:m:d - H:i)
+ ?  Updated: 2022-12-04 - 00:20 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -61,11 +61,14 @@ if ( ! empty( $block['align'] ) ) {
         <header>
 
             <div class="op-participants-search">
-                <form class="op-search-form" action="POST" onsubmit="return false">
+                <form class="op-search-form" data-search-active="0" action="POST" onsubmit="return false">
                     <label for="<?= esc_attr($id) ?>__search-input" class="op-search-label" data-icon="magnifying-glass">
-                        <span class="op-icon" role="img" aria-label="Filter Icon"></span>
+                        <span class="op-icon" role="img" aria-label="Search Icon" onclick="opSearchEventParticipants()"></span>
                         <input id="<?= esc_attr($id) ?>__search-input" name="op-search-input" type="search" placeholder="<?= esc_attr($epl_searchMessage) ?>" oninput="opSearchEventParticipants()">
                     </label>
+                    <div class="op-search-cancel" data-icon="xmark" onclick="opSearchClear()">
+                        <span class="op-icon" role="img" aria-label="Cancel Icon"></span>
+                    </div>
                     <fieldset class="op-search-filter">
                         <input id="<?= esc_attr($id) ?>__filter-button" name="op-filter-button" type="checkbox" value="Filter">
                         <label for="<?= esc_attr($id) ?>__filter-button" class="op-filter-label op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="sliders" data-icon-position="left">

@@ -1,0 +1,14 @@
+{
+    "name": "acf/testblock",
+    "title": "Testblock",
+    "description": "A custom Testblock block.",
+    "style": [ "file:./testblock.css" ],
+    "category": "formatting",
+    "icon": "admin-comments",
+    "keywords": ["testblock", "quote"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "testblock.php"
+    },
+    "align": "full"
+}

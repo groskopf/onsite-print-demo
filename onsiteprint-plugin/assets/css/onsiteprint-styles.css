@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-22 - 15:27 (Y:m:d - H:i)
+ ?  Updated: 2022-12-15 - 09:43 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -52,9 +52,33 @@ html {
     font-size: 62.5%
 }
 
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+input[type="search"]{
+    font: inherit;
+    outline:none;
+    -webkit-box-sizing: content-box;
+    -webkit-appearance: none;
+}
+
+
+/* #NG - To Child */
 .page-template-default .wp-site-blocks {
     display: flex;
-}/* #NG - To Child */
+}
+.wp-site-blocks > main > .wp-block-post-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+/* #NG - To Child */
+
 
 :root {
     /* Font Awesome Icons */
@@ -67,16 +91,53 @@ html {
     --fa-icon-check: "\f00c";
     --fa-icon-print: "\f02f";
     --fa-icon-clock: "\f017";
+    --fa-icon-floppy-disk: "\f0c7";
     --fa-icon-arrow-up-right-from-square: "\f08e";
+    --fa-icon-angle-left: "\f104";
+    --fa-icon-angle-right: "\f105";
+    --fa-icon-angle-up: "\f106";
+    --fa-icon-angle-down: "\f107";
     --fa-icon-pen: "\f304";
     --fa-icon-eye: "\f06e";
     --fa-icon-sliders: "\f1de";
     --fa-icon-magnifying-glass: "\f002";
+    --fa-icon-xmark: "\f00d";
 
 	/* OnsitePrint Icons */
     --op-icon-dashboard: url('../img/svg/icon-dashboard.svg');
+    --op-icon-number-1: "1";
+    --op-icon-number-2: "2";
+    --op-icon-number-3: "3";
+    --op-icon-number-4: "4";
+    --op-icon-number-5: "5";
 
 }
+
+[data-icon*="op-number"] .op-icon::before {
+    font-size: 2rem;
+    font-variant-numeric: tabular-nums;
+}
+
+[data-icon="op-number-1"] .op-icon::before {
+	content: var(--op-icon-number-1);
+}
+
+[data-icon="op-number-2"] .op-icon::before {
+	content: var(--op-icon-number-2);
+}
+
+[data-icon="op-number-3"] .op-icon::before {
+	content: var(--op-icon-number-3);
+}
+
+[data-icon="op-number-4"] .op-icon::before {
+	content: var(--op-icon-number-4);
+}
+
+[data-icon="op-number-5"] .op-icon::before {
+	content: var(--op-icon-number-5);
+}
+
 
 [data-icon="dashboard"] a::before {
 	content: '';
@@ -86,60 +147,86 @@ html {
     background-position: center;
 }
 
-[data-icon="house"] a::before {
-	content: var(--fa-icon-house);
+[data-icon] a::before,
+[data-icon]:not( [data-icon*="op-number"] ) .op-icon::before {
     font: var(--fa-font-solid);
 }
 
-[data-icon="table-cells"] a::before {
-	content: var(--fa-icon-table-cells);
-    font: var(--fa-font-solid);
-}
-
-[data-icon="circle-question"] a::before {
-	content: var(--fa-icon-circle-question);
-    font: var(--fa-font-regular);
+[data-icon="floppy-disk"] .op-icon::before {
+	content: var(--fa-icon-floppy-disk);
 }
 
 [data-icon="link"] .op-icon::before {
 	content: var(--fa-icon-arrow-up-right-from-square);
-    font: var(--fa-font-solid);
+}
+
+[data-icon="arrow-right"] .op-icon::before {
+	content: var(--fa-icon-angle-right);
+}
+
+[data-icon="arrow-left"] .op-icon::before {
+	content: var(--fa-icon-angle-left);
+}
+
+[data-icon="arrow-up"] .op-icon::before {
+	content: var(--fa-icon-angle-up);
+}
+
+[data-icon="arrow-down"] .op-icon::before {
+	content: var(--fa-icon-angle-down);
 }
 
 [data-icon="pen"] .op-icon::before {
 	content: var(--fa-icon-pen);
-    font: var(--fa-font-solid);
 }
 
 [data-icon="eye"] .op-icon::before {
 	content: var(--fa-icon-eye);
-    font: var(--fa-font-solid);
 }
 
 [data-icon="sliders"] .op-icon::before {
 	content: var(--fa-icon-sliders);
-    font: var(--fa-font-solid);
 }
 
 [data-icon="magnifying-glass"] .op-icon::before {
 	content: var(--fa-icon-magnifying-glass);
-    font: var(--fa-font-solid);
+}
+
+[data-icon="xmark"] .op-icon::before {
+	content: var(--fa-icon-xmark);
 }
 
 [data-icon="print"] .op-icon::before {
 	content: var(--fa-icon-print);
-    font: var(--fa-font-solid);
 }
 
 [data-icon="user"] .op-icon::before {
 	content: var(--fa-icon-user);
-    font: var(--fa-font-solid);
 }
 
 [data-icon="clock"] .op-icon::before {
 	content: var(--fa-icon-clock);
-    font: var(--fa-font-solid);
 }
+
+
+/* #NG */
+:is( [data-icon="circle-question"] ) a::before {
+    font: var(--fa-font-regular);
+}
+
+[data-icon="house"] a::before {
+	content: var(--fa-icon-house);
+}
+
+[data-icon="table-cells"] a::before {
+	content: var(--fa-icon-table-cells);
+}
+
+[data-icon="circle-question"] a::before {
+	content: var(--fa-icon-circle-question);
+}
+/* #NG */
+
 
 .op-flex-row {
     display: flex;
@@ -543,14 +630,6 @@ html {
 ---------------------------------------------------------------------------
  >  2a. Block Style
 ------------------------------------------------------------ */
-
-section[id*="op-block"] {
-    color: var(--wp--preset--color--neutral-100);
-    font-family: var(--wp--preset--font-family--montserrat);
-    font-size: var(--wp--preset--font-size--small);
-    font-weight: var(--wp--custom--typography--font-weight--regular);
-    line-height: var(--wp--custom--typography--line-height--normal);
-}
 
 .op-event-template-information .op-button:where( [data-color="secondary-20"] ) {
     --outline-color: var(--wp--preset--color--secondary-30);
@@ -1060,14 +1139,6 @@ section[id*="op-block"] {
     border-radius: 0.4rem;
 }
 
-.op-event-participant-list .op-search-filter {
-    margin: 0;
-    padding: 0.5rem;
-    position: relative;
-    border: none;
-    border-radius: 0.4rem;
-}
-
 .op-event-participant-list :is( .op-search-label, .op-search-label input ) {
     display: flex;
     flex: 1;
@@ -1095,22 +1166,70 @@ section[id*="op-block"] {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-filter-label .op-button-title {
-    display: none;
+.op-event-participant-list .op-search-label .op-icon:is( :hover, :focus )::before {
+    background: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.4rem;
+    transition: all 200ms ease-in-out;
 }
 
 .op-event-participant-list .op-search-label input {
     background-color: transparent;
     color: currentColor;
-    padding: 1rem 1rem 1rem 0;
+    padding: 1rem 2rem 1rem 0;
     border: none;
-    font: inherit;
-    outline: none;
+}
+
+.op-event-participant-list [data-search-active="1"] .op-search-label input {
+    padding-right: 0;
 }
 
 .op-event-participant-list .op-search-label input::placeholder {
     color: currentColor;
     font-weight: 500;
+}
+
+.op-event-participant-list .op-search-cancel {
+    color: var(--wp--preset--color--primary-40);
+    font-size: 2rem;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    cursor: pointer;
+}
+
+.op-event-participant-list .op-search-cancel:is( :hover, :focus ) .op-icon::before {
+    background: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.4rem;
+    transition: all 200ms ease-in-out;
+}
+
+.op-event-participant-list [data-search-active="1"] .op-search-cancel {
+    display: flex;
+}
+
+.op-event-participant-list .op-search-filter {
+    margin: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    position: relative;
+    border: none;
+    border-radius: 0.4rem;
+}
+
+.op-event-participant-list .op-filter-label .op-button-title {
+    display: none;
 }
 
 .op-event-participant-list [id*=__filter-button],
@@ -1456,7 +1575,198 @@ section[id*="op-block"] {
 }
 
 
+/* ---------------------------------------------------------
+ >  2c-9. Template Creation
+------------------------------------------------------------ */
 
+.op-template-creation {
+    line-height: 1;
+    padding: 1rem 2rem;
+}
+
+.op-template-creation,
+.op-template-creation .op-block__inner {
+    flex: 1;
+}
+
+.op-template-creation .op-block__inner > header {
+    background: var(--wp--preset--color--secondary-60);
+    background-image: var(--wp--preset--gradient--horizontal-secondary-60-to-80);
+    color: var(--wp--preset--color--white);
+    margin-bottom: 2rem;
+    padding: 1.7rem 2rem 2rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30), 0 -3rem 2rem 2rem var(--wp--preset--color--white);
+}
+
+.op-template-creation .op-block__inner > header .op-block-title {
+    font-size: 2.4rem;
+    padding-bottom: 0.4rem;
+}
+
+/* ---------------------------------------------------------
+ >  2c-9. Steps Form
+------------------------------------------------------------ */
+
+.op-form-steps {
+    background-color: var(--wp--preset--color--neutral-10);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border: 0.1rem solid var(--wp--preset--color--neutral-30);
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+    overflow: hidden;
+}
+
+.op-form-steps .op-form-process {
+    background-color: var(--wp--preset--color--neutral-10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 10rem;
+    padding: 3rem 1rem;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-30);
+    z-index: 1;
+}
+
+.op-form-steps .op-form-process__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    position: relative;
+    z-index: 0;
+}
+
+.op-form-steps .op-form-process__inner::after {
+    background-color: var(--wp--preset--color--secondary-20);
+    content: "";
+    width: 0.2rem;
+    height: 90%;
+    position: absolute;
+    z-index: -1;
+}
+
+.op-form-steps > .op-form__inner {
+}
+
+.op-form-steps .op-form-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    overflow: hidden;   
+}
+
+.op-form-steps .op-form-content fieldset {
+    background-color: var(--wp--preset--color--neutral-10);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    transition: transform 200ms ease-in-out;
+}
+
+.op-form-steps .op-form-content fieldset header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 3rem;
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-30);
+}
+
+.op-form-steps .op-form-content fieldset header .op-fieldset-steps {
+    color: var(--wp--preset--color--secondary-60);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+.op-form-steps .op-form-content fieldset header .op-fieldset-step-number {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.2rem;
+}
+
+.op-form-steps .op-form-content fieldset .op-fieldset__inner {
+    padding: 3rem;
+}
+
+.op-form-steps .op-form-directions .op-button-save,
+.op-form-steps[data-form-step="1"] .op-form-directions .op-button-back,
+.op-form-steps[data-form-step-last="true"] .op-form-directions .op-button-next {
+    display: none;
+}
+
+.op-form-steps[data-form-step-last="true"] .op-form-directions .op-button-save {
+    display: flex;
+}
+
+.op-form-steps .op-form-directions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    border-top: 0.1rem solid var(--wp--preset--color--neutral-30);
+}
+
+[id*="op-block"]:not( .active ) .op-modal {
+    display: none;
+}
+
+[id*="op-block"] .op-modal.active,
+[id*="op-block"] .op-modal::after {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 110;
+    display: flex;
+}
+
+[id*="op-block"] .op-modal {
+    padding: 2rem;
+}
+
+[id*="op-block"] .op-modal::after {
+    background: var(--wp--preset--color--primary-100);
+    content: "";
+    z-index: -1;
+    opacity: 0.5;
+}
+
+[id*="op-block"] .op-modal__inner {
+    background: var(--wp--preset--color--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: inherit;
+    height: 100%;
+    max-width: 450px;
+    max-height: 40rem;
+    margin: auto;
+    padding: 4rem;
+    border-radius: 0.4rem;
+    overflow-y: auto;
+
+}
+
+[id*="op-block"] .op-modal__inner .op-flex-col {
+    line-height: var(--wp--custom--typography--line-height--normal);
+    text-align: center;
+}
+
+[id*="op-block"] .op-modal__inner .op-flex-row {
+    gap: 1rem;
+    padding-top: 3rem;
+}
+
+[id*="op-block"] .op-modal__inner .op-flex-row .op-button {
+    flex: 1;
+}
 
 
 
@@ -1602,175 +1912,12 @@ section[id*="op-block"] {
 
 
 
-/* ---------------------------------------------------------
- >  2x. Block: Log in/out (Switch)
------------------------------------------------------------- */
-
-.op-log-switch {
-    display: flex;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Log in
------------------------------------------------------------- */
-
-.op-log-in {
-    display: flex;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Create new Template
------------------------------------------------------------- */
-
-.op-create-template {
-    display: flex;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Create new Event
------------------------------------------------------------- */
-
-.op-create-event {
-    display: flex;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Show List of Event URL's
------------------------------------------------------------- */
-
-.op-show-list-of-event-urls {
-    display: flex;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Show Event Participants
------------------------------------------------------------- */
-
-.op-show-event-participants {
-    display: flex;
-}
-
-.op-show-event-participants .op-event-item .participant-content {
-    display: grid;
-    justify-content: space-between;
-    align-items: center;
-    grid-template-columns: auto auto 1fr auto;
-    font-size: 1.6rem;
-    padding: 1rem;
-    background-color: #fff;
-    border-radius: 0.5rem;
-    box-shadow: 0.2rem 0.5rem #e6e6e6;
-    gap: 1rem
-}
-
-/* container inden i med csv content*/
-.op-show-event-participants .op-event-item .list-info {
-    display: grid;
-    justify-content: start;
-    align-items: center;
-    grid-template-columns: repeat(4, 25%);
-    gap: 1rem
-}
-
-.op-show-event-participants .op-event-item .line-5 {
-    display: none;
-}
-
-/* tiden */
-.op-show-event-participants .op-event-item .time {
-    padding: 0 3.2rem 0 3.2rem;
-}
-
-/* ikonet */
-.op-show-event-participants .op-event-item .icon {
-    background-color: rgba(var(--op-rgb-blue-light), 0.1);
-    color: var(--op-hex-blue);
-    font: var(--fa-font-solid);
-    font-size: 2.5rem;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 5rem;
-    min-height: 5rem;
-    border: 0.1rem solid var(--op-hex-blue);
-    border-radius: 0.5rem;
-}
-
-.op-show-event-participants .op-event-item .icon::after {
-    content: "\f007";
-}
-
-/* ankommet ikon */
-.op-show-event-participants .op-event-item[data-op-arrival="1"] .icon {
-    background-color: rgba(var(--op-rgb-teal), 0.1);
-    color: var(--op-hex-teal);
-    border-color: var(--op-hex-teal);
-
-}
-.op-show-event-participants .op-event-item[data-op-arrival="1"] .icon::after {
-    content: "\f00c";
-}
-
-/* container inden i med printknap og antal */
-.op-show-event-participants .op-event-item .print {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-    align-items: center;
-    align-content: center;
-
-}
-
-/* solid blå print knap m kun 2 border-radius hjørner */
-.op-show-event-participants .op-event-item .op-button-solid {
-    border-radius: 0 0.5rem 0.5rem 0;
-}
-
-/* stroke print knap m kun 2 border-radius hjørner */
-.op-show-event-participants .op-event-item .amount-of-print {
-    min-width: 3ch;
-    padding: 1.6rem;
-    border-radius: 0.5rem 0 0 0.5rem;
-}
-
-.op-show-event-participants .op-event-item .arrival-time {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Search for Event Participants
------------------------------------------------------------- */
-
-.op-search-event-participants {
-    display: flex;
-}
-
-
-/* ---------------------------------------------------------
- >  2x. Block: Print Event Participants
------------------------------------------------------------- */
-
-.op-print-event-participants {
-    display: flex;
-}
-
 
 
 /* #NG */
 .grid-content {
     height: 50rem;
 }
-
-
 
 
 /* ------------------------------------------------------------------------
@@ -1808,41 +1955,5 @@ section[id*="op-block"] {
 	.op-button-loginout button:hover .button-text {
 		opacity: 1;
 	}
-
-}
-
-
-/* ------------------------------------------------------------------------
- #  4. Print Style
---------------------------------------------------------------------------- */
-
-@media print {
-
-    table .row-list-info,
-    table .op-event-item header {
-        display: grid;
-        grid-template-columns: auto auto 1fr auto;
-    }
-
-    table .list-info {
-        display: grid;
-        grid-template-columns: repeat( 4, 25% );
-    }
-
-    table.pdf-container {
-        page-break-after: always;
-    }
-
-    table.pdf-container article {
-        page-break-inside: avoid;
-    }
-
-    thead.pdf-header {
-        display: table-header-group;
-    }
-
-    tfoot.pdf-footer {
-        display: table-footer-group;
-    }
 
 }

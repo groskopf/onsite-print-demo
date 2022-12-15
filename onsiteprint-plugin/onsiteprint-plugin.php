@@ -6,19 +6,22 @@
  *	Description: This is a plugin to the site http://onsiteprint.dk/.
  *	Author: Gerdes Group
  *	Author URI: https://www.clarify.nu/
- *	Version: 1.0.0.29
+ *	Text Domain: onsiteprint.dk
+ *	@package OnsitePrint
+ *	Version: 1.0.0.38
  ?	(Check the Version variable)
- ?	Updated: 2022-11-22 - 15:27 (Y:M:D - H:M)
+ ?	Updated: 2022-12-15 - 13:37 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
- #  TABLE OF CONTENTS:
+ #	TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
 	0. 	List of upcoming tasks 
 	1. 	Plugin Setup
-		a. 	Definition of variables
-		b. 	Enqueue Scripts
-        c. 	Enqueue Styles
+		a. 	Definition of the Name Space
+		b. 	Definition of variables
+		c. 	Enqueue Scripts
+        d. 	Enqueue Styles
 	2. 	Custom Block Category Registration
 	3. 	ACF Custom Blocks Registration
 		a. 	Block: Link Button
@@ -41,7 +44,7 @@
 		x. 	Block: Print Event Participants
 
 ---------------------------------------------------------------------------
- &  0. List of upcoming tasks
+ &	0. List of upcoming tasks
 ---------------------------------------------------------------------------
 
     1. Enqueue Styles - Editor
@@ -49,63 +52,72 @@
 ---------------------------------------------------------------------------
  #  1. Plugin Setup
 ---------------------------------------------------------------------------
- >  1a. Definition of variables
+ >	1a. Definition of the Name Space
+ *	namespace: op (OnsitePrint)
 ------------------------------------------------------------ */
-define( 'ONSITEPRINT_DIR', plugins_url( '', __FILE__ ) );
-define( 'ONSITEPRINT_VERSION', '1.0.0.29' );
+
+namespace GerdesGroup\op;
+
+/* ---------------------------------------------------------
+ >  1b. Definition of variables
+------------------------------------------------------------ */
+define( 'OP_VERSION', '1.0.0.38' );
+define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+
 
 
 /* ---------------------------------------------------------
- >  1b. Enqueue Scripts
+ >  1c. Enqueue Scripts
 ------------------------------------------------------------ */
 function onsiteprint_enqueue_scripts() {
 	wp_enqueue_script( 'onsiteprint-datagridxl', 'https://code.datagridxl.com/datagridxl2.js', array(),  '', true );
 
-	wp_enqueue_script( 'onsiteprint-plugin', ONSITEPRINT_DIR . '/assets/js/plugin.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-plugin', OP_ROOT_URL . 'assets/js/plugin.js', array(),  OP_VERSION, true );
 
-	wp_enqueue_script( 'onsiteprint-validate', ONSITEPRINT_DIR . '/assets/js/validate.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-validate', OP_ROOT_URL . 'assets/js/validate.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-validate', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-fetch', ONSITEPRINT_DIR . '/assets/js/fetch.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-fetch', OP_ROOT_URL . 'assets/js/fetch.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-fetch', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-fast-api', ONSITEPRINT_DIR . '/assets/js/fast-api.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-fast-api', OP_ROOT_URL . 'assets/js/fast-api.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-fast-api', 'async', true );
 
 
-	wp_enqueue_script( 'onsiteprint-elements', ONSITEPRINT_DIR . '/assets/js/elements.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-elements', OP_ROOT_URL . 'assets/js/elements.js', array(),  OP_VERSION, true );
 	
 
-	wp_enqueue_script( 'onsiteprint-log-switch', ONSITEPRINT_DIR . '/assets/js/log-switch.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-log-switch', OP_ROOT_URL . 'assets/js/log-switch.js', array(),  OP_VERSION, true );
 
-	wp_enqueue_script( 'onsiteprint-bookings', ONSITEPRINT_DIR . '/assets/js/bookings.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-bookings', OP_ROOT_URL . 'assets/js/bookings.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-bookings', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-template', ONSITEPRINT_DIR . '/assets/js/template.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-template', OP_ROOT_URL . 'assets/js/template.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-template', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-event', ONSITEPRINT_DIR . '/assets/js/event.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-event', OP_ROOT_URL . 'assets/js/event.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-event', 'async', true );
 
-	wp_enqueue_script( 'onsiteprint-print', ONSITEPRINT_DIR . '/assets/js/print.js', array(),  ONSITEPRINT_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-print', OP_ROOT_URL . 'assets/js/print.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-print', 'async', true );
 }
-add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\onsiteprint_enqueue_scripts' );
 
 
 /* ---------------------------------------------------------
- >  1c. Enqueue Styles
+ >  1d. Enqueue Styles
 ------------------------------------------------------------ */
 function onsiteprint_enqueue_styles() {
-	wp_enqueue_style( 'onsiteprint-plugin-styles', ONSITEPRINT_DIR . '/assets/css/onsiteprint-styles.css', array(), ONSITEPRINT_VERSION );
+	wp_enqueue_style( 'onsiteprint-plugin-styles', OP_ROOT_URL . 'assets/css/onsiteprint-styles.css', array(), OP_VERSION );
 }
-add_action( 'wp_enqueue_scripts', 'onsiteprint_enqueue_styles', 20, 1 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\onsiteprint_enqueue_styles', 20, 1 );
 
 //////////////////// #NG: Needs to be looked at again.
 function onsiteprint_enqueue_editor_styles() {
-	wp_enqueue_style( 'onsiteprint-plugin-editor-styles', ONSITEPRINT_DIR . '/assets/css/onsiteprint-styles.css', array(), ONSITEPRINT_VERSION );
+	wp_enqueue_style( 'onsiteprint-plugin-editor-styles', OP_ROOT_URL . 'assets/css/onsiteprint-styles.css', array(), OP_VERSION );
 }
-add_action( 'enqueue_block_editor_assets', 'onsiteprint_enqueue_editor_styles', 20, 1 );
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\onsiteprint_enqueue_editor_styles', 20, 1 );
 
 /* ------------------------------------------------------------------------
  #  2. Custom Block Category Registration
@@ -124,11 +136,27 @@ function onsiteprint_plugin_block_categories( $categories, $post ) {
     array_unshift( $categories, $onsiteprint );
     return $categories;
 }
-add_filter( 'block_categories', 'onsiteprint_plugin_block_categories', 10, 2 );
+add_filter( 'block_categories', __NAMESPACE__ . '\onsiteprint_plugin_block_categories', 10, 2 );
 
 
 /* ------------------------------------------------------------------------
  #  3. ACF Custom Blocks Registration
+ *	Create a new custom block to the Block view.
+ --------------------------------------------------------------------------- */
+/** @return void * @author Niels Gerdes * @since 1.0.0.38
+ --------------------------------------------------------------------------- */
+function op_acf_register_blocks() {
+	$op_acf_blocks = glob( OP_ROOT_PATH . 'blocks/*' );
+
+	foreach ( $op_acf_blocks as $block ) {
+		register_block_type( $block );
+	}
+}
+add_action( 'acf/init', __NAMESPACE__ . '\op_acf_register_blocks' );
+
+
+/* ------------------------------------------------------------------------
+ #  4. OLD ACF Custom Blocks Registration
  *	Create a new custom block to the Block view.
 --------------------------------------------------------------------------- */
 function onsiteprint_acf_init() {
@@ -226,7 +254,7 @@ function onsiteprint_acf_init() {
 			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/event-template-information.php',
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'info',
-			'keywords'			=> array( 'onsiteprint', 'event', 'template,', 'information' ),
+			'keywords'			=> array( 'onsiteprint', 'event', 'template', 'information' ),
 		));
 	
 		/* ---------------------------------------------------------
@@ -242,6 +270,30 @@ function onsiteprint_acf_init() {
 			'keywords'			=> array( 'onsiteprint', 'event', 'participant', 'list' ),
 		));
 
+		/* ---------------------------------------------------------
+		 >  2i. Block: Template Creation
+		------------------------------------------------------------ */
+		acf_register_block_type( array(
+			'name'				=> 'onsiteprint-template-creation',
+			'title'				=> __('Template Creation'),
+			'description'		=> __('Displaying a Creation Form to Create a new Template, if the User is logged in.'),
+			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/template-creation.php',
+			'category'			=> 'onsiteprint',
+			'icon'				=> 'admin-appearance',
+			'keywords'			=> array( 'onsiteprint', 'template', 'create','new' ),
+			'mode'              => 'preview',
+			'align' 			=> 'full',
+			'example'  			=> array(
+				'attributes' 	=> array(
+					'mode' 		=> 'preview'
+				)
+			),
+            'supports'          => array(
+                'align' 		=> true,
+                'mode' 			=> true,
+                'jsx' 			=> true
+            ),
+		));
 
 
 
@@ -353,7 +405,7 @@ function onsiteprint_acf_init() {
 
 	}
 }
-add_action('acf/init', 'onsiteprint_acf_init');
+add_action('acf/init', __NAMESPACE__ . '\onsiteprint_acf_init');
 
 
 

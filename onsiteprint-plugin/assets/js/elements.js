@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-11-22 - 15:27 (Y:m:d - H:i)
+ ?  Updated: 2022-12-15 - 09:43 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -37,6 +37,7 @@
         a. 	Bookings Storage
         b. 	Template Storage
             1. 	Get Template
+            2. 	Create Template
         c. 	Events Storage
             1. 	Get Event List
             2. 	Get Participant
@@ -47,6 +48,11 @@
 
 	6. 	Functions to ACF Custom Blocks
 		a. 	Block Functions
+            1. 	Add Event Participant to Block
+            2. 	Add Search Filter to the Event Participants List block
+            3. 	Toggle Filter Search of Event Participants
+            4. 	Search after Event Participants
+            5. 	Clear Search
 		c. 	Blocks:
             1. 	Log In/Out Button
             2. 	Toggle Button
@@ -55,6 +61,7 @@
             5. 	Event Information
             6. 	Event Template Information
             7. 	Event Participant List
+            8. 	Template Creation
 
     7. 	Document is Ready Function
 
@@ -411,7 +418,8 @@ function opGetFastApiInfo( object ) {
 
     ///// List of FastAPI Tokens
     const fastApiToken = [
-        '123admin'
+        'iZiICytrYEikgyNO',
+        'iYxAmDotuEqEEZYR'
     ]
 
     if ( object === 'url' ) return fastApiUrl[ 0 ]
@@ -483,6 +491,25 @@ function opGetTemplate( templateId ) {
     }
 
 }
+
+/* ------------------------------------------
+ >  4b-2. Create Template
+--------------------------------------------- */
+function opCreateTemplate() {
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let modal = block.querySelector( '.op-modal')
+
+    modal.classList.add( 'active' )
+
+    let number = '1664185182260'
+
+    let eventUrl = modal.getAttribute( 'data-relocation-event-creation' )
+    modal.querySelector( '.op-button-event-creation' ).setAttribute( 'href', `${ eventUrl }?template=${ number }` )
+
+}
+
 
 /* ---------------------------------------------------------
  >  4c. Event Storage
@@ -730,7 +757,62 @@ async function opPrintParticipant( participantId ) {
 }
 
 /* ---------------------------------------------------------
- >  5a. Print All Participants
+ >  5b. Create Print Document
+------------------------------------------------------------ */
+async function opCreatePrintDocument( printWindow, block, eventName ) {
+    let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
+
+    let request = await fetch( 'http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css' )
+
+    let response = await request.text()
+
+    let htmlHead = document.querySelector( 'head' ).innerHTML
+
+    //printWindow.document.write( `<html><head><title>${ pageTitle }</title><style>${response}</style></head>` )
+    
+    printWindow.document.write( `<html><head><title>OnsitePrint.dk | ${ pageTitle }</title>${ htmlHead }<link rel="stylesheet" id="onsiteprint-plugin-styles-print-css" href="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css" media="all"></head>` )
+
+    printWindow.document.write( '<body onafterprint="self.close()"><h2>OnsitePrint.dk</h2>' )
+
+    let header = `<h3><b>Event:</b> ${ eventName }</h3><p class="op-page-number">xxx</p>`
+
+    let colInfo = block.querySelector( '.op-participant-col-info' ).outerHTML
+    let rowList = block.querySelectorAll( '.op-participant-rows article' )
+
+    ///// Add element to the container.
+    printWindow.document.write( `
+        <div class="op-event-participant-list"><table class="op-pdf-container">
+            <thead class="op-pdf-header">
+                <tr><th class="op-pdf-header-cell"></th><th class="op-pdf-header-info">
+                    <div class="op-header-info">${ header + colInfo }</div>
+                </th></tr>
+            </thead>
+            <tbody class="op-pdf-content">
+        `
+    )
+
+    for(let i = 0; i< rowList.length; i++){
+        printWindow.document.write( `<tr class="op-pdf-row"><td class="op-participant-number">${i+1}</td><td class="op-participant-cell">${rowList[i].outerHTML}</td></tr>` )
+    }
+    
+    printWindow.document.write( `
+            </tbody>
+            <tfoot class="op-pdf-footer">
+                <tr><td class="op-pdf-footer-cell"></td><td class="op-pdf-footer-info">
+                    <div class="op-participant-col-info">${ colInfo }</div>
+                </td></tr>
+            </tfoot>
+        </table></div></body></html>
+    ` )
+
+    return new Promise( resolve => {
+        resolve( { document: 'Document loaded' } )
+    })
+
+}
+
+/* ---------------------------------------------------------
+ >  5c. Print All Participants (PDF)
 ------------------------------------------------------------ */
 function opPrintEventParticipants( eventListId ) {
 
@@ -762,61 +844,20 @@ function opPrintEventParticipants( eventListId ) {
     const eventItem = eventList.response
     opConsoleDebug( debug, 'eventItem:', eventItem )
 
-
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Template Item. 
-    const templateItem = opGetTemplate( eventItem.eventTemplate )
-    if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
-
-    ///// Get Template. 
-    const template = templateItem.response
-    opConsoleDebug( debug, 'template:', template )
-
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Participant Item. 
-    const participantList = eventItem.eventParticipants
+    ///// Get Event Name. 
     let eventName = eventItem.eventName
 
-    let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
+    ///// Create Browser Window. 
+    printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }`  )
     
-    printWindow = window.open( '', 'PRINT', 'height=' + screen.height + ',width=' + screen.width )
-    printWindow.document.write( `<html><head><title>${ pageTitle }</title><link rel="stylesheet" id="onsiteprint-plugin-styles-css" href="http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles.css" media="all"></head>` )
-    printWindow.document.write( '<body onafterprint="self.close()">' )
-
-    let strings = [ 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5' ]
-    
-    let header = `<h3><b>Event:</b> ${ eventItem.eventName } | <b>OnsitePrint.dk</b></h3>`
-
-    let colInfo = block.querySelector( '.op-participant-col-info' ).textContent
-    let rowList = block.querySelectorAll( '.op-participant-rows article' )
-
-    ///// Add element to the container.
-    printWindow.document.write( `
-        <table id="op-block class="pdf-container">
-            <thead class="pdf-header">
-                <tr><th class="pdf-header-cell">
-                    <div class="header-info">${ header }${ colInfo }</div>
-                </th></tr>
-            </thead>
-            <tfoot class="pdf-footer">
-                <tr><td class="pdf-footer-cell">
-                    <div class="footer-info">${ colInfo }</div>
-                </td></tr>
-            </tfoot>
-            <tbody class="pdf-content">
-        `
-    )
-
-    for(let i = 0; i< rowList.length; i++){
-        printWindow.document.write( `<tr class="pdf-row"><td>${i+1}</td><td>${rowList[i].textContent}</td></tr>` );
-    }
-
-    printWindow.document.write( '</tbody></table></body></html>' );
-
-    printWindow.print()
-    printWindow.close()
-
-    return false
+    ///// Create Print Document in Window, then open Print Window and close after. 
+    opCreatePrintDocument( printWindow, block, eventName).then( response => {
+        opConsoleDebug( debug, 'Response:', response )
+        setInterval( () => {
+            //printWindow.print()
+            //printWindow.close()
+        }, 500)
+    })
 
 }
 
@@ -955,7 +996,7 @@ function opAddSearchFilter( debug, block, templateId ) {
 }
 
 /* ------------------------------------------
- >   >  6a-2. Toggle Filter Search of Event Participants
+ >   >  6a-3. Toggle Filter Search of Event Participants
 --------------------------------------------- */
 function opToggleSearchFilter( filterId ) {
 
@@ -963,16 +1004,17 @@ function opToggleSearchFilter( filterId ) {
     let block = event.target.closest( 'section[id*="op-block"]' )
     let blockId = block.getAttribute( 'id' )
     let filterInputText = block.querySelector( `[for="${ blockId }__filter-input-${ filterId }"] .op-text` ).innerText
+    let searchInputText = block.querySelector( `[name="op-search-input"]` ).value
 
     block.querySelector( '.op-filter-label .op-button-title' ).innerText = filterInputText
     block.querySelector( '[name="op-filter-button"]').checked = false
 
-    opSearchEventParticipants()
-
+    if ( searchInputText ) return opSearchEventParticipants()
+    
 }
 
 /* ------------------------------------------
- >   >  6a-3. Search after Event Participants
+ >   >  6a-4. Search after Event Participants
 --------------------------------------------- */
 function opSearchEventParticipants() {
 
@@ -986,13 +1028,12 @@ function opSearchEventParticipants() {
     let formElement = block.querySelector( '.op-search-form' )
 
     let searchInput = formElement['op-search-input']
+    ! searchInput.value ? formElement.setAttribute( 'data-search-active', '0' ) : formElement.setAttribute( 'data-search-active', '1' )
     opConsoleDebug( debug, 'searchInput:', searchInput.value )
-
+    
     let filterInput = formElement['op-filter-input'].value == 0 ? [ 'line1', 'line2', 'line3','line4', 'line5' ] : [ `line${formElement['op-filter-input'].value}` ]
     opConsoleDebug( debug, 'filterInput:', filterInput )
     
-
-
     
 
     ///// Get Event Id. 
@@ -1039,6 +1080,94 @@ function opSearchEventParticipants() {
         })
 
     }
+
+}
+
+/* ------------------------------------------
+ >   >  6a-5. Clear Search
+--------------------------------------------- */
+function opSearchClear() {
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let formElement = block.querySelector( '.op-search-form' )
+    let searchInput = formElement['op-search-input']
+    
+    ///// Clear the Search input.
+    searchInput.value = ''
+    
+    ///// End function after Searching the Participants.
+    return opSearchEventParticipants()
+
+}
+
+/* ------------------------------------------
+ >   >  6a-6. Relocate to Page from Modal Window
+--------------------------------------------- */
+function opRelocateFromModal( url ) {
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    
+    ///// Relocate to URL Page.
+    window.location.href = url
+
+}
+
+/* ------------------------------------------
+ >   >  6a-7. Go To Step in Form 
+--------------------------------------------- */
+function opFormGoTo( newStep ) {
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let form = block.querySelector( '.op-form-steps' )
+    let allSteps = form.getAttribute( 'data-form-steps' )
+    let currentStep = form.getAttribute( 'data-form-step' ) 
+
+    if ( newStep.includes( 'step-') ) {
+        newStep = newStep.slice(5)
+    } else if ( newStep == 'next' ) {
+        newStep = ++currentStep
+    } else if ( newStep == 'back' ) {
+        newStep = currentStep-1
+    }
+
+    if ( newStep >= 1 && newStep <= allSteps ) {
+
+        let slide = newStep - 1
+    
+        let fieldset = form.querySelectorAll( 'fieldset' )
+        let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
+        
+        for( let i = 0; i < processButtons.length; ++i ) {
+            processButtons[i].blur()
+
+            if ( i !== slide ) {
+                processButtons[i].setAttribute( 'data-color', 'secondary-20' )                
+            } else {
+                processButtons[i].setAttribute( 'data-color', 'secondary-60' )
+            }        
+        }
+
+        for( let i = 0; i < fieldset.length; ++i ) {
+            fieldset[i].style.transform = `translateX(${ -100 * slide }%)`
+
+            if ( i == slide ) {
+                fieldset[i].focus()
+            }
+        }
+
+        form.setAttribute( 'data-form-step', newStep )
+    
+        if ( newStep == allSteps ) {
+            form.setAttribute( 'data-form-step-last', true )
+        } else {
+            form.setAttribute( 'data-form-step-last', false )
+        }
+        
+    }
+
 
 }
 
@@ -1360,7 +1489,27 @@ function opEventParticipantListBlocks() {
     }
 }
 
+/* ---------------------------------------------------------
+ >  6c-8. Template Creation
+ *  Check if multiple (Template Creation) Blocks is on page
+------------------------------------------------------------ */
+function opTemplateCreationBlocks() {
 
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    let blockName = 'Template Creation'
+    let blocks = document.querySelectorAll( '.op-template-creation' )
+    opConsoleDebug( debug, 'blocks:', blocks )
+
+    ///// Get each Block.
+    if ( blocks ) {
+        blocks.forEach( block => {
+
+        })
+    }
+}
 
 
 /* ------------------------------------------------------------------------
@@ -1379,7 +1528,8 @@ function opDocumentReady() {
             'opPrinterInformationBlocks',
             'opEventInformationBlocks',
             'opEventTemplateInformationBlocks',
-            'opEventParticipantListBlocks'
+            'opEventParticipantListBlocks',
+            'opTemplateCreationBlocks'
         ]
 
         ///// Check if the Functions exist and execute
