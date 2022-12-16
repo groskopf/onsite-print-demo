@@ -8,7 +8,7 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.38
+ *	Version: 1.0.0.39
  ?	(Check the Version variable)
  ?	Updated: 2022-12-15 - 13:37 (Y:M:D - H:M)
 
@@ -61,7 +61,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.38' );
+define( 'OP_VERSION', '1.0.0.39' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -268,31 +268,6 @@ function onsiteprint_acf_init() {
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
 			'keywords'			=> array( 'onsiteprint', 'event', 'participant', 'list' ),
-		));
-
-		/* ---------------------------------------------------------
-		 >  2i. Block: Template Creation
-		------------------------------------------------------------ */
-		acf_register_block_type( array(
-			'name'				=> 'onsiteprint-template-creation',
-			'title'				=> __('Template Creation'),
-			'description'		=> __('Displaying a Creation Form to Create a new Template, if the User is logged in.'),
-			'render_template'	=> plugin_dir_path(__FILE__) . 'acf-blocks/template-creation.php',
-			'category'			=> 'onsiteprint',
-			'icon'				=> 'admin-appearance',
-			'keywords'			=> array( 'onsiteprint', 'template', 'create','new' ),
-			'mode'              => 'preview',
-			'align' 			=> 'full',
-			'example'  			=> array(
-				'attributes' 	=> array(
-					'mode' 		=> 'preview'
-				)
-			),
-            'supports'          => array(
-                'align' 		=> true,
-                'mode' 			=> true,
-                'jsx' 			=> true
-            ),
 		));
 
 

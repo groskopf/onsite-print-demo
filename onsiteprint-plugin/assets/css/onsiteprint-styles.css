@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-12-15 - 09:43 (Y:m:d - H:i)
+ ?  Updated: 2022-12-16 - 12:56 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1576,46 +1576,19 @@ input[type="search"]{
 
 
 /* ---------------------------------------------------------
- >  2c-9. Template Creation
------------------------------------------------------------- */
-
-.op-template-creation {
-    line-height: 1;
-    padding: 1rem 2rem;
-}
-
-.op-template-creation,
-.op-template-creation .op-block__inner {
-    flex: 1;
-}
-
-.op-template-creation .op-block__inner > header {
-    background: var(--wp--preset--color--secondary-60);
-    background-image: var(--wp--preset--gradient--horizontal-secondary-60-to-80);
-    color: var(--wp--preset--color--white);
-    margin-bottom: 2rem;
-    padding: 1.7rem 2rem 2rem;
-    border-radius: 0.4rem;
-    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30), 0 -3rem 2rem 2rem var(--wp--preset--color--white);
-}
-
-.op-template-creation .op-block__inner > header .op-block-title {
-    font-size: 2.4rem;
-    padding-bottom: 0.4rem;
-}
-
-/* ---------------------------------------------------------
  >  2c-9. Steps Form
 ------------------------------------------------------------ */
 
 .op-form-steps {
+    --form-process-buttons: var(--wp--preset--color--primary-20);
+    --form-process-steps: var(--wp--preset--color--primary-60);
+
     background-color: var(--wp--preset--color--neutral-10);
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    width: 100%;
     border: 0.1rem solid var(--wp--preset--color--neutral-30);
     border-radius: 0.4rem;
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
-    overflow: hidden;
 }
 
 .op-form-steps .op-form-process {
@@ -1640,7 +1613,7 @@ input[type="search"]{
 }
 
 .op-form-steps .op-form-process__inner::after {
-    background-color: var(--wp--preset--color--secondary-20);
+    background-color: var(--form-process-buttons);
     content: "";
     width: 0.2rem;
     height: 90%;
@@ -1648,15 +1621,15 @@ input[type="search"]{
     z-index: -1;
 }
 
-.op-form-steps > .op-form__inner {
+.op-form-steps .op-form__inner {
+    flex-grow: 1;
 }
 
 .op-form-steps .op-form-content {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    overflow: hidden;   
+    flex: 1;
+    overflow: hidden;
+    position: relative;
 }
 
 .op-form-steps .op-form-content fieldset {
@@ -1666,7 +1639,15 @@ input[type="search"]{
     margin: 0;
     padding: 0;
     border: 0;
-    transition: transform 200ms ease-in-out;
+    position: absolute;
+    left: 100%;
+    z-index: 0;
+    opacity: 0;
+    transition: left 200ms ease-in-out, opacity 400ms ease-in-out;
+}
+.op-form-steps[data-form-step="1"] .op-form-content .op-fieldset-step-1 {
+    left: 0;
+    opacity: 1;
 }
 
 .op-form-steps .op-form-content fieldset header {
@@ -1678,7 +1659,7 @@ input[type="search"]{
 }
 
 .op-form-steps .op-form-content fieldset header .op-fieldset-steps {
-    color: var(--wp--preset--color--secondary-60);
+    color: var(--form-process-steps);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
     padding-bottom: 0.5rem;

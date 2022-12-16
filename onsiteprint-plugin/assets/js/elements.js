@@ -457,7 +457,37 @@ function opFetchFromFastAPI( debug, method, bodyInput, url, type ) {
  #  4. Local Storage Functions
 ---------------------------------------------------------------------------
  >  4a. Bookings Storage
------------------------------------------------------------- */
+------------------------------------------------------------
+ >  4a-1. Get Layouts with Booking Code
+--------------------------------------------- */
+function opGetLayoutsWithBookingCode( bookingCode ) {
+
+    ///// Debug the function
+    let debug = false // true or false
+
+    ///// Validate Local Storage of Bookings.
+    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+
+    ///// Get Booking List.
+    const bookingList = bookingsStorage.response.bookingList
+    opConsoleDebug( debug, 'bookingList:', bookingList )
+    
+    ///// Filter Booking Items.
+    let bookingItem = bookingList.filter( bookingItem => bookingItem.booking.bookingId === bookingCode )
+    opConsoleDebug( debug, `bookingItem:`, bookingItem[0] )
+    
+    ///// Get Layouts.
+    const layouts = bookingItem[0].booking.nameTagType.nameTagTypeLayouts
+    opConsoleDebug( debug, 'layouts:', layouts )
+
+    ///// Validate Template Item.
+    if ( ! layouts[0] ) {
+        return opReturnResponse( true, 400, 'No Layouts have been found!' )
+    } else {
+        return opReturnResponse( false, 200, layouts )
+    }    
+
+}
 
 /* ---------------------------------------------------------
  >  4b. Templates Storage
@@ -1151,11 +1181,17 @@ function opFormGoTo( newStep ) {
         }
 
         for( let i = 0; i < fieldset.length; ++i ) {
-            fieldset[i].style.transform = `translateX(${ -100 * slide }%)`
-
+            fieldset[i].style.opacity = '0'
+            
             if ( i == slide ) {
+                fieldset[i].style.left = `${ 0 }%`
+                fieldset[i].style.opacity = '1'
                 fieldset[i].focus()
-            }
+            } else if ( i <= slide ) {
+                fieldset[i].style.left = `${ -100 }%`
+            } else if ( i >= slide ) {
+                fieldset[i].style.left = `${ 100 }%`
+            }           
         }
 
         form.setAttribute( 'data-form-step', newStep )
@@ -1167,7 +1203,6 @@ function opFormGoTo( newStep ) {
         }
         
     }
-
 
 }
 
@@ -1503,9 +1538,56 @@ function opTemplateCreationBlocks() {
     let blocks = document.querySelectorAll( '.op-template-creation' )
     opConsoleDebug( debug, 'blocks:', blocks )
 
+    //////////////////// #NG: Missing login validation
+    ///// Validate Local Storage of Bookings.
+    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Booking.
+    const booking = bookingsStorage.response.bookingList[0].booking
+    opConsoleDebug( debug, 'booking:', booking )
+
     ///// Get each Block.
     if ( blocks ) {
         blocks.forEach( block => {
+
+            ///// Get the elements.
+            let blockId = block.getAttribute( 'id' )
+            let container = block.querySelector( `#${ blockId }-radio-input` )
+            opConsoleDebug( true, 'blockId:', blockId )
+
+            ///// Get Layouts from Booking.
+            const layoutsFromBooking = opGetLayoutsWithBookingCode( booking.bookingId )
+            if ( layoutsFromBooking.error !== false ) return opConsoleDebug( debug, 'layouts:', layoutsFromBooking.response )
+
+            ///// Get Layouts.
+            const layouts = layoutsFromBooking.response
+            opConsoleDebug( true, 'layouts:', layouts )
+
+            let layoutNumber = 0
+
+            for( var i = 0; i < layouts.length; i++ ) {
+                if ( layouts[i].includes( 'layout_3' ) ) {
+
+                    ++layoutNumber
+
+                    opConsoleDebug( true, `layout-${layoutNumber}:`, layouts[i] )
+    
+                    layoutElement = `
+                        <div class="input-inner">
+                            <input type="radio" id="${ blockId }-${ layouts[i] }-input" name="layout" value="${ layouts[i] }">
+                            <label for="${ blockId }-${ layouts[i] }-input" class="input-outer flex-wrap">
+                                ${ layouts[i] }
+                                <img src="https://www.ejl.dk/images/joomlart/supported-layout/magazine.png" alt="Prøve" width="100" height="auto">
+                            </label>
+                        </div>
+                    `
+    
+                    ///// Add element to the container.
+                    container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
+
+                }               
+            }
 
         })
     }

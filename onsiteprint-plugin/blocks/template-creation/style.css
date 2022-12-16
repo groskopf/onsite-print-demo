@@ -1,0 +1,35 @@
+/* ------------------------------------------------------------------------
+#  Template Creation Block 
+?  Updated: 2022-12-16 - 08:50 (Y:m:d - H:i)
+--------------------------------------------------------------------------- */
+
+.op-template-creation {
+    width: 100%;
+    padding: 1rem 2rem;
+}
+
+.op-template-creation .op-form-steps {
+    --form-process-buttons: var(--wp--preset--color--secondary-20);
+    --form-process-steps: var(--wp--preset--color--secondary-60);
+}
+
+.op-template-creation,
+.op-template-creation .op-block__inner {
+    flex: 1;
+    width: 100%;
+}
+
+.op-template-creation .op-block__inner > header {
+    background: var(--wp--preset--color--secondary-60);
+    background-image: var(--wp--preset--gradient--horizontal-secondary-60-to-80);
+    color: var(--wp--preset--color--white);
+    margin-bottom: 2rem;
+    padding: 1.7rem 2rem 2rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-template-creation .op-block__inner > header .op-block-title {
+    font-size: 2.4rem;
+    padding-bottom: 0.4rem;
+}
