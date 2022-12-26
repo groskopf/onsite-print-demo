@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-12-15 - 09:43 (Y:m:d - H:i)
+ ?  Updated: 2022-12-26 - 22:07 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -404,6 +404,52 @@ function opValidationReturn( validationElement, message ) {
 
 }
 
+
+/* ---------------------------------------------------------
+ >  2e. Validation of Form
+------------------------------------------------------------ */
+function opValidateForm( debug, formElement ) {
+    
+    let error, code, message, checked = false, inputErrorArray = []
+
+    let formInputs = formElement.querySelectorAll( 'input' )
+    opConsoleDebug( debug, 'formInputs:', formInputs )
+
+    try {
+
+        for( let i = 0; i < formInputs.length; ++i ) {
+
+            let inputId = formInputs[i].getAttribute( 'id' )
+            let inputType = formInputs[i].getAttribute( 'type' )
+
+            ///// If the Input value is empty.
+            if ( inputType == 'radio' ) {
+                if ( ! formInputs[i].checked ) {
+                    error = true, checked = false
+                    inputErrorArray.push( { id : inputId, type : inputType, message : 'One of the radio inputs must be checked!' } )
+                } else {
+                    checked = true
+                    break
+                }
+            } else if ( ! formInputs[i].value ) {
+                error = true
+                inputErrorArray.push( { id : inputId, type : inputType, message : 'The input field is empty!' } )
+            }
+        }
+
+        if ( error === true && checked === false ) {
+            throw inputErrorArray
+        } else {
+            error = false, code = 200, message = 'Validation is approved!'
+        }
+
+    } catch( errorMessage ) {
+        error = true, code = 400, message = errorMessage
+    }
+
+    return opReturnResponse( error, code, message )
+
+}
 
 /* ------------------------------------------------------------------------
  #  3. FastAPI Functions
@@ -1147,7 +1193,10 @@ function opRelocateFromModal( url ) {
 /* ------------------------------------------
  >   >  6a-7. Go To Step in Form 
 --------------------------------------------- */
-function opFormGoTo( newStep ) {
+function opFormGoToStep( newStep ) {
+
+    ///// Debug the function
+    let debug = false // true or false
 
     ///// Get the elements.
     let block = event.target.closest( 'section[id*="op-block"]' )
@@ -1155,21 +1204,49 @@ function opFormGoTo( newStep ) {
     let allSteps = form.getAttribute( 'data-form-steps' )
     let currentStep = form.getAttribute( 'data-form-step' ) 
 
+
     if ( newStep.includes( 'step-') ) {
         newStep = newStep.slice(5)
     } else if ( newStep == 'next' ) {
-        newStep = ++currentStep
+        newStep = ( Number( currentStep ) + 1 )
     } else if ( newStep == 'back' ) {
-        newStep = currentStep-1
+        newStep = ( Number( currentStep ) - 1 )
     }
+
 
     if ( newStep >= 1 && newStep <= allSteps ) {
 
-        let slide = newStep - 1
-    
-        let fieldset = form.querySelectorAll( 'fieldset' )
-        let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
-        
+        let slide = ( Number( newStep ) - 1 )
+        let processButtons = form.querySelectorAll( '.op-form-process__inner button' )    
+        let fieldsets = form.querySelectorAll( 'fieldset' )
+
+        for( let i = 0; i < fieldsets.length; ++i ) {
+
+            if ( i === ( Number( currentStep ) - 1 ) && i <= slide ) {
+                opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
+                
+                ///// Validate the inputs in the fieldset.
+                const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
+
+                opConsoleDebug( debug, 'validatedFormResponse:', validatedFormResponse )
+
+                if ( validatedFormResponse.error !== false ) return opConsoleDebug( debug, 'Form Response:', validatedFormResponse.response )
+
+            }
+
+            fieldsets[i].style.opacity = '0'
+                    
+            if ( i == slide ) {
+                fieldsets[i].style.left = `${ 0 }%`
+                fieldsets[i].style.opacity = '1'
+                fieldsets[i].focus()
+            } else if ( i <= slide ) {
+                fieldsets[i].style.left = `${ -100 }%`
+            } else if ( i >= slide ) {
+                fieldsets[i].style.left = `${ 100 }%`
+            }           
+        }
+
         for( let i = 0; i < processButtons.length; ++i ) {
             processButtons[i].blur()
 
@@ -1180,20 +1257,6 @@ function opFormGoTo( newStep ) {
             }        
         }
 
-        for( let i = 0; i < fieldset.length; ++i ) {
-            fieldset[i].style.opacity = '0'
-            
-            if ( i == slide ) {
-                fieldset[i].style.left = `${ 0 }%`
-                fieldset[i].style.opacity = '1'
-                fieldset[i].focus()
-            } else if ( i <= slide ) {
-                fieldset[i].style.left = `${ -100 }%`
-            } else if ( i >= slide ) {
-                fieldset[i].style.left = `${ 100 }%`
-            }           
-        }
-
         form.setAttribute( 'data-form-step', newStep )
     
         if ( newStep == allSteps ) {
@@ -1201,10 +1264,11 @@ function opFormGoTo( newStep ) {
         } else {
             form.setAttribute( 'data-form-step-last', false )
         }
-        
+
     }
 
 }
+
 
 /* ---------------------------------------------------------
  >  6b. Block Validation Functions
@@ -1554,7 +1618,7 @@ function opTemplateCreationBlocks() {
             ///// Get the elements.
             let blockId = block.getAttribute( 'id' )
             let container = block.querySelector( `#${ blockId }-radio-input` )
-            opConsoleDebug( true, 'blockId:', blockId )
+            opConsoleDebug( debug, 'blockId:', blockId )
 
             ///// Get Layouts from Booking.
             const layoutsFromBooking = opGetLayoutsWithBookingCode( booking.bookingId )
@@ -1562,7 +1626,7 @@ function opTemplateCreationBlocks() {
 
             ///// Get Layouts.
             const layouts = layoutsFromBooking.response
-            opConsoleDebug( true, 'layouts:', layouts )
+            opConsoleDebug( debug, 'layouts:', layouts )
 
             let layoutNumber = 0
 
@@ -1571,11 +1635,11 @@ function opTemplateCreationBlocks() {
 
                     ++layoutNumber
 
-                    opConsoleDebug( true, `layout-${layoutNumber}:`, layouts[i] )
+                    opConsoleDebug( debug, `layout-${layoutNumber}:`, layouts[i] )
     
                     layoutElement = `
                         <div class="input-inner">
-                            <input type="radio" id="${ blockId }-${ layouts[i] }-input" name="layout" value="${ layouts[i] }">
+                            <input type="radio" id="${ blockId }-${ layouts[i] }-input" name="layout" value="${ layouts[i] }" required>
                             <label for="${ blockId }-${ layouts[i] }-input" class="input-outer flex-wrap">
                                 ${ layouts[i] }
                                 <img src="https://www.ejl.dk/images/joomlart/supported-layout/magazine.png" alt="Prøve" width="100" height="auto">

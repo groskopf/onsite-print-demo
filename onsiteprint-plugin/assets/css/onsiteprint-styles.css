@@ -1589,6 +1589,7 @@ input[type="search"]{
     border: 0.1rem solid var(--wp--preset--color--neutral-30);
     border-radius: 0.4rem;
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+    overflow: hidden;
 }
 
 .op-form-steps .op-form-process {
@@ -1597,6 +1598,7 @@ input[type="search"]{
     flex-direction: column;
     align-items: center;
     flex-basis: 10rem;
+    min-height: 51rem;
     padding: 3rem 1rem;
     border-right: 0.1rem solid var(--wp--preset--color--neutral-30);
     z-index: 1;
@@ -1643,6 +1645,7 @@ input[type="search"]{
     left: 100%;
     z-index: 0;
     opacity: 0;
+    overflow-y: auto;
     transition: left 200ms ease-in-out, opacity 400ms ease-in-out;
 }
 .op-form-steps[data-form-step="1"] .op-form-content .op-fieldset-step-1 {
@@ -1654,7 +1657,7 @@ input[type="search"]{
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 3rem;
+    padding: 2.5rem 3rem 2.3rem;
     border-bottom: 0.1rem solid var(--wp--preset--color--neutral-30);
 }
 
@@ -1662,7 +1665,10 @@ input[type="search"]{
     color: var(--form-process-steps);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
-    padding-bottom: 0.5rem;
+}
+
+.op-form-steps .op-form-content fieldset header .op-fieldset-title {
+    padding-bottom: 0;
 }
 
 .op-form-steps .op-form-content fieldset header .op-fieldset-step-number {

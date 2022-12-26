@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-12-16 - 09:45 (Y:m:d - H:i)
+ ?  Updated: 2022-12-26 - 16:45 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -82,22 +82,21 @@ if ( ! empty( $block['align'] ) ) {
            
             <div class="op-form-process">
                 <div class="op-form-process__inner">
-                    <button type="button" onclick="opFormGoTo( 'step-1' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="secondary-60" data-icon="op-number-1" data-icon-position="left" data-title-visibility="1">
-                        <span class="op-icon" role="img" aria-label="Number 1 Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['step_1_process'] ) ?></span>
-                    </button>
-                    <button type="button" onclick="opFormGoTo( 'step-2' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="secondary-20" data-icon="op-number-2" data-icon-position="left" data-title-visibility="1">
-                        <span class="op-icon" role="img" aria-label="Number 2 Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['step_2_process'] ) ?></span>
-                    </button>
-                    <button type="button" onclick="opFormGoTo( 'step-3' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="secondary-20" data-icon="op-number-3" data-icon-position="left" data-title-visibility="1">
-                        <span class="op-icon" role="img" aria-label="Number 3 Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['step_3_process'] ) ?></span>
-                    </button>
-                    <button type="button" onclick="opFormGoTo( 'step-4' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="secondary-20" data-icon="op-number-4" data-icon-position="left" data-title-visibility="1">
-                        <span class="op-icon" role="img" aria-label="Number 4 Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['step_4_process'] ) ?></span>
-                    </button>
+
+                    <?php $form_steps = glob( __DIR__ . '/block-template-parts/block-form/steps/*' );
+
+                    for ( $i=0; $i < count($form_steps); $i++ ) { 
+                        
+                        $num = $i + 1;
+                        $color = ( $i == 0 ) ? 'secondary-60' : 'secondary-20'; ?>
+
+                        <button type="button" onclick="opFormGoToStep( 'step-<?= $num ?>' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="<?= $color ?>" data-icon="op-number-<?= $num ?>" data-icon-position="left" data-title-visibility="1">
+                            <span class="op-icon" role="img" aria-label="Number <?= $num ?> Icon"></span>
+                            <span class="op-button-title"><?= esc_attr( $acf['step_' . $num . '_process'] ) ?></span>
+                        </button>
+
+                    <?php } ?>
+
                 </div>
             </div>
 
@@ -105,66 +104,25 @@ if ( ! empty( $block['align'] ) ) {
 
                 <div class="op-form-content">
 
-                    <fieldset class="op-fieldset-step-1">
-                        <header>
-                            <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">1/4</span></p>
-                            <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_1_title'] ) ?></h3>
-                            <p class="op-fieldset-description"><?= esc_attr( $acf['step_1_description'] ) ?></p>
-                        </header>
-                        <div class="op-fieldset__inner">
-                            <label for="<?= esc_attr($id) ?>-name-input">Template Name</label>
-                            <div id="<?= esc_attr($id) ?>-name-input-validation" class="validation-error"></div>
-                            <input id="<?= esc_attr($id) ?>-name-input" name="name" type="text" required>
-                        </div>
-                    </fieldset>
+                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-1.php' ) ?>
 
-                    <fieldset class="op-fieldset-step-2">
-                        <header>
-                            <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">2/4</span></p>
-                            <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_2_title'] ) ?></h3>
-                            <p class="op-fieldset-description"><?= esc_attr( $acf['step_2_description'] ) ?></p>
-                        </header>
-                        <div class="op-fieldset__inner">
-                            <div id="<?= esc_attr($id) ?>-radio-input-validation" class="validation-error"></div>
-                            <div id="<?= esc_attr($id) ?>-radio-input" class="input-outer flex-wrap flex-row-wrap"></div>
-                        </div>
-                    </fieldset>
+                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-2.php' ) ?>
 
-                    <fieldset class="op-fieldset-step-3">
-                        <header>
-                            <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">3/4</span></p>
-                            <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_3_title'] ) ?></h3>
-                            <p class="op-fieldset-description"><?= esc_attr( $acf['step_3_description'] ) ?></p>
-                        </header>
-                        <div class="op-fieldset__inner">
-                            <label for="<?= esc_attr($id) ?>-image-file-input">Select Image/Logo</label>
-                            <div id="<?= esc_attr($id) ?>-image-file-input-validation" class="validation-error"></div>
-                            <input id="<?= esc_attr($id) ?>-image-file-input" name="image" type="file" accept=".jpg, .jpeg, .png" required>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class="op-fieldset-step-4">
-                        <header>
-                            <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">4/4</span></p>
-                            <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_4_title'] ) ?></h3>
-                            <p class="op-fieldset-description"><?= esc_attr( $acf['step_4_description'] ) ?></p>
-                        </header>
-                        <div class="op-fieldset__inner">
-
-                        </div>
-                    </fieldset>
+                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-3.php' ) ?>
+                    
+                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-4.php' ) ?>
 
                 </div>
                 
                 <div class="op-form-directions">
                     <div class="op-col-left">
-                        <button type="button" onclick="opFormGoTo( 'back' ); return false" class="op-button-back op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-left" data-icon-position="left">
+                        <button type="button" onclick="opFormGoToStep( 'back' ); return false" class="op-button-back op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-left" data-icon-position="left">
                             <span class="op-icon" role="img" aria-label="Arrow Left Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_back'] ) ?></span>
                         </button>
                     </div>
                     <div class="op-col-right">
-                        <button type="button" onclick="opFormGoTo( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-right" data-icon-position="right">
+                        <button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-right" data-icon-position="right">
                             <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_next'] ) ?></span>
                         </button>
