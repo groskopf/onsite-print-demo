@@ -32,3 +32,89 @@
 .op-template-creation .op-block__inner > header .op-block-title {
     padding-bottom: 0;
 }
+
+.op-template-creation .op-form-radio-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    position: relative;
+    border: 0.1rem solid var(--form-process-buttons);
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input input {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px,1px,1px,1px);
+    clip-path: inset(50%);
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
+.op-template-creation .op-form-radio-inputs .op-radio-input input:checked ~ label {
+    border-color: var(--form-process-steps);
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label .op-radio-check {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom: 0.1rem solid var(--form-process-buttons);
+    border-left: 0.1rem solid var(--form-process-buttons);
+    border-radius: 0 0.4rem;
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon {
+    background-color: var(--wp--preset--color--white);
+    color: var(--form-process-steps);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid var(--form-process-buttons);
+    border-radius: 2rem;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-template-creation .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check,
+.op-template-creation .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-template-creation .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon {
+    border-color: var(--form-process-steps);
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+    background-color: var(--form-process-buttons);
+}
+
+
+.op-template-creation .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon::before {
+    display: none;
+}
+
+.op-template-creation .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
+    display: flex;
+}

@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-12-26 - 16:45 (Y:m:d - H:i)
+ ?  Updated: 2023-01-02 - 19:26 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -28,14 +28,20 @@ $acf = array(
     'step_1_process'        => get_field( $tc . 'steps_step_1_process' ) ?: 'Template Name',
     'step_1_title'          => get_field( $tc . 'steps_step_1_title' ) ?: 'Let’s start with the Template Name',
     'step_1_description'    => get_field( $tc . 'steps_step_1_description' ) ?: 'Some text her...',
-
+    'step_1_field_1_title'  => get_field( $tc . 'steps_step_1_field_1_title' ) ?: 'Template Name',
+    'step_1_field_1_val'    => get_field( $tc . 'steps_step_1_field_1_validation' ) ?: 'The input field is empty!',
+    
     'step_2_process'        => get_field( $tc . 'steps_step_2_process' ) ?: 'Choose Layout',
     'step_2_title'          => get_field( $tc . 'steps_step_2_title' ) ?: 'What kind of layout are you looking for?',
     'step_2_description'    => get_field( $tc . 'steps_step_2_description' ) ?: 'Some text her...',
+    'step_2_field_1_title'  => get_field( $tc . 'steps_step_2_field_1_title' ) ?: 'Layouts',
+    'step_2_field_1_val'    => get_field( $tc . 'steps_step_2_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
 
     'step_3_process'        => get_field( $tc . 'steps_step_3_process' ) ?: 'Select Image',
     'step_3_title'          => get_field( $tc . 'steps_step_3_title' ) ?: 'Please select your Image/Logo',
     'step_3_description'    => get_field( $tc . 'steps_step_3_description' ) ?: 'Some text her...',
+    'step_3_field_1_title'  => get_field( $tc . 'steps_step_3_field_1_title' ) ?: 'Select/upload logo file',
+    'step_3_field_1_val'    => get_field( $tc . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected!',
 
     'step_4_process'        => get_field( $tc . 'steps_step_4_process' ) ?: 'Save Template',
     'step_4_title'          => get_field( $tc . 'steps_step_4_title' ) ?: 'Finally, save your new Template',
@@ -79,6 +85,8 @@ if ( ! empty( $block['align'] ) ) {
         </header>
 
         <form id="<?= esc_attr($id) ?>__form" class="op-form-steps op-flex-fill" action="POST" data-form-step="1" data-form-steps="4"  data-form-step-last="false">
+
+            <button type="submit" disabled style="display: none" aria-hidden="true"></button>
            
             <div class="op-form-process">
                 <div class="op-form-process__inner">
@@ -126,7 +134,7 @@ if ( ! empty( $block['align'] ) ) {
                             <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_next'] ) ?></span>
                         </button>
-                        <button type="submit" form="<?= esc_attr($id) ?>__form" value="Submit" onclick="opCreateTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left">
+                        <button type="button" onclick="opCreateTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left">
                             <span class="op-icon" role="img" aria-label="Floppy Disk Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_save'] ) ?></span>
                         </button>

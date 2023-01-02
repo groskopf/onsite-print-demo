@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-12-16 - 12:56 (Y:m:d - H:i)
+ ?  Updated: 2023-01-02 - 15:34 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -53,19 +53,6 @@ html {
 }
 
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-    display: none;
-}
-input[type="search"]{
-    font: inherit;
-    outline:none;
-    -webkit-box-sizing: content-box;
-    -webkit-appearance: none;
-}
-
 
 /* #NG - To Child */
 .page-template-default .wp-site-blocks {
@@ -84,6 +71,7 @@ input[type="search"]{
     /* Font Awesome Icons */
     --fa-icon-exclamation: "\21";
     --fa-icon-circle-exclamation: "\f06a";
+    --fa-icon-circle-check: "\f058";
     --fa-icon-house: "\f015";
     --fa-icon-table-cells: "\f00a";
     --fa-icon-circle-question: "\f059";
@@ -150,6 +138,14 @@ input[type="search"]{
 [data-icon] a::before,
 [data-icon]:not( [data-icon*="op-number"] ) .op-icon::before {
     font: var(--fa-font-solid);
+}
+
+[data-icon="circle-exclamation"] .op-icon::before {
+	content: var(--fa-icon-circle-exclamation);
+}
+
+[data-icon="circle-check"] .op-icon::before {
+	content: var(--fa-icon-circle-check);
 }
 
 [data-icon="floppy-disk"] .op-icon::before {
@@ -1141,6 +1137,7 @@ input[type="search"]{
 
 .op-event-participant-list :is( .op-search-label, .op-search-label input ) {
     display: flex;
+    flex-direction: row;
     flex: 1;
 }
 
@@ -1281,6 +1278,7 @@ input[type="search"]{
 .op-event-participant-list .op-filter-options .op-filter-input-label {
     color: var(--wp--preset--color--primary-40);
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 1rem;
     padding: 1rem;
@@ -1677,6 +1675,8 @@ input[type="search"]{
 }
 
 .op-form-steps .op-form-content fieldset .op-fieldset__inner {
+    display: flex;
+    flex-direction: column;
     padding: 3rem;
 }
 
@@ -1698,6 +1698,127 @@ input[type="search"]{
     padding: 1rem;
     border-top: 0.1rem solid var(--wp--preset--color--neutral-30);
 }
+
+.op-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    position: relative;
+}
+
+.op-label-title {
+    color: var(--form-process-steps);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+}
+
+.op-input-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.op-input-field input[type="text"] {
+    padding: 1rem 2rem;
+    border: 0.1rem solid var(--form-process-buttons);
+    border-radius: 0.4rem;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-input-field input[type="text"]:where( :hover, :focus ),
+.op-input-field .op-input-approved:hover ~ input[type="text"],
+.op-input-field .op-input-validation:hover ~ input[type="text"] {
+    border-color: var(--form-process-steps);
+}
+
+.op-input-wrapper[data-validation="2"] input[type="text"] {
+    border-color: var(--wp--preset--color--error-40);
+}
+
+.op-input-wrapper[data-validation="2"] input[type="text"]:where( :hover, :focus ),
+.op-input-wrapper[data-validation="2"] .op-input-validation:hover ~ input[type="text"] {
+    border-color: var(--wp--preset--color--error-100);
+}
+
+.op-input-validation {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 90;
+}
+
+.op-input-validation .op-icon,
+.op-input-approved .op-icon {
+    font-size: 2rem;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 1.5rem;
+}
+
+.op-input-field .op-input-validation .op-icon,
+.op-input-field .op-input-approved .op-icon {
+    top: 1.5rem;
+}
+
+.op-input-validation .op-icon {
+    color: var(--wp--preset--color--error-100);
+}
+
+.op-input-approved .op-icon {
+    color: var(--form-process-steps);
+}
+
+.op-input-validation .op-message {
+    background-color: var(--wp--preset--color--error-10);
+    color: var(--wp--preset--color--black);
+    line-height: var(--wp--custom--typography--line-height--medium);
+    gap: 1rem;
+    max-width: calc(100% - 2rem);
+    padding: 0.6rem 1.2rem;
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+    border: 0.1rem solid var(--wp--preset--color--error-100);
+    border-radius: 0.4rem;
+}
+
+.op-input-field .op-input-validation .op-message {
+    top: 4rem;
+}
+
+.op-input-wrapper[data-validation="1"] .op-input-approved,
+.op-input-wrapper[data-validation="2"] .op-input-validation,
+.op-input-validation:hover .op-message {
+    display: flex;
+}
+
+.op-input-approved,
+.op-input-validation,
+.op-input-validation .op-message,
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+input {
+    font: inherit;
+    padding: 0;
+    border: none;
+    outline: none;
+    -webkit-box-sizing: content-box;
+    -webkit-appearance: none;
+}
+
+
+
+
+
+
 
 [id*="op-block"]:not( .active ) .op-modal {
     display: none;

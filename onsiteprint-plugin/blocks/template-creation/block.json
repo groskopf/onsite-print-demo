@@ -1,5 +1,5 @@
 {
-    "version": "1.0.1.6",
+    "version": "1.0.1.7",
     "name": "acf/template-creation",
     "title": "Template Creation",
     "description": "Displaying a Creation Form to Create a new Template, if the User is logged in.",

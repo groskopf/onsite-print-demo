@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2022-12-26 - 15:12 (Y:m:d - H:i)
+ ?  Updated: 2023-01-02 - 19:19 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -14,8 +14,20 @@
         <p class="op-fieldset-description"><?= esc_attr( $acf['step_3_description'] ) ?></p>
     </header>
     <div class="op-fieldset__inner">
-        <label for="<?= esc_attr($id) ?>-image-file-input">Select Image/Logo</label>
-        <div id="<?= esc_attr($id) ?>-image-file-input-validation" class="validation-error"></div>
-        <input id="<?= esc_attr($id) ?>-image-file-input" name="image" type="file" accept=".jpg, .jpeg, .png" required>
+
+        <label for="<?= esc_attr($id) ?>-name-input" class="op-input-wrapper" data-validation="0">
+            <p class="op-label-title"><?= esc_attr( $acf['step_3_field_1_title'] ) ?></p>
+            <div class="op-input-field">
+                <div class="op-input-validation" data-icon="circle-exclamation">
+                    <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
+                    <span class="op-message"><?= esc_attr( $acf['step_3_field_1_val'] ) ?></span>
+                </div>
+                <div class="op-input-approved" data-icon="circle-check">
+                    <span class="op-icon" role="img" aria-label="Approved Icon"></span>
+                </div>
+                <input id="<?= esc_attr($id) ?>-image-file-input" oninput="opFormInputValidation()" name="image" type="file" accept=".jpg, .jpeg, .png" required>
+            </div>
+        </label>
+
     </div>
 </fieldset>

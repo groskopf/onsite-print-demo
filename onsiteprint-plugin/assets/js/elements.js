@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2022-12-26 - 22:07 (Y:m:d - H:i)
+ ?  Updated: 2023-01-02 - 15:34 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -28,6 +28,8 @@
         b. 	Local Storage
         c. 	OnsitePrint Blocks
         d. 	Return Validation in Element
+        e. 	Validation of Form
+        f. 	Validation of Input in Form
 
 	3. 	FastAPI Functions
         a. 	Get FastAPI Info
@@ -53,6 +55,8 @@
             3. 	Toggle Filter Search of Event Participants
             4. 	Search after Event Participants
             5. 	Clear Search
+            6. 	Relocate to Page from Modal Window
+            7. 	Go To Step in Form
 		c. 	Blocks:
             1. 	Log In/Out Button
             2. 	Toggle Button
@@ -396,14 +400,24 @@ function opValidateBlock( block, blockName, message ) {
 /* ---------------------------------------------------------
  >  2d. Return Validation in Element
 ------------------------------------------------------------ */
-function opValidationReturn( validationElement, message ) {
+function opValidationReturn( debug, block, elements ) {
 
-    validationElement.insertAdjacentHTML( 'afterbegin', `<div class="validation-error"><p>${ message }</p></div>` )
+    for( let i = 0; i < elements.length; ++i ) {
+        
+        let inputId = elements[i].id
+        let inputMessage = elements[i].message
 
-    validationElement.classList.add( 'op-active' )
+        opConsoleDebug( debug, 'Validation element: ', elements[i], )
+        
+        let inputElement = block.querySelector( `#${ inputId }` )
+        let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
+        let validationElement = inputElementWrapper.querySelector( '.op-input-validation .op-message' )
+        
+        inputElementWrapper.setAttribute( 'data-validation', '2' )
+
+    }
 
 }
-
 
 /* ---------------------------------------------------------
  >  2e. Validation of Form
@@ -450,6 +464,21 @@ function opValidateForm( debug, formElement ) {
     return opReturnResponse( error, code, message )
 
 }
+
+/* ---------------------------------------------------------
+ >  2f. Validation of Input in Form
+------------------------------------------------------------ */
+function opFormInputValidation() {
+    let inputElement = event.target
+    let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
+
+    if ( inputElement.value ) {
+        inputElementWrapper.setAttribute( 'data-validation', '1' )
+    } else {
+        inputElementWrapper.setAttribute( 'data-validation', '0' )
+    }
+}
+
 
 /* ------------------------------------------------------------------------
  #  3. FastAPI Functions
@@ -1227,10 +1256,9 @@ function opFormGoToStep( newStep ) {
                 
                 ///// Validate the inputs in the fieldset.
                 const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
+                opConsoleDebug( true, 'Validation:', validatedFormResponse )
 
-                opConsoleDebug( debug, 'validatedFormResponse:', validatedFormResponse )
-
-                if ( validatedFormResponse.error !== false ) return opConsoleDebug( debug, 'Form Response:', validatedFormResponse.response )
+                if ( validatedFormResponse.error !== false ) return opValidationReturn( true, block, validatedFormResponse.response )
 
             }
 
@@ -1617,7 +1645,7 @@ function opTemplateCreationBlocks() {
 
             ///// Get the elements.
             let blockId = block.getAttribute( 'id' )
-            let container = block.querySelector( `#${ blockId }-radio-input` )
+            let container = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
             opConsoleDebug( debug, 'blockId:', blockId )
 
             ///// Get Layouts from Booking.
@@ -1638,15 +1666,22 @@ function opTemplateCreationBlocks() {
                     opConsoleDebug( debug, `layout-${layoutNumber}:`, layouts[i] )
     
                     layoutElement = `
-                        <div class="input-inner">
-                            <input type="radio" id="${ blockId }-${ layouts[i] }-input" name="layout" value="${ layouts[i] }" required>
-                            <label for="${ blockId }-${ layouts[i] }-input" class="input-outer flex-wrap">
-                                ${ layouts[i] }
-                                <img src="https://www.ejl.dk/images/joomlart/supported-layout/magazine.png" alt="Prøve" width="100" height="auto">
+                        <div class="op-radio-input">
+                            <input type="radio" id="${ blockId }-${ layouts[i] }-input" oninput="opFormInputValidation()" name="layout" value="${ layouts[i] }" required>
+                            <label for="${ blockId }-${ layouts[i] }-input">
+                                <div class="op-radio-check" data-icon="circle-check">
+                                    <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                                </div>
+                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/${ layouts[i] }.png" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
                             </label>
                         </div>
                     `
-    
+
+                    /* <p class="op-radio-info">
+                        <span class="op-text">${ layouts[i] }</span>
+                    </p> */
+
+
                     ///// Add element to the container.
                     container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
 
