@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 1
- ?  Updated: 2023-01-02 - 15:34 (Y:m:d - H:i)
+ ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -25,7 +25,7 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-name-input" oninput="opFormInputValidation()" name="name" type="text" required>
+                <input id="<?= esc_attr($id) ?>-name-input" class="op-input-border" oninput="opFormInputValidation()" name="name" type="text" required>
             </div>
         </label>
 

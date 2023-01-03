@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2022-12-26 - 15:13 (Y:m:d - H:i)
+ ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -14,6 +14,23 @@
         <p class="op-fieldset-description"><?= esc_attr( $acf['step_4_description'] ) ?></p>
     </header>
     <div class="op-fieldset__inner">
+
+        <label for="<?= esc_attr($id) ?>-form-approval-input" class="op-input-wrapper op-form-approval-input" data-validation="0">
+            <p class="op-label-title"><?= esc_attr( $acf['step_4_field_1_title'] ) ?></p>
+            <div class="op-input-field">
+                <div class="op-input-validation" data-icon="circle-exclamation">
+                    <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
+                    <span class="op-message"><?= esc_attr( $acf['step_4_field_1_val'] ) ?></span>
+                </div>
+                <div class="op-input-checkbox op-input-border">
+                    <input id="<?= esc_attr($id) ?>-form-approval-input" oninput="opFormInputValidationToSubmit()" name="approval" type="checkbox" required>
+                    <div class="op-radio-check" data-icon="circle-check">
+                        <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                    </div>
+                    <p class="op-input-description"><?= esc_attr( $acf['step_4_field_1_value'] ) ?></p>
+                </div>
+            </div>
+        </label>
 
     </div>
 </fieldset>

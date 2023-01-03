@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-01-02 - 19:26 (Y:m:d - H:i)
+ ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -46,6 +46,9 @@ $acf = array(
     'step_4_process'        => get_field( $tc . 'steps_step_4_process' ) ?: 'Save Template',
     'step_4_title'          => get_field( $tc . 'steps_step_4_title' ) ?: 'Finally, save your new Template',
     'step_4_description'    => get_field( $tc . 'steps_step_4_description' ) ?: 'Some text her...',
+    'step_4_field_1_title'  => get_field( $tc . 'steps_step_4_field_1_title' ) ?: 'Template Approval',
+    'step_4_field_1_val'    => get_field( $tc . 'steps_step_4_field_1_validation' ) ?: 'The checkbox must be checked!',
+    'step_4_field_1_value'  => get_field( $tc . 'steps_step_4_field_1_value' ) ?: 'I Approve the Template.',
 
     'modal_title'           => get_field( $tc . 'modal_title' ) ?: 'Template have been Saved!',
     'modal_description'     => get_field( $tc . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or create a new Event with the new template.',
@@ -98,7 +101,7 @@ if ( ! empty( $block['align'] ) ) {
                         $num = $i + 1;
                         $color = ( $i == 0 ) ? 'secondary-60' : 'secondary-20'; ?>
 
-                        <button type="button" onclick="opFormGoToStep( 'step-<?= $num ?>' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="<?= $color ?>" data-icon="op-number-<?= $num ?>" data-icon-position="left" data-title-visibility="1">
+                        <button type="button" onclick="opFormGoToStep( 'step-<?= $num ?>' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="<?= $color ?>" data-icon="op-number-<?= $num ?>" data-icon-position="left" data-title-visibility="1" <?php if ( $i !== 0 ) echo 'disabled' ?>>
                             <span class="op-icon" role="img" aria-label="Number <?= $num ?> Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['step_' . $num . '_process'] ) ?></span>
                         </button>
@@ -112,13 +115,9 @@ if ( ! empty( $block['align'] ) ) {
 
                 <div class="op-form-content">
 
-                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-1.php' ) ?>
-
-                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-2.php' ) ?>
-
-                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-3.php' ) ?>
-                    
-                    <?php require( __DIR__ . '/block-template-parts/block-form/steps/step-4.php' ) ?>
+                    <?php foreach ( $form_steps as $step ) {
+                        require( $step );
+                    } ?>                   
 
                 </div>
                 
@@ -130,11 +129,11 @@ if ( ! empty( $block['align'] ) ) {
                         </button>
                     </div>
                     <div class="op-col-right">
-                        <button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-right" data-icon-position="right">
+                        <button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-right" data-icon-position="right" disabled>
                             <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_next'] ) ?></span>
                         </button>
-                        <button type="button" onclick="opCreateTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left">
+                        <button type="button" onclick="opCreateTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left" disabled>
                             <span class="op-icon" role="img" aria-label="Floppy Disk Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_save'] ) ?></span>
                         </button>

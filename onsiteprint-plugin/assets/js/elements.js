@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-02 - 15:34 (Y:m:d - H:i)
+ ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -445,7 +445,7 @@ function opValidateForm( debug, formElement ) {
                     checked = true
                     break
                 }
-            } else if ( ! formInputs[i].value ) {
+            } else if ( ! formInputs[i].value || formInputs[i].value.trim().length == 0 ) {
                 error = true
                 inputErrorArray.push( { id : inputId, type : inputType, message : 'The input field is empty!' } )
             }
@@ -469,13 +469,120 @@ function opValidateForm( debug, formElement ) {
  >  2f. Validation of Input in Form
 ------------------------------------------------------------ */
 function opFormInputValidation() {
+
+    ///// Debug the function
+    let debug = false // true or false
+
     let inputElement = event.target
+    let block = inputElement.closest( 'section[id*="op-block"]' )
     let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
+    let form = inputElementWrapper.closest( '.op-form-steps' )
+    let fieldsets = form.querySelectorAll( 'fieldset' )
+    let directionButtons = form.querySelectorAll( '.op-form-directions button' )
+    let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
+    let currentStep = form.getAttribute( 'data-form-step' ) 
 
     if ( inputElement.value ) {
+
+        let flow = false
+
+        for( let i = 0; i < fieldsets.length; ++i ) {
+
+            if ( i === ( Number( currentStep ) - 1 ) ) {
+                opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
+                
+                ///// Validate the inputs in the fieldset.
+                const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
+                opConsoleDebug( debug, 'Validation:', validatedFormResponse )
+
+                if ( validatedFormResponse.error !== false ) return opValidationReturn( debug, block, validatedFormResponse.response )
+
+                fieldsets[i].classList.add( 'op-validation-approved' )
+            }
+
+            if ( fieldsets[i].classList.contains( 'op-validation-approved' ) ) {
+                flow = true
+                processButtons[i].disabled = false
+            } else {
+                flow = false
+            }
+                            
+            if ( flow == true && ( Number( i ) + 1 ) !== fieldsets.length ) {
+                processButtons[ ( Number( i ) + 1 ) ].disabled = false
+            }
+        }
+
         inputElementWrapper.setAttribute( 'data-validation', '1' )
+        directionButtons[1].disabled = false
+
     } else {
+
         inputElementWrapper.setAttribute( 'data-validation', '0' )
+        directionButtons[1].disabled = true
+        fieldsets[ ( Number( currentStep ) - 1 ) ].classList.remove( 'op-validation-approved' )
+
+        for( let i = 0; i < processButtons.length; ++i ) {  
+            if ( i >= currentStep ) {
+                processButtons[i].disabled = true
+            }     
+        }
+
+        let lastFieldset = fieldsets[ fieldsets.length - 1 ]
+
+        if ( lastFieldset.classList.contains( 'op-validation-approved' ) ) {
+            lastFieldset.querySelector( '.op-form-approval-input' ).setAttribute( 'data-validation', '0' )
+            lastFieldset.querySelector( '.op-form-approval-input input' ).checked = false
+            directionButtons[2].disabled = true
+            lastFieldset.classList.remove( 'op-validation-approved' )
+        }
+
+    }
+}
+
+/* ---------------------------------------------------------
+ >  2g. Validation of Submit Input in Form
+ *  #NG - Move to Block Script later 
+------------------------------------------------------------ */
+function opFormInputValidationToSubmit() {
+
+    ///// Debug the function
+    let debug = false // true or false
+
+    let inputElement = event.target
+    let block = inputElement.closest( 'section[id*="op-block"]' )
+    let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
+    let form = inputElementWrapper.closest( '.op-form-steps' )
+    let fieldsets = form.querySelectorAll( 'fieldset' )
+    let directionButtons = form.querySelectorAll( '.op-form-directions button' )
+    let currentStep = form.getAttribute( 'data-form-step' ) 
+
+    if ( inputElement.checked ) {
+
+        inputElementWrapper.setAttribute( 'data-validation', '1' )
+        directionButtons[2].disabled = false
+
+        for( let i = 0; i < fieldsets.length; ++i ) {
+
+            if ( i === ( Number( currentStep ) - 1 ) ) {
+                opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
+                
+                ///// Validate the inputs in the fieldset.
+                const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
+                opConsoleDebug( debug, 'Validation:', validatedFormResponse )
+
+                if ( validatedFormResponse.error !== false ) return opValidationReturn( debug, block, validatedFormResponse.response )
+
+                fieldsets[i].classList.add( 'op-validation-approved' )
+            }
+
+        }
+
+    } else {
+
+        inputElementWrapper.setAttribute( 'data-validation', '0' )
+        directionButtons[2].disabled = true
+        fieldsets[ ( Number( currentStep ) - 1 ) ].classList.remove( 'op-validation-approved' )
+
     }
 }
 
@@ -1228,12 +1335,18 @@ function opFormGoToStep( newStep ) {
     let debug = false // true or false
 
     ///// Get the elements.
-    let block = event.target.closest( 'section[id*="op-block"]' )
+    let eventTarget = event.target
+    let block = eventTarget.closest( 'section[id*="op-block"]' )
     let form = block.querySelector( '.op-form-steps' )
+    let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
+    let directionButtons = form.querySelectorAll( '.op-form-directions button' )
+    let fieldsets = form.querySelectorAll( 'fieldset' )
+
+    ///// Get Step numbers.
     let allSteps = form.getAttribute( 'data-form-steps' )
     let currentStep = form.getAttribute( 'data-form-step' ) 
 
-
+    ///// Give the new Step a number.
     if ( newStep.includes( 'step-') ) {
         newStep = newStep.slice(5)
     } else if ( newStep == 'next' ) {
@@ -1241,13 +1354,13 @@ function opFormGoToStep( newStep ) {
     } else if ( newStep == 'back' ) {
         newStep = ( Number( currentStep ) - 1 )
     }
+    
+    ///// Create array number from the new Step.
+    let slide = ( Number( newStep ) - 1 )
 
+    eventTarget.closest( 'button' ).blur()
 
     if ( newStep >= 1 && newStep <= allSteps ) {
-
-        let slide = ( Number( newStep ) - 1 )
-        let processButtons = form.querySelectorAll( '.op-form-process__inner button' )    
-        let fieldsets = form.querySelectorAll( 'fieldset' )
 
         for( let i = 0; i < fieldsets.length; ++i ) {
 
@@ -1256,10 +1369,11 @@ function opFormGoToStep( newStep ) {
                 
                 ///// Validate the inputs in the fieldset.
                 const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
-                opConsoleDebug( true, 'Validation:', validatedFormResponse )
+                opConsoleDebug( debug, 'Validation:', validatedFormResponse )
 
-                if ( validatedFormResponse.error !== false ) return opValidationReturn( true, block, validatedFormResponse.response )
+                if ( validatedFormResponse.error !== false ) return opValidationReturn( debug, block, validatedFormResponse.response )
 
+                fieldsets[i].classList.add( 'op-validation-approved' )
             }
 
             fieldsets[i].style.opacity = '0'
@@ -1275,16 +1389,6 @@ function opFormGoToStep( newStep ) {
             }           
         }
 
-        for( let i = 0; i < processButtons.length; ++i ) {
-            processButtons[i].blur()
-
-            if ( i !== slide ) {
-                processButtons[i].setAttribute( 'data-color', 'secondary-20' )                
-            } else {
-                processButtons[i].setAttribute( 'data-color', 'secondary-60' )
-            }        
-        }
-
         form.setAttribute( 'data-form-step', newStep )
     
         if ( newStep == allSteps ) {
@@ -1293,7 +1397,40 @@ function opFormGoToStep( newStep ) {
             form.setAttribute( 'data-form-step-last', false )
         }
 
+        if ( fieldsets[ ( Number( newStep ) - 1 ) ].classList.contains( 'op-validation-approved' ) ) {
+            directionButtons[1].disabled = false
+            //processButtons[ newStep ].disabled = false // old
+
+            // new
+            let flow = false
+
+            for( let i = 0; i < fieldsets.length; ++i ) {
+                if ( fieldsets[i].classList.contains( 'op-validation-approved' ) ) {
+                    flow = true
+                    processButtons[i].disabled = false
+                } else {
+                    flow = false
+                }
+                                
+                if ( flow == true && ( Number( i ) + 1 ) !== fieldsets.length ) {
+                    processButtons[ ( Number( i ) + 1 ) ].disabled = false
+                }
+            }
+
+        } else {
+            directionButtons[1].disabled = true
+        }
+
     }
+
+    for( let i = 0; i < processButtons.length; ++i ) {
+        if ( i == slide ) {
+            processButtons[i].setAttribute( 'data-color', 'secondary-60' )                
+        } else {
+            processButtons[i].setAttribute( 'data-color', 'secondary-20' )
+        }
+    }
+
 
 }
 

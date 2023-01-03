@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-02 - 15:34 (Y:m:d - H:i)
+ ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -69,14 +69,14 @@ html {
 
 :root {
     /* Font Awesome Icons */
+    --fa-icon-check: "\f00c";
     --fa-icon-exclamation: "\21";
-    --fa-icon-circle-exclamation: "\f06a";
     --fa-icon-circle-check: "\f058";
+    --fa-icon-circle-exclamation: "\f06a";
     --fa-icon-house: "\f015";
     --fa-icon-table-cells: "\f00a";
     --fa-icon-circle-question: "\f059";
     --fa-icon-user: "\f007";
-    --fa-icon-check: "\f00c";
     --fa-icon-print: "\f02f";
     --fa-icon-clock: "\f017";
     --fa-icon-floppy-disk: "\f0c7";
@@ -140,12 +140,20 @@ html {
     font: var(--fa-font-solid);
 }
 
-[data-icon="circle-exclamation"] .op-icon::before {
-	content: var(--fa-icon-circle-exclamation);
+[data-icon="check"] .op-icon::before {
+	content: var(--fa-icon-check);
+}
+
+[data-icon="exclamation"] .op-icon::before {
+	content: var(--fa-icon-exclamation);
 }
 
 [data-icon="circle-check"] .op-icon::before {
 	content: var(--fa-icon-circle-check);
+}
+
+[data-icon="circle-exclamation"] .op-icon::before {
+	content: var(--fa-icon-circle-exclamation);
 }
 
 [data-icon="floppy-disk"] .op-icon::before {
@@ -308,6 +316,18 @@ html {
     flex-direction: row-reverse;
 }
 
+.op-button:disabled {
+    color: var(--wp--preset--color--white);
+    background-color: var(--wp--preset--color--neutral-40);
+    border-color: var(--wp--preset--color--neutral-40);
+    cursor: not-allowed;
+}
+
+.op-button[data-title-visibility="1"]:disabled .op-button-title {
+    color: var(--wp--preset--color--white);
+    background-color: var(--wp--preset--color--neutral-50);
+    border-color: var(--wp--preset--color--neutral-50);
+}
 
 /* ------------------------------------------
  >  1a-1. Button Sizes
@@ -1719,25 +1739,123 @@ html {
     position: relative;
 }
 
+.op-input-field .op-input-border,
 .op-input-field input[type="text"] {
-    padding: 1rem 2rem;
+    font-weight: 500;
     border: 0.1rem solid var(--form-process-buttons);
     border-radius: 0.4rem;
     transition: border-color 200ms ease-in-out;
 }
 
-.op-input-field input[type="text"]:where( :hover, :focus ),
-.op-input-field .op-input-approved:hover ~ input[type="text"],
-.op-input-field .op-input-validation:hover ~ input[type="text"] {
+.op-input-field input[type="text"] {
+    padding: 1rem 5rem 1rem 2rem;
+}
+
+.op-input-field input[type="file"] {
+    padding: 0.4rem 5rem 0.4rem 0.4rem;
+    cursor: pointer;
+}
+
+.op-input-field input[type="file"]::-webkit-file-upload-button {
+    background-color: var(--form-process-steps);
+    color: var(--wp--preset--color--white);
+    font-weight: 500;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 4rem;
+    margin-right: 2rem;
+    padding: 0.9rem 1.8rem;
+    border: 0.1rem solid var(--form-process-steps);
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.op-input-field .op-input-checkbox {
+    display: flex;
+    padding: 0.4rem;
+}
+
+.op-input-field .op-input-checkbox .op-input-description {
+    display: flex;
+    padding: 0.5rem 4.5rem 0.5rem 1.5rem;
+}
+
+.op-input-field .op-input-checkbox [type="checkbox"] {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px,1px,1px,1px);
+    clip-path: inset(50%);
+}
+
+.op-input-field .op-input-checkbox .op-radio-check {
+    color: transparent;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem; 
+    height: 4rem;
+    border: 0.1rem solid var(--form-process-buttons);
+    border-radius: 0.4rem;
+    transition: all 200ms ease-in-out;
+}
+
+.op-input-field .op-input-checkbox .op-radio-check .op-icon {
+    background-color: var(--wp--preset--color--white);
+    color: var(--form-process-steps);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid var(--form-process-buttons);
+    border-radius: 2rem;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-input-field .op-input-checkbox .op-radio-check .op-icon::before {
+    color: var(--form-process-steps);
+    display: none;
+}
+
+.op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check .op-icon::before {
+    display: flex;
+}
+
+.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check {
+    background-color: var(--form-process-buttons);
+}
+
+.op-input-field .op-input-border:where( :hover, :focus ),
+.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check,
+.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check
+.op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check .op-icon
+.op-input-field .op-input-approved:hover ~ .op-input-border,
+.op-input-field .op-input-validation:hover ~ .op-input-border {
     border-color: var(--form-process-steps);
 }
 
-.op-input-wrapper[data-validation="2"] input[type="text"] {
+.op-input-wrapper[data-validation="2"] .op-input-border,
+.op-input-wrapper[data-validation="2"] .op-input-border .op-radio-check {
     border-color: var(--wp--preset--color--error-40);
 }
 
-.op-input-wrapper[data-validation="2"] input[type="text"]:where( :hover, :focus ),
-.op-input-wrapper[data-validation="2"] .op-input-validation:hover ~ input[type="text"] {
+.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ),
+.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ) .op-radio-check,
+.op-input-wrapper[data-validation="2"] .op-input-validation:hover ~ .op-input-border {
     border-color: var(--wp--preset--color--error-100);
 }
 
