@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
+ ?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1625,20 +1625,30 @@ html {
 .op-form-steps .op-form-process__inner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 3rem;
     position: relative;
     z-index: 0;
 }
 
+.op-form-steps .op-form-process__inner::before {
+    background-color: var(--wp--preset--color--neutral-40);
+    content: "";
+    width: 0.2rem;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
 .op-form-steps .op-form-process__inner::after {
     background-color: var(--form-process-buttons);
     content: "";
     width: 0.2rem;
-    height: 90%;
+    height: 0;
     position: absolute;
     z-index: -1;
+    transition: height 200ms ease-in-out;
 }
 
 .op-form-steps .op-form__inner {
@@ -1757,8 +1767,8 @@ html {
 }
 
 .op-input-field input[type="file"]::-webkit-file-upload-button {
-    background-color: var(--form-process-steps);
-    color: var(--wp--preset--color--white);
+    background-color: var(--wp--preset--color--white);
+    color: var(--wp--preset--color--black);
     font-weight: 500;
     text-decoration: none;
     overflow-wrap: anywhere;
@@ -1769,10 +1779,16 @@ html {
     min-height: 4rem;
     margin-right: 2rem;
     padding: 0.9rem 1.8rem;
-    border: 0.1rem solid var(--form-process-steps);
+    border: 0.1rem solid var(--form-process-buttons);
     border-radius: 0.4rem;
     cursor: pointer;
     transition: all 200ms ease-in-out;
+}
+
+.op-input-field input[type="file"]:where( :hover, :focus )::-webkit-file-upload-button {
+    background-color: var(--form-process-steps);
+    color: var(--wp--preset--color--white);
+    border-color: var(--form-process-steps);
 }
 
 .op-input-field .op-input-checkbox {

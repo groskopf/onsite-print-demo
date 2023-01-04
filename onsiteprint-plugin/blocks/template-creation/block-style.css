@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------
 #  Template Creation Block Style
-?  Updated: 2022-12-26 - 15:06 (Y:m:d - H:i)
+?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
 --------------------------------------------------------------------------- */
 
 .op-template-creation {
@@ -32,6 +32,19 @@
 .op-template-creation .op-block__inner > header .op-block-title {
     padding-bottom: 0;
 }
+
+
+/* #NG - Look at later - JS (automatic set to number of fieldsets) */
+.op-template-creation .op-form-steps [data-steps-validated="1"] .op-form-process__inner::after {
+    height: calc(((( 100% - 9rem) / 4 ) * 2 ) + 3rem);
+}
+.op-template-creation .op-form-steps [data-steps-validated="2"] .op-form-process__inner::after {
+    height: calc(((( 100% - 9rem) / 4 ) * 3 ) + 6rem);
+}
+.op-template-creation .op-form-steps [data-steps-validated="3"] .op-form-process__inner::after {
+    height: 100%;
+}
+
 
 .op-template-creation .op-form-radio-inputs {
     display: grid;

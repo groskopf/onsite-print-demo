@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
+ ?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -52,10 +52,10 @@ $acf = array(
 
     'modal_title'           => get_field( $tc . 'modal_title' ) ?: 'Template have been Saved!',
     'modal_description'     => get_field( $tc . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or create a new Event with the new template.',
-    'main_link'             => get_field_object( $tc . 'modal_relocate_main' )['url'] ?: 'https://onsiteprint.dk/',
-    'main_title'            => get_field_object( $tc . 'modal_relocate_main' )['title'] ?: 'Front Page',
-    'event_creation_link'   => get_field_object( $tc . 'modal_relocate_event_creation' )['url'] ?: 'https://onsiteprint.dk/',
-    'event_creation_title'  => get_field_object( $tc . 'modal_relocate_event_creation' )['title'] ?: 'Create Event'
+    'main_link'             => get_field_object( $tc . 'modal_relocate_main' )['value']['url'] ?: 'https://onsiteprint.dk/',
+    'main_title'            => get_field_object( $tc . 'modal_relocate_main' )['value']['title'] ?: 'Front Page',
+    'event_creation_link'   => get_field_object( $tc . 'modal_relocate_event_creation' )['value']['url'] ?: 'https://onsiteprint.dk/',
+    'event_creation_title'  => get_field_object( $tc . 'modal_relocate_event_creation' )['value']['title'] ?: 'Create Event'
 );
 
 $id = 'op-' . $block['id'];
@@ -91,7 +91,7 @@ if ( ! empty( $block['align'] ) ) {
 
             <button type="submit" disabled style="display: none" aria-hidden="true"></button>
            
-            <div class="op-form-process">
+            <div class="op-form-process" data-steps-validated="0">
                 <div class="op-form-process__inner">
 
                     <?php $form_steps = glob( __DIR__ . '/block-template-parts/block-form/steps/*' );
@@ -133,7 +133,7 @@ if ( ! empty( $block['align'] ) ) {
                             <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_next'] ) ?></span>
                         </button>
-                        <button type="button" onclick="opCreateTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left" disabled>
+                        <button type="button" onclick="opSaveNewTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left" disabled>
                             <span class="op-icon" role="img" aria-label="Floppy Disk Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_save'] ) ?></span>
                         </button>

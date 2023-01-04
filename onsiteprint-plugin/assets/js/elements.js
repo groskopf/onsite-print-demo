@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-03 - 21:45 (Y:m:d - H:i)
+ ?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -36,11 +36,13 @@
         b.  Fetch from FastAPI
 
 	4. 	Local Storage Functions
-        a. 	Bookings Storage
-        b. 	Template Storage
+        a. 	Get a Local Storage
+        b. 	Bookings Storage
+            1. 	Get Layouts with Booking Code
+        c. 	Template Storage
             1. 	Get Template
             2. 	Create Template
-        c. 	Events Storage
+        d. 	Events Storage
             1. 	Get Event List
             2. 	Get Participant
             3. 	Update Participant
@@ -345,6 +347,7 @@ function opValidateFetchResponse( debug, request ) {
 ------------------------------------------------------------ */
 function opValidateLocalStorage( debug, localStorageName ) {
 
+    ///// Create Variables.
     let error, code, message
 
     try {
@@ -375,15 +378,17 @@ function opValidateLocalStorage( debug, localStorageName ) {
         }
 
     } catch( errorMessage ) {
+
+        ///// Throw Error Response.
         error = true, code = 400, message = errorMessage
+
     }
 
-    if ( error !== false ) {
-        opConsoleDebug( true, `Local Storage (${ localStorageName }):`, message )
-    } else {
-        opConsoleDebug( debug, `Local Storage (${ localStorageName }):`, message )
-        return opReturnResponse( error, code, message )
-    }
+    ///// Console Log if the Debug parameter is 'true'.
+    opConsoleDebug( debug, `Validating of Local Storage:`, message )
+    
+    ///// Return the Response to the Function.
+    return opReturnResponse( error, code, message )
 
 }
 
@@ -407,7 +412,7 @@ function opValidationReturn( debug, block, elements ) {
         let inputId = elements[i].id
         let inputMessage = elements[i].message
 
-        opConsoleDebug( debug, 'Validation element: ', elements[i], )
+        opConsoleDebug( debug, 'Validation element:', elements[i], )
         
         let inputElement = block.querySelector( `#${ inputId }` )
         let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
@@ -508,6 +513,7 @@ function opFormInputValidation() {
             }
                             
             if ( flow == true && ( Number( i ) + 1 ) !== fieldsets.length ) {
+                form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( i ) + 1 ) )
                 processButtons[ ( Number( i ) + 1 ) ].disabled = false
             }
         }
@@ -520,6 +526,7 @@ function opFormInputValidation() {
         inputElementWrapper.setAttribute( 'data-validation', '0' )
         directionButtons[1].disabled = true
         fieldsets[ ( Number( currentStep ) - 1 ) ].classList.remove( 'op-validation-approved' )
+        form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( currentStep ) - 1 ) )
 
         for( let i = 0; i < processButtons.length; ++i ) {  
             if ( i >= currentStep ) {
@@ -611,8 +618,10 @@ function opGetFastApiInfo( object ) {
 /* ---------------------------------------------------------
  >  3b. Fetch from FastAPI
 ------------------------------------------------------------ */
-function opFetchFromFastAPI( debug, method, bodyInput, url, type ) {
+function opFetchFromFastAPI( debug, method, bodyInput, url, type, contentType ) {
     return new Promise( resolve => {
+
+        if ( contentType !== 'multipart/form-data' ) contentType = 'application/json'
 
         ///// Request Options for fetch.
         ////* method (GET, POST, PUT, DELETE, etc.)
@@ -620,7 +629,7 @@ function opFetchFromFastAPI( debug, method, bodyInput, url, type ) {
             method: method,
             headers: {
                 accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': contentType,
                 'access_token': opGetFastApiInfo( 'token' )
             },
             body: bodyInput
@@ -638,9 +647,41 @@ function opFetchFromFastAPI( debug, method, bodyInput, url, type ) {
 /* ------------------------------------------------------------------------
  #  4. Local Storage Functions
 ---------------------------------------------------------------------------
- >  4a. Bookings Storage
+ >  4a. Get a Local Storage
+------------------------------------------------------------ */
+function opGetLocalStorage( debug, localStorageName ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Get a Local Storage with the Parameter (localStorageName).
+        const localStorage = opValidateLocalStorage( debug, localStorageName )
+
+        ///// Validate the Local Storage Response.
+        if ( localStorage.error !== false ) throw localStorage.response
+        else error = false, code = 200, message = localStorage.response
+        
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    }
+
+    ///// Console Log if the Debug parameter is 'true'.
+    opConsoleDebug( debug, `Local Storage (${ localStorageName }):`, message )
+
+    ///// Return the Response to the Function.
+    return opReturnResponse( error, code, message )
+
+}
+
+/* ---------------------------------------------------------
+ >  4b. Bookings Storage
 ------------------------------------------------------------
- >  4a-1. Get Layouts with Booking Code
+ >  4b-1. Get Layouts with Booking Code
 --------------------------------------------- */
 function opGetLayoutsWithBookingCode( bookingCode ) {
 
@@ -672,9 +713,9 @@ function opGetLayoutsWithBookingCode( bookingCode ) {
 }
 
 /* ---------------------------------------------------------
- >  4b. Templates Storage
+ >  4c. Templates Storage
 ------------------------------------------------------------
- >  4b-1. Get Template
+ >  4c-1. Get Template
 --------------------------------------------- */
 function opGetTemplate( templateId ) {
 
@@ -684,12 +725,16 @@ function opGetTemplate( templateId ) {
     ///// Get Local Storage of Templates.
     const templatesStorage = opValidateLocalStorage( debug, 'Templates' )
 
-    ///// Get Template List.
+    ///// Get the Template List from the Local Storage of Templates.
     const templateList = templatesStorage.response.templateList
     opConsoleDebug( debug, 'templateList:', templateList )
 
+    ///// Validate the Template List.
+    if ( ! templateList || ! templateList[0] ) return opReturnResponse( true, 400, 'No Storage of Templates have been created yet!' )
+    
+    // #NG - This function needs to be recreate - See function[ opCreateTemplate() ]
     ///// Validate Template List.
-    if ( ! templateList || ! templateList[0] ) return opReturnResponse( true, 400, 'No Templates have been created yet!' )
+    //if ( ! templateList || ! templateList[0] ) throw 'Could not find any templates!'
 
     ///// Filter Template Items.
     let templateItems = templateList.filter( templateItem => templateItem.templateCreationDate === Number( templateId ) )
@@ -705,28 +750,100 @@ function opGetTemplate( templateId ) {
 }
 
 /* ------------------------------------------
- >  4b-2. Create Template
+ >  4c-2. Create Template
 --------------------------------------------- */
-function opCreateTemplate() {
+function opCreateTemplate( debug, formElement ) {
+    
+    ///// Create Variables.
+    let error, code, message
 
-    ///// Get the elements.
-    let block = event.target.closest( 'section[id*="op-block"]' )
-    let modal = block.querySelector( '.op-modal')
+    try {
 
-    modal.classList.add( 'active' )
+        ///// If the Form Element is missing.
+        if ( ! formElement ) {
+            throw 'Missing Form Element!'
+        }
+        
+        ///// Get the Local Storage of Templates.
+        const templatesStorage = opGetLocalStorage( debug, 'Templates' )
 
-    let number = '1664185182260'
+        ///// Validate the Response from the Local Storage of Templates.
+        if ( templatesStorage.error !== false ) throw templatesStorage.response
 
-    let eventUrl = modal.getAttribute( 'data-relocation-event-creation' )
-    modal.querySelector( '.op-button-event-creation' ).setAttribute( 'href', `${ eventUrl }?template=${ number }` )
+        ///// Get the Template List from the Local Storage of Templates.
+        const templateList = templatesStorage.response
+
+        ///// Get the Data from the Form Element.
+        let formData = new FormData( formElement )
+
+        ///// The URL to the API.
+        const url = `${ opGetFastApiInfo( 'url' ) }images/`
+
+        /* //, 'multipart/form-data'
+
+        ///// Fetch from the FastAPI.
+        opFetchFromFastAPI( true, 'POST', formData, url, 'json' ).then( fetchResponse => {
+            opConsoleDebug( true, 'fetchResponse:', fetchResponse )
+
+            ///// If the Fetch Response has Code 201 (Created).
+            if ( fetchResponse.code === 201 ) { */
+
+                ///// Get the element for output.
+                //let filenameUploaded = newImageResponse.filename.slice(7)      
+                let filenameUploaded = 'Missing Data!'      
+            
+                
+                ///// Define new data variables.
+                let dateNow = Date.now()
+                let fileInput = formElement[ 'image' ];   
+                let filenameOriginal = fileInput.files[0].name;
+
+                ///// Define new Template Item variable.
+                let templateItem = { 
+                    'templateCreationDate' : dateNow, 
+                    'templateName' : formElement[ 'name' ].value, 
+                    'templateFilenameOriginal' : filenameOriginal,
+                    'templateFilenameUploaded' : filenameUploaded,
+                    'templateLayout' : formElement[ 'layout' ].value,
+                    'templateLayoutColumns' : '3C'
+                }
+                
+                ///// Push Template Item variable into Template List.
+                templateList.templateList.push( templateItem )
+                
+                ///// Set Template List in Local Storage.
+                localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
+
+                ///// Set Return Response.
+                error = false, code = 201, message = 'Template was created!'
+
+        /*    } else throw 'Somethings wrong!'
+        
+        }) */
+
+
+
+    
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    }
+
+    ///// Console Log if the Debug parameter is 'true'.
+    opConsoleDebug( debug, `Create Template:`, message )
+
+    ///// Return the Response to the Function.
+    return opReturnResponse( error, code, message )
 
 }
 
 
 /* ---------------------------------------------------------
- >  4c. Event Storage
+ >  4d. Event Storage
 ------------------------------------------------------------
- >  4c-1. Get Event List
+ >  4d-1. Get Event List
 --------------------------------------------- */
 function opGetEventList( eventListId ) {
 
@@ -757,7 +874,7 @@ function opGetEventList( eventListId ) {
 }
 
 /* ------------------------------------------
- >  4c-2. Get Participant
+ >  4d-2. Get Participant
 --------------------------------------------- */
 function opGetParticipant( eventListId, participantId ) {
 
@@ -789,7 +906,7 @@ function opGetParticipant( eventListId, participantId ) {
 }
 
 /* ------------------------------------------
- >  4c-3. Update Participant
+ >  4d-3. Update Participant
 --------------------------------------------- */
 function opUpdateParticipant( eventListId, participantId, participantPrints, dateNow ) {
 
@@ -860,7 +977,7 @@ async function opPrintParticipant( participantId ) {
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Booking.
     const booking = bookingsStorage.response.bookingList[0].booking
-    opConsoleDebug( debug, 'booking:', booking )
+    opConsoleDebug( debug, 'Booking:', booking )
 
 
     //////////////////// #NG: Needs to be looked at again - Search.
@@ -880,7 +997,7 @@ async function opPrintParticipant( participantId ) {
 
     ///// Get Template. 
     const template = templateItem.response
-    opConsoleDebug( debug, 'template:', template )
+    opConsoleDebug( debug, 'Template:', template )
 
 
     //////////////////// #NG: Needs to be looked at again - Search.
@@ -890,7 +1007,7 @@ async function opPrintParticipant( participantId ) {
 
     ///// Get Participant.
     const participant = participantItem.response
-    opConsoleDebug( debug, 'participant:', participant )
+    opConsoleDebug( debug, 'Participant:', participant )
    
     ///// Create Variables.
     let bookingCode = booking.bookingId
@@ -1270,7 +1387,7 @@ function opSearchEventParticipants() {
     
     ///// Filter Event Items.
     let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
-    opConsoleDebug( debug, eventListId+':', eventItems )
+    opConsoleDebug( debug, `${eventListId}:`, eventItems )
     
     ///// Validate Event Item. 
     if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
@@ -1279,7 +1396,7 @@ function opSearchEventParticipants() {
     let participantList = eventItems[0].eventParticipants
 
     const participants = opUniversalSearch( searchInput, participantList , filterInput )
-    opConsoleDebug( debug, 'search:', participants )
+    opConsoleDebug( debug, 'Search:', participants )
     
     participantListElement.innerHTML = ''
     
@@ -1431,6 +1548,44 @@ function opFormGoToStep( newStep ) {
         }
     }
 
+
+}
+
+/* ------------------------------------------
+ >   >  6a-8. Save New Template from Form 
+--------------------------------------------- */
+function opSaveNewTemplate() {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    let block = event.target.closest( 'section[id*="op-block"]' )
+    let form = event.target.closest( 'form' )
+    let saveButton = form.querySelector( '.op-button-save')
+    let modal = block.querySelector( '.op-modal')
+
+    ///// Disable the Save button.
+    saveButton.disabled = true
+
+    ///// Upload new Template to the Local Storage of Templates.
+    const templateUploadResponse = opCreateTemplate( debug, form )
+
+    ///// Validate the Response from the Template Upload.
+    if ( templateUploadResponse.error !== false ) {
+    
+        opConsoleDebug( true, 'Error:', templateUploadResponse.response )
+        saveButton.disabled = false
+    
+    } else {
+        ///// Activate the Modal Window.
+        modal.classList.add( 'active' )
+
+        let number = '1664185182260'
+
+        let eventUrl = modal.getAttribute( 'data-relocation-event-creation' )
+        modal.querySelector( '.op-button-event-creation' ).setAttribute( 'href', `${ eventUrl }?template=${ number }` )
+    }
 
 }
 
@@ -1796,7 +1951,7 @@ function opTemplateCreationBlocks() {
             let layoutNumber = 0
 
             for( var i = 0; i < layouts.length; i++ ) {
-                if ( layouts[i].includes( 'layout_3' ) ) {
+                if ( layouts[i].includes( 'P' ) ) {
 
                     ++layoutNumber
 
@@ -1809,7 +1964,7 @@ function opTemplateCreationBlocks() {
                                 <div class="op-radio-check" data-icon="circle-check">
                                     <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
                                 </div>
-                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/${ layouts[i] }.png" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
+                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/${ layouts[i] }_3C.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
                             </label>
                         </div>
                     `
@@ -1822,7 +1977,7 @@ function opTemplateCreationBlocks() {
                     ///// Add element to the container.
                     container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
 
-                }               
+                }             
             }
 
         })
