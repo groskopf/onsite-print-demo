@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
+ ?  Updated: 2023-01-04 - 17:12 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1964,7 +1964,7 @@ function opTemplateCreationBlocks() {
                                 <div class="op-radio-check" data-icon="circle-check">
                                     <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
                                 </div>
-                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/${ layouts[i] }_3C.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
+                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/3C_${ layouts[i] }.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
                             </label>
                         </div>
                     `
