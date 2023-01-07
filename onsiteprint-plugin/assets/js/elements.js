@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-04 - 17:12 (Y:m:d - H:i)
+ ?  Updated: 2023-01-07 - 17:44 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1540,11 +1540,14 @@ function opFormGoToStep( newStep ) {
 
     }
 
+    ///// Get Form Color.
+    let formColor = block.getAttribute( 'data-form-color' )
+
     for( let i = 0; i < processButtons.length; ++i ) {
         if ( i == slide ) {
-            processButtons[i].setAttribute( 'data-color', 'secondary-60' )                
+            processButtons[i].setAttribute( 'data-color', `${ formColor }-60` )                
         } else {
-            processButtons[i].setAttribute( 'data-color', 'secondary-20' )
+            processButtons[i].setAttribute( 'data-color', `${ formColor }-20` )
         }
     }
 

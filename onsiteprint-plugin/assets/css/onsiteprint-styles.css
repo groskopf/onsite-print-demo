@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
+ ?  Updated: 2023-01-07 - 18:12 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -306,7 +306,7 @@ html {
     transition: all 200ms ease-in-out, color 100ms ease-in-out;
 }
 
-.op-button:is( [data-color="accent-60"] ):is( .op-button-style-solid ):is( :hover, :focus ),
+.op-button:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ),
 :is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover, :focus ) {
     background-color: var(--wp--preset--color--primary-90);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
@@ -634,8 +634,8 @@ html {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-color="accent-60"] ):is( .op-button-style-solid ):is( :hover, :focus ) .op-button-title,
-:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover, :focus ) .op-button-title {
+.op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ) .op-button-title,
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover, :focus ):not( :disabled ) .op-button-title {
     background-color: var(--wp--preset--color--primary-100);
     border-color: var(--wp--preset--color--primary-100);
 }
@@ -1597,10 +1597,50 @@ html {
  >  2c-9. Steps Form
 ------------------------------------------------------------ */
 
-.op-form-steps {
-    --form-process-buttons: var(--wp--preset--color--primary-20);
-    --form-process-steps: var(--wp--preset--color--primary-60);
+.op-form {
+    --form-color-gradient: var(--wp--preset--gradient--horizontal-primary-60-to-80);
+    --form-color-light: var(--wp--preset--color--primary-20);
+    --form-color-medium: var(--wp--preset--color--primary-60);
+    --form-color-dark: var(--wp--preset--color--primary-80);
 
+    padding: 1rem 2rem;
+}
+
+.op-form:is( [data-form-color*="secondary"] ) {
+    --form-color-gradient: var(--wp--preset--gradient--horizontal-secondary-60-to-80);
+    --form-color-light: var(--wp--preset--color--secondary-20);
+    --form-color-medium: var(--wp--preset--color--secondary-60);
+    --form-color-dark: var(--wp--preset--color--secondary-80);
+}
+
+.op-form:is( [data-form-color*="accent"] ) {
+    --form-color-gradient: var(--wp--preset--gradient--horizontal-accent-60-to-80);
+    --form-color-light: var(--wp--preset--color--accent-20);
+    --form-color-medium: var(--wp--preset--color--accent-60);
+    --form-color-dark: var(--wp--preset--color--accent-80);
+}
+
+.op-form,
+.op-form .op-block__inner {
+    flex: 1;
+    width: 100%;
+}
+
+.op-form .op-block__inner > header {
+    background: var(--form-color-medium);
+    background-image: var(--form-color-gradient);
+    color: var(--wp--preset--color--white);
+    margin-bottom: 2rem;
+    padding: 1.7rem 2rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-form .op-block__inner > header .op-block-title {
+    padding-bottom: 0;
+}
+
+.op-form-steps {
     background-color: var(--wp--preset--color--neutral-10);
     display: flex;
     width: 100%;
@@ -1642,13 +1682,42 @@ html {
 }
 
 .op-form-steps .op-form-process__inner::after {
-    background-color: var(--form-process-buttons);
+    background-color: var(--form-color-light);
     content: "";
     width: 0.2rem;
-    height: 0;
+    height: 100%;
     position: absolute;
     z-index: -1;
     transition: height 200ms ease-in-out;
+}
+
+/* 0 steps validated */
+.op-form-steps :is( [data-steps-validated="0"] ) .op-form-process__inner::after {
+    height: 0;
+}
+
+/* 3 form steps */
+.op-form-steps[data-form-steps="3"] [data-steps-validated="1"] .op-form-process__inner::after {
+    height: calc(((( 100% - 6rem) / 3 ) * 2 ) + 3rem);
+}
+
+/* 4 form steps */
+.op-form-steps[data-form-steps="4"] [data-steps-validated="1"] .op-form-process__inner::after {
+    height: calc(((( 100% - 9rem) / 4 ) * 2 ) + 3rem);
+}
+.op-form-steps[data-form-steps="4"] [data-steps-validated="2"] .op-form-process__inner::after {
+    height: calc(((( 100% - 9rem) / 4 ) * 3 ) + 6rem);
+}
+
+/* 5 form steps */
+.op-form-steps[data-form-steps="5"] [data-steps-validated="1"] .op-form-process__inner::after {
+    height: calc(((( 100% - 12rem) / 5 ) * 2 ) + 3rem);
+}
+.op-form-steps[data-form-steps="5"] [data-steps-validated="2"] .op-form-process__inner::after {
+    height: calc(((( 100% - 12rem) / 5 ) * 3 ) + 6rem);
+}
+.op-form-steps[data-form-steps="5"] [data-steps-validated="3"] .op-form-process__inner::after {
+    height: calc(((( 100% - 12rem) / 5 ) * 3 ) + 9rem);
 }
 
 .op-form-steps .op-form__inner {
@@ -1690,7 +1759,7 @@ html {
 }
 
 .op-form-steps .op-form-content fieldset header .op-fieldset-steps {
-    color: var(--form-process-steps);
+    color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
 }
@@ -1737,7 +1806,7 @@ html {
 }
 
 .op-label-title {
-    color: var(--form-process-steps);
+    color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
 }
@@ -1752,7 +1821,7 @@ html {
 .op-input-field .op-input-border,
 .op-input-field input[type="text"] {
     font-weight: 500;
-    border: 0.1rem solid var(--form-process-buttons);
+    border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
     transition: border-color 200ms ease-in-out;
 }
@@ -1779,21 +1848,22 @@ html {
     min-height: 4rem;
     margin-right: 2rem;
     padding: 0.9rem 1.8rem;
-    border: 0.1rem solid var(--form-process-buttons);
+    border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
     cursor: pointer;
     transition: all 200ms ease-in-out;
 }
 
 .op-input-field input[type="file"]:where( :hover, :focus )::-webkit-file-upload-button {
-    background-color: var(--form-process-steps);
+    background-color: var(--form-color-medium);
     color: var(--wp--preset--color--white);
-    border-color: var(--form-process-steps);
+    border-color: var(--form-color-medium);
 }
 
 .op-input-field .op-input-checkbox {
     display: flex;
     padding: 0.4rem;
+    cursor: pointer;
 }
 
 .op-input-field .op-input-checkbox .op-input-description {
@@ -1822,27 +1892,27 @@ html {
     align-items: center;
     width: 4rem; 
     height: 4rem;
-    border: 0.1rem solid var(--form-process-buttons);
+    border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
     transition: all 200ms ease-in-out;
 }
 
 .op-input-field .op-input-checkbox .op-radio-check .op-icon {
     background-color: var(--wp--preset--color--white);
-    color: var(--form-process-steps);
+    color: var(--form-color-medium);
     font-size: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 2rem;
     height: 2rem;
-    border: 0.1rem solid var(--form-process-buttons);
+    border: 0.1rem solid var(--form-color-light);
     border-radius: 2rem;
     transition: border-color 200ms ease-in-out;
 }
 
 .op-input-field .op-input-checkbox .op-radio-check .op-icon::before {
-    color: var(--form-process-steps);
+    color: var(--form-color-medium);
     display: none;
 }
 
@@ -1851,17 +1921,17 @@ html {
 }
 
 .op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check {
-    background-color: var(--form-process-buttons);
+    background-color: var(--form-color-light);
 }
 
-.op-input-field .op-input-border:where( :hover, :focus ),
-.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check,
-.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-input-field .op-input-border:is( :hover, :focus ),
+.op-input-field .op-input-border:is( :hover, :focus ) .op-radio-check,
+.op-input-field .op-input-border:is( :hover, :focus ) .op-radio-check .op-icon,
 .op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check
 .op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check .op-icon
 .op-input-field .op-input-approved:hover ~ .op-input-border,
 .op-input-field .op-input-validation:hover ~ .op-input-border {
-    border-color: var(--form-process-steps);
+    border-color: var(--form-color-medium);
 }
 
 .op-input-wrapper[data-validation="2"] .op-input-border,
@@ -1873,6 +1943,92 @@ html {
 .op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ) .op-radio-check,
 .op-input-wrapper[data-validation="2"] .op-input-validation:hover ~ .op-input-border {
     border-color: var(--wp--preset--color--error-100);
+}
+
+.op-form-steps .op-form-radio-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    position: relative;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input input {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px,1px,1px,1px);
+    clip-path: inset(50%);
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
+.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label {
+    border-color: var(--form-color-medium);
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label .op-radio-check {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom: 0.1rem solid var(--form-color-light);
+    border-left: 0.1rem solid var(--form-color-light);
+    border-radius: 0 0.4rem;
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon {
+    background-color: var(--wp--preset--color--white);
+    color: var(--form-color-medium);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 2rem;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check,
+.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon {
+    border-color: var(--form-color-medium);
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+    background-color: var(--form-color-light);
+}
+
+
+.op-form-steps .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon::before {
+    display: none;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
+    display: flex;
 }
 
 .op-input-validation {
@@ -1902,7 +2058,7 @@ html {
 }
 
 .op-input-approved .op-icon {
-    color: var(--form-process-steps);
+    color: var(--form-color-medium);
 }
 
 .op-input-validation .op-message {

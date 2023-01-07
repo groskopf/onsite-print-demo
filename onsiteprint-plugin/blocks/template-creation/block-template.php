@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-01-04 - 16:53 (Y:m:d - H:i)
+ ?  Updated: 2023-01-07 - 17:31 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -18,6 +18,8 @@
 $tc = 'template_creation_';
 
 $acf = array(
+    'style_color'           => get_field( $tc . 'color' ),
+
     'header_title'          => get_field( $tc . 'header_title' ) ?: 'Create a new Template',
     'header_description'    => get_field( $tc . 'header_description' ) ?: 'Follow the steps below to complete your new template.',
     'header_step'           => get_field( $tc . 'header_step' ) ?: 'Step',
@@ -58,13 +60,15 @@ $acf = array(
     'event_creation_title'  => get_field_object( $tc . 'modal_relocate_event_creation' )['value']['title'] ?: 'Create Event'
 );
 
+$styleColor = substr( $acf['style_color'], 0, strpos( $acf['style_color'], '-' ) );
+
 $id = 'op-' . $block['id'];
 
 if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-template-creation op-flex-col';
+$className = 'op-template-creation op-form op-flex-col';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -79,7 +83,7 @@ if ( ! empty( $block['align'] ) ) {
 --------------------------------------------------------------------------- */
 ?>
 
-<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>">
+<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
     <div class="op-block__inner op-flex-col">
 
         <header class="op-block__header op-flex-col">
@@ -99,7 +103,7 @@ if ( ! empty( $block['align'] ) ) {
                     for ( $i=0; $i < count($form_steps); $i++ ) { 
                         
                         $num = $i + 1;
-                        $color = ( $i == 0 ) ? 'secondary-60' : 'secondary-20'; ?>
+                        $color = ( $i == 0 ) ? $styleColor . '-60' : $styleColor . '-20'; ?>
 
                         <button type="button" onclick="opFormGoToStep( 'step-<?= $num ?>' ); return false" class="op-button op-button-size-medium op-button-style-solid" data-color="<?= $color ?>" data-icon="op-number-<?= $num ?>" data-icon-position="left" data-title-visibility="1" <?php if ( $i !== 0 ) echo 'disabled' ?>>
                             <span class="op-icon" role="img" aria-label="Number <?= $num ?> Icon"></span>
@@ -123,17 +127,17 @@ if ( ! empty( $block['align'] ) ) {
                 
                 <div class="op-form-directions">
                     <div class="op-col-left">
-                        <button type="button" onclick="opFormGoToStep( 'back' ); return false" class="op-button-back op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-left" data-icon-position="left">
+                        <button type="button" onclick="opFormGoToStep( 'back' ); return false" class="op-button-back op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="arrow-left" data-icon-position="left">
                             <span class="op-icon" role="img" aria-label="Arrow Left Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_back'] ) ?></span>
                         </button>
                     </div>
                     <div class="op-col-right">
-                        <button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="secondary-60" data-icon="arrow-right" data-icon-position="right" disabled>
+                        <button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="arrow-right" data-icon-position="right" disabled>
                             <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_next'] ) ?></span>
                         </button>
-                        <button type="button" onclick="opSaveNewTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="secondary-60" data-icon="floppy-disk" data-icon-position="left" disabled>
+                        <button type="button" onclick="opSaveNewTemplate(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="floppy-disk" data-icon-position="left" disabled>
                             <span class="op-icon" role="img" aria-label="Floppy Disk Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_save'] ) ?></span>
                         </button>
