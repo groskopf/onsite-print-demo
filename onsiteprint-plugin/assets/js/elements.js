@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-07 - 17:44 (Y:m:d - H:i)
+ ?  Updated: 2023-01-11 - 21:15 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -620,8 +620,12 @@ function opGetFastApiInfo( object ) {
 ------------------------------------------------------------ */
 function opFetchFromFastAPI( debug, method, bodyInput, url, type, contentType ) {
     return new Promise( resolve => {
+        
+        let newContentType
 
-        if ( contentType !== 'multipart/form-data' ) contentType = 'application/json'
+        if ( contentType !== 'form' ) {
+            newContentType = `'Content-Type': 'application/json'`
+        }
 
         ///// Request Options for fetch.
         ////* method (GET, POST, PUT, DELETE, etc.)
@@ -629,7 +633,7 @@ function opFetchFromFastAPI( debug, method, bodyInput, url, type, contentType ) 
             method: method,
             headers: {
                 accept: 'application/json',
-                'Content-Type': contentType,
+                newContentType,
                 'access_token': opGetFastApiInfo( 'token' )
             },
             body: bodyInput
@@ -752,16 +756,13 @@ function opGetTemplate( templateId ) {
 /* ------------------------------------------
  >  4c-2. Create Template
 --------------------------------------------- */
-function opCreateTemplate( debug, formElement ) {
+function opCreateTemplatexx( debug, formElement ) {   
     
-    ///// Create Variables.
-    let error, code, message
-
-    try {
+    return new Promise( resolve => {
 
         ///// If the Form Element is missing.
         if ( ! formElement ) {
-            throw 'Missing Form Element!'
+            return resolve( opReturnResponse( true, 400, 'Missing Form Element!' ) )
         }
         
         ///// Get the Local Storage of Templates.
@@ -774,24 +775,21 @@ function opCreateTemplate( debug, formElement ) {
         const templateList = templatesStorage.response
 
         ///// Get the Data from the Form Element.
-        let formData = new FormData( formElement )
+        const formData = new FormData( formElement )
 
         ///// The URL to the API.
         const url = `${ opGetFastApiInfo( 'url' ) }images/`
 
-        /* //, 'multipart/form-data'
-
         ///// Fetch from the FastAPI.
-        opFetchFromFastAPI( true, 'POST', formData, url, 'json' ).then( fetchResponse => {
+        opFetchFromFastAPI( debug, 'POST', formData, url, 'json', 'form' ).then( fetchResponse => {
+        
             opConsoleDebug( true, 'fetchResponse:', fetchResponse )
 
             ///// If the Fetch Response has Code 201 (Created).
-            if ( fetchResponse.code === 201 ) { */
+            if ( fetchResponse.code === 200 ) {
 
                 ///// Get the element for output.
-                //let filenameUploaded = newImageResponse.filename.slice(7)      
-                let filenameUploaded = 'Missing Data!'      
-            
+                let filenameUploaded = fetchResponse.response.filename.slice(7)                 
                 
                 ///// Define new data variables.
                 let dateNow = Date.now()
@@ -814,28 +812,91 @@ function opCreateTemplate( debug, formElement ) {
                 ///// Set Template List in Local Storage.
                 localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
 
-                ///// Set Return Response.
-                error = false, code = 201, message = 'Template was created!'
+                ///// Return the Response to the Function.
+                return resolve( opReturnResponse( false, 201, { message : 'Template was created!', template : templateItem } ) )           
 
-        /*    } else throw 'Somethings wrong!'
-        
-        }) */
+            } else return resolve( opReturnResponse( true, 400, 'Missing Image Data!' ) )
+                
+        })
 
+    })
 
+}
 
+function opCreateTemplate( debug, formElement ) {   
     
-    } catch( errorMessage ) {
+    return new Promise( resolve => {
 
-        ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
+        try {
 
-    }
+            ///// If the Form Element is missing.
+            if ( ! formElement ) {
+                throw 'Missing Form Element!'
+            }
+            
+            ///// Get the Local Storage of Templates.
+            const templatesStorage = opGetLocalStorage( debug, 'Templates' )
 
-    ///// Console Log if the Debug parameter is 'true'.
-    opConsoleDebug( debug, `Create Template:`, message )
+            ///// Validate the Response from the Local Storage of Templates.
+            if ( templatesStorage.error !== false ) throw templatesStorage.response
 
-    ///// Return the Response to the Function.
-    return opReturnResponse( error, code, message )
+            ///// Get the Template List from the Local Storage of Templates.
+            const templateList = templatesStorage.response
+
+            ///// Get the Data from the Form Element.
+            const formData = new FormData( formElement )
+
+            ///// The URL to the API.
+            const url = `${ opGetFastApiInfo( 'url' ) }images/`
+
+            ///// Fetch from the FastAPI.
+            opFetchFromFastAPI( debug, 'POST', formData, url, 'json', 'form' ).then( fetchResponse => {
+            
+                opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
+
+                ///// If the Fetch Response has Code 201 (Created).
+                if ( fetchResponse.code === 200 ) {
+
+                    ///// Get the element for output.
+                    let filenameUploaded = fetchResponse.response.filename.slice(7)                 
+                    
+                    ///// Define new data variables.
+                    let dateNow = Date.now()
+                    let fileInput = formElement[ 'image' ];   
+                    let filenameOriginal = fileInput.files[0].name;
+
+                    ///// Define new Template Item variable.
+                    let templateItem = { 
+                        'templateCreationDate' : dateNow, 
+                        'templateName' : formElement[ 'name' ].value, 
+                        'templateFilenameOriginal' : filenameOriginal,
+                        'templateFilenameUploaded' : filenameUploaded,
+                        'templateLayout' : formElement[ 'layout' ].value,
+                        'templateLayoutColumns' : '3C'
+                    }
+                    
+                    ///// Push Template Item variable into Template List.
+                    templateList.templateList.push( templateItem )
+                    
+                    ///// Set Template List in Local Storage.
+                    localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
+
+                    ///// Return the Response to the Function.
+                    return resolve( opReturnResponse( false, 201, { message : 'Template was created!', template : templateItem } ) )
+
+                } else throw 'Missing Image Data!'
+     
+            })
+
+                    
+        } catch( errorMessage ) {
+
+            ///// Return the Error Response to the Function.
+            return resolve( opReturnResponse( true, 400, errorMessage ) )
+
+        }
+
+    })
 
 }
 
@@ -1572,23 +1633,26 @@ function opSaveNewTemplate() {
     saveButton.disabled = true
 
     ///// Upload new Template to the Local Storage of Templates.
-    const templateUploadResponse = opCreateTemplate( debug, form )
+    opCreateTemplate( debug, form ).then( templateUploadResponse => {
 
-    ///// Validate the Response from the Template Upload.
-    if ( templateUploadResponse.error !== false ) {
-    
-        opConsoleDebug( true, 'Error:', templateUploadResponse.response )
-        saveButton.disabled = false
-    
-    } else {
-        ///// Activate the Modal Window.
-        modal.classList.add( 'active' )
+        opConsoleDebug( true, 'SNT Error:', templateUploadResponse.response )
 
-        let number = '1664185182260'
+        ///// Validate the Response from the Template Upload.
+        if ( templateUploadResponse.error !== false ) saveButton.disabled = false
+        else {
 
-        let eventUrl = modal.getAttribute( 'data-relocation-event-creation' )
-        modal.querySelector( '.op-button-event-creation' ).setAttribute( 'href', `${ eventUrl }?template=${ number }` )
-    }
+            const template = templateUploadResponse.response.template
+
+            ///// Activate the Modal Window.
+            modal.classList.add( 'active' )
+
+            let templateId = template.templateCreationDate
+
+            let eventUrl = modal.getAttribute( 'data-relocation-event-creation' )
+            modal.querySelector( '.op-button-event-creation' ).setAttribute( 'href', `${ eventUrl }?template=${ templateId }` )
+        }
+
+    })
 
 }
 
