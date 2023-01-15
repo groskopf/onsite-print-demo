@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-11 - 21:15 (Y:m:d - H:i)
+ ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -132,9 +132,9 @@ function opTimeConverter( timestamp, display, language ){
     } else if ( display == 'date-month-year' && language == 'da' ) {
         time = `${date}. ${monthName}. - ${year}`
     } else if ( display == 'full' && language == 'da' ) {
-        time = `${date}. ${month} - ${year} (${hour}:${min}:${sec})`
+        time = `${date}. ${monthName}. ${year} - ${hour}:${min}:${sec}`
     } else if ( display == 'full' ) {
-        time = `${year}-${month}-${date} ${hour}:${min}`
+        time = `${year}-${month}-${date} ${hour}:${min}:${sec}`
     }
 
     return time
@@ -308,6 +308,99 @@ async function opFetchFromAPI( debug, url, options, output ) {
 
 }
 
+/* ---------------------------------------------------------
+ >  1j. Retrieve GET parameters URL
+------------------------------------------------------------ */
+function opGetUrlParameters() {
+
+    function transformToAssocArray( prmstr ) {
+        let params = {}
+        let prmarr = prmstr.split('&')
+        for ( let i = 0; i < prmarr.length; i++) {
+            let tmparr = prmarr[i].split('=')
+            params[tmparr[0]] = tmparr[1]
+        }
+        return params
+    }
+
+    let prmstr = window.location.search.substr(1)
+    return prmstr != null && prmstr != '' ? transformToAssocArray( prmstr ) : {}
+}
+
+/* ---------------------------------------------------------
+ >  1k. Get Current Script
+------------------------------------------------------------ */
+function opGetCurrentScript() {
+    if ( document.currentScript ) {
+        return document.currentScript.src
+    } else {
+        //var scripts = document.getElementsByTagName('script')
+        //return scripts[scripts.length - 1].src
+        return document.getElementById('onsiteprint-elements-js').src
+    }
+}
+
+/* ---------------------------------------------------------
+ >  1l. Get Current Script Path
+------------------------------------------------------------ */
+function opGetCurrentScriptPath() {
+    var script = opGetCurrentScript()
+    var path = script.substring(0, script.lastIndexOf('/'))
+    return path
+}
+
+/* ---------------------------------------------------------
+ >  1m. Add Grid From CSV to the Form Element
+------------------------------------------------------------ */
+function opAddGridToForm( debug, block ) {
+
+    ///// Variable used by the Grid
+    //var eventGridElement
+
+    ///// Get the elements.
+    let blockId = block.getAttribute( 'id' )
+    let formElement = block.querySelector( '.op-form-steps' )
+    let gridElement = formElement.querySelector( `#${ blockId }-form-grid` )
+    let csvInput = formElement['csv-file'].value 
+
+    ///// Clear the Grid Element. 
+	gridElement.innerHTML = '' 
+
+    ///// Get the Data from the Form Element.
+    const formData = new FormData( formElement )
+
+    ///// The URL to the API.
+    const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
+
+    ///// Fetch from the FastAPI.
+    opFetchFromFastAPI( debug, 'POST', formData, url, 'json' ).then( fetchResponse => {
+    
+        opConsoleDebug( true, 'fetchResponse:', fetchResponse )
+
+        ///// If the Fetch Response has Code 200 (OK).
+        if ( fetchResponse.code === 200 ) {
+
+            ///// Create new Grid Element.
+            let eventGridElement = new DataGridXL( `${ blockId }-form-grid`, {
+                data: fetchResponse.response,
+                allowFreezeRows: false,
+                allowFreezeCols: false
+
+                /* colHeaderLabelFunction: function(index, id, field, title, labels){
+                    // use id as column label
+                    return String("Column #"+id);
+                } */
+            })
+
+            ///// Return the Response to the Function.
+            return opReturnResponse( false, 200, { message : 'Grid was Created!', grid : fetchResponse.response } )
+
+        } else return opReturnResponse( true, 400, 'Missing Grid Data!' )
+            
+    })
+    
+}
+
 
 /* ------------------------------------------------------------------------
  #  2. Validation Functions 
@@ -345,23 +438,13 @@ function opValidateFetchResponse( debug, request ) {
 /* ---------------------------------------------------------
  >  2b. Validate Local Storage
 ------------------------------------------------------------ */
-function opValidateLocalStorage( debug, localStorageName ) {
+function opValidateLocalStorage( debug, storage ) {
 
     ///// Create Variables.
     let error, code, message
 
     try {
 
-        ///// If the Storage Name is missing.
-        if ( ! localStorageName ) {
-            throw 'Missing Local Storage Name!'
-        }
-    
-        var storageName = localStorageName.toUpperCase()
-
-        ///// Get Local Storages.
-        let storage = JSON.parse( localStorage.getItem( `OP_PLUGIN_DATA_${ storageName }` ) )
-        
         ///// Validate Local Storage.
         if ( storage ) {
             error = false, code = 200, message = storage
@@ -473,12 +556,12 @@ function opValidateForm( debug, formElement ) {
 /* ---------------------------------------------------------
  >  2f. Validation of Input in Form
 ------------------------------------------------------------ */
-function opFormInputValidation() {
+function opFormInputValidation( type, inputElement ) {
 
     ///// Debug the function
     let debug = false // true or false
 
-    let inputElement = event.target
+    if ( ! inputElement ) inputElement = event.target
     let block = inputElement.closest( 'section[id*="op-block"]' )
     let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
     let form = inputElementWrapper.closest( '.op-form-steps' )
@@ -520,6 +603,8 @@ function opFormInputValidation() {
 
         inputElementWrapper.setAttribute( 'data-validation', '1' )
         directionButtons[1].disabled = false
+
+        if ( type == 'grid' ) opAddGridToForm( debug, block )
 
     } else {
 
@@ -660,12 +745,21 @@ function opGetLocalStorage( debug, localStorageName ) {
 
     try {
 
-        ///// Get a Local Storage with the Parameter (localStorageName).
-        const localStorage = opValidateLocalStorage( debug, localStorageName )
+        ///// If the Storage Name is missing.
+        if ( ! localStorageName ) {
+            throw 'Missing Local Storage Name!'
+        }
+    
+        ///// Convert Local Storages Name to UpperCase.
+        const storageName = localStorageName.toUpperCase()
 
-        ///// Validate the Local Storage Response.
-        if ( localStorage.error !== false ) throw localStorage.response
-        else error = false, code = 200, message = localStorage.response
+        ///// Get Local Storages.
+        const storage = JSON.parse( localStorage.getItem( `OP_PLUGIN_DATA_${ storageName }` ) )
+        
+        ///// Validate the Local Storage.
+        const validatedLocalStorage = opValidateLocalStorage( debug, storage )
+        if ( validatedLocalStorage.error !== false ) throw validatedLocalStorage.response
+        else error = false, code = 200, message = validatedLocalStorage.response
         
     } catch( errorMessage ) {
 
@@ -693,7 +787,7 @@ function opGetLayoutsWithBookingCode( bookingCode ) {
     let debug = false // true or false
 
     ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
 
     ///// Get Booking List.
     const bookingList = bookingsStorage.response.bookingList
@@ -727,7 +821,7 @@ function opGetTemplate( templateId ) {
     let debug = false // true or false
 
     ///// Get Local Storage of Templates.
-    const templatesStorage = opValidateLocalStorage( debug, 'Templates' )
+    const templatesStorage = opGetLocalStorage( debug, 'Templates' )
 
     ///// Get the Template List from the Local Storage of Templates.
     const templateList = templatesStorage.response.templateList
@@ -912,7 +1006,7 @@ function opGetEventList( eventListId ) {
     let debug = false // true or false 
 
     ///// Validate Local Storage of Events.
-    const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+    const eventsStorage = opGetLocalStorage( debug, 'Events' )
 
     ///// Get Event List.
     const eventList = eventsStorage.response.eventList
@@ -975,7 +1069,7 @@ function opUpdateParticipant( eventListId, participantId, participantPrints, dat
     let debug = false // true or false
 
     ///// Validate Local Storage of Events.
-    const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+    const eventsStorage = opGetLocalStorage( debug, 'Events' )
 
     ///// Get Event List.
     const eventList = eventsStorage.response.eventList
@@ -1033,7 +1127,7 @@ async function opPrintParticipant( participantId ) {
     
     //////////////////// #NG: Missing login validation
     ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
     
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Booking.
@@ -1217,7 +1311,7 @@ function opPrintEventParticipants( eventListId ) {
     
     //////////////////// #NG: Missing login validation
     ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
     
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Booking.
@@ -1437,7 +1531,7 @@ function opSearchEventParticipants() {
 
 
     ///// Validate Local Storage of Events.
-    const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+    const eventsStorage = opGetLocalStorage( debug, 'Events' )
 
     ///// Get Event List. 
     const eventList = eventsStorage.response.eventList
@@ -1657,6 +1751,98 @@ function opSaveNewTemplate() {
 }
 
 
+/* ------------------------------------------
+ >   >  6a-9. Adding one or more Templates to an Element 
+--------------------------------------------- */
+function opAddTemplatesToElement( debug, blockId, containerElement, templateList ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// If the Elements are missing.
+        if ( ! blockId ) {
+            throw 'Missing Block ID!'
+        } else if ( ! containerElement ) {
+            throw 'Missing Container Element!'
+        } else if ( ! templateList ) {
+            throw 'Missing Template List!'
+        } else { 
+           
+            for( var i = 0; i < templateList.length; i++ ) {
+                
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, `Template(${ templateList[i].templateCreationDate })`, templateList[i] )
+
+                ///// Create new element.
+                newTemplateElement = `
+                    <div class="op-radio-input">
+                        <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation()" name="template" value="${ templateList[i].templateCreationDate }" required>
+                        <label for="${ blockId }-${ templateList[i].templateCreationDate }-input">
+                            <div class="op-radio-check" data-icon="circle-check">
+                                <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                            </div>
+                            <div class="op-radio-info">
+                                <div class="op-info op-flex-row">
+                                    <p class="op-text" data-icon="calendar-days">
+                                        <span class="op-icon" role="img" aria-label="Calendar Icon"></span>
+                                        <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'date-month-year', 'da' ) }</span>                               
+                                    </p>
+                                    <p class="op-text" data-icon="clock">
+                                        <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+                                        <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'hour-min' ) }</span>                               
+                                    </p>
+                                </div>
+                                <div class="op-content op-flex-col">
+                                    <p class="op-text op-flex-col">
+                                        <b class="op-text-title">Skabelonnavn</b>
+                                        <span class="op-text-info">${ templateList[i].templateName }</span>                               
+                                    </p>
+                                    <p class="op-text op-flex-col">
+                                        <b class="op-text-title">Beskrivelse</b>
+                                        <span class="op-text-info">3 kolonner + logo</span>                               
+                                    </p>
+                                    <p class="op-text op-flex-col">
+                                        <b class="op-text-title">Logo</b>
+                                        <span class="op-text-info">${ templateList[i].templateFilenameOriginal }</span>                               
+                                    </p>
+                                </div>
+                                <div class="op-image op-flex-col">
+                                    <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/event-creation/block-template-parts/block-form/img/${ templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                                </div>
+                            </div>
+                            
+                        </label>
+                    </div>
+                `
+
+                ///// Add element to the container.
+                containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
+
+            }
+
+            ///// Create Response.
+            error = false, code = 200, message = 'New Templates was added!'
+
+        }
+        
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    }
+
+    ///// Console Log if the Debug parameter is 'true'.
+    opConsoleDebug( debug, 'opAddTemplatesToElement():', message )
+
+    ///// Return the Response to the Function.
+    return opReturnResponse( error, code, message )
+
+}
+
+
 /* ---------------------------------------------------------
  >  6b. Block Validation Functions
 ------------------------------------------------------------ */
@@ -1738,7 +1924,7 @@ function opBookingInformationBlocks() {
 
             //////////////////// #NG: Missing login validation
             ///// Validate Local Storage of Bookings.
-            const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+            const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
 
             //////////////////// #NG: Needs to be looked at again - Search.
             const bookingInformation = bookingsStorage.response.bookingList[0].booking
@@ -1778,7 +1964,7 @@ function opPrinterInformationBlocks() {
 
             //////////////////// #NG: Missing login validation
             ///// Validate Local Storage of Bookings.
-            const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+            const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
 
             //////////////////// #NG: Needs to be looked at again - Search.
             const bookingInformation = bookingsStorage.response.bookingList[0].booking
@@ -1815,7 +2001,7 @@ function opEventInformationBlocks() {
 
 
             ///// Validate Local Storage of Events.
-            const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+            const eventsStorage = opGetLocalStorage( debug, 'Events' )
 
             ///// Get Event List. 
             const eventList = eventsStorage.response.eventList
@@ -1873,7 +2059,7 @@ function opEventTemplateInformationBlocks() {
 
 
             ///// Validate Local Storage of Events.
-            const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+            const eventsStorage = opGetLocalStorage( debug, 'Events' )
 
             ///// Get Event List. 
             const eventList = eventsStorage.response.eventList
@@ -1935,7 +2121,7 @@ function opEventParticipantListBlocks() {
 
 
             ///// Validate Local Storage of Events.
-            const eventsStorage = opValidateLocalStorage( debug, 'Events' )
+            const eventsStorage = opGetLocalStorage( debug, 'Events' )
 
             ///// Get Event List. 
             const eventList = eventsStorage.response.eventList
@@ -1991,7 +2177,7 @@ function opTemplateCreationBlocks() {
 
     //////////////////// #NG: Missing login validation
     ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opValidateLocalStorage( debug, 'Bookings' )
+    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
     
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Booking.
@@ -2031,7 +2217,11 @@ function opTemplateCreationBlocks() {
                                 <div class="op-radio-check" data-icon="circle-check">
                                     <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
                                 </div>
-                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/3C_${ layouts[i] }.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
+                                <div class="op-radio-info">
+                                    <div class="op-image op-flex-col">
+                                        <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/3C_${ layouts[i] }.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
+                                    </div>
+                                </div>
                             </label>
                         </div>
                     `
@@ -2046,6 +2236,87 @@ function opTemplateCreationBlocks() {
 
                 }             
             }
+
+        })
+    }
+}
+
+/* ---------------------------------------------------------
+ >  6c-9. Event Creation
+ *  Check if multiple (Event Creation) Blocks is on page
+------------------------------------------------------------ */
+function opEventCreationBlocks() {
+
+    ///// Debug the function
+    let debug = false // true or false 
+
+    ///// Get the elements.
+    let blockName = 'Event Creation'
+    let blocks = document.querySelectorAll( '.op-event-creation' )
+    opConsoleDebug( debug, 'blocks:', blocks )
+
+    //////////////////// #NG: Missing login validation
+    ///// Validate Local Storage of Bookings.
+    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
+    
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Booking.
+    const booking = bookingsStorage.response.bookingList[0].booking
+    opConsoleDebug( debug, 'booking:', booking )
+
+    ///// Get each Block.
+    if ( blocks ) {
+        blocks.forEach( block => {
+            
+            ///// Create Variables.
+            let error, code, message
+
+            try {            
+
+                ///// Get the elements.
+                let blockId = block.getAttribute( 'id' )
+                let containerElement = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
+                opConsoleDebug( debug, 'blockId:', blockId )
+               
+                ///// Get the Local Storage of Templates.
+                const templatesStorage = opGetLocalStorage( debug, 'Templates' )
+    
+                ///// Validate the Response from the Local Storage of Templates.
+                if ( templatesStorage.error !== false ) throw templatesStorage.response
+    
+                ///// Get the Template List from the Local Storage of Templates.
+                const templateList = templatesStorage.response.templateList
+
+                ///// Sort the Template List after newest date.
+                const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
+
+                ///// Add new Templates to the Container Element.
+                const addTemplatesToElement = opAddTemplatesToElement( debug, blockId, containerElement, sortedTemplateList )
+    
+                ///// Validate the Response from the Adding Templates Function.
+                if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
+
+                let templateId = opGetUrlParameters().template
+
+                if ( templateId ) {
+                    
+                    let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
+                    
+                    radioInput.checked = true
+                    radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )
+                    opFormInputValidation( 'input', radioInput )
+
+                }
+
+            } catch( errorMessage ) {
+    
+                ///// Throw Error Response.
+                error = true, code = 400, message = errorMessage
+
+            }
+
+            ///// Console Log if the Error parameter is 'true'.
+            if ( error !== false ) opConsoleDebug( true, `${blockId}:`, message )
 
         })
     }
@@ -2069,7 +2340,8 @@ function opDocumentReady() {
             'opEventInformationBlocks',
             'opEventTemplateInformationBlocks',
             'opEventParticipantListBlocks',
-            'opTemplateCreationBlocks'
+            'opTemplateCreationBlocks',
+            'opEventCreationBlocks'
         ]
 
         ///// Check if the Functions exist and execute

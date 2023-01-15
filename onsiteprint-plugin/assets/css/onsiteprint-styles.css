@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-07 - 18:12 (Y:m:d - H:i)
+ ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -80,6 +80,7 @@ html {
     --fa-icon-print: "\f02f";
     --fa-icon-clock: "\f017";
     --fa-icon-floppy-disk: "\f0c7";
+    --fa-icon-calendar-days: "\f073";
     --fa-icon-arrow-up-right-from-square: "\f08e";
     --fa-icon-angle-left: "\f104";
     --fa-icon-angle-right: "\f105";
@@ -158,6 +159,10 @@ html {
 
 [data-icon="floppy-disk"] .op-icon::before {
 	content: var(--fa-icon-floppy-disk);
+}
+
+[data-icon="calendar-days"] .op-icon::before {
+	content: var(--fa-icon-calendar-days);
 }
 
 [data-icon="link"] .op-icon::before {
@@ -1733,6 +1738,8 @@ html {
 
 .op-form-steps .op-form-content fieldset {
     background-color: var(--wp--preset--color--neutral-10);
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -1745,6 +1752,7 @@ html {
     overflow-y: auto;
     transition: left 200ms ease-in-out, opacity 400ms ease-in-out;
 }
+
 .op-form-steps[data-form-step="1"] .op-form-content .op-fieldset-step-1 {
     left: 0;
     opacity: 1;
@@ -1776,7 +1784,17 @@ html {
 .op-form-steps .op-form-content fieldset .op-fieldset__inner {
     display: flex;
     flex-direction: column;
+    flex: 1;
     padding: 3rem;
+}
+
+.op-form-steps .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] {
+    flex: 1;
+}
+
+.op-form-steps .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] > div {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .op-form-steps .op-form-directions .op-button-save,
@@ -1947,19 +1965,38 @@ html {
 
 .op-form-steps .op-form-radio-inputs {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+}
+
+.op-form-steps .op-form-radio-inputs .op-new-button {
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.op-form-steps .op-form-radio-inputs .op-new-button span {
+    padding: 1rem;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input {
+    display: flex;
+}
+
+.op-form-steps .op-form-radio-inputs .op-radio-input.op-radio-input-checked {
+    grid-row: 1;
+    grid-column: 2;
 }
 
 .op-form-steps .op-form-radio-inputs .op-radio-input label {
     background-color: var(--wp--preset--color--white);
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    width: 100%;
     position: relative;
     border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
     cursor: pointer;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
     transition: border-color 200ms ease-in-out;
 }
 
@@ -2030,6 +2067,86 @@ html {
 .op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
     display: flex;
 }
+
+.op-form-steps .op-radio-input .op-radio-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 6rem 1rem 1.6rem;
+    position: relative;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-info::before,
+.op-form-steps .op-radio-input .op-radio-info .op-info::after {
+    background-color: var(--form-color-light);
+    background: linear-gradient(90deg, var(--form-color-light) 0%, rgba(255,255,255,0) calc(100% - 5rem));
+    content: "";
+    width: 100%;
+    height: 0.1rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-info::after {
+    background-color: var(--form-color-medium);
+    background: linear-gradient(90deg, var(--form-color-medium) 0%, rgba(255,255,255,0) calc(100% - 5rem));
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+
+.op-form-steps .op-radio-input label:where( :hover, :focus ) .op-radio-info .op-info::after,
+.op-form-steps .op-radio-input input:checked ~ label .op-radio-info .op-info::after {
+    opacity: 1;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-info .op-text {
+    color: var(--form-color-dark);
+    font-size: var(--wp--preset--font-size--x-small);
+    line-height: var(--wp--custom--typography--line-height--small);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-info .op-icon {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-content {
+    padding-top: 1rem;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-content .op-text {
+    line-height: var(--wp--custom--typography--line-height--small);
+    padding: 0.5rem 2rem;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-content .op-text .op-text-title {
+    color: var(--form-color-dark);
+    font-size: var(--wp--preset--font-size--x-small);
+    font-weight: 600;
+    padding-bottom: 0.2rem;
+}
+
+.op-form-steps .op-radio-input .op-radio-info .op-image {
+    justify-content: flex-end;
+    flex: 1;
+    padding: 1rem;
+}
+
 
 .op-input-validation {
     width: 100%;

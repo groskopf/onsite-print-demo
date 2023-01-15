@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-01-07 - 18:18 (Y:m:d - H:i)
+ ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -32,6 +32,8 @@ $acf = array(
     'step_1_description'    => get_field( $ec . 'steps_step_1_description' ) ?: 'Some text her...',
     'step_1_field_1_title'  => get_field( $ec . 'steps_step_1_field_1_title' ) ?: 'Templates',
     'step_1_field_1_val'    => get_field( $ec . 'steps_step_1_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
+    'step_1_btn_link'       => get_field_object( $ec . 'steps_step_1_field_1_button' )['value']['url'] ?: 'https://onsiteprint.dk/',
+    'step_1_btn_title'      => get_field_object( $ec . 'steps_step_1_field_1_button' )['value']['title'] ?: 'Create a new Template',
 
     'step_2_process'        => get_field( $ec . 'steps_step_2_process' ) ?: 'Event Name',
     'step_2_title'          => get_field( $ec . 'steps_step_2_title' ) ?: 'Choose a good Event Name',
@@ -39,10 +41,10 @@ $acf = array(
     'step_2_field_1_title'  => get_field( $ec . 'steps_step_2_field_1_title' ) ?: 'Event Name',
     'step_2_field_1_val'    => get_field( $ec . 'steps_step_2_field_1_validation' ) ?: 'The input field is empty!',
     
-    'step_3_process'        => get_field( $ec . 'steps_step_3_process' ) ?: 'Select CVS file',
-    'step_3_title'          => get_field( $ec . 'steps_step_3_title' ) ?: 'Please select a CVS file',
+    'step_3_process'        => get_field( $ec . 'steps_step_3_process' ) ?: 'Select CSV file',
+    'step_3_title'          => get_field( $ec . 'steps_step_3_title' ) ?: 'Please select a CSV file',
     'step_3_description'    => get_field( $ec . 'steps_step_3_description' ) ?: 'Some text her...',
-    'step_3_field_1_title'  => get_field( $ec . 'steps_step_3_field_1_title' ) ?: 'Select / upload CVS file',
+    'step_3_field_1_title'  => get_field( $ec . 'steps_step_3_field_1_title' ) ?: 'Select / upload CSV file',
     'step_3_field_1_val'    => get_field( $ec . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected!',
 
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
