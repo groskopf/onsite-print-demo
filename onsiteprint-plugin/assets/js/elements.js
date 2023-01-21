@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
+ ?  Updated: 2023-01-22 - 00:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -479,6 +479,7 @@ function opValidateLocalStorage( debug, storage ) {
  >  2c. Validate OnsitePrint Blocks
 ------------------------------------------------------------ */
 function opValidateBlock( block, blockName, message ) {
+    // #NG - Need to be automatic added (For each Language), maybe in a separate Local Storage.
     block.setAttribute( 'data-block-disable', true )
     validationElement = block.querySelector('.block__inner')
     validationElement.innerHTML = ''
@@ -486,71 +487,203 @@ function opValidateBlock( block, blockName, message ) {
 }
 
 /* ---------------------------------------------------------
- >  2d. Return Validation in Element
+ >  2d. Adding Validation to the Elements
 ------------------------------------------------------------ */
-function opValidationReturn( debug, block, elements ) {
+function opAddValidationToElements( debug, container, elements, type ) {
 
-    for( let i = 0; i < elements.length; ++i ) {
-        
-        let inputId = elements[i].id
-        let inputMessage = elements[i].message
+    ///// Create Variables.
+    let error, code, message
+    
+    try {
 
-        opConsoleDebug( debug, 'Validation element:', elements[i], )
-        
-        let inputElement = block.querySelector( `#${ inputId }` )
-        let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
-        let validationElement = inputElementWrapper.querySelector( '.op-input-validation .op-message' )
-        
-        inputElementWrapper.setAttribute( 'data-validation', '2' )
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
 
+        ///// Validate the Function Parameters.
+        if ( ! container ) throw `Missing the Container Element in the Function Parameters!`
+        else if ( ! elements ) throw `Missing the Elements in the Function Parameters!`
+        else if ( ! type ) throw `Missing the Type in the Function Parameters!`
+        else {
+
+            ///// Add an Error for each Element.
+            elements.forEach( element => {
+                
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, 'Error Element:', element, )
+                
+                ///// Get Element Information.
+                let inputId = element.id
+                    
+                ///// Get the elements.
+                let inputElement = container.querySelector( `#${ inputId }` )
+                let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
+                
+                // #NG - Need to be automatic added (For each Language), maybe in a separate Local Storage.
+                let inputMessage = element.message
+                let validationElement = inputElementWrapper.querySelector( '.op-input-validation .op-message' )
+                
+                ///// Set Attribute to Element.
+                ////* 0 = default, 1 = approved, 2 = error.
+                if ( type == 'error' ) {
+                    inputElementWrapper.setAttribute( 'data-validation', '2' )
+                } else if ( type == 'approve' ) {
+                    inputElementWrapper.setAttribute( 'data-validation', '1' )
+                } else {
+                    inputElementWrapper.setAttribute( 'data-validation', '0' )
+                }
+
+            } )
+
+            ///// Create Approved Response.
+            error = false, code = 201, message = `Error was Added to the Elements!`
+       
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `opAddErrorToElements():`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
     }
 
 }
 
 /* ---------------------------------------------------------
- >  2e. Validation of Form
+ >  2e. Validation of Container Inputs
 ------------------------------------------------------------ */
-function opValidateForm( debug, formElement ) {
+function opValidateContainerInputs( debug, container ) {
     
-    let error, code, message, checked = false, inputErrorArray = []
-
-    let formInputs = formElement.querySelectorAll( 'input' )
-    opConsoleDebug( debug, 'formInputs:', formInputs )
+    ///// Create Variables.
+    let error, code, message, arrayOfInputs = []
 
     try {
 
-        for( let i = 0; i < formInputs.length; ++i ) {
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
 
-            let inputId = formInputs[i].getAttribute( 'id' )
-            let inputType = formInputs[i].getAttribute( 'type' )
+        ///// Validate the Function Parameters.
+        if ( ! container ) throw `Missing the Container Element in the Function Parameters!`
+        else {
+           
+            ///// Get All Input Elements.
+            let containerInputs = container.querySelectorAll( 'input[id*="op-block"]' )
+            
+            ///// Validate the Inputs in the Container.
+            if ( ! containerInputs || containerInputs == 0 ) throw `Could not find any Inputs in the Container!`
 
-            ///// If the Input value is empty.
-            if ( inputType == 'radio' ) {
-                if ( ! formInputs[i].checked ) {
-                    error = true, checked = false
-                    inputErrorArray.push( { id : inputId, type : inputType, message : 'One of the radio inputs must be checked!' } )
-                } else {
-                    checked = true
-                    break
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, 'Container Inputs:', containerInputs )
+
+            ///// Add an Error for each Element.
+            for( let i = 0; i < containerInputs.length; ++i ) {
+
+                ///// Get Input Attributes.
+                let inputId = containerInputs[i].getAttribute( 'id' )
+                let inputType = containerInputs[i].getAttribute( 'type' )
+                let inputName = containerInputs[i].getAttribute( 'name' )
+
+                ///// Create Variables.
+                let inputError = false, inputMessage = 'The input field is approved!'
+                
+                ///// Validate the Input Element.
+                if ( inputType == 'radio' && ! containerInputs[i].checked ) {
+                    inputError = true , inputMessage = 'One of the Radio Buttons must be checked!'
+                } else if ( inputType == 'checkbox' && ! containerInputs[i].checked ) {
+                    inputError = true , inputMessage = 'The Checkbox must be checked!'
+                } else if ( ! containerInputs[i].value || containerInputs[i].value.trim().length == 0 ) {
+                    inputError = true , inputMessage = 'The input field is empty!'
                 }
-            } else if ( ! formInputs[i].value || formInputs[i].value.trim().length == 0 ) {
-                error = true
-                inputErrorArray.push( { id : inputId, type : inputType, message : 'The input field is empty!' } )
-            }
-        }
+                
+                ///// Push the Input into the Array of Inputs.
+                arrayOfInputs.push( { error : inputError, id : inputId, type : inputType, name : inputName, message : inputMessage } )
 
-        if ( error === true && checked === false ) {
-            throw inputErrorArray
-        } else {
-            error = false, code = 200, message = 'Validation is approved!'
+            }
+
+            opConsoleDebug( true, `arrayOfInputs:`, arrayOfInputs )
+            
+            let arrayOfInputsWithErrors = arrayOfInputs.filter( input => input.error == true )
+            
+            opConsoleDebug( true, `arrayOfInputsWithErrors:`, arrayOfInputsWithErrors )
+
+            let inputsWithApproval = arrayOfInputs.filter( input => input.error == false )
+
+            opConsoleDebug( true, `inputsWithApproval:`, inputsWithApproval )
+            
+            let inputsWithErrors = []
+            let inputName
+            
+            for( let i = 0; i < arrayOfInputsWithErrors.length; ++i ) {
+                
+                if ( Array.isArray( inputsWithApproval ) && inputsWithApproval.length !== 0 ) {
+                    
+                    let approvedInputs = inputsWithApproval.filter( input => ( input.id !== arrayOfInputsWithErrors[i].id ) && ( input.name !== arrayOfInputsWithErrors[i].name ) )
+                    opConsoleDebug( true, `approvedInputs:`, approvedInputs )
+                    
+                    if ( Array.isArray( approvedInputs ) && approvedInputs.length !== 0 ) {
+                        inputsWithErrors.push( arrayOfInputsWithErrors[i] )                       
+                    }
+                    
+                } else if ( arrayOfInputsWithErrors[i].name != inputName ) {
+                    inputName = arrayOfInputsWithErrors[i].name
+                    inputsWithErrors.push( arrayOfInputsWithErrors[i] )
+                }
+                
+            }
+
+            opConsoleDebug( true, `inputsWithErrors:`, inputsWithErrors )
+
+            if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length !== 0 ) {
+
+                let addErrorToElements = opAddValidationToElements( debug, container, inputsWithErrors, 'error' )
+
+                if ( addErrorToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs():`, addErrorToElements.response )
+
+            }
+            
+            if ( Array.isArray( inputsWithApproval ) && inputsWithApproval.length !== 0 ) {
+
+                let addApprovalToElements = opAddValidationToElements( debug, container, inputsWithApproval, 'approve' )
+
+                if ( addApprovalToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs():`, addApprovalToElements.response )
+
+            }
+
+            ///// Create Approved or Rejected Response.
+            if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length === 0 && ( inputsWithApproval.length + arrayOfInputsWithErrors.length ) == arrayOfInputs.length ) {
+                error = false, code = 200, message = `All Elements are Approved!`
+            } else throw `One or more Elements has an Error!`
+            
         }
 
     } catch( errorMessage ) {
+
+        ///// Throw Error Response.
         error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( true, `opValidateContainerInputs():`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
     }
 
-    return opReturnResponse( error, code, message )
+}
 
+/* ---------------------------------------------------------
+ >  2f. Validation of Input in Form
+------------------------------------------------------------ */
+function opFormValidationApproved( debug, inputElement ) {
 }
 
 /* ---------------------------------------------------------
@@ -568,67 +701,83 @@ function opFormInputValidation( type, inputElement ) {
     let fieldsets = form.querySelectorAll( 'fieldset' )
     let directionButtons = form.querySelectorAll( '.op-form-directions button' )
     let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
-    let currentStep = form.getAttribute( 'data-form-step' ) 
+    let currentStep = form.getAttribute( 'data-form-step' )
 
-    if ( inputElement.value ) {
+    ///if ( inputElement.value || inputElement.checked ) {
 
         let flow = false
 
-        for( let i = 0; i < fieldsets.length; ++i ) {
+        if ( type == 'grid' ) {
 
-            if ( i === ( Number( currentStep ) - 1 ) ) {
-                opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
-                
-                ///// Validate the inputs in the fieldset.
-                const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
-                opConsoleDebug( debug, 'Validation:', validatedFormResponse )
+            ///// Validate the input in the Input Element Wrapper.
+            const validatedGridResponse = opValidateContainerInputs( debug, inputElementWrapper )
+            
+            if ( validatedGridResponse.error !== false ) return opConsoleDebug( debug, 'opFormInputValidation():', validatedGridResponse )
 
-                if ( validatedFormResponse.error !== false ) return opValidationReturn( debug, block, validatedFormResponse.response )
+            opAddGridToForm( debug, block )
 
-                fieldsets[i].classList.add( 'op-validation-approved' )
+        } else {
+
+            for( let i = 0; i < fieldsets.length; ++i ) {
+
+                if ( i === ( Number( currentStep ) - 1 ) ) {
+                    opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
+                    
+                    ///// Validate the inputs in the fieldset.
+                    const validatedFormResponse = opValidateContainerInputs( debug, fieldsets[i] )
+                    opConsoleDebug( debug, 'opFormInputValidation():', validatedFormResponse )
+
+                    if ( validatedFormResponse.error !== false ) return opConsoleDebug( debug, 'opFormInputValidation():', validatedFormResponse )
+
+                    fieldsets[i].classList.add( 'op-validation-approved' )
+                }
+
+                if ( fieldsets[i].classList.contains( 'op-validation-approved' ) ) {
+                    flow = true
+                    processButtons[i].disabled = false
+                } else {
+                    flow = false
+                }
+                                
+                if ( flow == true && ( Number( i ) + 1 ) !== fieldsets.length ) {
+                    form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( i ) + 1 ) )
+                    processButtons[ ( Number( i ) + 1 ) ].disabled = false
+                }
             }
 
-            if ( fieldsets[i].classList.contains( 'op-validation-approved' ) ) {
-                flow = true
-                processButtons[i].disabled = false
-            } else {
-                flow = false
+            directionButtons[1].disabled = false
+
+        }
+
+    /* } else {
+
+        if ( type == 'grid' ) {
+
+
+        } else {
+
+            inputElementWrapper.setAttribute( 'data-validation', '0' )
+            directionButtons[1].disabled = true
+            fieldsets[ ( Number( currentStep ) - 1 ) ].classList.remove( 'op-validation-approved' )
+            form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( currentStep ) - 1 ) )
+
+            for( let i = 0; i < processButtons.length; ++i ) {  
+                if ( i >= currentStep ) {
+                    processButtons[i].disabled = true
+                }     
             }
-                            
-            if ( flow == true && ( Number( i ) + 1 ) !== fieldsets.length ) {
-                form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( i ) + 1 ) )
-                processButtons[ ( Number( i ) + 1 ) ].disabled = false
+
+            let lastFieldset = fieldsets[ fieldsets.length - 1 ]
+
+            if ( lastFieldset.classList.contains( 'op-validation-approved' ) ) {
+                lastFieldset.querySelector( '.op-form-approval-input' ).setAttribute( 'data-validation', '0' )
+                lastFieldset.querySelector( '.op-form-approval-input input' ).checked = false
+                directionButtons[2].disabled = true
+                lastFieldset.classList.remove( 'op-validation-approved' )
             }
+
         }
-
-        inputElementWrapper.setAttribute( 'data-validation', '1' )
-        directionButtons[1].disabled = false
-
-        if ( type == 'grid' ) opAddGridToForm( debug, block )
-
-    } else {
-
-        inputElementWrapper.setAttribute( 'data-validation', '0' )
-        directionButtons[1].disabled = true
-        fieldsets[ ( Number( currentStep ) - 1 ) ].classList.remove( 'op-validation-approved' )
-        form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( currentStep ) - 1 ) )
-
-        for( let i = 0; i < processButtons.length; ++i ) {  
-            if ( i >= currentStep ) {
-                processButtons[i].disabled = true
-            }     
-        }
-
-        let lastFieldset = fieldsets[ fieldsets.length - 1 ]
-
-        if ( lastFieldset.classList.contains( 'op-validation-approved' ) ) {
-            lastFieldset.querySelector( '.op-form-approval-input' ).setAttribute( 'data-validation', '0' )
-            lastFieldset.querySelector( '.op-form-approval-input input' ).checked = false
-            directionButtons[2].disabled = true
-            lastFieldset.classList.remove( 'op-validation-approved' )
-        }
-
-    }
+    } */
 }
 
 /* ---------------------------------------------------------
@@ -659,10 +808,10 @@ function opFormInputValidationToSubmit() {
                 opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
                 
                 ///// Validate the inputs in the fieldset.
-                const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
+                const validatedFormResponse = opValidateContainerInputs( debug, fieldsets[i] )
                 opConsoleDebug( debug, 'Validation:', validatedFormResponse )
 
-                if ( validatedFormResponse.error !== false ) return opValidationReturn( debug, block, validatedFormResponse.response )
+                //if ( validatedFormResponse.error !== false ) return opAddErrorToElements( debug, block, validatedFormResponse.response )
 
                 fieldsets[i].classList.add( 'op-validation-approved' )
             }
@@ -850,73 +999,6 @@ function opGetTemplate( templateId ) {
 /* ------------------------------------------
  >  4c-2. Create Template
 --------------------------------------------- */
-function opCreateTemplatexx( debug, formElement ) {   
-    
-    return new Promise( resolve => {
-
-        ///// If the Form Element is missing.
-        if ( ! formElement ) {
-            return resolve( opReturnResponse( true, 400, 'Missing Form Element!' ) )
-        }
-        
-        ///// Get the Local Storage of Templates.
-        const templatesStorage = opGetLocalStorage( debug, 'Templates' )
-
-        ///// Validate the Response from the Local Storage of Templates.
-        if ( templatesStorage.error !== false ) throw templatesStorage.response
-
-        ///// Get the Template List from the Local Storage of Templates.
-        const templateList = templatesStorage.response
-
-        ///// Get the Data from the Form Element.
-        const formData = new FormData( formElement )
-
-        ///// The URL to the API.
-        const url = `${ opGetFastApiInfo( 'url' ) }images/`
-
-        ///// Fetch from the FastAPI.
-        opFetchFromFastAPI( debug, 'POST', formData, url, 'json', 'form' ).then( fetchResponse => {
-        
-            opConsoleDebug( true, 'fetchResponse:', fetchResponse )
-
-            ///// If the Fetch Response has Code 201 (Created).
-            if ( fetchResponse.code === 200 ) {
-
-                ///// Get the element for output.
-                let filenameUploaded = fetchResponse.response.filename.slice(7)                 
-                
-                ///// Define new data variables.
-                let dateNow = Date.now()
-                let fileInput = formElement[ 'image' ];   
-                let filenameOriginal = fileInput.files[0].name;
-
-                ///// Define new Template Item variable.
-                let templateItem = { 
-                    'templateCreationDate' : dateNow, 
-                    'templateName' : formElement[ 'name' ].value, 
-                    'templateFilenameOriginal' : filenameOriginal,
-                    'templateFilenameUploaded' : filenameUploaded,
-                    'templateLayout' : formElement[ 'layout' ].value,
-                    'templateLayoutColumns' : '3C'
-                }
-                
-                ///// Push Template Item variable into Template List.
-                templateList.templateList.push( templateItem )
-                
-                ///// Set Template List in Local Storage.
-                localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
-
-                ///// Return the Response to the Function.
-                return resolve( opReturnResponse( false, 201, { message : 'Template was created!', template : templateItem } ) )           
-
-            } else return resolve( opReturnResponse( true, 400, 'Missing Image Data!' ) )
-                
-        })
-
-    })
-
-}
-
 function opCreateTemplate( debug, formElement ) {   
     
     return new Promise( resolve => {
@@ -1640,10 +1722,9 @@ function opFormGoToStep( newStep ) {
                 opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
                 
                 ///// Validate the inputs in the fieldset.
-                const validatedFormResponse = opValidateForm( debug, fieldsets[i] )
-                opConsoleDebug( debug, 'Validation:', validatedFormResponse )
+                const validatedFormResponse = opValidateContainerInputs( debug, fieldsets[i] )
 
-                if ( validatedFormResponse.error !== false ) return opValidationReturn( debug, block, validatedFormResponse.response )
+                if ( validatedFormResponse.error !== false ) return opConsoleDebug( true, 'opFormGoToStep():', validatedFormResponse )
 
                 fieldsets[i].classList.add( 'op-validation-approved' )
             }
@@ -2273,10 +2354,11 @@ function opEventCreationBlocks() {
 
             try {            
 
-                ///// Get the elements.
+                ///// Get the Block ID.
                 let blockId = block.getAttribute( 'id' )
+
+                ///// Get the Radio Inputs Container.
                 let containerElement = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
-                opConsoleDebug( debug, 'blockId:', blockId )
                
                 ///// Get the Local Storage of Templates.
                 const templatesStorage = opGetLocalStorage( debug, 'Templates' )
@@ -2295,8 +2377,9 @@ function opEventCreationBlocks() {
     
                 ///// Validate the Response from the Adding Templates Function.
                 if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
-
-                let templateId = opGetUrlParameters().template
+                
+                ///// Get the Template ID from the URL Parameter.
+                const templateId = opGetUrlParameters().template
 
                 if ( templateId ) {
                     

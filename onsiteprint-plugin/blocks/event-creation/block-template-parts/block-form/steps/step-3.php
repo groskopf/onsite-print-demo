@@ -25,7 +25,7 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( 'grid' )" name="csv-file" type="file" accept=".csv" required>
+                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( 'grid' )" name="csv-file" type="file" accept=".csv">
             </div>
         </label>
 

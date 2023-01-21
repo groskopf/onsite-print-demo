@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.39
+ *	Version: 1.0.0.40
  ?	(Check the Version variable)
- ?	Updated: 2022-12-15 - 13:37 (Y:M:D - H:M)
+ ?	Updated: 2023-01-21 - 15:21 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -61,7 +61,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.39' );
+define( 'OP_VERSION', '1.0.0.40' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -71,23 +71,22 @@ define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
  >  1c. Enqueue Scripts
 ------------------------------------------------------------ */
 function onsiteprint_enqueue_scripts() {
-	wp_enqueue_script( 'onsiteprint-datagridxl', 'https://code.datagridxl.com/datagridxl2.js', array(),  '', true );
+//	wp_enqueue_script( 'onsiteprint-datagridxl', 'https://code.datagridxl.com/datagridxl2.js', array(),  '', true );
+	wp_enqueue_script( 'onsiteprint-grid', OP_ROOT_URL . 'assets/js/datagridxl2.js', array(),  OP_VERSION, true );
+	wp_enqueue_script( 'onsiteprint-elements', OP_ROOT_URL . 'assets/js/elements.js', array(),  OP_VERSION, true );
+
 
 	wp_enqueue_script( 'onsiteprint-plugin', OP_ROOT_URL . 'assets/js/plugin.js', array(),  OP_VERSION, true );
-
+	
 	wp_enqueue_script( 'onsiteprint-validate', OP_ROOT_URL . 'assets/js/validate.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-validate', 'async', true );
-
+	
 	wp_enqueue_script( 'onsiteprint-fetch', OP_ROOT_URL . 'assets/js/fetch.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-fetch', 'async', true );
-
+	
 	wp_enqueue_script( 'onsiteprint-fast-api', OP_ROOT_URL . 'assets/js/fast-api.js', array(),  OP_VERSION, true );
 	wp_script_add_data( 'onsiteprint-fast-api', 'async', true );
-
-
-	wp_enqueue_script( 'onsiteprint-elements', OP_ROOT_URL . 'assets/js/elements.js', array(),  OP_VERSION, true );
 	
-
 	wp_enqueue_script( 'onsiteprint-log-switch', OP_ROOT_URL . 'assets/js/log-switch.js', array(),  OP_VERSION, true );
 
 	wp_enqueue_script( 'onsiteprint-bookings', OP_ROOT_URL . 'assets/js/bookings.js', array(),  OP_VERSION, true );
