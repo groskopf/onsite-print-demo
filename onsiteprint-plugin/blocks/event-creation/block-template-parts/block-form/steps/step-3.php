@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
+ ?  Updated: 2023-01-22 - 21:49 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -15,7 +15,7 @@
     </header>
     <div class="op-fieldset__inner">
 
-        <label for="<?= esc_attr($id) ?>-csv-file-input" class="op-input-wrapper" data-validation="0">
+        <label for="<?= esc_attr($id) ?>-csv-file-input" class="op-input-wrapper op-input-grid" data-validation="0">
             <p class="op-label-title"><?= esc_attr( $acf['step_3_field_1_title'] ) ?></p>
             <div class="op-input-field">
                 <div class="op-input-validation" data-icon="circle-exclamation">
@@ -25,7 +25,7 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( 'grid' )" name="csv-file" type="file" accept=".csv">
+                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( false, 'input' )" name="csv-file" type="file" accept=".csv" required>
             </div>
         </label>
 

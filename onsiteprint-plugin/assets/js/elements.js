@@ -349,58 +349,6 @@ function opGetCurrentScriptPath() {
     return path
 }
 
-/* ---------------------------------------------------------
- >  1m. Add Grid From CSV to the Form Element
------------------------------------------------------------- */
-function opAddGridToForm( debug, block ) {
-
-    ///// Variable used by the Grid
-    //var eventGridElement
-
-    ///// Get the elements.
-    let blockId = block.getAttribute( 'id' )
-    let formElement = block.querySelector( '.op-form-steps' )
-    let gridElement = formElement.querySelector( `#${ blockId }-form-grid` )
-    let csvInput = formElement['csv-file'].value 
-
-    ///// Clear the Grid Element. 
-	gridElement.innerHTML = '' 
-
-    ///// Get the Data from the Form Element.
-    const formData = new FormData( formElement )
-
-    ///// The URL to the API.
-    const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
-
-    ///// Fetch from the FastAPI.
-    opFetchFromFastAPI( debug, 'POST', formData, url, 'json' ).then( fetchResponse => {
-    
-        opConsoleDebug( true, 'fetchResponse:', fetchResponse )
-
-        ///// If the Fetch Response has Code 200 (OK).
-        if ( fetchResponse.code === 200 ) {
-
-            ///// Create new Grid Element.
-            let eventGridElement = new DataGridXL( `${ blockId }-form-grid`, {
-                data: fetchResponse.response,
-                allowFreezeRows: false,
-                allowFreezeCols: false
-
-                /* colHeaderLabelFunction: function(index, id, field, title, labels){
-                    // use id as column label
-                    return String("Column #"+id);
-                } */
-            })
-
-            ///// Return the Response to the Function.
-            return opReturnResponse( false, 200, { message : 'Grid was Created!', grid : fetchResponse.response } )
-
-        } else return opReturnResponse( true, 400, 'Missing Grid Data!' )
-            
-    })
-    
-}
-
 
 /* ------------------------------------------------------------------------
  #  2. Validation Functions 
@@ -606,26 +554,20 @@ function opValidateContainerInputs( debug, container ) {
                 arrayOfInputs.push( { error : inputError, id : inputId, type : inputType, name : inputName, message : inputMessage } )
 
             }
-
-            opConsoleDebug( true, `arrayOfInputs:`, arrayOfInputs )
-            
+           
+            ///// Create Variables.
             let arrayOfInputsWithErrors = arrayOfInputs.filter( input => input.error == true )
-            
-            opConsoleDebug( true, `arrayOfInputsWithErrors:`, arrayOfInputsWithErrors )
-
             let inputsWithApproval = arrayOfInputs.filter( input => input.error == false )
-
-            opConsoleDebug( true, `inputsWithApproval:`, inputsWithApproval )
-            
             let inputsWithErrors = []
-            let inputName
+            let inputName           
             
+            ///// .
             for( let i = 0; i < arrayOfInputsWithErrors.length; ++i ) {
                 
                 if ( Array.isArray( inputsWithApproval ) && inputsWithApproval.length !== 0 ) {
                     
                     let approvedInputs = inputsWithApproval.filter( input => ( input.id !== arrayOfInputsWithErrors[i].id ) && ( input.name !== arrayOfInputsWithErrors[i].name ) )
-                    opConsoleDebug( true, `approvedInputs:`, approvedInputs )
+                    //opConsoleDebug( true, `approvedInputs:`, approvedInputs )
                     
                     if ( Array.isArray( approvedInputs ) && approvedInputs.length !== 0 ) {
                         inputsWithErrors.push( arrayOfInputsWithErrors[i] )                       
@@ -638,7 +580,7 @@ function opValidateContainerInputs( debug, container ) {
                 
             }
 
-            opConsoleDebug( true, `inputsWithErrors:`, inputsWithErrors )
+            //opConsoleDebug( true, `inputsWithErrors:`, inputsWithErrors )
 
             if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length !== 0 ) {
 
@@ -671,7 +613,7 @@ function opValidateContainerInputs( debug, container ) {
     } finally {
 
         ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( true, `opValidateContainerInputs():`, message )
+        opConsoleDebug( debug, `opValidateContainerInputs():`, message )
         
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
@@ -681,103 +623,336 @@ function opValidateContainerInputs( debug, container ) {
 }
 
 /* ---------------------------------------------------------
- >  2f. Validation of Input in Form
+ >  2f. Setting the Approval to the Buttons in the Form Element.
 ------------------------------------------------------------ */
-function opFormValidationApproved( debug, inputElement ) {
-}
+function opSetApprovalToButtonsInForm( debug, fieldsetElement, type ) {
+        
+    ///// Create Variables.
+    let error, code, message
 
-/* ---------------------------------------------------------
- >  2f. Validation of Input in Form
------------------------------------------------------------- */
-function opFormInputValidation( type, inputElement ) {
+    try {
 
-    ///// Debug the function
-    let debug = false // true or false
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! fieldsetElement ) throw `Missing the Fieldset Container Element!`
+        if ( ! type ) throw `Missing the Type in the Function Parameters!`
 
-    if ( ! inputElement ) inputElement = event.target
-    let block = inputElement.closest( 'section[id*="op-block"]' )
-    let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
-    let form = inputElementWrapper.closest( '.op-form-steps' )
-    let fieldsets = form.querySelectorAll( 'fieldset' )
-    let directionButtons = form.querySelectorAll( '.op-form-directions button' )
-    let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
-    let currentStep = form.getAttribute( 'data-form-step' )
+        ///// Get the elements.
+        let formElement = fieldsetElement.closest( '.op-form-steps' )
+        let fieldsetElements = formElement.querySelectorAll( 'fieldset[class*="op-fieldset-step"]' )
+        let processButtons = formElement.querySelectorAll( '.op-form-process__inner button' )
+        let directionButtons = formElement.querySelectorAll( '.op-form-directions button' )
+        
+        ///// Disabled or Enabled the Next Step Button.
+        if ( type == 'remove' ) {
 
-    ///if ( inputElement.value || inputElement.checked ) {
-
-        let flow = false
-
-        if ( type == 'grid' ) {
-
-            ///// Validate the input in the Input Element Wrapper.
-            const validatedGridResponse = opValidateContainerInputs( debug, inputElementWrapper )
+            ///// Disabled the Next Step Button.
+            ////* Back = 0, Next = 1, Submit = 2
+            directionButtons[1].disabled = true
             
-            if ( validatedGridResponse.error !== false ) return opConsoleDebug( debug, 'opFormInputValidation():', validatedGridResponse )
-
-            opAddGridToForm( debug, block )
-
-        } else {
-
-            for( let i = 0; i < fieldsets.length; ++i ) {
-
-                if ( i === ( Number( currentStep ) - 1 ) ) {
-                    opConsoleDebug( debug, 'fieldset:', fieldsets[i] )
-                    
-                    ///// Validate the inputs in the fieldset.
-                    const validatedFormResponse = opValidateContainerInputs( debug, fieldsets[i] )
-                    opConsoleDebug( debug, 'opFormInputValidation():', validatedFormResponse )
-
-                    if ( validatedFormResponse.error !== false ) return opConsoleDebug( debug, 'opFormInputValidation():', validatedFormResponse )
-
-                    fieldsets[i].classList.add( 'op-validation-approved' )
-                }
-
-                if ( fieldsets[i].classList.contains( 'op-validation-approved' ) ) {
-                    flow = true
-                    processButtons[i].disabled = false
-                } else {
-                    flow = false
-                }
-                                
-                if ( flow == true && ( Number( i ) + 1 ) !== fieldsets.length ) {
-                    form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( i ) + 1 ) )
-                    processButtons[ ( Number( i ) + 1 ) ].disabled = false
-                }
-            }
-
+        } else if ( type == 'add' ) {
+            
+            ///// Enabled the Next Step Button.
+            ////* Back = 0, Next = 1, Submit = 2
             directionButtons[1].disabled = false
 
         }
-
-    /* } else {
-
-        if ( type == 'grid' ) {
-
-
-        } else {
-
-            inputElementWrapper.setAttribute( 'data-validation', '0' )
-            directionButtons[1].disabled = true
-            fieldsets[ ( Number( currentStep ) - 1 ) ].classList.remove( 'op-validation-approved' )
-            form.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', ( Number( currentStep ) - 1 ) )
-
-            for( let i = 0; i < processButtons.length; ++i ) {  
-                if ( i >= currentStep ) {
-                    processButtons[i].disabled = true
-                }     
+        
+        ///// Create Variables.
+        let flow = true, flowCount = 0
+        
+        ///// Count Validated Fieldset Elements.
+        for( let i = 0; i < fieldsetElements.length; ++i ) {
+            if ( fieldsetElements[i].getAttribute( 'data-fieldset-validation' ) == 1 ) {
+                ++flowCount
+            } else break
+        }
+        
+        ///// Set Count to element.
+        formElement.querySelector( '.op-form-process' ).setAttribute( 'data-steps-validated', flowCount )
+        
+        ///// Validate Buttons for each Fieldset Element.      
+        for( let i = 0; i < fieldsetElements.length; ++i ) {
+            
+            ///// Disabled or Enabled the Process Buttons.
+            if ( fieldsetElements[i].getAttribute( 'data-fieldset-validation' ) == 1 && flow == true ) {
+                flow = true
+                processButtons[ Number(i) + 1 ].disabled = false
+            } else {
+                flow = false
+                processButtons[ Number(i) + 1 ].disabled = true
             }
 
-            let lastFieldset = fieldsets[ fieldsets.length - 1 ]
+            ///// Disabled or Enabled the Submit Form Button.
+            if ( type == 'add' && flow == true && flowCount == fieldsetElements.length ) {
+            
+                ///// Enabled the Submit Form Button.
+                ////* Back = 0, Next = 1, Submit = 2
+                directionButtons[2].disabled = false
+    
+            } else {
 
-            if ( lastFieldset.classList.contains( 'op-validation-approved' ) ) {
-                lastFieldset.querySelector( '.op-form-approval-input' ).setAttribute( 'data-validation', '0' )
-                lastFieldset.querySelector( '.op-form-approval-input input' ).checked = false
+                ///// Disabled the Submit Form Button.
+                ////* Back = 0, Next = 1, Submit = 2
                 directionButtons[2].disabled = true
-                lastFieldset.classList.remove( 'op-validation-approved' )
+
             }
 
         }
-    } */
+        
+        ///// Create Approved Response.
+        error = false, code = 200, message = `The Approval was Set to the Button Elements in the Form Element!`
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `opSetApprovalToButtonsInForm():`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+
+    }
+
+}
+
+/* ---------------------------------------------------------
+ >  2f. Setting the Approval to the Step (Fieldset) Element in the Form Element.
+------------------------------------------------------------ */
+function opSetApprovalToStepInForm( debug, fieldsetElement, type ) {
+        
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! fieldsetElement ) throw `Missing the Fieldset Container Element!`
+        if ( ! type ) throw `Missing the Type in the Function Parameters!`
+
+        ///// Remove or Add Approved Validation.
+        if ( type == 'remove' ) {
+        
+            ///// Remove Approved Validation from the Fieldset Element.
+            ////* Rejected = 0, Approved = 1
+            fieldsetElement.setAttribute( 'data-fieldset-validation', '0' )
+
+        } else if ( type == 'add' ) {
+            
+            ///// Adding Approved Validation to the Fieldset Element.
+            ////* Rejected = 0, Approved = 1
+            fieldsetElement.setAttribute( 'data-fieldset-validation', '1' )
+
+        }
+
+        ///// Set Approval to the Buttons in the Form Element.
+        const setButtonsApprovalResponse = opSetApprovalToButtonsInForm( debug, fieldsetElement, type )
+        
+        ///// Create/throw Response.
+        if ( setButtonsApprovalResponse.error !== false ) throw setButtonsApprovalResponse.response
+        else error = false, code = 200, message = `The Approval was Set to the Step (Fieldset) Element in the Form Element!`
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `opSetApprovalToStepInForm( ${type} ):`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+
+    }
+
+}
+
+/* ---------------------------------------------------------
+ >  1m. Add Grid From CSV to the Form Element
+------------------------------------------------------------ */
+function opSetGridContainer( debug, inputElement, type ) {
+
+
+    ///// Get the closest Grid Container Element.
+    let formElement = inputElement.closest( '.op-form-steps' )
+    let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
+    let gridContainerElement = fieldsetElement.querySelector( '[id*="-form-grid"]' )
+
+    console.log(gridContainerElement)
+
+    ///// Get Grid ID.
+    let gridElementId = gridContainerElement.getAttribute( 'id' )
+
+    ///// Clear the Grid Element. 
+	gridContainerElement.innerHTML = ''
+
+    ///// Get the Data from the Form Element.
+    const formData = new FormData( formElement )
+
+    ///// The URL to the API.
+    const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
+
+    ///// Fetch from the FastAPI.
+    opFetchFromFastAPI( debug, 'POST', formData, url, 'json' ).then( fetchResponse => {
+    
+        opConsoleDebug( true, 'fetchResponse:', fetchResponse )
+
+        ///// If the Fetch Response has Code 200 (OK).
+        if ( fetchResponse.code === 200 ) {
+
+            ///// Create new Grid Element.
+            let eventGridElement = new DataGridXL( gridElementId, {
+                data: fetchResponse.response,
+                allowFreezeRows: false,
+                allowFreezeCols: false
+
+                /* colHeaderLabelFunction: function(index, id, field, title, labels){
+                    // use id as column label
+                    return String("Column #"+id);
+                } */
+            })
+
+            ///// Return the Response to the Function.
+            return opReturnResponse( false, 200, { message : 'Grid was Created!', grid : fetchResponse.response } )
+
+        } else return opReturnResponse( true, 400, 'Missing Grid Data!' )
+            
+    })
+    
+}
+
+/* ---------------------------------------------------------
+ >  2f. Validation of Inputs in Form
+------------------------------------------------------------ */
+function opFormInputValidation( debug, type, inputElement ) {
+    
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        ////* 'input', 'fieldset', 'form'
+        if ( ! type ) type = 'fieldset'
+        if ( ! inputElement ) inputElement = event.target
+
+        ///// Get the elements.
+        let inputWrapperElement = inputElement.closest( '.op-input-wrapper' )
+        let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
+        
+        ///// Type of Validation.
+        if ( type == 'input' ) {
+
+            ///// Get the Validated Input Response.
+            const inputResponse = opValidateContainerInputs( debug, inputWrapperElement )
+            
+            ///// Check if the Element needs to create a Grid.
+            if ( inputWrapperElement.classList.contains( 'op-input-grid') ) {
+
+                ///// Remove or Add the Grid Element.
+                if ( inputResponse.error !== false ) {
+
+                    ///// Remove the Grid from the Container Element.
+                    const removeGridResponse = opSetGridContainer( true, inputElement, 'remove' )
+
+                    ///// Throw Response.
+                    if ( removeGridResponse.error !== false ) throw removeGridResponse.response
+
+                    ///// Remove Approval from the Step (Fieldset) in the Form Element.
+                    const removeApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'remove' )
+                
+                    ///// Throw Response.
+                    if ( removeApprovalResponse.error !== false ) throw removeApprovalResponse.response
+
+                    ///// Create Response.
+                    error = false, code = 201, message = `The Grid was Removed from the Container Element!`
+                    
+                } else {
+
+                    ///// Adding a new Grid to the Container Element.
+                    const addGridResponse = opSetGridContainer( debug, inputElement, 'add' )
+
+                    ///// Throw Response.
+                    if ( addGridResponse.error !== false ) throw addGridResponse.response
+
+                    ///// Add Approval to the Step (Fieldset) in the Form Element.
+                    const addApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'add' )
+
+                    ///// Throw Response.
+                    if ( addApprovalResponse.error !== false ) throw addApprovalResponse.response
+
+                    ///// Create Response.
+                    error = false, code = 201, message = `The Grid was Added to the Container Element!`
+
+                }
+
+            } else {
+
+                ///// Create/throw Response.
+                if ( inputResponse.error !== false ) throw inputResponse.response
+                else error = false, code = 200, message = `The Input was Approved!`
+            
+            }
+
+        } else if ( type == 'fieldset' ) {
+        
+            ///// Get the Validated Fieldset Response.
+            const fieldsetResponse = opValidateContainerInputs( debug, fieldsetElement )
+            
+            ///// Remove or Add Validation.
+            if ( fieldsetResponse.error !== false ) {
+
+                ///// Remove Approval from the Step (Fieldset) in the Form Element.
+                const removeApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'remove' )
+               
+                ///// Throw Response.
+                if ( removeApprovalResponse.error !== false ) throw removeApprovalResponse.response
+                
+            } else {
+            
+                ///// Add Approval to the Step (Fieldset) in the Form Element.
+                const addApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'add' )
+
+                ///// Throw Response.
+                if ( addApprovalResponse.error !== false ) throw addApprovalResponse.response
+
+            }
+
+            ///// Create Response.
+            error = false, code = 200, message = `All the Inputs in the Fieldset was Approved!`
+
+        } else if ( type == 'form' ) {
+        
+
+        } else throw `Something went wrong with the Validation!`
+
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( true, `opFormInputValidation():`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
 }
 
 /* ---------------------------------------------------------
@@ -2387,7 +2562,7 @@ function opEventCreationBlocks() {
                     
                     radioInput.checked = true
                     radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )
-                    opFormInputValidation( 'input', radioInput )
+                    opFormInputValidation( debug, 'input', radioInput )
 
                 }
 

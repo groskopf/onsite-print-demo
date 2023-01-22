@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
+ ?  Updated: 2023-01-22 - 21:00 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -23,7 +23,7 @@
                     <span class="op-message"><?= esc_attr( $acf['step_4_field_1_val'] ) ?></span>
                 </div>
                 <div class="op-input-checkbox op-input-border">
-                    <input id="<?= esc_attr($id) ?>-form-approval-input" oninput="opFormInputValidationToSubmit()" name="approval" type="checkbox" required>
+                    <input id="<?= esc_attr($id) ?>-form-approval-input" oninput="opFormInputValidation()" name="approval" type="checkbox" required>
                     <div class="op-radio-check" data-icon="circle-check">
                         <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
                     </div>
