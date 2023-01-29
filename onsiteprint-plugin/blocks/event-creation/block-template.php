@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
+ ?  Updated: 2023-01-29 - 21:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -44,9 +44,12 @@ $acf = array(
     'step_3_process'        => get_field( $ec . 'steps_step_3_process' ) ?: 'Select CSV file',
     'step_3_title'          => get_field( $ec . 'steps_step_3_title' ) ?: 'Please select a CSV file',
     'step_3_description'    => get_field( $ec . 'steps_step_3_description' ) ?: 'Some text her...',
+    'step_3_grid_title'     => get_field( $ec . 'steps_step_3_grid_title' ) ?: 'Change CSV List',
     'step_3_field_1_title'  => get_field( $ec . 'steps_step_3_field_1_title' ) ?: 'Select / upload CSV file',
-    'step_3_field_1_val'    => get_field( $ec . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected!',
-
+    'step_3_field_1_val'    => get_field( $ec . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected or it is an invalid File Type!',
+    'step_3_field_2_val'    => get_field( $ec . 'steps_step_3_field_2_validation' ) ?: 'The checkbox must be checked!',
+    'step_3_field_2_value'  => get_field( $ec . 'steps_step_3_field_2_value' ) ?: 'The CSV List looks Great!',
+    
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
     'step_4_title'          => get_field( $ec . 'steps_step_4_title' ) ?: 'Finally, save your new Event',
     'step_4_description'    => get_field( $ec . 'steps_step_4_description' ) ?: 'Some text her...',
@@ -58,8 +61,8 @@ $acf = array(
     'modal_description'     => get_field( $ec . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or the new Event your just finished.',
     'main_link'             => get_field_object( $ec . 'modal_relocate_main' )['value']['url'] ?: 'https://onsiteprint.dk/',
     'main_title'            => get_field_object( $ec . 'modal_relocate_main' )['value']['title'] ?: 'Front Page',
-    'event_creation_link'   => get_field_object( $ec . 'modal_relocate_event_creation' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'event_creation_title'  => get_field_object( $ec . 'modal_relocate_event_creation' )['value']['title'] ?: 'The new Event'
+    'event_link'            => get_field_object( $ec . 'modal_relocate_event' )['value']['url'] ?: 'https://onsiteprint.dk/',
+    'event_title'           => get_field_object( $ec . 'modal_relocate_event' )['value']['title'] ?: 'The Event'
 );
 
 $styleColor = substr( $acf['style_color'], 0, strpos( $acf['style_color'], '-' ) );
@@ -149,7 +152,7 @@ if ( ! empty( $block['align'] ) ) {
             </div><!-- .op-form__inner -->
         </form><!-- .op-form-steps -->
 
-        <div class="op-modal" data-relocation-event="<?= esc_attr( $acf['event_creation_link'] ) ?>">
+        <div class="op-modal" data-relocation-event="<?= esc_attr( $acf['event_link'] ) ?>">
             <div class="op-modal__inner">
                 <div class="op-flex-col">
                     <h3 class="op-modal-title"><?= esc_attr( $acf['modal_title'] ) ?></h3>
@@ -162,7 +165,7 @@ if ( ! empty( $block['align'] ) ) {
                     </a>
                     <a class="op-button-event op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-right" data-icon-position="right">
                         <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['event_creation_title'] ) ?></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['event_title'] ) ?></span>
                     </a>
                 </div>
             </div>

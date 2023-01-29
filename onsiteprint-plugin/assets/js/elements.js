@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-22 - 00:53 (Y:m:d - H:i)
+ ?  Updated: 2023-01-29 - 22:15 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -85,6 +85,13 @@
 function opConsoleDebug( debug, name, response ) {
     if ( debug == true ) console.log( name, response )
 }
+
+
+
+//// #NG - Need to be looked at again
+var eventGridElement
+
+
 
 /* ---------------------------------------------------------
  >  1b. Return Response as JSON
@@ -495,7 +502,7 @@ function opAddValidationToElements( debug, container, elements, type ) {
     } finally {
 
         ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( debug, `opAddErrorToElements():`, message )
+        opConsoleDebug( debug, `opAddValidationToElements():`, message )
         
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
@@ -548,6 +555,21 @@ function opValidateContainerInputs( debug, container ) {
                     inputError = true , inputMessage = 'The Checkbox must be checked!'
                 } else if ( ! containerInputs[i].value || containerInputs[i].value.trim().length == 0 ) {
                     inputError = true , inputMessage = 'The input field is empty!'
+                } else if ( inputType == 'file' ) {
+
+                    const fileValid = [ ...containerInputs[i].files ].every( file => {
+                        if ( ! containerInputs[i].accept ) {
+                          return true
+                        }
+                        return containerInputs[i].accept.replace( /\s/g, '' ).split( ',' ).filter( accept => {
+                          return new RegExp( accept.replace( '*', '.\*' ) ).test( file.type )
+                        } ).length > 0
+                    } )
+
+                    if ( fileValid !== true ) {
+                        inputError = true , inputMessage = 'The File type is not valid!'
+                    }                  
+
                 }
                 
                 ///// Push the Input into the Array of Inputs.
@@ -581,9 +603,9 @@ function opValidateContainerInputs( debug, container ) {
             }
 
             //opConsoleDebug( true, `inputsWithErrors:`, inputsWithErrors )
-
+            
             if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length !== 0 ) {
-
+                
                 let addErrorToElements = opAddValidationToElements( debug, container, inputsWithErrors, 'error' )
 
                 if ( addErrorToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs():`, addErrorToElements.response )
@@ -674,23 +696,24 @@ function opSetApprovalToButtonsInForm( debug, fieldsetElement, type ) {
         
         ///// Validate Buttons for each Fieldset Element.      
         for( let i = 0; i < fieldsetElements.length; ++i ) {
+
+            let fieldsetValidation = fieldsetElements[i].getAttribute( 'data-fieldset-validation' )
             
-            ///// Disabled or Enabled the Process Buttons.
-            if ( fieldsetElements[i].getAttribute( 'data-fieldset-validation' ) == 1 && flow == true ) {
+            ///// Set flow to true if Fieldset is validated.
+            if ( fieldsetValidation == 1 ) {
                 flow = true
-                processButtons[ Number(i) + 1 ].disabled = false
             } else {
                 flow = false
-                processButtons[ Number(i) + 1 ].disabled = true
             }
 
             ///// Disabled or Enabled the Submit Form Button.
             if ( type == 'add' && flow == true && flowCount == fieldsetElements.length ) {
-            
+
                 ///// Enabled the Submit Form Button.
                 ////* Back = 0, Next = 1, Submit = 2
                 directionButtons[2].disabled = false
-    
+                break
+
             } else {
 
                 ///// Disabled the Submit Form Button.
@@ -698,6 +721,14 @@ function opSetApprovalToButtonsInForm( debug, fieldsetElement, type ) {
                 directionButtons[2].disabled = true
 
             }
+
+            ///// Disabled or Enabled the Process Buttons.
+            if (  type == 'add' && flow == true ) {
+                processButtons[ Number(i) + 1 ].disabled = false
+            } else if ( flow == false && ( Number(i) + 1 ) !== fieldsetElements.length ) {
+                processButtons[ Number(i) + 1 ].disabled = true
+            }
+
 
         }
         
@@ -777,57 +808,135 @@ function opSetApprovalToStepInForm( debug, fieldsetElement, type ) {
 }
 
 /* ---------------------------------------------------------
+ >  1m. Add Grid Columns to the Grid Element
+------------------------------------------------------------ */
+function opSetGridCols( debug, number ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! number ) throw `Missing the Number of Grid Columns in the Function Parameters!`
+
+        ///// Get the Elements.
+        let formElement = event.target.closest( '.op-form-steps' )
+        let gridContainer = formElement.querySelector( '.op-grid-wrapper' )
+
+        ///// Set the Number of Grid Columns to the Grid Container Element.
+        gridContainer.setAttribute( 'data-grid-cols', number )
+
+        ///// Create/throw Response.
+        error = false, code = 200, message = 'The Number of Grid Columns was added to the Grid Element!'
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `opSetGridCols( ${number} ):`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+/* ---------------------------------------------------------
  >  1m. Add Grid From CSV to the Form Element
 ------------------------------------------------------------ */
-function opSetGridContainer( debug, inputElement, type ) {
-
-
-    ///// Get the closest Grid Container Element.
-    let formElement = inputElement.closest( '.op-form-steps' )
-    let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
-    let gridContainerElement = fieldsetElement.querySelector( '[id*="-form-grid"]' )
-
-    console.log(gridContainerElement)
-
-    ///// Get Grid ID.
-    let gridElementId = gridContainerElement.getAttribute( 'id' )
-
-    ///// Clear the Grid Element. 
-	gridContainerElement.innerHTML = ''
-
-    ///// Get the Data from the Form Element.
-    const formData = new FormData( formElement )
-
-    ///// The URL to the API.
-    const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
-
-    ///// Fetch from the FastAPI.
-    opFetchFromFastAPI( debug, 'POST', formData, url, 'json' ).then( fetchResponse => {
+async function opSetGridContainer( debug, inputElement, type ) {
     
-        opConsoleDebug( true, 'fetchResponse:', fetchResponse )
+    ///// Create Variables.
+    let error, code, message
 
-        ///// If the Fetch Response has Code 200 (OK).
-        if ( fetchResponse.code === 200 ) {
+    try {
 
-            ///// Create new Grid Element.
-            let eventGridElement = new DataGridXL( gridElementId, {
-                data: fetchResponse.response,
-                allowFreezeRows: false,
-                allowFreezeCols: false
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        ////* 'input', 'fieldset', 'form'
+        if ( ! inputElement ) throw `Missing the Grid Element!`
+        if ( ! type ) throw `Missing the Type in the Function Parameters!`
 
-                /* colHeaderLabelFunction: function(index, id, field, title, labels){
-                    // use id as column label
-                    return String("Column #"+id);
-                } */
-            })
+        ///// Get the Elements.
+        let formElement = inputElement.closest( '.op-form-steps' )
+        let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
+        let gridContainer = fieldsetElement.querySelector( '.op-grid-wrapper' )
+        let gridElement = gridContainer.querySelector( '[id*="-form-grid"]' )
 
-            ///// Return the Response to the Function.
-            return opReturnResponse( false, 200, { message : 'Grid was Created!', grid : fetchResponse.response } )
-
-        } else return opReturnResponse( true, 400, 'Missing Grid Data!' )
+        ///// Remove or Add Grid Element.
+        if ( type == 'remove' ) {
+        
+            ///// Remove the Grid Element.
+            gridContainer.classList.remove( 'op-grid-active' )
+            gridElement.innerHTML = ''
             
-    })
+        } else if ( type == 'add' ) {
+            
+            ///// Remove the Grid Element.
+            gridContainer.classList.add( 'op-grid-active' )
+
+            ///// Get Grid Variables.
+            let gridWidth = gridContainer.clientWidth
+            let gridCols = gridContainer.getAttribute( 'data-grid-cols' )
+            let gridElementId = gridElement.getAttribute( 'id' )
     
+            ///// Get the Data from the Form Element.
+            const formData = new FormData( formElement )
+
+            ///// The URL to the API.
+            const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
+
+            ///// Fetch from the FastAPI.
+            const fetchResponse = await opFetchFromFastAPI( debug, 'POST', formData, url, 'json' )
+            
+            ///// If the Fetch Response has Code 200 (OK).
+            if ( fetchResponse.code === 200 ) {
+
+                ///// Create new Grid Element.
+                eventGridElement = new DataGridXL( gridElementId, {
+                    data: fetchResponse.response,
+                    allowFreezeRows: false,
+                    allowFreezeCols: false,
+                    colHeaderHeight: 60,
+                    colWidth: ( Number(gridWidth) / ( Number(gridCols) + 2 ) )
+
+                    /* colHeaderLabelFunction: function(index, id, field, title, labels){
+                        // use id as column label
+                        return String("Column #"+id);
+                    } */
+                } )
+                
+                ///// Create/throw Response.
+                error = false, code = 201, message = { message : 'Grid was created!', gridElementId : gridElementId }
+
+            } else throw 'Missing Grid Data!'
+
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( true, `opSetGridContainer( ${type} ):`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
 }
 
 /* ---------------------------------------------------------
@@ -847,7 +956,7 @@ function opFormInputValidation( debug, type, inputElement ) {
         if ( ! type ) type = 'fieldset'
         if ( ! inputElement ) inputElement = event.target
 
-        ///// Get the elements.
+        ///// Get the Elements.
         let inputWrapperElement = inputElement.closest( '.op-input-wrapper' )
         let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
         
@@ -864,7 +973,7 @@ function opFormInputValidation( debug, type, inputElement ) {
                 if ( inputResponse.error !== false ) {
 
                     ///// Remove the Grid from the Container Element.
-                    const removeGridResponse = opSetGridContainer( true, inputElement, 'remove' )
+                    const removeGridResponse = opSetGridContainer( debug, inputElement, 'remove' )
 
                     ///// Throw Response.
                     if ( removeGridResponse.error !== false ) throw removeGridResponse.response
@@ -876,9 +985,11 @@ function opFormInputValidation( debug, type, inputElement ) {
                     if ( removeApprovalResponse.error !== false ) throw removeApprovalResponse.response
 
                     ///// Create Response.
-                    error = false, code = 201, message = `The Grid was Removed from the Container Element!`
+                    error = false, code = 200, message = `The Grid was Removed from the Container Element!`
                     
                 } else {
+
+                    console.log( 'inputResponse', inputResponse.error )
 
                     ///// Adding a new Grid to the Container Element.
                     const addGridResponse = opSetGridContainer( debug, inputElement, 'add' )
@@ -893,7 +1004,7 @@ function opFormInputValidation( debug, type, inputElement ) {
                     if ( addApprovalResponse.error !== false ) throw addApprovalResponse.response
 
                     ///// Create Response.
-                    error = false, code = 201, message = `The Grid was Added to the Container Element!`
+                    error = false, code = 200, message = `The Grid was Added to the Container Element!`
 
                 }
 
@@ -946,7 +1057,7 @@ function opFormInputValidation( debug, type, inputElement ) {
     } finally {
 
         ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( true, `opFormInputValidation():`, message )
+        opConsoleDebug( debug, `opFormInputValidation():`, message )
         
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
@@ -1282,6 +1393,90 @@ function opGetEventList( eventListId ) {
     } else {
         return opReturnResponse( false, 200, eventItems[0] )
     }
+
+}
+
+/* ------------------------------------------
+ >  4d-2. Create Event
+--------------------------------------------- */
+async function opCreateEvent( debug, formElement ) {   
+        
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! formElement ) throw `Missing the Form Element!`
+
+        ///// Get the Local Storage of Events.
+        const eventsStorage = opGetLocalStorage( debug, 'Events' )
+
+        ///// Validate the Response from the Local Storage of Events.
+        if ( eventsStorage.error !== false ) throw eventsStorage.response
+
+        ///// Get the Event List from the Local Storage of Events.
+        const eventList = eventsStorage.response
+            
+        ///// Define new data variables.
+        let dateNow = Date.now()
+        let inputName = formElement[ 'name' ].value
+        let inputTemplate = formElement[ 'template' ].value  
+               
+        ///// Get the Grid data.
+        const jsonFormGrid = JSON.stringify( eventGridElement.getData() )
+
+        ///// Get data from the form element.
+        let formData = new FormData()
+
+        ///// Add JSON from Grid to Form Element
+        formData.append( 'json-from-grid', jsonFormGrid )
+
+        ///// The URL to the API.
+        const url = `${ opGetCurrentScriptPath() }/../api/api-convert-grid-data-into-json.php`
+
+        ///// Fetch from the FastAPI.
+        const fetchResponse = await opFetchFromFastAPI( debug, 'POST', formData, url, 'json' )
+        
+        ///// If the Fetch Response has Code 200 (OK).
+        if ( fetchResponse.code === 200 ) {
+
+            ///// Define new Template Item variable.
+            let eventItem = { 
+                eventCreationDate : dateNow, 
+                eventName : inputName,
+                eventTemplate : inputTemplate,
+                eventParticipants : fetchResponse.response
+            }
+            
+            ///// Push Template Item variable into Template List.
+            eventList.eventList.push( eventItem )
+            
+            ///// Set Event List in Local Storage.
+            localStorage.setItem( 'OP_PLUGIN_DATA_EVENTS', JSON.stringify( eventList ) )
+
+            ///// Create Response.
+            error = false, code = 201, message =  { message : `Event was created!`, eventCreationDate : dateNow }
+
+        } else throw 'Missing Grid Data!'
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( true, `opCreateEvent():`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+
+    }
+
 
 }
 
@@ -1909,6 +2104,7 @@ function opFormGoToStep( newStep ) {
             if ( i == slide ) {
                 fieldsets[i].style.left = `${ 0 }%`
                 fieldsets[i].style.opacity = '1'
+                fieldsets[i].style.visibility = 'visible'
                 fieldsets[i].focus()
             } else if ( i <= slide ) {
                 fieldsets[i].style.left = `${ -100 }%`
@@ -2006,7 +2202,6 @@ function opSaveNewTemplate() {
 
 }
 
-
 /* ------------------------------------------
  >   >  6a-9. Adding one or more Templates to an Element 
 --------------------------------------------- */
@@ -2034,7 +2229,7 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
                 ///// Create new element.
                 newTemplateElement = `
                     <div class="op-radio-input">
-                        <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation()" name="template" value="${ templateList[i].templateCreationDate }" required>
+                        <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation(), opSetGridCols(false, ${ templateList[i].templateLayoutColumns.charAt(0) })" name="template" value="${ templateList[i].templateCreationDate }" required>
                         <label for="${ blockId }-${ templateList[i].templateCreationDate }-input">
                             <div class="op-radio-check" data-icon="circle-check">
                                 <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
@@ -2057,7 +2252,7 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
                                     </p>
                                     <p class="op-text op-flex-col">
                                         <b class="op-text-title">Beskrivelse</b>
-                                        <span class="op-text-info">3 kolonner + logo</span>                               
+                                        <span class="op-text-info">3 kolonner + logo</span>
                                     </p>
                                     <p class="op-text op-flex-col">
                                         <b class="op-text-title">Logo</b>
@@ -2095,6 +2290,67 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
 
     ///// Return the Response to the Function.
     return opReturnResponse( error, code, message )
+
+}
+
+/* ------------------------------------------
+ >   >  6a-10. Save New Event from Form 
+--------------------------------------------- */
+async function opSaveNewEvent( debug ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Get the Elements.
+        let blockElement = event.target.closest( 'section[id*="op-block"]' )
+        let formElement = blockElement.querySelector( '.op-form-steps' )
+        let saveButton = formElement.querySelector( '.op-button-save')
+        let modalElement = blockElement.querySelector( '.op-modal')
+
+        ///// Disable the Save button.
+        saveButton.disabled = true
+
+        ///// Set Approval to the Buttons in the Form Element.
+        const createEventResponse = await opCreateEvent( debug, formElement )
+
+        ///// Create/throw Response.
+        if ( createEventResponse.error !== false ) throw createEventResponse.response
+        else error = false, code = 200, message = `The Event could not be Created!`
+       
+        ///// Get Event Data.
+        const eventData = createEventResponse.response
+        let eventId = eventData.eventCreationDate
+
+        ///// Activate the Modal Window.
+        modalElement.classList.add( 'active' )
+        
+        ///// Set URL in the Modal Window.
+        let eventUrl = modalElement.getAttribute( 'data-relocation-event' )
+        modalElement.querySelector( '.op-button-event' ).setAttribute( 'href', `${ eventUrl }?event=${ eventId }` )
+
+        ///// Create/throw Response.
+        error = false, code = 200, message = 'The Number of Grid Columns was added to the Grid Element!'
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+    } finally {
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( true, `opSaveNewEvent():`, message )
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
 
 }
 

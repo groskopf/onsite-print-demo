@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-15 - 20:30 (Y:m:d - H:i)
+ ?  Updated: 2023-01-29 - 22:15 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1749,6 +1749,7 @@ html {
     left: 100%;
     z-index: 0;
     opacity: 0;
+    visibility: hidden;
     overflow-y: auto;
     transition: left 200ms ease-in-out, opacity 400ms ease-in-out;
 }
@@ -1756,6 +1757,7 @@ html {
 .op-form-steps[data-form-step="1"] .op-form-content .op-fieldset-step-1 {
     left: 0;
     opacity: 1;
+    visibility: visible;
 }
 
 .op-form-steps .op-form-content fieldset header {
@@ -1788,13 +1790,96 @@ html {
     padding: 3rem;
 }
 
+.op-form-steps .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    padding-top: 2rem;
+    visibility: hidden;
+}
+
+.op-form-steps .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper.op-grid-active {
+    visibility: visible;
+}
+
 .op-form-steps .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] {
     flex: 1;
+    padding: 0.4rem;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem;
 }
 
 .op-form-steps .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] > div {
     width: 100% !important;
     height: 100% !important;
+}
+
+.op-form-steps [id*="-form-grid"] .dgxl-topbar.dgxl-bar {
+    padding: 0 0 5px !important;
+}
+
+.op-form-steps [id*="-form-grid"] .dgxl-display {
+    border: 1px solid gray;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.op-form-steps [id*="-form-grid"] .dgxl-colHeaderBackground {
+    background: var(--wp--preset--color--neutral-20) !important;
+}
+
+.op-form-steps [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel {
+    top: 30px !important;
+    height: 30px !important;
+    display: flex;
+    align-items: center;
+}
+
+.op-form-steps [id*="-form-grid"] .dgxl-column .dgxl-columnHeader::after {
+    content: "Ingen kolonne";
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    height: 30px;
+    width: calc( 100% + 1px);
+    background: var(--wp--preset--color--neutral-40);
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    z-index: 0;
+    border: 1px solid var(--wp--preset--color--neutral-40);
+    border-top: none;
+}
+
+.op-form-steps [data-grid-cols="1"] .dgxl-column:first-child .dgxl-columnHeader::after,
+.op-form-steps [data-grid-cols="2"] .dgxl-column:nth-child(-n + 2) .dgxl-columnHeader::after,
+.op-form-steps [data-grid-cols="3"] .dgxl-column:nth-child(-n + 3) .dgxl-columnHeader::after,
+.op-form-steps [data-grid-cols="4"] .dgxl-column:nth-child(-n + 4) .dgxl-columnHeader::after,
+.op-form-steps [data-grid-cols="5"] .dgxl-column:nth-child(-n + 5) .dgxl-columnHeader::after {
+    background: var(--form-color-light);
+    border-color: var(--form-color-dark);
+}
+
+.op-form-steps [data-grid-cols] .dgxl-column:first-child .dgxl-columnHeader::after {
+    content: "Kolonne 1";
+}
+
+.op-form-steps :is( [data-grid-cols="2"], [data-grid-cols="3"], [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(2) .dgxl-columnHeader::after {
+    content: "Kolonne 2";
+}
+
+.op-form-steps :is( [data-grid-cols="3"], [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(3) .dgxl-columnHeader::after {
+    content: "Kolonne 3";
+}
+
+.op-form-steps :is( [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(4) .dgxl-columnHeader::after {
+    content: "Kolonner 4";
+}
+
+.op-form-steps :is( [data-grid-cols="5"] ) .dgxl-column:nth-child(5) .dgxl-columnHeader::after {
+    content: "Kolonne 5";
 }
 
 .op-form-steps .op-form-directions .op-button-save,
@@ -2146,7 +2231,6 @@ html {
     flex: 1;
     padding: 1rem;
 }
-
 
 .op-input-validation {
     width: 100%;
