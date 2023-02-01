@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-29 - 22:15 (Y:m:d - H:i)
+ ?  Updated: 2023-02-01 - 16:32 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -269,48 +269,64 @@ function opToggleActive( element, closestElement ) {
 }
 
 /* ---------------------------------------------------------
- >  1i. Fetch from API (Async function)
+ >  1i. Fetch Data from API (Async function)
 ------------------------------------------------------------ */
-async function opFetchFromAPI( debug, url, options, output ) {
+async function opFetchDataFromApi( debug, url, options, output ) {
 
-    ///// Check for browser support of fetch in the window interface.
-    if ( ! ( 'fetch' in window ) ) {
-        return opReturnResponse( true, 405, 'Your Browser does not support The Fetch Function, please upgrade your browser.' )
-    }
-    
-    ///// Fetch from API.
-    let request = await fetch( url, options )
-        
-    var error, code = request.status, message
-    
+    ///// Create Variables.
+    let error, code, message
+
     try {
-        
-        error = false
 
-        if ( code >= 200 && code <= 299 ) {
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
 
-            ///// Return the Data as a Blob or JSON.
-            if ( output == 'blob' ) message = await request.blob()
+        ///// Check for browser support of fetch in the window interface.
+        if ( ! ( 'fetch' in window ) ) {
+            throw 'Your Browser does not support The Fetch Function, please upgrade your browser.'
+        }
+
+        ///// Validate the Function Parameters.
+        else if ( ! url ) throw `Missing the URL link in the Function Parameters!`
+        else if ( ! output ) throw `Missing the Output in the Function Parameters!`
+        else {
+
+            ///// Get the Response from the API via Fetch.
+            const fetchResponse = await fetch( url, options )
+                       
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `fetchResponse:`, fetchResponse )
+
+            ///// Create Approved Response.
+            code = fetchResponse.status, error = false
             
-            else if ( output == 'json' ) message = await request.json()
-            
-            else throw 'Missing Output parameter in function!'
+            ///// Validate the Fetch Response with the Status Code.
+            if ( code >= 200 && code <= 299 ) {
+
+                ///// Return the Data as a Blob or JSON.
+                if ( output == 'blob' ) message = await fetchResponse.blob()
+                else if ( output == 'json' ) message = await fetchResponse.json()
+                else throw 'Could not find the Output Type!'
+
+            } else if ( code >= 400 && code <= 499 ) throw await fetchResponse.json()
+            else throw await fetchResponse.text()
 
         }
         
-        else if ( code >= 400 && code <= 499 ) throw await request.json()
-        
-        else throw await request.text()
-        
     } catch( errorMessage ) {
-        error = true, message = errorMessage
-    }
 
-    if ( error !== false ) {
-        opConsoleDebug( true, `Error FetchAPI:`, message )
-    } else {
-        opConsoleDebug( debug, `Debug FetchAPI:`, message )
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opFetchDataFromApi()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
+    
     }
 
 }
@@ -360,32 +376,49 @@ function opGetCurrentScriptPath() {
 /* ------------------------------------------------------------------------
  #  2. Validation Functions 
 ---------------------------------------------------------------------------
- >  2a. Validate Fetch Response
+ >  2a. Validate API Response
 ------------------------------------------------------------ */
-function opValidateFetchResponse( debug, request ) {
+function opValidateApiResponse( debug, request ) {
 
+    ///// Create Variables.
     let error, code, message
 
     try {
+
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! request ) throw `Missing the Request in the Function Parameters!`
+        if ( request.response == '' ) throw 'The Request is an Empty string!'
+        if ( request.response == undefined ) throw 'The Request is an Undefined string!'
+        else {
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Response:`, request )
+
+            ///// If the Response has detail.
+            if ( request.response.detail ) throw 'The API Response has an Error!'
+
+            ///// Create Approved Response.
+            error = request.error, code = request.code, message = request.response
+                    
+        }
         
-        ///// If the Response is empty or undefined.
-        if ( request.response == '' ) throw 'Empty string!'
-        if ( request.response == undefined ) throw 'Undefined string!'
-
-        ///// If the Response has detail.
-        if ( request.response.detail ) throw request.response.detail
-
-        error = request.error, code = request.code, message = request.response
-    
     } catch( errorMessage ) {
-        error = true, code = 400, message = errorMessage
-    }
 
-    if ( error !== false ) {
-        opConsoleDebug( true, `Error Validate Response:`, message )
-    } else {
-        opConsoleDebug( debug, `Debug Validate Response:`, message )
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opValidateApiResponse()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
+    
     }
 
 }
@@ -896,14 +929,17 @@ async function opSetGridContainer( debug, inputElement, type ) {
             const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
 
             ///// Fetch from the FastAPI.
-            const fetchResponse = await opFetchFromFastAPI( debug, 'POST', formData, url, 'json' )
-            
+            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Data:`, apiData )
+     
             ///// If the Fetch Response has Code 200 (OK).
-            if ( fetchResponse.code === 200 ) {
+            if ( apiData.code === 200 ) {
 
                 ///// Create new Grid Element.
                 eventGridElement = new DataGridXL( gridElementId, {
-                    data: fetchResponse.response,
+                    data: apiData.response,
                     allowFreezeRows: false,
                     allowFreezeCols: false,
                     colHeaderHeight: 60,
@@ -925,12 +961,13 @@ async function opSetGridContainer( debug, inputElement, type ) {
     } catch( errorMessage ) {
 
         ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
-
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opSetGridContainer( ${type} ):`, opReturnResponse( error, code, errorMessage ) )
+        
     } finally {
-
-        ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( true, `opSetGridContainer( ${type} ):`, message )
         
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
@@ -1136,36 +1173,74 @@ function opGetFastApiInfo( object ) {
 }
 
 /* ---------------------------------------------------------
- >  3b. Fetch from FastAPI
+ >  3b. Get Data from FastAPI
 ------------------------------------------------------------ */
-function opFetchFromFastAPI( debug, method, bodyInput, url, type, contentType ) {
-    return new Promise( resolve => {
-        
-        let newContentType
+async function opGetApiData( debug, method, bodyInput, url, output, contentType ) {
 
-        if ( contentType !== 'form' ) {
-            newContentType = `'Content-Type': 'application/json'`
-        }
+    ///// Create Variables.
+    let error, code, message
 
-        ///// Request Options for fetch.
-        ////* method (GET, POST, PUT, DELETE, etc.)
-        let options = {
-            method: method,
-            headers: {
-                accept: 'application/json',
-                newContentType,
-                'access_token': opGetFastApiInfo( 'token' )
-            },
-            body: bodyInput
+    try {
+
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! method ) throw `Missing the Method in the Function Parameters!`
+        else if ( ! bodyInput ) throw `Missing the Body Input in the Function Parameters!`
+        else if ( ! url ) throw `Missing the URL link in the Function Parameters!`
+        else if ( ! output ) throw `Missing the Output in the Function Parameters!`
+        else {
+
+            ///// Request Options for fetch.
+            ////* method (GET, POST, PUT, DELETE, etc.)
+            let options = {
+                method: method,
+                headers: {
+                    accept: 'application/json',
+                    'access_token': opGetFastApiInfo( 'token' )
+                },
+                body: bodyInput
+            }
+            
+            ///// Add Content Type to Options.
+            if ( contentType !== 'form' ) {
+                options.headers = { ...options.headers, 'Content-Type': 'application/json'};
+            }
+        
+            ///// Get the Response from the API.
+            ////* output (json or blob).
+            const apiResponse = await opFetchDataFromApi( debug, url, options, output )
+                       
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Response:`, apiResponse )
+            
+            ///// Validate the Fetch Response.
+            const validatedApiResponse = opValidateApiResponse( debug, apiResponse )
+            if ( validatedApiResponse.error !== false ) throw 'The Validated API Response has an Error!'
+            else error = validatedApiResponse.error, code = validatedApiResponse.code, message = validatedApiResponse.response
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `Validated API Response:`, validatedApiResponse )
+
         }
         
-        ///// Request the data from the API and Validate data after.
-        ///// fetchAPI( *url, options, 'blob/json', debug ).
-        opFetchFromAPI( debug, url, options, type ).then( response => {
-            resolve( opValidateFetchResponse( debug, response ) )           
-        })
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
         
-    })
+        ///// Throw Error Response in the Console.
+        console.error( 'opGetApiData()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
 }
 
 /* ------------------------------------------------------------------------
@@ -1285,17 +1360,20 @@ function opGetTemplate( templateId ) {
 /* ------------------------------------------
  >  4c-2. Create Template
 --------------------------------------------- */
-function opCreateTemplate( debug, formElement ) {   
-    
-    return new Promise( resolve => {
+async function opCreateTemplate( debug, formElement ) {   
 
-        try {
+    ///// Create Variables.
+    let error, code, message
 
-            ///// If the Form Element is missing.
-            if ( ! formElement ) {
-                throw 'Missing Form Element!'
-            }
-            
+    try {
+
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! formElement ) throw `Missing the Form Element in the Function Parameters!`
+        else {
+
             ///// Get the Local Storage of Templates.
             const templatesStorage = opGetLocalStorage( debug, 'Templates' )
 
@@ -1312,16 +1390,24 @@ function opCreateTemplate( debug, formElement ) {
             const url = `${ opGetFastApiInfo( 'url' ) }images/`
 
             ///// Fetch from the FastAPI.
-            opFetchFromFastAPI( debug, 'POST', formData, url, 'json', 'form' ).then( fetchResponse => {
-            
-                opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
+            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
 
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Data:`, apiData )
+
+            ///// Validate the Fetch Response.
+            if ( apiData.error !== false ) throw 'The API Data has an Error!'
+            else {
+                
                 ///// If the Fetch Response has Code 201 (Created).
-                if ( fetchResponse.code === 200 ) {
+                if ( apiData.code === 200 ) {
 
                     ///// Get the element for output.
-                    let filenameUploaded = fetchResponse.response.filename.slice(7)                 
+                    let filenameUploaded = apiData.response.filename.slice(7)                 
                     
+                    ///// Throw Error Response if the Image is missing.
+                    if ( ! filenameUploaded ) throw `Missing Image Data!`
+
                     ///// Define new data variables.
                     let dateNow = Date.now()
                     let fileInput = formElement[ 'image' ];   
@@ -1343,22 +1429,30 @@ function opCreateTemplate( debug, formElement ) {
                     ///// Set Template List in Local Storage.
                     localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
 
-                    ///// Return the Response to the Function.
-                    return resolve( opReturnResponse( false, 201, { message : 'Template was created!', template : templateItem } ) )
+                    ///// Create Approved Response.
+                    error = false, code = 201, message = { message : 'Template was created!', template : templateItem }
 
-                } else throw 'Missing Image Data!'
-     
-            })
+                } else throw 'The API Data has an Error!'
 
-                    
-        } catch( errorMessage ) {
-
-            ///// Return the Error Response to the Function.
-            return resolve( opReturnResponse( true, 400, errorMessage ) )
-
+            }
+            
         }
 
-    })
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opCreateTemplate()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
 
 }
 
@@ -1438,17 +1532,17 @@ async function opCreateEvent( debug, formElement ) {
         const url = `${ opGetCurrentScriptPath() }/../api/api-convert-grid-data-into-json.php`
 
         ///// Fetch from the FastAPI.
-        const fetchResponse = await opFetchFromFastAPI( debug, 'POST', formData, url, 'json' )
+        const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
         
         ///// If the Fetch Response has Code 200 (OK).
-        if ( fetchResponse.code === 200 ) {
+        if ( apiData.code === 200 ) {
 
             ///// Define new Template Item variable.
             let eventItem = { 
                 eventCreationDate : dateNow, 
                 eventName : inputName,
                 eventTemplate : inputTemplate,
-                eventParticipants : fetchResponse.response
+                eventParticipants : apiData.response
             }
             
             ///// Push Template Item variable into Template List.
@@ -1465,18 +1559,18 @@ async function opCreateEvent( debug, formElement ) {
     } catch( errorMessage ) {
 
         ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
-
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opCreateEvent()', opReturnResponse( error, code, errorMessage ) )
+        
     } finally {
-
-        ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( true, `opCreateEvent():`, message )
         
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
-
+    
     }
-
 
 }
 
@@ -1643,11 +1737,11 @@ async function opPrintParticipant( participantId ) {
     )
 
     ///// Fetch from the FastAPI.
-    opFetchFromFastAPI( debug, 'POST', bodyInput, url, 'json' ).then( fetchResponse => {
-        opConsoleDebug( debug, 'fetchResponse:', fetchResponse )
+    opGetApiData( debug, 'POST', bodyInput, url, 'json' ).then( apiData => {
+        opConsoleDebug( debug, 'apiData:', apiData )
 
         ///// If the Fetch Response has Code 201 (Created).
-        if ( fetchResponse.code === 201 ) { 
+        if ( apiData.code === 201 ) { 
        
             let participantPrints = ( participant.prints + 1 )
             let dateNow = Date.now()
@@ -1676,8 +1770,8 @@ async function opPrintParticipant( participantId ) {
                 opEventInformationBlocks()
             }, 3000 );
             
-            let windowUrl = `${ opGetFastApiInfo( 'url' ) + fetchResponse.response.filename }`
-            opConsoleDebug( debug, 'windowUrl:', windowUrl )
+            //let windowUrl = `${ opGetFastApiInfo( 'url' ) + apiData.response.filename }`
+            //opConsoleDebug( debug, 'windowUrl:', windowUrl )
 
         }
     
@@ -2164,30 +2258,40 @@ function opFormGoToStep( newStep ) {
 /* ------------------------------------------
  >   >  6a-8. Save New Template from Form 
 --------------------------------------------- */
-function opSaveNewTemplate() {
+async function opSaveNewTemplate( debug ) {
 
-    ///// Debug the function
-    let debug = false // true or false 
+    ///// Create Variables.
+    let error, code, message
 
-    ///// Get the elements.
-    let block = event.target.closest( 'section[id*="op-block"]' )
-    let form = event.target.closest( 'form' )
-    let saveButton = form.querySelector( '.op-button-save')
-    let modal = block.querySelector( '.op-modal')
+    try {
 
-    ///// Disable the Save button.
-    saveButton.disabled = true
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
 
-    ///// Upload new Template to the Local Storage of Templates.
-    opCreateTemplate( debug, form ).then( templateUploadResponse => {
+        ///// Get the elements.
+        let block = event.target.closest( 'section[id*="op-block"]' )
+        let form = event.target.closest( 'form' )
+        let saveButton = form.querySelector( '.op-button-save')
+        let modal = block.querySelector( '.op-modal')
 
-        opConsoleDebug( true, 'SNT Error:', templateUploadResponse.response )
+        ///// Disable the Save button.
+        saveButton.disabled = true
 
-        ///// Validate the Response from the Template Upload.
-        if ( templateUploadResponse.error !== false ) saveButton.disabled = false
-        else {
+        ///// Get the Response from the Create Template Function.
+        const createdTemplateResponse = await opCreateTemplate( debug, form )
 
-            const template = templateUploadResponse.response.template
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `Create Template Response:`, createdTemplateResponse )
+
+        ///// Validate the Response from the Create Template Function.
+        if ( createdTemplateResponse.error !== false ) {
+
+            saveButton.disabled = false
+            throw 'The Create Template Function has an Error!'
+
+        } else {
+            
+            const template = createdTemplateResponse.response.template
 
             ///// Activate the Modal Window.
             modal.classList.add( 'active' )
@@ -2196,9 +2300,27 @@ function opSaveNewTemplate() {
 
             let eventUrl = modal.getAttribute( 'data-relocation-event-creation' )
             modal.querySelector( '.op-button-event-creation' ).setAttribute( 'href', `${ eventUrl }?template=${ templateId }` )
-        }
 
-    })
+            ///// Create Approved Response.
+            error = false, code = 200, message = 'The Template has been Saved Correctly!'
+
+        }
+            
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opSaveNewTemplate()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
 
 }
 
@@ -2340,12 +2462,13 @@ async function opSaveNewEvent( debug ) {
     } catch( errorMessage ) {
 
         ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
-
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opSaveNewEvent()', opReturnResponse( error, code, errorMessage ) )
+        
     } finally {
-
-        ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( true, `opSaveNewEvent():`, message )
         
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
@@ -2818,7 +2941,7 @@ function opEventCreationBlocks() {
                     
                     radioInput.checked = true
                     radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )
-                    opFormInputValidation( debug, 'input', radioInput )
+                    opFormInputValidation( true, 'input', radioInput )
 
                 }
 
