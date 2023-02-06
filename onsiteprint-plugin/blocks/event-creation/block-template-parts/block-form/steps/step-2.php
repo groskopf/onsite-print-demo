@@ -1,14 +1,14 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 2
- ?  Updated: 2023-01-22 - 20:59 (Y:m:d - H:i)
+ ?  Updated: 2023-02-06 - 20:00 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
 ?>
 
 <fieldset class="op-fieldset-step-2">
-    <header>
+    <header class="op-fieldset-header">
         <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">2/5</span></p>
         <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_2_title'] ) ?></h3>
         <p class="op-fieldset-description"><?= esc_attr( $acf['step_2_description'] ) ?></p>

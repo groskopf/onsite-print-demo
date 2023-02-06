@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.40
+ *	Version: 1.0.0.41
  ?	(Check the Version variable)
- ?	Updated: 2023-01-21 - 15:21 (Y:M:D - H:M)
+ ?	Updated: 2023-02-06 - 18:10 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -61,7 +61,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.40' );
+define( 'OP_VERSION', '1.0.0.41' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -302,7 +302,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Create new Template
 		------------------------------------------------------------ */
-		acf_register_block_type( array(
+		/* acf_register_block_type( array(
 			'name'				=> 'onsiteprint-create-template',
 			'title'				=> __('Create new Template'),
 			'description'		=> __('Create new Template'),
@@ -310,12 +310,12 @@ function onsiteprint_acf_init() {
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'admin-appearance',
 			'keywords'			=> array( 'onsiteprint', 'template', 'create' ),
-		));
+		)); */
 
 		/* ---------------------------------------------------------
 		 >  2x. Block: Create new Event
 		------------------------------------------------------------ */
-		acf_register_block_type( array(
+		/* acf_register_block_type( array(
 			'name'				=> 'onsiteprint-create-event',
 			'title'				=> __('Create new Event'),
 			'description'		=> __('[Front-end] Create new Event.'),
@@ -323,7 +323,7 @@ function onsiteprint_acf_init() {
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
 			'keywords'			=> array( 'onsiteprint', 'event', 'create' ),
-		));
+		)); */
 
 		/* ---------------------------------------------------------
 		 >  2x. Block: Show List of Event URL's

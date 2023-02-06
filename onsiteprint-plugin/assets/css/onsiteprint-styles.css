@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-01-29 - 22:15 (Y:m:d - H:i)
+ ?  Updated: 2023-02-06 - 19:15 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -77,6 +77,8 @@ html {
     --fa-icon-table-cells: "\f00a";
     --fa-icon-circle-question: "\f059";
     --fa-icon-user: "\f007";
+    --fa-icon-lock: "\f023";
+    --fa-icon-unlock: "\f09c";
     --fa-icon-print: "\f02f";
     --fa-icon-clock: "\f017";
     --fa-icon-floppy-disk: "\f0c7";
@@ -211,6 +213,14 @@ html {
 
 [data-icon="user"] .op-icon::before {
 	content: var(--fa-icon-user);
+}
+
+[data-icon="lock"] .op-icon::before {
+	content: var(--fa-icon-lock);
+}
+
+[data-icon="unlock"] .op-icon::before {
+	content: var(--fa-icon-unlock);
 }
 
 [data-icon="clock"] .op-icon::before {
@@ -1631,7 +1641,7 @@ html {
     width: 100%;
 }
 
-.op-form .op-block__inner > header {
+.op-form .op-block__inner > .op-fieldset-header {
     background: var(--form-color-medium);
     background-image: var(--form-color-gradient);
     color: var(--wp--preset--color--white);
@@ -1641,7 +1651,7 @@ html {
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
 
-.op-form .op-block__inner > header .op-block-title {
+.op-form .op-block__inner > .op-fieldset-header .op-block-title {
     padding-bottom: 0;
 }
 
@@ -1655,7 +1665,7 @@ html {
     overflow: hidden;
 }
 
-.op-form-steps .op-form-process {
+.op-form .op-form-process {
     background-color: var(--wp--preset--color--neutral-10);
     display: flex;
     flex-direction: column;
@@ -1667,7 +1677,7 @@ html {
     z-index: 1;
 }
 
-.op-form-steps .op-form-process__inner {
+.op-form .op-form-process__inner {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1677,7 +1687,7 @@ html {
     z-index: 0;
 }
 
-.op-form-steps .op-form-process__inner::before {
+.op-form .op-form-process__inner::before {
     background-color: var(--wp--preset--color--neutral-40);
     content: "";
     width: 0.2rem;
@@ -1686,7 +1696,7 @@ html {
     z-index: -1;
 }
 
-.op-form-steps .op-form-process__inner::after {
+.op-form .op-form-process__inner::after {
     background-color: var(--form-color-light);
     content: "";
     width: 0.2rem;
@@ -1697,47 +1707,46 @@ html {
 }
 
 /* 0 steps validated */
-.op-form-steps :is( [data-steps-validated="0"] ) .op-form-process__inner::after {
+.op-form :is( [data-steps-validated="0"] ) .op-form-process__inner::after {
     height: 0;
 }
 
 /* 3 form steps */
-.op-form-steps[data-form-steps="3"] [data-steps-validated="1"] .op-form-process__inner::after {
+.op-form [data-form-steps="3"] [data-steps-validated="1"] .op-form-process__inner::after {
     height: calc(((( 100% - 6rem) / 3 ) * 2 ) + 3rem);
 }
 
 /* 4 form steps */
-.op-form-steps[data-form-steps="4"] [data-steps-validated="1"] .op-form-process__inner::after {
+.op-form [data-form-steps="4"] [data-steps-validated="1"] .op-form-process__inner::after {
     height: calc(((( 100% - 9rem) / 4 ) * 2 ) + 3rem);
 }
-.op-form-steps[data-form-steps="4"] [data-steps-validated="2"] .op-form-process__inner::after {
+.op-form [data-form-steps="4"] [data-steps-validated="2"] .op-form-process__inner::after {
     height: calc(((( 100% - 9rem) / 4 ) * 3 ) + 6rem);
 }
 
 /* 5 form steps */
-.op-form-steps[data-form-steps="5"] [data-steps-validated="1"] .op-form-process__inner::after {
+.op-form [data-form-steps="5"] [data-steps-validated="1"] .op-form-process__inner::after {
     height: calc(((( 100% - 12rem) / 5 ) * 2 ) + 3rem);
 }
-.op-form-steps[data-form-steps="5"] [data-steps-validated="2"] .op-form-process__inner::after {
+.op-form [data-form-steps="5"] [data-steps-validated="2"] .op-form-process__inner::after {
     height: calc(((( 100% - 12rem) / 5 ) * 3 ) + 6rem);
 }
-.op-form-steps[data-form-steps="5"] [data-steps-validated="3"] .op-form-process__inner::after {
+.op-form [data-form-steps="5"] [data-steps-validated="3"] .op-form-process__inner::after {
     height: calc(((( 100% - 12rem) / 5 ) * 3 ) + 9rem);
 }
 
-.op-form-steps .op-form__inner {
+.op-form .op-form__inner {
     flex-grow: 1;
 }
 
-.op-form-steps .op-form-content {
+.op-form .op-form-content {
     display: flex;
     flex: 1;
     overflow: hidden;
     position: relative;
 }
 
-.op-form-steps .op-form-content fieldset {
-    background-color: var(--wp--preset--color--neutral-10);
+.op-form .op-form-content fieldset {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -1745,6 +1754,10 @@ html {
     margin: 0;
     padding: 0;
     border: 0;
+}
+
+.op-form-steps .op-form-content fieldset {
+    background-color: var(--wp--preset--color--neutral-10);
     position: absolute;
     left: 100%;
     z-index: 0;
@@ -1754,13 +1767,13 @@ html {
     transition: left 200ms ease-in-out, opacity 400ms ease-in-out;
 }
 
-.op-form-steps[data-form-step="1"] .op-form-content .op-fieldset-step-1 {
+.op-form [data-form-step="1"] .op-form-content .op-fieldset-step-1 {
     left: 0;
     opacity: 1;
     visibility: visible;
 }
 
-.op-form-steps .op-form-content fieldset header {
+.op-form .op-form-content fieldset header {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -1768,17 +1781,18 @@ html {
     border-bottom: 0.1rem solid var(--wp--preset--color--neutral-30);
 }
 
-.op-form-steps .op-form-content fieldset header .op-fieldset-steps {
+.op-form .op-form-content fieldset header .op-fieldset-steps {
     color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     text-transform: uppercase;
 }
 
-.op-form-steps .op-form-content fieldset header .op-fieldset-title {
+.op-form .op-form-content header .op-fields-title,
+.op-form .op-form-content fieldset header .op-fieldset-title {
     padding-bottom: 0;
 }
 
-.op-form-steps .op-form-content fieldset header .op-fieldset-step-number {
+.op-form .op-form-content fieldset header .op-fieldset-step-number {
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.2rem;
 }
@@ -1790,7 +1804,7 @@ html {
     padding: 3rem;
 }
 
-.op-form-steps .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper {
+.op-form .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
@@ -1799,44 +1813,44 @@ html {
     visibility: hidden;
 }
 
-.op-form-steps .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper.op-grid-active {
+.op-form .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper.op-grid-active {
     visibility: visible;
 }
 
-.op-form-steps .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] {
+.op-form .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] {
     flex: 1;
     padding: 0.4rem;
     border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
 }
 
-.op-form-steps .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] > div {
+.op-form .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] > div {
     width: 100% !important;
     height: 100% !important;
 }
 
-.op-form-steps [id*="-form-grid"] .dgxl-topbar.dgxl-bar {
+.op-form [id*="-form-grid"] .dgxl-topbar.dgxl-bar {
     padding: 0 0 5px !important;
 }
 
-.op-form-steps [id*="-form-grid"] .dgxl-display {
+.op-form [id*="-form-grid"] .dgxl-display {
     border: 1px solid gray;
     border-radius: 4px;
     overflow: hidden;
 }
 
-.op-form-steps [id*="-form-grid"] .dgxl-colHeaderBackground {
+.op-form [id*="-form-grid"] .dgxl-colHeaderBackground {
     background: var(--wp--preset--color--neutral-20) !important;
 }
 
-.op-form-steps [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel {
+.op-form [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel {
     top: 30px !important;
     height: 30px !important;
     display: flex;
     align-items: center;
 }
 
-.op-form-steps [id*="-form-grid"] .dgxl-column .dgxl-columnHeader::after {
+.op-form [id*="-form-grid"] .dgxl-column .dgxl-columnHeader::after {
     content: "Ingen kolonne";
     box-sizing: border-box;
     display: flex;
@@ -1853,46 +1867,46 @@ html {
     border-top: none;
 }
 
-.op-form-steps [data-grid-cols="1"] .dgxl-column:first-child .dgxl-columnHeader::after,
-.op-form-steps [data-grid-cols="2"] .dgxl-column:nth-child(-n + 2) .dgxl-columnHeader::after,
-.op-form-steps [data-grid-cols="3"] .dgxl-column:nth-child(-n + 3) .dgxl-columnHeader::after,
-.op-form-steps [data-grid-cols="4"] .dgxl-column:nth-child(-n + 4) .dgxl-columnHeader::after,
-.op-form-steps [data-grid-cols="5"] .dgxl-column:nth-child(-n + 5) .dgxl-columnHeader::after {
+.op-form [data-grid-cols="1"] .dgxl-column:first-child .dgxl-columnHeader::after,
+.op-form [data-grid-cols="2"] .dgxl-column:nth-child(-n + 2) .dgxl-columnHeader::after,
+.op-form [data-grid-cols="3"] .dgxl-column:nth-child(-n + 3) .dgxl-columnHeader::after,
+.op-form [data-grid-cols="4"] .dgxl-column:nth-child(-n + 4) .dgxl-columnHeader::after,
+.op-form [data-grid-cols="5"] .dgxl-column:nth-child(-n + 5) .dgxl-columnHeader::after {
     background: var(--form-color-light);
     border-color: var(--form-color-dark);
 }
 
-.op-form-steps [data-grid-cols] .dgxl-column:first-child .dgxl-columnHeader::after {
+.op-form [data-grid-cols] .dgxl-column:first-child .dgxl-columnHeader::after {
     content: "Kolonne 1";
 }
 
-.op-form-steps :is( [data-grid-cols="2"], [data-grid-cols="3"], [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(2) .dgxl-columnHeader::after {
+.op-form :is( [data-grid-cols="2"], [data-grid-cols="3"], [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(2) .dgxl-columnHeader::after {
     content: "Kolonne 2";
 }
 
-.op-form-steps :is( [data-grid-cols="3"], [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(3) .dgxl-columnHeader::after {
+.op-form :is( [data-grid-cols="3"], [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(3) .dgxl-columnHeader::after {
     content: "Kolonne 3";
 }
 
-.op-form-steps :is( [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(4) .dgxl-columnHeader::after {
+.op-form :is( [data-grid-cols="4"], [data-grid-cols="5"] ) .dgxl-column:nth-child(4) .dgxl-columnHeader::after {
     content: "Kolonner 4";
 }
 
-.op-form-steps :is( [data-grid-cols="5"] ) .dgxl-column:nth-child(5) .dgxl-columnHeader::after {
+.op-form :is( [data-grid-cols="5"] ) .dgxl-column:nth-child(5) .dgxl-columnHeader::after {
     content: "Kolonne 5";
 }
 
-.op-form-steps .op-form-directions .op-button-save,
-.op-form-steps[data-form-step="1"] .op-form-directions .op-button-back,
-.op-form-steps[data-form-step-last="true"] .op-form-directions .op-button-next {
+.op-form .op-form-directions .op-button-save,
+.op-form [data-form-step="1"] .op-form-directions .op-button-back,
+.op-form [data-form-step-last="true"] .op-form-directions .op-button-next {
     display: none;
 }
 
-.op-form-steps[data-form-step-last="true"] .op-form-directions .op-button-save {
+.op-form [data-form-step-last="true"] .op-form-directions .op-button-save {
     display: flex;
 }
 
-.op-form-steps .op-form-directions {
+.op-form .op-form-directions {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1969,6 +1983,7 @@ html {
     cursor: pointer;
 }
 
+.op-input-field .op-input-checkbox .op-input-value,
 .op-input-field .op-input-checkbox .op-input-description {
     display: flex;
     padding: 0.5rem 4.5rem 0.5rem 1.5rem;
@@ -1993,7 +2008,7 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 4rem; 
+    min-width: 4rem; 
     height: 4rem;
     border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
@@ -2048,31 +2063,31 @@ html {
     border-color: var(--wp--preset--color--error-100);
 }
 
-.op-form-steps .op-form-radio-inputs {
+.op-form .op-form-radio-inputs {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
-.op-form-steps .op-form-radio-inputs .op-new-button {
+.op-form .op-form-radio-inputs .op-new-button {
     flex-direction: column;
     padding: 2rem;
 }
 
-.op-form-steps .op-form-radio-inputs .op-new-button span {
+.op-form .op-form-radio-inputs .op-new-button span {
     padding: 1rem;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input {
+.op-form .op-form-radio-inputs .op-radio-input {
     display: flex;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input.op-radio-input-checked {
+.op-form .op-form-radio-inputs .op-radio-input.op-radio-input-checked {
     grid-row: 1;
     grid-column: 2;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label {
+.op-form .op-form-radio-inputs .op-radio-input label {
     background-color: var(--wp--preset--color--white);
     display: flex;
     flex-direction: column;
@@ -2085,7 +2100,7 @@ html {
     transition: border-color 200ms ease-in-out;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input input {
+.op-form .op-form-radio-inputs .op-radio-input input {
     width: 1px;
     height: 1px;
     margin: -1px;
@@ -2098,12 +2113,12 @@ html {
     clip-path: inset(50%);
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
-.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label {
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
+.op-form .op-form-radio-inputs .op-radio-input input:checked ~ label {
     border-color: var(--form-color-medium);
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label .op-radio-check {
+.op-form .op-form-radio-inputs .op-radio-input label .op-radio-check {
     background-color: var(--wp--preset--color--white);
     display: flex;
     justify-content: center;
@@ -2119,7 +2134,7 @@ html {
     transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon {
+.op-form .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon {
     background-color: var(--wp--preset--color--white);
     color: var(--form-color-medium);
     font-size: 2rem;
@@ -2133,33 +2148,33 @@ html {
     transition: border-color 200ms ease-in-out;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check,
-.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check,
-.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
-.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon {
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check,
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon {
     border-color: var(--form-color-medium);
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check {
     background-color: var(--form-color-light);
 }
 
 
-.op-form-steps .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon::before {
+.op-form .op-form-radio-inputs .op-radio-input label .op-radio-check .op-icon::before {
     display: none;
 }
 
-.op-form-steps .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
+.op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
     display: flex;
 }
 
-.op-form-steps .op-radio-input .op-radio-info {
+.op-form .op-radio-input .op-radio-info {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-info {
+.op-form .op-radio-input .op-radio-info .op-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2167,8 +2182,8 @@ html {
     position: relative;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-info::before,
-.op-form-steps .op-radio-input .op-radio-info .op-info::after {
+.op-form .op-radio-input .op-radio-info .op-info::before,
+.op-form .op-radio-input .op-radio-info .op-info::after {
     background-color: var(--form-color-light);
     background: linear-gradient(90deg, var(--form-color-light) 0%, rgba(255,255,255,0) calc(100% - 5rem));
     content: "";
@@ -2179,19 +2194,19 @@ html {
     left: 0;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-info::after {
+.op-form .op-radio-input .op-radio-info .op-info::after {
     background-color: var(--form-color-medium);
     background: linear-gradient(90deg, var(--form-color-medium) 0%, rgba(255,255,255,0) calc(100% - 5rem));
     opacity: 0;
     transition: opacity 200ms ease-in-out;
 }
 
-.op-form-steps .op-radio-input label:where( :hover, :focus ) .op-radio-info .op-info::after,
-.op-form-steps .op-radio-input input:checked ~ label .op-radio-info .op-info::after {
+.op-form .op-radio-input label:where( :hover, :focus ) .op-radio-info .op-info::after,
+.op-form .op-radio-input input:checked ~ label .op-radio-info .op-info::after {
     opacity: 1;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-info .op-text {
+.op-form .op-radio-input .op-radio-info .op-info .op-text {
     color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     line-height: var(--wp--custom--typography--line-height--small);
@@ -2200,7 +2215,7 @@ html {
     gap: 0.6rem;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-info .op-icon {
+.op-form .op-radio-input .op-radio-info .op-info .op-icon {
     text-align: center;
     display: flex;
     justify-content: center;
@@ -2210,23 +2225,23 @@ html {
     border-radius: 0.4rem;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-content {
+.op-form .op-radio-input .op-radio-info .op-content {
     padding-top: 1rem;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-content .op-text {
+.op-form .op-radio-input .op-radio-info .op-content .op-text {
     line-height: var(--wp--custom--typography--line-height--small);
     padding: 0.5rem 2rem;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-content .op-text .op-text-title {
+.op-form .op-radio-input .op-radio-info .op-content .op-text .op-text-title {
     color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     font-weight: 600;
     padding-bottom: 0.2rem;
 }
 
-.op-form-steps .op-radio-input .op-radio-info .op-image {
+.op-form .op-radio-input .op-radio-info .op-image {
     justify-content: flex-end;
     flex: 1;
     padding: 1rem;

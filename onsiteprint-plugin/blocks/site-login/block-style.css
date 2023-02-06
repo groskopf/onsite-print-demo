@@ -1,0 +1,37 @@
+/* ------------------------------------------------------------------------
+#  Site Login Block Style
+?  Updated: 2023-02-06 - 21:05 (Y:m:d - H:i)
+--------------------------------------------------------------------------- */
+
+.op-site-login {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+.op-site-login .op-block__inner .op-fields-header {
+    color: var(--wp--preset--color--white);
+    background: var(--wp--preset--color--primary-60);
+    background-image: var(--wp--preset--gradient--horizontal-primary-60-to-80);
+    padding: 1.7rem 2rem 2rem;
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-site-login .op-block__inner .op-form-content {
+    overflow: visible;
+}
+
+.op-site-login .op-block__inner .op-form-fields {
+    background-color: var(--wp--preset--color--neutral-10);
+    display: flex;
+    width: 100%;
+    padding: 2rem;
+    border: 0.1rem solid var(--wp--preset--color--neutral-30);
+    border-radius: 0 0 0.4rem 0.4rem;
+    overflow: hidden;
+}
+
+.op-site-login .op-form__inner,
+.op-site-login .op-fieldset__inner {
+    gap: 2rem;
+}

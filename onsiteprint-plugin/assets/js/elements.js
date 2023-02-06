@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-01 - 16:32 (Y:m:d - H:i)
+ ?  Updated: 2023-02-06 - 21:06 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -507,8 +507,8 @@ function opAddValidationToElements( debug, container, elements, type ) {
                 let inputElementWrapper = inputElement.closest( '.op-input-wrapper' )
                 
                 // #NG - Need to be automatic added (For each Language), maybe in a separate Local Storage.
-                let inputMessage = element.message
-                let validationElement = inputElementWrapper.querySelector( '.op-input-validation .op-message' )
+                //let inputMessage = element.message
+                //let validationElement = inputElementWrapper.querySelector( '.op-input-validation .op-message' )
                 
                 ///// Set Attribute to Element.
                 ////* 0 = default, 1 = approved, 2 = error.
@@ -523,7 +523,7 @@ function opAddValidationToElements( debug, container, elements, type ) {
             } )
 
             ///// Create Approved Response.
-            error = false, code = 201, message = `Error was Added to the Elements!`
+            error = false, code = 200, message = `The Validation was Added to the Elements!`
        
         }
 
@@ -641,7 +641,7 @@ function opValidateContainerInputs( debug, container ) {
                 
                 let addErrorToElements = opAddValidationToElements( debug, container, inputsWithErrors, 'error' )
 
-                if ( addErrorToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs():`, addErrorToElements.response )
+                if ( addErrorToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs(error):`, addErrorToElements.response )
 
             }
             
@@ -649,7 +649,7 @@ function opValidateContainerInputs( debug, container ) {
 
                 let addApprovalToElements = opAddValidationToElements( debug, container, inputsWithApproval, 'approve' )
 
-                if ( addApprovalToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs():`, addApprovalToElements.response )
+                if ( addApprovalToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs(approve):`, addApprovalToElements.response )
 
             }
 
@@ -1804,7 +1804,7 @@ async function opCreatePrintDocument( printWindow, block, eventName ) {
 
     printWindow.document.write( '<body onafterprint="self.close()"><h2>OnsitePrint.dk</h2>' )
 
-    let header = `<h3><b>Event:</b> ${ eventName }</h3><p class="op-page-number">xxx</p>`
+    let header = `<h3><b>Event:</b> ${ eventName }</h3><p class="op-page-number"></p>`
 
     let colInfo = block.querySelector( '.op-participant-col-info' ).outerHTML
     let rowList = block.querySelectorAll( '.op-participant-rows article' )
@@ -1827,13 +1827,16 @@ async function opCreatePrintDocument( printWindow, block, eventName ) {
     
     printWindow.document.write( `
             </tbody>
-            <tfoot class="op-pdf-footer">
-                <tr><td class="op-pdf-footer-cell"></td><td class="op-pdf-footer-info">
-                    <div class="op-participant-col-info">${ colInfo }</div>
-                </td></tr>
-            </tfoot>
         </table></div></body></html>
     ` )
+
+    /*
+    <tfoot class="op-pdf-footer">
+        <tr><td class="op-pdf-footer-cell"></td><td class="op-pdf-footer-info">
+            <div class="op-participant-col-info">${ colInfo }</div>
+        </td></tr>
+    </tfoot>
+    */
 
     return new Promise( resolve => {
         resolve( { document: 'Document loaded' } )
@@ -1884,8 +1887,8 @@ function opPrintEventParticipants( eventListId ) {
     opCreatePrintDocument( printWindow, block, eventName).then( response => {
         opConsoleDebug( debug, 'Response:', response )
         setInterval( () => {
-            //printWindow.print()
-            //printWindow.close()
+            printWindow.print()
+            printWindow.close()
         }, 500)
     })
 
@@ -2941,7 +2944,7 @@ function opEventCreationBlocks() {
                     
                     radioInput.checked = true
                     radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )
-                    opFormInputValidation( true, 'input', radioInput )
+                    opFormInputValidation( debug, 'fieldset', radioInput )
 
                 }
 
