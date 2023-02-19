@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 1
- ?  Updated: 2023-02-06 - 21:02 (Y:m:d - H:i)
+ ?  Updated: 2023-02-11 - 18:01 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -20,7 +20,7 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-bookingcode-input" class="op-input-border" oninput="opFormInputValidation( false, 'input' )" name="bookingcode" type="text" required>
+                <input id="<?= esc_attr($id) ?>-bookingcode-input" class="op-input-border" oninput="opFormInputValidation(false, 'clear')" name="bookingcode" type="text" required>
             </div>
         </label>
 
@@ -32,7 +32,7 @@
                     <span class="op-message"><?= esc_attr( $acf['field_2_val'] ) ?></span>
                 </div>
                 <div class="op-input-checkbox op-input-border">
-                    <input id="<?= esc_attr($id) ?>-storage-approval-input" oninput="opFormInputValidation()" name="approval" type="checkbox" required>
+                    <input id="<?= esc_attr($id) ?>-storage-approval-input" oninput="opLoginButton(), opFormInputValidation(false, 'input')" name="approval" type="checkbox" required>
                     <div class="op-radio-check" data-icon="circle-check">
                         <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
                     </div>

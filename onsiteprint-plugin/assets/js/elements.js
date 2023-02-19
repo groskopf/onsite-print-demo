@@ -395,13 +395,13 @@ function opValidateApiResponse( debug, request ) {
         else {
 
             ///// Console Log if the Debug parameter is 'true'.
-            opConsoleDebug( debug, `API Response:`, request )
-
-            ///// If the Response has detail.
-            if ( request.response.detail ) throw 'The API Response has an Error!'
+            opConsoleDebug( debug, `Validate API Response Request:`, request )
 
             ///// Create Approved Response.
             error = request.error, code = request.code, message = request.response
+
+            ///// If the Response has detail.
+            if ( request.response.detail ) throw 'The API Response has an Error!'
                     
         }
         
@@ -843,7 +843,7 @@ function opSetApprovalToStepInForm( debug, fieldsetElement, type ) {
 /* ---------------------------------------------------------
  >  1m. Add Grid Columns to the Grid Element
 ------------------------------------------------------------ */
-function opSetGridCols( debug, number ) {
+function opSetGridCols( debug, number, formElement ) {
 
     ///// Create Variables.
     let error, code, message
@@ -854,9 +854,9 @@ function opSetGridCols( debug, number ) {
         ////* true or false
         if ( ! debug ) debug = false
         if ( ! number ) throw `Missing the Number of Grid Columns in the Function Parameters!`
+        if ( ! formElement ) formElement = event.target.closest( '.op-form-steps' )
 
         ///// Get the Elements.
-        let formElement = event.target.closest( '.op-form-steps' )
         let gridContainer = formElement.querySelector( '.op-grid-wrapper' )
 
         ///// Set the Number of Grid Columns to the Grid Container Element.
@@ -928,7 +928,7 @@ async function opSetGridContainer( debug, inputElement, type ) {
             ///// The URL to the API.
             const url = `${ opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
 
-            ///// Fetch from the FastAPI.
+            ///// Fetch from Local PHP file.
             const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
 
             ///// Console Log if the Debug parameter is 'true'.
@@ -998,7 +998,12 @@ function opFormInputValidation( debug, type, inputElement ) {
         let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
         
         ///// Type of Validation.
-        if ( type == 'input' ) {
+        if ( type == 'clear' ) {
+
+            ///// Clear the Validation.
+            inputWrapperElement.setAttribute( 'data-validation', '0' )
+
+        } else if ( type == 'input' ) {
 
             ///// Get the Validated Input Response.
             const inputResponse = opValidateContainerInputs( debug, inputWrapperElement )
@@ -1025,8 +1030,6 @@ function opFormInputValidation( debug, type, inputElement ) {
                     error = false, code = 200, message = `The Grid was Removed from the Container Element!`
                     
                 } else {
-
-                    console.log( 'inputResponse', inputResponse.error )
 
                     ///// Adding a new Grid to the Container Element.
                     const addGridResponse = opSetGridContainer( debug, inputElement, 'add' )
@@ -1184,10 +1187,9 @@ async function opGetApiData( debug, method, bodyInput, url, output, contentType 
 
         ///// Set the Parameter If the Debug is not defined.
         if ( ! debug ) debug = false
-
+        
         ///// Validate the Function Parameters.
         if ( ! method ) throw `Missing the Method in the Function Parameters!`
-        else if ( ! bodyInput ) throw `Missing the Body Input in the Function Parameters!`
         else if ( ! url ) throw `Missing the URL link in the Function Parameters!`
         else if ( ! output ) throw `Missing the Output in the Function Parameters!`
         else {
@@ -1199,26 +1201,32 @@ async function opGetApiData( debug, method, bodyInput, url, output, contentType 
                 headers: {
                     accept: 'application/json',
                     'access_token': opGetFastApiInfo( 'token' )
-                },
-                body: bodyInput
+                }
             }
             
             ///// Add Content Type to Options.
             if ( contentType !== 'form' ) {
-                options.headers = { ...options.headers, 'Content-Type': 'application/json'};
+                options.headers = { ...options.headers, 'Content-Type': 'application/json' }
+            }
+
+            ///// Add Body to Options.
+            if ( bodyInput ) {
+                options = { ...options, 'body': bodyInput }
             }
         
             ///// Get the Response from the API.
             ////* output (json or blob).
             const apiResponse = await opFetchDataFromApi( debug, url, options, output )
-                       
+            
             ///// Console Log if the Debug parameter is 'true'.
             opConsoleDebug( debug, `API Response:`, apiResponse )
             
             ///// Validate the Fetch Response.
             const validatedApiResponse = opValidateApiResponse( debug, apiResponse )
-            if ( validatedApiResponse.error !== false ) throw 'The Validated API Response has an Error!'
-            else error = validatedApiResponse.error, code = validatedApiResponse.code, message = validatedApiResponse.response
+            if ( validatedApiResponse.error !== false ) {
+                code = validatedApiResponse.code
+                throw 'The Validated API Response has an Error!'
+            } else error = validatedApiResponse.error, code = validatedApiResponse.code, message = validatedApiResponse.response
 
             ///// Console Log if the Debug parameter is 'true'.
             opConsoleDebug( debug, `Validated API Response:`, validatedApiResponse )
@@ -1242,6 +1250,168 @@ async function opGetApiData( debug, method, bodyInput, url, output, contentType 
     }
 
 }
+
+
+/* ------------------------------------------
+ >  3c. Create Booking
+--------------------------------------------- */
+async function opCreateBooking( debug, bookingData ) {   
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If the Debug is not defined.
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! bookingData ) throw `Missing the Booking Data in the Function Parameters!`
+
+        ///// The URL to the API.
+        const url = `${ opGetFastApiInfo( 'url' ) }layouts/name_tags/${bookingData.name_tag_type}`
+
+        ///// Fetch from the FastAPI.
+        const nameTagType = await opGetApiData( debug, 'GET', '', url, 'json' )
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `Name Tag Type:`, nameTagType )
+
+        ///// Validate the Fetch Response.
+        if ( nameTagType.error !== false ) throw 'Could not find any Name Tag Type for the Booking!'
+        else {        
+            
+            ///// Define new Booking Item variable.
+            let bookingItem = { 
+                bookingId : bookingData.booking_code, 
+                bookingStartDate : bookingData.start_date, 
+                bookingEndDate : bookingData.end_date,
+                printerId : bookingData.printer_code, 
+                nameTagType : {
+                    nameTagTypeId : bookingData.name_tag_type, 
+                    nameTagTypeLayouts : nameTagType.response.layouts
+                }
+            }
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `Booking Item:`, bookingItem )
+            
+            ///// Create new Form Element.
+            const formData = new FormData()
+
+            ///// Add Data to the new Form Element
+            formData.append( 'booking-item', JSON.stringify( bookingItem ) )
+
+            ///// The URL to the API.
+            const acsUrl = `${ opGetCurrentScriptPath() }/../api/api-create-session.php`
+
+            ///// Fetch from Local PHP file.
+            const createBookingResponse = await opGetApiData( debug, 'POST', formData, acsUrl, 'json', 'form' )
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `Create Booking Response:`, createBookingResponse )
+
+            ///// Validate the Fetch Response.
+            if ( createBookingResponse.error !== false ) throw 'Could not Create the Booking!'
+            else if ( createBookingResponse.response.session.bookingId !== bookingData.booking_code ) {
+
+                ///// The URL to the API.
+                const adsUrl = `${ opGetCurrentScriptPath() }/../api/api-delete-session.php`
+
+                ///// Fetch from Local PHP file.
+                const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
+
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, `Delete Booking Response:`, deleteBookingResponse )
+
+                ///// Validate the Fetch Response.
+                if ( deleteBookingResponse.error !== false ) throw deleteBookingResponse.response.message
+                else throw 'The Booking ID and Code do not Match!'
+
+            } else {
+                
+                ///// Create Response.
+                error = false, code = createBookingResponse.code, message = `The Booking was created perfectly!`
+
+            }
+
+        }
+            
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opCreateTemplate()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+
+/* ------------------------------------------------------------------------
+ #  4x. Session Storage Functions
+---------------------------------------------------------------------------
+ >  4x. Booking Session Storage
+------------------------------------------------------------
+ >  4x-1. Get Booking from Session
+--------------------------------------------- */
+async function opGetBookingFromSession( debug ) {
+    
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// The URL to the API.
+        const agsUrl = `${ opGetCurrentScriptPath() }/../api/api-get-session.php`
+
+        ///// Fetch from Local PHP file.
+        const getBookingResponse = await opGetApiData( debug, 'GET', '', agsUrl, 'json' )
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `Get Booking Response:`, getBookingResponse )
+        
+        if ( getBookingResponse.error !== false ) throw getBookingResponse.response
+        else {
+
+            ///// Get Booking Item.
+            const bookingItem = getBookingResponse.response.session
+            opConsoleDebug( debug, 'bookingItem:', bookingItem )
+
+            ///// Create Approved Response.
+            error = false, code = 200, message = bookingItem
+
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opGetBookingFromSession()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
 
 /* ------------------------------------------------------------------------
  #  4. Local Storage Functions
@@ -1275,55 +1445,23 @@ function opGetLocalStorage( debug, localStorageName ) {
 
         ///// Throw Error Response.
         error = true, code = 400, message = errorMessage
-
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opGetLocalStorage(${ localStorageName })`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
     }
 
-    ///// Console Log if the Debug parameter is 'true'.
-    opConsoleDebug( debug, `Local Storage (${ localStorageName }):`, message )
-
-    ///// Return the Response to the Function.
-    return opReturnResponse( error, code, message )
-
 }
 
 /* ---------------------------------------------------------
- >  4b. Bookings Storage
+ >  4b. Templates Storage
 ------------------------------------------------------------
- >  4b-1. Get Layouts with Booking Code
---------------------------------------------- */
-function opGetLayoutsWithBookingCode( bookingCode ) {
-
-    ///// Debug the function
-    let debug = false // true or false
-
-    ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
-
-    ///// Get Booking List.
-    const bookingList = bookingsStorage.response.bookingList
-    opConsoleDebug( debug, 'bookingList:', bookingList )
-    
-    ///// Filter Booking Items.
-    let bookingItem = bookingList.filter( bookingItem => bookingItem.booking.bookingId === bookingCode )
-    opConsoleDebug( debug, `bookingItem:`, bookingItem[0] )
-    
-    ///// Get Layouts.
-    const layouts = bookingItem[0].booking.nameTagType.nameTagTypeLayouts
-    opConsoleDebug( debug, 'layouts:', layouts )
-
-    ///// Validate Template Item.
-    if ( ! layouts[0] ) {
-        return opReturnResponse( true, 400, 'No Layouts have been found!' )
-    } else {
-        return opReturnResponse( false, 200, layouts )
-    }    
-
-}
-
-/* ---------------------------------------------------------
- >  4c. Templates Storage
-------------------------------------------------------------
- >  4c-1. Get Template
+ >  4b-1. Get Template
 --------------------------------------------- */
 function opGetTemplate( templateId ) {
 
@@ -1358,7 +1496,7 @@ function opGetTemplate( templateId ) {
 }
 
 /* ------------------------------------------
- >  4c-2. Create Template
+ >  4b-2. Create Template
 --------------------------------------------- */
 async function opCreateTemplate( debug, formElement ) {   
 
@@ -1399,7 +1537,7 @@ async function opCreateTemplate( debug, formElement ) {
             if ( apiData.error !== false ) throw 'The API Data has an Error!'
             else {
                 
-                ///// If the Fetch Response has Code 201 (Created).
+                ///// If the Fetch Response has Code 200.
                 if ( apiData.code === 200 ) {
 
                     ///// Get the element for output.
@@ -1458,9 +1596,9 @@ async function opCreateTemplate( debug, formElement ) {
 
 
 /* ---------------------------------------------------------
- >  4d. Event Storage
+ >  4c. Event Storage
 ------------------------------------------------------------
- >  4d-1. Get Event List
+ >  4c-1. Get Event List
 --------------------------------------------- */
 function opGetEventList( eventListId ) {
 
@@ -1491,7 +1629,7 @@ function opGetEventList( eventListId ) {
 }
 
 /* ------------------------------------------
- >  4d-2. Create Event
+ >  4c-2. Create Event
 --------------------------------------------- */
 async function opCreateEvent( debug, formElement ) {   
         
@@ -1531,7 +1669,7 @@ async function opCreateEvent( debug, formElement ) {
         ///// The URL to the API.
         const url = `${ opGetCurrentScriptPath() }/../api/api-convert-grid-data-into-json.php`
 
-        ///// Fetch from the FastAPI.
+        ///// Fetch from Local PHP file.
         const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
         
         ///// If the Fetch Response has Code 200 (OK).
@@ -1575,7 +1713,7 @@ async function opCreateEvent( debug, formElement ) {
 }
 
 /* ------------------------------------------
- >  4d-2. Get Participant
+ >  4c-2. Get Participant
 --------------------------------------------- */
 function opGetParticipant( eventListId, participantId ) {
 
@@ -1607,7 +1745,7 @@ function opGetParticipant( eventListId, participantId ) {
 }
 
 /* ------------------------------------------
- >  4d-3. Update Participant
+ >  4c-3. Update Participant
 --------------------------------------------- */
 function opUpdateParticipant( eventListId, participantId, participantPrints, dateNow ) {
 
@@ -1670,16 +1808,10 @@ async function opPrintParticipant( participantId ) {
     ///// Get Id's. 
     let blockId = block.getAttribute( 'id' ).substring(9)
     let eventListId = block.getAttribute( 'data-event-id' )
-    
-    //////////////////// #NG: Missing login validation
-    ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
-    
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Booking.
-    const booking = bookingsStorage.response.bookingList[0].booking
-    opConsoleDebug( debug, 'Booking:', booking )
-
+   
+    ///// Get Booking Item.
+    const bookingItem = await opGetBookingFromSession( debug )
+    opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Event List. 
@@ -1711,7 +1843,7 @@ async function opPrintParticipant( participantId ) {
     opConsoleDebug( debug, 'Participant:', participant )
    
     ///// Create Variables.
-    let bookingCode = booking.bookingId
+    let bookingCode = bookingItem.response.bookingId
     let layout = template.templateLayout
     let imageFilename = template.templateFilenameUploaded
     let string1 = participant.line1
@@ -1857,16 +1989,6 @@ function opPrintEventParticipants( eventListId ) {
     
     ///// Get Id's. 
     let blockId = block.getAttribute( 'id' ).substring(9)
-    
-    //////////////////// #NG: Missing login validation
-    ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
-    
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Booking.
-    const booking = bookingsStorage.response.bookingList[0].booking
-    opConsoleDebug( debug, 'booking:', booking )
-
 
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Event List. 
@@ -2140,9 +2262,10 @@ function opSearchClear() {
 function opRelocateFromModal( url ) {
 
     ///// Get the elements.
-    let block = event.target.closest( 'section[id*="op-block"]' )
-    
+    //let block = event.target.closest( 'section[id*="op-block"]' )
+
     ///// Relocate to URL Page.
+    url = ! url ? window.location.origin : url
     window.location.href = url
 
 }
@@ -2191,7 +2314,7 @@ function opFormGoToStep( newStep ) {
                 ///// Validate the inputs in the fieldset.
                 const validatedFormResponse = opValidateContainerInputs( debug, fieldsets[i] )
 
-                if ( validatedFormResponse.error !== false ) return opConsoleDebug( true, 'opFormGoToStep():', validatedFormResponse )
+                if ( validatedFormResponse.error !== false ) return opConsoleDebug( debug, 'opFormGoToStep():', validatedFormResponse )
 
                 fieldsets[i].classList.add( 'op-validation-approved' )
             }
@@ -2480,6 +2603,266 @@ async function opSaveNewEvent( debug ) {
 
 }
 
+/* ------------------------------------------
+>  6a-10. Get Booking from FastAPI
+--------------------------------------------- */
+async function opGetBookingFromFastAPI( debug, bookingCode ) {
+    
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! bookingCode ) throw 'Missing Booking Code!'
+        else {
+
+            ///// The URL to the API.
+            const url = `${ opGetFastApiInfo( 'url' ) }bookings/${ bookingCode }`
+
+            ///// Fetch from the FastAPI.
+            const apiData = await opGetApiData( debug, 'GET', '', url, 'json' )
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Data:`, apiData )
+
+            ///// If the Fetch Response has Code 200.
+            if ( apiData.code === 200 ) {
+                
+                ///// Create Approved Response.
+                error = false, code = 200, message = apiData.response
+                
+            } else if ( apiData.code === 404 ) {
+
+                ///// Create not Found Response.
+                error = true, code = 404, message = 'The Booking was not Found!'
+
+            } else throw 'The API Data has an Error!'
+            
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opGetBookingFromFastAPI(${ bookingCode })`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+
+/* ------------------------------------------
+>  6a-11. Login Button
+--------------------------------------------- */
+function opLoginButton( debug, inputElement ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! inputElement ) inputElement = event.target
+
+        ///// Get the Elements.
+        let formElement = inputElement.closest( '.op-form-fields' )
+        let loginButton = formElement.querySelector( '.op-button-save' )
+
+        ///// Enable or Disable the Login Button.
+        if ( inputElement.checked ) {
+            
+            ///// Enable the Login Button.
+            loginButton.disabled = false
+            
+            ///// Create Response.
+            error = false, code = 200, message = `The Login Button was Enabled!`
+            
+        } else {
+            
+            ///// Disable the Login Button.
+            loginButton.disabled = true
+
+            ///// Create Response.
+            error = false, code = 200, message = `The Login Button was Disable!`
+
+        }
+ 
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opLoginButton()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+/* ------------------------------------------
+>  6a-12. Logout Button
+--------------------------------------------- */
+async function opLogoutButton( debug, url, inputElement ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! url ) throw 'Missing the URL to relocation!'
+        else if ( ! inputElement ) inputElement = event.target
+
+        ///// Get the Block Element.
+        let blockElement = inputElement.closest( 'section[id*="op-block"]' )
+
+        ///// The URL to the API.
+        const adsUrl = `${ opGetCurrentScriptPath() }/../api/api-delete-session.php`
+
+        ///// Fetch from Local PHP file.
+        const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
+
+        ///// Console Log if the Debug parameter is 'true'.
+        opConsoleDebug( debug, `Delete Booking Response:`, deleteBookingResponse )
+
+        ///// Validate the Fetch Response.
+        if ( deleteBookingResponse.error !== false ) {
+            
+            ///// Throw Response.
+            throw deleteBookingResponse.response.message
+
+        } else {
+
+            ///// Create Response.
+            error = false, code = 200, message = `There is Logged out successfully!`
+
+            ///// Relocate to the URL Link.
+            opRelocateFromModal( url )
+
+        }
+    
+ 
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opLogoutButton()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+/* ------------------------------------------
+>  6a-13. Validate the Booking Form
+--------------------------------------------- */
+async function opBookingFormValidation( debug, url ) {
+    
+    ///// Create Variables.
+    let error, code, message
+    
+    try {
+        
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        
+        ///// Validate the Function Parameters.
+        if ( ! url ) throw 'Missing the URL Parameter!'
+        
+        ///// Get the Form Element.
+        let formElement = event.target.closest( '.op-form-fields' )
+        
+        ///// Get the Booking Code from Form.
+        let bookingElement = formElement[ 'bookingcode' ]
+        let bookingCode = bookingElement.value
+        
+        ///// Get the Validated Input Response.
+        const bookingResponse = await opGetBookingFromFastAPI( debug, bookingCode )
+        
+        
+        ///// Validate to Booking Code.
+        if ( bookingResponse.error !== false ) {
+            
+            let addErrorToElements = opAddValidationToElements( debug, formElement, [ bookingElement ], 'error' )
+            
+            if ( addErrorToElements.error !== false ) throw addErrorToElements.response
+            else {
+                ///// Create Response.
+                error = false, code = 200, message = `The Error was Added to the Booking Element!`
+            }
+
+        } else {
+
+            const createdBookingResponse = await opCreateBooking( debug, bookingResponse.response )
+
+            if ( createdBookingResponse.error !== false ) throw createdBookingResponse.response
+            else {
+
+                let addApprovalToElements = opAddValidationToElements( debug, formElement, [ bookingElement ], 'approve' )
+                
+                if ( addApprovalToElements.error !== false ) throw addErrorToElements.response
+                else {
+                    ///// Create Response.
+                    error = false, code = 200, message = `The Approval was Added to the Booking Element!`
+                    
+                    ///// Relocate to the URL Link.
+                    opRelocateFromModal( url )
+                }
+            }
+
+        }
+ 
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opBookingFormValidation(${ bookingCode })`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+
+
 
 /* ---------------------------------------------------------
  >  6b. Block Validation Functions
@@ -2558,22 +2941,19 @@ function opBookingInformationBlocks() {
 
     ///// Get each Block.
     if ( blocks ) {
-        blocks.forEach( block => {
+        blocks.forEach( async block => {
 
-            //////////////////// #NG: Missing login validation
-            ///// Validate Local Storage of Bookings.
-            const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
+            ///// Get Booking Item.
+            const bookingItem = await opGetBookingFromSession( debug )
+            opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
-            //////////////////// #NG: Needs to be looked at again - Search.
-            const bookingInformation = bookingsStorage.response.bookingList[0].booking
+            let bookingStartDate = opTimeConverter( bookingItem.response.bookingStartDate, 'date-month-year', 'da' )
+            let bookingEndDate = opTimeConverter( bookingItem.response.bookingEndDate, 'date-month-year', 'da' )
 
-            let bookingStartDate = opTimeConverter( bookingInformation.bookingStartDate, 'date-month-year', 'da' )
-            let bookingEndDate = opTimeConverter( bookingInformation.bookingEndDate, 'date-month-year', 'da' )
+            let bookingStartDateFull = opTimeConverter( bookingItem.response.bookingStartDate, 'full' )
+            let bookingEndDateFull = opTimeConverter( bookingItem.response.bookingEndDate, 'full' )
 
-            let bookingStartDateFull = opTimeConverter( bookingInformation.bookingStartDate, 'full' )
-            let bookingEndDateFull = opTimeConverter( bookingInformation.bookingEndDate, 'full' )
-
-            block.querySelector('.booking-code .text').innerHTML = bookingInformation.bookingId
+            block.querySelector('.booking-code .text').innerHTML = bookingItem.response.bookingId
             block.querySelector('.booking-start-date .text').innerHTML = bookingStartDate
             block.querySelector('.booking-end-date .text').innerHTML = bookingEndDate
             block.querySelector('.booking-start-date .text').setAttribute('datetime', bookingStartDateFull)
@@ -2598,16 +2978,13 @@ function opPrinterInformationBlocks() {
 
     ///// Get each Block.
     if ( blocks ) {
-        blocks.forEach( block => {
+        blocks.forEach( async block => {
 
-            //////////////////// #NG: Missing login validation
-            ///// Validate Local Storage of Bookings.
-            const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
+            ///// Get Booking Item.
+            const bookingItem = await opGetBookingFromSession( debug )
+            opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
-            //////////////////// #NG: Needs to be looked at again - Search.
-            const bookingInformation = bookingsStorage.response.bookingList[0].booking
-
-            block.querySelector('.printer-id .text').innerHTML = bookingInformation.printerId
+            block.querySelector('.printer-id .text').innerHTML = bookingItem.response.printerId
 
         })
     }
@@ -2813,31 +3190,24 @@ function opTemplateCreationBlocks() {
     let blocks = document.querySelectorAll( '.op-template-creation' )
     opConsoleDebug( debug, 'blocks:', blocks )
 
-    //////////////////// #NG: Missing login validation
-    ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
     
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Booking.
-    const booking = bookingsStorage.response.bookingList[0].booking
-    opConsoleDebug( debug, 'booking:', booking )
-
     ///// Get each Block.
     if ( blocks ) {
-        blocks.forEach( block => {
-
+        blocks.forEach( async block => {
+            
             ///// Get the elements.
             let blockId = block.getAttribute( 'id' )
             let container = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
             opConsoleDebug( debug, 'blockId:', blockId )
 
-            ///// Get Layouts from Booking.
-            const layoutsFromBooking = opGetLayoutsWithBookingCode( booking.bookingId )
-            if ( layoutsFromBooking.error !== false ) return opConsoleDebug( debug, 'layouts:', layoutsFromBooking.response )
+            ///// Get Booking Item.
+            const bookingItem = await opGetBookingFromSession( debug )
+            opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
-            ///// Get Layouts.
-            const layouts = layoutsFromBooking.response
-            opConsoleDebug( debug, 'layouts:', layouts )
+            ///// Get Layouts from Booking.
+            const layouts = bookingItem.response.nameTagType.nameTagTypeLayouts
+            if ( layouts.length == 0 ) return opConsoleDebug( true, 'layouts:', 'Could not find any Layouts!' )
+            opConsoleDebug( debug, 'Layouts:', layouts )
 
             let layoutNumber = 0
 
@@ -2893,15 +3263,6 @@ function opEventCreationBlocks() {
     let blocks = document.querySelectorAll( '.op-event-creation' )
     opConsoleDebug( debug, 'blocks:', blocks )
 
-    //////////////////// #NG: Missing login validation
-    ///// Validate Local Storage of Bookings.
-    const bookingsStorage = opGetLocalStorage( debug, 'Bookings' )
-    
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Booking.
-    const booking = bookingsStorage.response.bookingList[0].booking
-    opConsoleDebug( debug, 'booking:', booking )
-
     ///// Get each Block.
     if ( blocks ) {
         blocks.forEach( block => {
@@ -2939,11 +3300,22 @@ function opEventCreationBlocks() {
                 const templateId = opGetUrlParameters().template
 
                 if ( templateId ) {
-                    
+
+                    ///// Find Template Item.
+                    let templateItem = templateList.filter( template => template.templateCreationDate === Number( templateId ) )
+                    opConsoleDebug( debug, `template-${ templateId }:`, templateItem )
+
+                    let formElement = radioInput.closest( '.op-form-steps' )
+                    opSetGridCols( debug, templateItem[0].templateLayoutColumns.charAt(0), formElement )
+
+                    ///// #NG - Need validation from opSetGridCols() before proceeding! 
+
                     let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
                     
                     radioInput.checked = true
-                    radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )
+                    radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )                   
+
+
                     opFormInputValidation( debug, 'fieldset', radioInput )
 
                 }
@@ -2960,6 +3332,98 @@ function opEventCreationBlocks() {
 
         })
     }
+}
+
+/* ---------------------------------------------------------
+ >  6c-10. Site Login
+ *  Check if multiple (Site Login) Blocks is on page
+------------------------------------------------------------ */
+function opSiteLoginBlocks() {
+    
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Get the elements.
+        let blockName = 'Site Login'
+        let blocks = document.querySelectorAll( '.op-site-login' )
+        opConsoleDebug( debug, 'blocks:', blocks )
+
+        return
+        
+        ///// Get each Block.
+        if ( blocks ) { blocks.forEach( block => {
+
+            ///// Get the Block ID.
+            let blockId = block.getAttribute( 'id' )
+
+            ///// Get the Radio Inputs Container.
+            let containerElement = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
+        
+            ///// Get the Local Storage of Templates.
+            const templatesStorage = opGetLocalStorage( debug, 'Templates' )
+
+            ///// Validate the Response from the Local Storage of Templates.
+            if ( templatesStorage.error !== false ) throw templatesStorage.response
+
+            ///// Get the Template List from the Local Storage of Templates.
+            const templateList = templatesStorage.response.templateList
+
+            ///// Sort the Template List after newest date.
+            const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
+
+            ///// Add new Templates to the Container Element.
+            const addTemplatesToElement = opAddTemplatesToElement( debug, blockId, containerElement, sortedTemplateList )
+
+            ///// Validate the Response from the Adding Templates Function.
+            if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
+            
+            ///// Get the Template ID from the URL Parameter.
+            const templateId = opGetUrlParameters().template
+
+            if ( templateId ) {
+
+                ///// Find Template Item.
+                let templateItem = templateList.filter( template => template.templateCreationDate === Number( templateId ) )
+                opConsoleDebug( debug, `template-${ templateId }:`, templateItem )
+
+                let formElement = radioInput.closest( '.op-form-steps' )
+                opSetGridCols( debug, templateItem[0].templateLayoutColumns.charAt(0), formElement )
+
+                ///// #NG - Need validation from opSetGridCols() before proceeding! 
+
+                let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
+                
+                radioInput.checked = true
+                radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )                   
+
+
+                opFormInputValidation( debug, 'fieldset', radioInput )
+
+            }
+
+        })}
+        
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opSiteLoginBlocks()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
 }
 
 

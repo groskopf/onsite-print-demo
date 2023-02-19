@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------
 #  Site Login Block Style
-?  Updated: 2023-02-06 - 21:05 (Y:m:d - H:i)
+?  Updated: 2023-02-19 - 14:20 (Y:m:d - H:i)
 --------------------------------------------------------------------------- */
 
 .op-site-login {
@@ -15,6 +15,10 @@
     background-image: var(--wp--preset--gradient--horizontal-primary-60-to-80);
     padding: 1.7rem 2rem 2rem;
     border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-site-login .op-block__inner .op-fields-header .op-fields-title {
+    padding-bottom: 0;
 }
 
 .op-site-login .op-block__inner .op-form-content {
@@ -32,6 +36,7 @@
 }
 
 .op-site-login .op-form__inner,
-.op-site-login .op-fieldset__inner {
+.op-site-login .op-fieldset__inner,
+.op-site-login .op-block__inner.op-logout .op-form-fields {
     gap: 2rem;
 }

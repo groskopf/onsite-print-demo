@@ -1641,7 +1641,7 @@ html {
     width: 100%;
 }
 
-.op-form .op-block__inner > .op-fieldset-header {
+.op-form .op-block__inner > .op-block__header {
     background: var(--form-color-medium);
     background-image: var(--form-color-gradient);
     color: var(--wp--preset--color--white);
@@ -1651,7 +1651,7 @@ html {
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
 
-.op-form .op-block__inner > .op-fieldset-header .op-block-title {
+.op-form .op-block__inner > .op-block__header .op-block-title {
     padding-bottom: 0;
 }
 
