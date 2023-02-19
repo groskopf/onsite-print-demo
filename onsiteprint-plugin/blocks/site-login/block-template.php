@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-02-19 - 14:18 (Y:m:d - H:i)
+ ?  Updated: 2023-02-19 - 20:10 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -124,7 +124,7 @@ session_start();
                 </a>
 
                 <button type="button" onclick="opLogoutButton( false, '<?= esc_attr( $acf['logout_main_link'] ) ?>' )" class="op-button-save op-button op-button-size-medium op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="unlock" data-icon-position="left">
-                    <span class="op-icon" role="img" aria-label="Lock Icon"></span>
+                    <span class="op-icon" role="img" aria-label="Unlock Icon"></span>
                     <span class="op-button-title"><?= esc_attr( $acf['logout_main_title'] ) ?></span>
                 </button>
 

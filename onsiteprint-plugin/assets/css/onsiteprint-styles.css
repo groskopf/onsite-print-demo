@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-06 - 19:15 (Y:m:d - H:i)
+ ?  Updated: 2023-02-19 - 20:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -68,31 +68,6 @@ html {
 
 
 :root {
-    /* Font Awesome Icons */
-    --fa-icon-check: "\f00c";
-    --fa-icon-exclamation: "\21";
-    --fa-icon-circle-check: "\f058";
-    --fa-icon-circle-exclamation: "\f06a";
-    --fa-icon-house: "\f015";
-    --fa-icon-table-cells: "\f00a";
-    --fa-icon-circle-question: "\f059";
-    --fa-icon-user: "\f007";
-    --fa-icon-lock: "\f023";
-    --fa-icon-unlock: "\f09c";
-    --fa-icon-print: "\f02f";
-    --fa-icon-clock: "\f017";
-    --fa-icon-floppy-disk: "\f0c7";
-    --fa-icon-calendar-days: "\f073";
-    --fa-icon-arrow-up-right-from-square: "\f08e";
-    --fa-icon-angle-left: "\f104";
-    --fa-icon-angle-right: "\f105";
-    --fa-icon-angle-up: "\f106";
-    --fa-icon-angle-down: "\f107";
-    --fa-icon-pen: "\f304";
-    --fa-icon-eye: "\f06e";
-    --fa-icon-sliders: "\f1de";
-    --fa-icon-magnifying-glass: "\f002";
-    --fa-icon-xmark: "\f00d";
 
 	/* OnsitePrint Icons */
     --op-icon-dashboard: url('../img/svg/icon-dashboard.svg');
@@ -102,6 +77,50 @@ html {
     --op-icon-number-4: "4";
     --op-icon-number-5: "5";
 
+    /* Font Awesome Icons */
+    --fa-icon-check: "\f00c";
+    --fa-icon-exclamation: "\21";
+    --fa-icon-question: "\3f";
+    --fa-icon-circle-check: "\f058";
+    --fa-icon-circle-exclamation: "\f06a";
+    --fa-icon-circle-question: "\f059";
+    --fa-icon-floppy-disk: "\f0c7";
+    --fa-icon-calendar-days: "\f073";
+    --fa-icon-arrow-up-right-from-square: "\f08e"; /* "Link" */
+    --fa-icon-angle-left: "\f104";
+    --fa-icon-angle-right: "\f105";
+    --fa-icon-angle-up: "\f106";
+    --fa-icon-angle-down: "\f107";
+    --fa-icon-pen: "\f304";
+    --fa-icon-eye: "\f06e";
+    --fa-icon-sliders: "\f1de";
+    --fa-icon-magnifying-glass: "\f002";
+    --fa-icon-xmark: "\f00d";
+    --fa-icon-print: "\f02f";
+    --fa-icon-user: "\f007";
+    --fa-icon-lock: "\f023";
+    --fa-icon-unlock: "\f09c";
+    --fa-icon-clock: "\f017";
+    --fa-icon-house: "\f015";
+    --fa-icon-table-cells: "\f00a";
+
+}
+
+
+[data-icon="op-dashboard"] .op-icon::before {
+	content: '';
+	background-image: var(--op-icon-dashboard);
+    background-repeat: no-repeat;
+    background-size: 3.2rem;
+    background-position: center;
+}
+
+[data-icon]:not( [data-icon*="op-number"] ) .op-icon::before {
+    font: var(--fa-font-solid);
+}
+
+[data-icon]:is( [data-icon="circle-question"] ) .op-icon::before {
+    font: var(--fa-font-regular);
 }
 
 [data-icon*="op-number"] .op-icon::before {
@@ -129,20 +148,6 @@ html {
 	content: var(--op-icon-number-5);
 }
 
-
-[data-icon="dashboard"] a::before {
-	content: '';
-	background-image: var(--op-icon-dashboard);
-    background-repeat: no-repeat;
-    background-size: 3.2rem;
-    background-position: center;
-}
-
-[data-icon] a::before,
-[data-icon]:not( [data-icon*="op-number"] ) .op-icon::before {
-    font: var(--fa-font-solid);
-}
-
 [data-icon="check"] .op-icon::before {
 	content: var(--fa-icon-check);
 }
@@ -151,12 +156,20 @@ html {
 	content: var(--fa-icon-exclamation);
 }
 
+[data-icon="question"] .op-icon::before{
+    content: var(--fa-icon-question);
+}
+
 [data-icon="circle-check"] .op-icon::before {
 	content: var(--fa-icon-circle-check);
 }
 
 [data-icon="circle-exclamation"] .op-icon::before {
 	content: var(--fa-icon-circle-exclamation);
+}
+
+[data-icon="circle-question"] .op-icon::before{
+    content: var(--fa-icon-circle-question);
 }
 
 [data-icon="floppy-disk"] .op-icon::before {
@@ -227,24 +240,13 @@ html {
 	content: var(--fa-icon-clock);
 }
 
-
-/* #NG */
-:is( [data-icon="circle-question"] ) a::before {
-    font: var(--fa-font-regular);
-}
-
-[data-icon="house"] a::before {
+[data-icon="house"] .op-icon::before {
 	content: var(--fa-icon-house);
 }
 
-[data-icon="table-cells"] a::before {
+[data-icon="table-cells"] .op-icon::before {
 	content: var(--fa-icon-table-cells);
 }
-
-[data-icon="circle-question"] a::before {
-	content: var(--fa-icon-circle-question);
-}
-/* #NG */
 
 
 .op-flex-row {

@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.41
+ *	Version: 1.0.0.42
  ?	(Check the Version variable)
- ?	Updated: 2023-02-06 - 18:10 (Y:M:D - H:M)
+ ?	Updated: 2023-02-19 - 21:33 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -61,7 +61,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.41' );
+define( 'OP_VERSION', '1.0.0.42' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -181,7 +181,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2b. Block: Log In/Out Button
 		------------------------------------------------------------ */
-		acf_register_block_type( array(
+/* 		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-button-loginout',
 			'title'				=> __('Log In/Out Button'),
 			'description'		=> __('Displaying a Button to Log In/Out of the website.'),
@@ -190,7 +190,7 @@ function onsiteprint_acf_init() {
 			'icon'				=> 'lock',
 			'keywords'			=> array(  'onsiteprint', 'button', 'login', 'logout', 'booking' ),
 		));
-
+ */
 		/* ---------------------------------------------------------
 		 >  2c. Block: Toggle Button
 		------------------------------------------------------------ */
@@ -276,7 +276,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Log In/Out (Switch)
 		------------------------------------------------------------ */
-		acf_register_block_type( array(
+/* 		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-log-switch',
 			'title'				=> __('Log in/out'),
 			'description'		=> __('Log in with a booking code.'),
@@ -285,11 +285,11 @@ function onsiteprint_acf_init() {
 			'icon'				=> 'lock',
 			'keywords'			=> array( 'onsiteprint', 'login', 'logout', 'booking' ),
 		));
-	
+	 */
 		/* ---------------------------------------------------------
 		 >  2x. Block: Log In
 		------------------------------------------------------------ */
-		acf_register_block_type( array(
+/* 		acf_register_block_type( array(
 			'name'				=> 'onsiteprint-log-in',
 			'title'				=> __('Log in'),
 			'description'		=> __('Log in with a booking code.'),
@@ -298,7 +298,7 @@ function onsiteprint_acf_init() {
 			'icon'				=> 'unlock',
 			'keywords'			=> array( 'onsiteprint', 'login', 'booking' ),
 		));
-
+ */
 		/* ---------------------------------------------------------
 		 >  2x. Block: Create new Template
 		------------------------------------------------------------ */
