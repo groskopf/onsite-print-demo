@@ -2541,8 +2541,213 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
 
 }
 
+
 /* ------------------------------------------
- >   >  6a-10. Save New Event from Form 
+ >   >  6a-10. Adding Created Events to an Element 
+--------------------------------------------- */
+function opAddCreatedEventsToElement( debug, blockId, containerElement, eventList ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// If the Elements are missing.
+        if ( ! blockId ) {
+            throw 'Missing Block ID!'
+        } else if ( ! containerElement ) {
+            throw 'Missing Container Element!'
+        } else if ( ! eventList ) {
+            throw 'Missing Event List!'
+        } else { 
+           
+            for( var i = 0; i < eventList.length; i++ ) {
+                
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, `Event(${ eventList[i].eventCreationDate })`, eventList[i] )
+                
+                let tapColor = containerElement.getAttribute('data-tap-color')
+                let eventLink = containerElement.getAttribute('date-event-link')
+                let eventLinkTitle = containerElement.getAttribute('date-event-link-title')
+                
+                ///// Get Template Item.
+                const templateItem = opGetTemplate( eventList[i].eventTemplate )
+                if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
+                
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, `templateItem`, templateItem )
+                
+                ///// Create new element.
+                newTemplateElement = `
+                    <article id="${ blockId }-${ eventList[i].eventCreationDate }-event">
+                        <div class="op-option-button" data-icon="circle-check">
+                            <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                        </div>
+                        <div class="op-information">
+                            <div class="op-info op-flex-row">
+                                <p class="op-text" data-icon="calendar-days">
+                                    <span class="op-icon" role="img" aria-label="Calendar Icon"></span>
+                                    <span class="op-text-info">${ opTimeConverter( eventList[i].eventCreationDate, 'date-month-year', 'da' ) }</span>                               
+                                </p>
+                                <p class="op-text" data-icon="clock">
+                                    <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+                                    <span class="op-text-info">${ opTimeConverter( eventList[i].eventCreationDate, 'hour-min' ) }</span>                               
+                                </p>
+                            </div>
+                            <div class="op-content op-flex-col">
+                                <p class="op-text op-flex-col">
+                                    <b class="op-text-title">Eventnavn</b>
+                                    <span class="op-text-info">${ eventList[i].eventName }</span>                               
+                                </p>
+                                <p class="op-text op-flex-col">
+                                    <b class="op-text-title">Skabelonnavn</b>
+                                    <span class="op-text-info">${ templateItem.response.templateName }</span>
+                                </p>
+                            </div>
+                            <div class="op-image op-flex-col">
+                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/event-creation/block-template-parts/block-form/img/${ templateItem.response.templateLayoutColumns }_${ templateItem.response.templateLayout }.svg" alt="Template: ${ templateItem.response.templateLayout }" width="100%" height="auto">
+                            </div>
+                            <div class="op-info-button op-flex-col">
+                                <a href="${ eventLink }?event=${ eventList[i].eventCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
+                                    <span class="op-button-title">${ eventLinkTitle }</span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </article>
+                `
+
+                ///// Add element to the container.
+                containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
+
+            }
+
+            ///// Create/throw Response.
+            error = false, code = 200, message = 'All Events was added!'
+
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opAddCreatedEventsToElement()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+/* ------------------------------------------
+ >   >  6a-11. Adding Created Templates to an Element 
+--------------------------------------------- */
+function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templateList ) {
+
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// If the Elements are missing.
+        if ( ! blockId ) {
+            throw 'Missing Block ID!'
+        } else if ( ! containerElement ) {
+            throw 'Missing Container Element!'
+        } else if ( ! templateList ) {
+            throw 'Missing Template List!'
+        } else { 
+           
+            for( var i = 0; i < templateList.length; i++ ) {
+                
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, `Template(${ templateList[i].templateCreationDate })`, templateList[i] )
+
+                let tapColor = containerElement.getAttribute('data-tap-color')
+                let templateLink = containerElement.getAttribute('date-template-link')
+                let templateLinkTitle = containerElement.getAttribute('date-template-link-title')
+
+                ///// Create new element.
+                newTemplateElement = `
+                    <article id="${ blockId }-${ templateList[i].templateCreationDate }-template">
+                        <div class="op-option-button" data-icon="circle-check">
+                            <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                        </div>
+                        <div class="op-information">
+                            <div class="op-info op-flex-row">
+                                <p class="op-text" data-icon="calendar-days">
+                                    <span class="op-icon" role="img" aria-label="Calendar Icon"></span>
+                                    <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'date-month-year', 'da' ) }</span>                               
+                                </p>
+                                <p class="op-text" data-icon="clock">
+                                    <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+                                    <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'hour-min' ) }</span>                               
+                                </p>
+                            </div>
+                            <div class="op-content op-flex-col">
+                                <p class="op-text op-flex-col">
+                                    <b class="op-text-title">Skabelonnavn</b>
+                                    <span class="op-text-info">${ templateList[i].templateName }</span>                               
+                                </p>
+                                <p class="op-text op-flex-col">
+                                    <b class="op-text-title">Beskrivelse</b>
+                                    <span class="op-text-info">3 kolonner + logo</span>
+                                </p>
+                                <p class="op-text op-flex-col">
+                                    <b class="op-text-title">Logo</b>
+                                    <span class="op-text-info">${ templateList[i].templateFilenameOriginal }</span>                               
+                                </p>
+                            </div>
+                            <div class="op-image op-flex-col">
+                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/event-creation/block-template-parts/block-form/img/${ templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                            </div>
+                            <div class="op-info-button op-flex-col">
+                                <a href="${ templateLink }?template=${ templateList[i].templateCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
+                                    <span class="op-button-title">${ templateLinkTitle }</span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </article>
+                `
+
+                ///// Add element to the container.
+                containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
+
+            }
+
+            ///// Create/throw Response.
+            error = false, code = 200, message = 'All Templates was added!'
+
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opAddCreatedTemplatesToElement()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+
+/* ------------------------------------------
+ >   >  6a-12. Save New Event from Form 
 --------------------------------------------- */
 async function opSaveNewEvent( debug ) {
 
@@ -2604,7 +2809,7 @@ async function opSaveNewEvent( debug ) {
 }
 
 /* ------------------------------------------
->  6a-10. Get Booking from FastAPI
+>  6a-13. Get Booking from FastAPI
 --------------------------------------------- */
 async function opGetBookingFromFastAPI( debug, bookingCode ) {
     
@@ -2664,7 +2869,7 @@ async function opGetBookingFromFastAPI( debug, bookingCode ) {
 
 
 /* ------------------------------------------
->  6a-11. Login Button
+>  6a-14. Login Button
 --------------------------------------------- */
 function opLoginButton( debug, inputElement ) {
 
@@ -2721,7 +2926,7 @@ function opLoginButton( debug, inputElement ) {
 }
 
 /* ------------------------------------------
->  6a-12. Logout Button
+>  6a-15. Logout Button
 --------------------------------------------- */
 async function opLogoutButton( debug, url, inputElement ) {
 
@@ -2785,7 +2990,7 @@ async function opLogoutButton( debug, url, inputElement ) {
 }
 
 /* ------------------------------------------
->  6a-13. Validate the Booking Form
+>  6a-16. Validate the Booking Form
 --------------------------------------------- */
 async function opBookingFormValidation( debug, url ) {
     
@@ -3265,7 +3470,7 @@ function opEventCreationBlocks() {
 
     ///// Get each Block.
     if ( blocks ) {
-        blocks.forEach( block => {
+        blocks.forEach( async block => {
             
             ///// Create Variables.
             let error, code, message
@@ -3297,21 +3502,21 @@ function opEventCreationBlocks() {
                 if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
                 
                 ///// Get the Template ID from the URL Parameter.
-                const templateId = opGetUrlParameters().template
+                const templateId = await opGetUrlParameters().template
 
-                if ( templateId ) {
+                if ( templateId !== '' ) {
 
-                    ///// Find Template Item.
-                    let templateItem = templateList.filter( template => template.templateCreationDate === Number( templateId ) )
-                    opConsoleDebug( debug, `template-${ templateId }:`, templateItem )
-
-                    let formElement = radioInput.closest( '.op-form-steps' )
-                    opSetGridCols( debug, templateItem[0].templateLayoutColumns.charAt(0), formElement )
-
-                    ///// #NG - Need validation from opSetGridCols() before proceeding! 
+                    ///// Get Template Item.
+                    const templateItem = opGetTemplate( templateId )
+                    if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
 
                     let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
                     
+                    let formElement = radioInput.closest( '.op-form-steps' )
+                    opSetGridCols( true, 1, formElement )
+                    
+                    ///// #NG - Need validation from opSetGridCols() before proceeding! 
+
                     radioInput.checked = true
                     radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )                   
 
@@ -3328,7 +3533,7 @@ function opEventCreationBlocks() {
             }
 
             ///// Console Log if the Error parameter is 'true'.
-            if ( error !== false ) opConsoleDebug( true, `${blockId}:`, message )
+            if ( error !== false ) opConsoleDebug( debug, `opEventCreationBlocks:`, message )
 
         })
     }
@@ -3427,6 +3632,121 @@ function opSiteLoginBlocks() {
 }
 
 
+/* ---------------------------------------------------------
+ >  6c-11. Dashboard
+ *  Check if multiple (Dashboard) Blocks is on page
+------------------------------------------------------------ */
+function opDashboardBlocks( debug ) {
+     
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Get the elements.
+        let blockName = 'Dashboard'
+        let blocks = document.querySelectorAll( '.op-dashboard' )
+        opConsoleDebug( debug, 'blocks:', blocks )
+      
+        ///// Get each Block.
+        if ( blocks ) { blocks.forEach( block => {
+
+            ///// Get the Block ID.
+            let blockId = block.getAttribute( 'id' )
+
+
+
+            ///// Get the Radio Inputs Container.
+            let eventsContainerElement = block.querySelector( `.op-block__taps section .op-tap__inner .op-tap__events` )
+        
+            ///// Get the Local Storage of Templates.
+            const eventsStorage = opGetLocalStorage( debug, 'Events' )
+
+            ///// Validate the Response from the Local Storage of Templates.
+            if ( eventsStorage.error !== false ) throw eventsStorage.response
+
+            ///// Get the Template List from the Local Storage of Templates.
+            const eventList = eventsStorage.response.eventList
+
+            ///// Sort the Template List after newest date.
+            const sortedEventList = eventList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
+
+            ///// Add new Templates to the Container Element.
+            const addEventsToElement = opAddCreatedEventsToElement( debug, blockId, eventsContainerElement, sortedEventList )
+
+
+
+            ///// Get the Radio Inputs Container.
+            let templatesContainerElement = block.querySelector( `.op-block__taps section .op-tap__inner .op-tap__templates` )
+        
+            ///// Get the Local Storage of Templates.
+            const templatesStorage = opGetLocalStorage( debug, 'Templates' )
+
+            ///// Validate the Response from the Local Storage of Templates.
+            if ( templatesStorage.error !== false ) throw templatesStorage.response
+
+            ///// Get the Template List from the Local Storage of Templates.
+            const templateList = templatesStorage.response.templateList
+
+            ///// Sort the Template List after newest date.
+            const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
+
+            ///// Add new Templates to the Container Element.
+            const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, blockId, templatesContainerElement, sortedTemplateList )
+
+
+
+            /*///// Validate the Response from the Adding Templates Function.
+            if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
+            
+            ///// Get the Template ID from the URL Parameter.
+            const templateId = opGetUrlParameters().template
+
+             if ( templateId ) {
+
+                ///// Find Template Item.
+                let templateItem = templateList.filter( template => template.templateCreationDate === Number( templateId ) )
+                opConsoleDebug( debug, `template-${ templateId }:`, templateItem )
+
+                let formElement = radioInput.closest( '.op-form-steps' )
+                opSetGridCols( debug, templateItem[0].templateLayoutColumns.charAt(0), formElement )
+
+                ///// #NG - Need validation from opSetGridCols() before proceeding! 
+
+                let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
+                
+                radioInput.checked = true
+                radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )                   
+
+
+                opFormInputValidation( debug, 'fieldset', radioInput )
+
+            } */
+
+        })}
+        
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opSiteLoginBlocks()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+
 /* ------------------------------------------------------------------------
  #  7. Document is Ready
 --------------------------------------------------------------------------- */
@@ -3445,7 +3765,8 @@ function opDocumentReady() {
             'opEventTemplateInformationBlocks',
             'opEventParticipantListBlocks',
             'opTemplateCreationBlocks',
-            'opEventCreationBlocks'
+            'opEventCreationBlocks',
+            'opDashboardBlocks'
         ]
 
         ///// Check if the Functions exist and execute

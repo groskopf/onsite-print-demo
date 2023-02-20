@@ -17,14 +17,15 @@
 
 $tc = 'site_loginout_button_';
 
+///// #NG(2023/02/19) - Missing Fields in WP.
 $acf = array(
     'style_color'               => get_field( $tc . 'color' ) ?: 'primary-90',
 
     'login_link_url'           => get_field_object( $tc . 'login_relocate' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'login_link_title'          => get_field_object( $tc . 'login_relocate' )['value']['title'] ?: 'Login',
+    'login_link_title'          => get_field_object( $tc . 'login_relocate' )['value']['title'] ?: 'Log ind',//'Login',
 
     'logout_link_url'          => get_field_object( $tc . 'logout_relocate' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'logout_link_title'         => get_field_object( $tc . 'logout_relocate' )['value']['title'] ?: 'Logout',
+    'logout_link_title'         => get_field_object( $tc . 'logout_relocate' )['value']['title'] ?: 'Log ud',//'Logout',
 );
 
 $id = 'op-' . $block['id'];
