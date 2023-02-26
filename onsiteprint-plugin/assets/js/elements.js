@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-06 - 21:06 (Y:m:d - H:i)
+ ?  Updated: 2023-02-26 - 20:45 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -260,12 +260,19 @@ function opUniversalSearch( element, objectData = [], combinations = [] ) {
 /* ---------------------------------------------------------
  >  1h. Toggle Active Class
 ------------------------------------------------------------ */
-function opToggleActive( element, closestElement ) {
-    if ( element == 'class') {
+function opToggleActive( type, closestElement, toggleClassName ) {
+    if ( type == 'class') {
         closestElement = `[class*="${ closestElement }"]`
     }
+    
+    if ( ! toggleClassName ) toggleClassName = 'op-active'
 
-    event.target.closest( closestElement ).classList.toggle('op-active')
+    if ( type == 'block') {
+        let blockElement = event.target.closest( 'section[id*="op-block"]' )
+        blockElement.querySelector( `.${ closestElement }` ).classList.toggle( toggleClassName )
+    } else {
+        event.target.closest( closestElement ).classList.toggle( toggleClassName )
+    }
 }
 
 /* ---------------------------------------------------------
@@ -426,7 +433,7 @@ function opValidateApiResponse( debug, request ) {
 /* ---------------------------------------------------------
  >  2b. Validate Local Storage
 ------------------------------------------------------------ */
-function opValidateLocalStorage( debug, storage ) {
+function opValidateLocalStorage( debug, storage, storageName ) {
 
     ///// Create Variables.
     let error, code, message
@@ -437,11 +444,12 @@ function opValidateLocalStorage( debug, storage ) {
         if ( storage ) {
             error = false, code = 200, message = storage
         } else if ( storage == '' || storage == undefined ) {
-            if ( localStorageName === 'BOOKINGS' ){
+            ///// #NG (2023-02-26) - Bookings are removed!
+            if ( storageName === 'BOOKINGS' ){
                 error = false, code = 204, message = { bookingList : [] }
-            } else if ( localStorageName === 'TEMPLATES' ){
+            } else if ( storageName === 'TEMPLATES' ){
                 error = false, code = 204, message = { templateList : [] }
-            } else if ( localStorageName === 'EVENTS' ){
+            } else if ( storageName === 'EVENTS' ){
                 error = false, code = 204, message = { eventList : [] }
             }
         } else {
@@ -995,7 +1003,8 @@ function opFormInputValidation( debug, type, inputElement ) {
 
         ///// Get the Elements.
         let inputWrapperElement = inputElement.closest( '.op-input-wrapper' )
-        let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset-step"]' )
+        let fieldsetElement = inputElement.closest( 'fieldset[class*="op-fieldset"]' )
+        // #NG (2023-02-21) - Have removed ( op-fieldset "-step" ) in the Class Name
         
         ///// Type of Validation.
         if ( type == 'clear' ) {
@@ -1437,7 +1446,7 @@ function opGetLocalStorage( debug, localStorageName ) {
         const storage = JSON.parse( localStorage.getItem( `OP_PLUGIN_DATA_${ storageName }` ) )
         
         ///// Validate the Local Storage.
-        const validatedLocalStorage = opValidateLocalStorage( debug, storage )
+        const validatedLocalStorage = opValidateLocalStorage( debug, storage, storageName )
         if ( validatedLocalStorage.error !== false ) throw validatedLocalStorage.response
         else error = false, code = 200, message = validatedLocalStorage.response
         
@@ -1447,7 +1456,7 @@ function opGetLocalStorage( debug, localStorageName ) {
         error = true, code = 400, message = errorMessage
         
         ///// Throw Error Response in the Console.
-        console.error( `opGetLocalStorage(${ localStorageName })`, opReturnResponse( error, code, errorMessage ) )
+        console.error( `opGetLocalStorage(${ storageName })`, opReturnResponse( error, code, errorMessage ) )
         
     } finally {
         
@@ -1712,6 +1721,103 @@ async function opCreateEvent( debug, formElement ) {
 
 }
 
+
+/* ------------------------------------------
+ >  4c-2. Update Event
+--------------------------------------------- */
+async function opUpdateEvent( debug, eventId, formElement ) {   
+        
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! eventId ) throw `Missing the Event ID!`
+        if ( ! formElement ) throw `Missing the Form Element!`
+
+        ///// Get the Local Storage of Events.
+        const eventsStorage = opGetLocalStorage( debug, 'Events' )
+
+        ///// Validate the Response from the Local Storage of Events.
+        if ( eventsStorage.error !== false ) throw eventsStorage.response
+
+        ///// Get the Event List from the Local Storage of Events.
+        const eventList = eventsStorage.response           
+        
+        for( var i = 0; i < eventList.eventList.length; i++ ) {
+            if ( eventList.eventList[i].eventCreationDate === eventId ) {
+                
+                opConsoleDebug( debug, `Event-${ eventList.eventList[i].eventCreationDate }:`, eventList.eventList[i] )
+
+                // #NG (2023-02-26) - Create Function at some time.
+                //function opCreateNewParticipant ( debug, formElement ) { }
+
+                ///// Define new data variables.
+                let column1, column2, column3, column4, column5, dateNow = Date.now()
+
+                if ( ! formElement[ 'column-1' ] ) column1 = ''
+                else column1 = formElement[ 'column-1' ].value
+
+                if ( ! formElement[ 'column-2' ] ) column2 = ''
+                else column2 = formElement[ 'column-2' ].value
+
+                if ( ! formElement[ 'column-3' ] ) column3 = ''
+                else column3 = formElement[ 'column-3' ].value
+                
+                if ( ! formElement[ 'column-4' ] ) column4 = ''
+                else column4 = formElement[ 'column-4' ].value
+                
+                if ( ! formElement[ 'column-5' ] ) column5 = ''
+                else column5 = formElement[ 'column-5' ].value
+
+                ///// Define new Participant Item variable.
+                let participantItem = {
+                    id : `${ dateNow }`,
+                    line1 : column1,
+                    line2 : column2,
+                    line3 : column3,
+                    line4 : column4,
+                    line5 : column5,
+                    time : '',
+                    active : 0,
+                    prints : 0
+                }
+
+                opConsoleDebug( debug, `participantItem-${ dateNow }:`, participantItem )
+
+                ///// Push Template Item variable into Template List.
+                eventList.eventList[i].eventParticipants.push( participantItem )               
+
+            }
+        }
+
+        ///// Set Event List in Local Storage.
+        localStorage.setItem( 'OP_PLUGIN_DATA_EVENTS', JSON.stringify( eventList ) )
+
+        ///// Create Response.
+        error = false, code = 201, message =  `The new Participant was Added!`
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opCreateEvent()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
 /* ------------------------------------------
  >  4c-2. Get Participant
 --------------------------------------------- */
@@ -1849,8 +1955,8 @@ async function opPrintParticipant( participantId ) {
     let string1 = participant.line1
     let string2 = participant.line2
     let string3 = participant.line3
-    let string4 = participant.line4
-    let string5 = participant.line5
+    let string4 = ""//participant.line4
+    let string5 = ""//participant.line5
 
     ///// The URL to the API.
     let  url = `${ opGetFastApiInfo( 'url' ) }name_tags/${ bookingCode }?layout=${ layout }`
@@ -2420,7 +2526,7 @@ async function opSaveNewTemplate( debug ) {
             const template = createdTemplateResponse.response.template
 
             ///// Activate the Modal Window.
-            modal.classList.add( 'active' )
+            modal.classList.add( 'op-active' )
 
             let templateId = template.templateCreationDate
 
@@ -2781,7 +2887,7 @@ async function opSaveNewEvent( debug ) {
         let eventId = eventData.eventCreationDate
 
         ///// Activate the Modal Window.
-        modalElement.classList.add( 'active' )
+        modalElement.classList.add( 'op-active' )
         
         ///// Set URL in the Modal Window.
         let eventUrl = modalElement.getAttribute( 'data-relocation-event' )
@@ -3066,7 +3172,102 @@ async function opBookingFormValidation( debug, url ) {
 
 }
 
+/* ------------------------------------------
+ >  6a-17. Add new Participant to the Event List
+ ?  Updated: 2023-02-26 - 20:45 (Y:m:d - H:i)
+--------------------------------------------- */
+async function opAddNewParticipantToEventList( debug, eventId ) {
 
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! eventId ) throw 'Missing the Event ID!'
+         
+        ///// Get Event List.
+        const eventItem = opGetEventList( eventId )
+        if ( eventItem.error !== false ) throw 'Could not find the Event!'
+        opConsoleDebug( debug, 'eventItem:', eventItem )
+        // #NG (2023-02-21) - Maybe change the Name of the opGetEventList() Function
+
+        ///// Get Template Item.
+        const templateItem = opGetTemplate( eventItem.response.eventTemplate )
+        if ( templateItem.error !== false ) throw 'Could not find the Template!'
+        opConsoleDebug( debug, 'templateItem:', templateItem )
+
+        ///// Get the Amount of Columns.
+        let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+
+        ///// Get the Form Elements.
+        let formElement = event.target.closest( '.op-form-fields' )       
+        
+        ///// Create an Array to contain Column Validation Elements.
+        let columnValidation = []
+
+        ///// Add Column to the Column Validation if the Column Input Field is Empty.
+        for( let i = 0; i < columnAmount; ++i ) {
+            if ( formElement[ `column-${ ( Number( i ) + 1 ) }` ].value.trim().length == 0 ) {
+                columnValidation.push( `{ 'column${ ( Number( i ) + 1 ) }' : false }` )
+            }            
+        }
+
+        ///// Check if the Amount of Column Validation is the same as the Amount of Columns.
+        if ( columnAmount == columnValidation.length ) {
+
+            formElement.querySelector( '.op-fieldset-step' ).setAttribute( 'data-validation', '2' )
+
+            ///// Create Response.
+            error = true, code = 400, message = `One or more Columns must be Filled!`
+            
+        } else {
+            
+            ///// Fetch from Local PHP file.
+            const updateEventResponse = await opUpdateEvent( debug, eventId, formElement )
+            
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `Update Event Response:`, updateEventResponse )
+            
+            ///// Validate the Fetch Response.
+            if ( updateEventResponse.error !== false ) {
+                
+                // #NG (2023-02-26) - Missing some Validation
+                ///// Throw Response.
+                throw updateEventResponse.response
+    
+            } else {
+    
+                ///// Create Response.
+                error = false, code = 200, message = `The new Participant was Added!`
+    
+                ///// Reload Window.
+                window.location.reload()
+
+            }           
+
+        }
+        
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opAddNewParticipantToEventList()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
 
 
 /* ---------------------------------------------------------
@@ -3315,6 +3516,7 @@ function opEventTemplateInformationBlocks() {
 /* ---------------------------------------------------------
  >  6c-7. Event Participant List
  *  Check if multiple (Event Participant List) Blocks is on page
+ ?  Updated: 2023-02-21 - 19:10 (Y:m:d - H:i)
 ------------------------------------------------------------ */
 function opEventParticipantListBlocks() {
 
@@ -3356,7 +3558,7 @@ function opEventParticipantListBlocks() {
             
             ///// Validate Event Item. 
             if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
-
+            
             ///// Add Search Filter to the Event Participants List block. 
             const searchFilter = opAddSearchFilter( debug, block, eventItems[0].eventTemplate )
             opConsoleDebug( debug, 'searchFilter:', searchFilter )
@@ -3376,6 +3578,38 @@ function opEventParticipantListBlocks() {
                 })
 
             }
+
+            
+            // #NG (2023-02-26) - New Code
+            ///// Get Template Item.
+            const templateItem = opGetTemplate( eventItems[0].eventTemplate )
+            if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
+            opConsoleDebug( debug, 'templateItem:', templateItem )
+
+            
+            ///// Get the Amount of Columns.
+            let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+            
+            ///// Get All Column Elements.
+            let columnElements = block.querySelectorAll( '.op-modal .op-fieldset__inner .op-input-wrapper input' )
+            
+            if ( columnAmount !== columnElements.length ) {
+                opConsoleDebug( debug, 'columnElements:', 'There are too many Column Elements in relation to the Number of Columns in the Event!' )
+                
+                ///// Delete the Column Element if the Column Number is above the Amount of Columns.
+                for( let i = 0; i < columnElements.length; ++i ) {                   
+                    if ( columnAmount < Number( i + 1 ) ) {
+                        columnElements[i].closest( '.op-input-wrapper' ).remove()
+                        opConsoleDebug( debug, `columnElement-${ Number( i + 1 ) }:`, 'The Column Element is deleted!' )
+                    }
+                }
+            } else opConsoleDebug( debug, 'columnElements:', 'The Number of Column Elements is Correct!' )
+
+            ///// Add Function to Modal Window. 
+            block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
+
+            ///// Add Function to Modal Window. 
+            block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
 
         })
     }
@@ -3661,8 +3895,11 @@ function opDashboardBlocks( debug ) {
 
 
             ///// Get the Radio Inputs Container.
+            let eventsSectionElement = block.querySelector( `.op-block__taps section.events` )
             let eventsContainerElement = block.querySelector( `.op-block__taps section .op-tap__inner .op-tap__events` )
         
+            location.hash = "events";
+
             ///// Get the Local Storage of Templates.
             const eventsStorage = opGetLocalStorage( debug, 'Events' )
 

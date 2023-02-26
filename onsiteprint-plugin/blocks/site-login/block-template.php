@@ -103,7 +103,7 @@ session_start();
                     </button>
 
                 </div><!-- .op-form__inner -->
-            </form><!-- .op-form-steps -->
+            </form><!-- .op-form-fields -->
             
         </div><!-- .op-login -->
 

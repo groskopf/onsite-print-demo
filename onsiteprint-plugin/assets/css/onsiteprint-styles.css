@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-19 - 20:53 (Y:m:d - H:i)
+ ?  Updated: 2023-02-26 - 17:03 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -58,11 +58,16 @@ html {
 .page-template-default .wp-site-blocks {
     display: flex;
 }
+
 .wp-site-blocks > main > .wp-block-post-content {
     display: flex;
     flex-direction: column;
     height: 100%;
     position: relative;
+}
+
+.wp-site-blocks > main > .wp-block-post-content.op-modal-active {
+    overflow: hidden;
 }
 /* #NG - To Child */
 
@@ -1368,9 +1373,9 @@ html {
 
 .op-event-participant-list .op-participant-col-info {
     display: none;
-    grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem 16rem;
+    grid-template-columns: 5.4rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem 16rem;
     align-items: center;
-    padding: 0 1rem 1rem 1.4rem;
+    padding: 0 1rem 1rem;
     border-radius: 0.4rem;
 }
 
@@ -1609,6 +1614,65 @@ html {
     color: var(--wp--preset--color--neutral-50);
 }
 
+/* ------------------------------------------
+ >  Add Participant Modal Window
+--------------------------------------------- */
+.op-event-participant-list .op-modal .op-form {
+    padding: 0;
+}
+
+.op-event-participant-list .op-modal .op-modal__inner .op-flex-col {
+    text-align: left;
+}
+
+.op-event-participant-list .op-modal .op-modal-header {
+    padding: 0.5rem 6rem 2rem 0;
+    position: relative;
+}
+
+.op-event-participant-list .op-modal .op-modal-header .op-modal-description {
+    line-height: var(--wp--custom--typography--line-height--normal);
+}
+
+.op-event-participant-list .op-modal .op-modal-header .op-button-cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.op-event-participant-list .op-modal .op-modal-header .op-button-cancel:is( .op-button-size-small ) .op-icon::before {
+    font-size: 2rem;
+}
+
+.op-event-participant-list .op-modal .op-fieldset-step {
+    padding-bottom: 3rem
+}
+
+.op-event-participant-list .op-modal .op-fieldset__inner {
+    gap: 2rem;
+}
+
+.op-event-participant-list .op-modal .op-fieldset__inner .op-form-validation {
+    background-color: var(--wp--preset--color--error-10);
+    color: var(--wp--preset--color--black);
+    line-height: var(--wp--custom--typography--line-height--medium);
+    display: none;
+    gap: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: 0.1rem solid var(--wp--preset--color--error-100);
+    border-radius: 0.4rem;
+}
+
+.op-event-participant-list .op-modal [data-validation="2"] .op-fieldset__inner .op-form-validation {
+    display: flex;
+}
+
+.op-event-participant-list .op-modal .op-fieldset__inner .op-form-validation .op-icon {
+    color: var(--wp--preset--color--error-100);
+    font-size: 2rem;
+    display: flex;
+    padding-top: 0.2rem;
+}
 
 /* ---------------------------------------------------------
  >  2c-9. Steps Form
@@ -1674,7 +1738,7 @@ html {
     align-items: center;
     flex-basis: 10rem;
     min-height: 51rem;
-    padding: 3rem 1rem;
+    padding: 3rem 2rem;
     border-right: 0.1rem solid var(--wp--preset--color--neutral-30);
     z-index: 1;
 }
@@ -1739,12 +1803,14 @@ html {
 
 .op-form .op-form__inner {
     flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
 }
 
 .op-form .op-form-content {
     display: flex;
     flex: 1;
-    overflow: hidden;
+    width: 100%;
     position: relative;
 }
 
@@ -1821,6 +1887,7 @@ html {
 
 .op-form .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] {
     flex: 1;
+    min-height: 30rem;
     padding: 0.4rem;
     border: 0.1rem solid var(--form-color-light);
     border-radius: 0.4rem;
@@ -1921,6 +1988,7 @@ html {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    width: 100%;
     position: relative;
 }
 
@@ -1950,11 +2018,13 @@ html {
 }
 
 .op-input-field input[type="file"] {
+    min-height: 4rem;
     padding: 0.4rem 5rem 0.4rem 0.4rem;
     cursor: pointer;
 }
 
-.op-input-field input[type="file"]::-webkit-file-upload-button {
+.op-input-field input[type="file"]::-webkit-file-upload-button,
+.op-input-field input[type="file"]::file-selector-button {
     background-color: var(--wp--preset--color--white);
     color: var(--wp--preset--color--black);
     font-weight: 500;
@@ -1973,7 +2043,8 @@ html {
     transition: all 200ms ease-in-out;
 }
 
-.op-input-field input[type="file"]:where( :hover, :focus )::-webkit-file-upload-button {
+.op-input-field input[type="file"]:where( :hover, :focus )::-webkit-file-upload-button,
+.op-input-field input[type="file"]:where( :hover, :focus )::file-selector-button {
     background-color: var(--form-color-medium);
     color: var(--wp--preset--color--white);
     border-color: var(--form-color-medium);
@@ -2318,21 +2389,25 @@ input {
     padding: 0;
     border: none;
     outline: none;
-    -webkit-box-sizing: content-box;
+    -webkit-box-sizing: border-box;
     -webkit-appearance: none;
 }
 
-
-
-
-
-
+fieldset {
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-block-start: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    padding-block-end: 0;
+    min-inline-size: inherit;
+}
 
 [id*="op-block"]:not( .active ) .op-modal {
     display: none;
 }
 
-[id*="op-block"] .op-modal.active,
+[id*="op-block"] .op-modal.op-active,
 [id*="op-block"] .op-modal::after {
     height: 100%;
     width: 100%;
@@ -2360,9 +2435,9 @@ input {
     flex-direction: column;
     justify-content: space-between;
     width: inherit;
-    height: 100%;
     max-width: 450px;
-    max-height: 40rem;
+    height: auto;
+    max-height: 100%;
     margin: auto;
     padding: 4rem;
     border-radius: 0.4rem;
@@ -2433,6 +2508,26 @@ input {
 
     .op-event-participant-list .op-participant-col-info {
         display: grid;
+    }
+
+    .op-event-participant-list .op-participant-col-info .op-button-add .op-icon {
+        padding-left: 2.1rem;
+        padding-right: 0.7rem;
+        position: relative;
+    }
+    
+    .op-event-participant-list .op-participant-col-info .op-button-add .op-icon::after {
+        content: var(--fa-icon-xmark);
+        font: var(--fa-font-solid);
+        font-size: 1.8rem;
+        position: absolute;
+        left: 1.3rem;
+        transform: rotate(45deg);
+    }
+    
+    .op-event-participant-list .op-participant-col-info .op-button-add .op-button-title  {
+        white-space: nowrap;
+        max-width: inherit;
     }
 
     /* ------------------------------------------

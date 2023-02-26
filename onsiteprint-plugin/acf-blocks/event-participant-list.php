@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2022-12-04 - 00:20 (Y:m:d - H:i)
+ ?  Updated: 2023-02-26 - 17:45 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -87,9 +87,10 @@ if ( ! empty( $block['align'] ) ) {
             </div>
 
             <div class="op-participant-col-info">
-                <p class="op-col-icon" data-icon="user">
+                <button type="button" onclick="opToggleActive( 'block', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-add op-button op-button-size-medium op-button-style-outline" data-color="primary-90" data-icon="user" data-icon-position="left" data-title-visibility="1">
                     <span class="op-icon" role="img" aria-label="User Icon"></span>
-                </p>
+                    <span class="op-button-title">Add new Participant</span>
+                </button>
                 <p class="op-col-line-1"><?= esc_attr($epl_elementsCol1) ?></p>
                 <p class="op-col-line-2"><?= esc_attr($epl_elementsCol2) ?></p>
                 <p class="op-col-line-3"><?= esc_attr($epl_elementsCol3) ?></p>
@@ -222,6 +223,84 @@ if ( ! empty( $block['align'] ) ) {
                     </p>
                 <?php }
             ?>
+        </div>
+
+        <div class="op-modal">
+            <div class="op-modal__inner">
+                <div class="op-modal-header">
+                    <h3 class="op-modal-title">Add new Participant</h3>
+                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                        <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
+                        <span class="op-button-title">Cancel</span>
+                    </button>
+                    <p class="op-modal-description">Below you can enter the information about the participant.</p>
+                </div>
+
+                <form id="<?= esc_attr($id) ?>__form" class="op-form op-form-fields op-flex-col" action="POST">
+
+                    <button type="submit" disabled style="display: none" aria-hidden="true"></button>
+
+                    <div class="op-form__inner op-flex-col">
+
+                        <div class="op-form-content op-flex-col">
+
+                            <fieldset class="op-fieldset-step" data-validation="0">
+                                <div class="op-fieldset__inner op-flex-col">
+                                    
+                                    <label for="<?= esc_attr($id) ?>-column-1-input" class="op-input-wrapper">
+                                        <p class="op-label-title">Column 1</p>
+                                        <div class="op-input-field">
+                                            <input id="<?= esc_attr($id) ?>-column-1-input" class="op-input-border" name="column-1" type="text">
+                                        </div>
+                                    </label>
+
+                                    <label for="<?= esc_attr($id) ?>-column-2-input" class="op-input-wrapper">
+                                        <p class="op-label-title">Column 2</p>
+                                        <div class="op-input-field">
+                                            <input id="<?= esc_attr($id) ?>-column-2-input" class="op-input-border" name="column-2" type="text">
+                                        </div>
+                                    </label>
+
+                                    <label for="<?= esc_attr($id) ?>-column-3-input" class="op-input-wrapper">
+                                        <p class="op-label-title">Column 3</p>
+                                        <div class="op-input-field">
+                                            <input id="<?= esc_attr($id) ?>-column-3-input" class="op-input-border" name="column-3" type="text">
+                                        </div>
+                                    </label>
+
+                                    <label for="<?= esc_attr($id) ?>-column-4-input" class="op-input-wrapper">
+                                        <p class="op-label-title">Column 4</p>
+                                        <div class="op-input-field">
+                                            <input id="<?= esc_attr($id) ?>-column-4-input" class="op-input-border" name="column-4" type="text">
+                                        </div>
+                                    </label>
+
+                                    <label for="<?= esc_attr($id) ?>-column-5-input" class="op-input-wrapper">
+                                        <p class="op-label-title">Column 5</p>
+                                        <div class="op-input-field">
+                                            <input id="<?= esc_attr($id) ?>-column-5-input" class="op-input-border" name="column-5" type="text">
+                                        </div>
+                                    </label>
+                                    
+                                    <div class="op-form-validation" data-icon="circle-exclamation">
+                                        <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
+                                        <span class="op-message">En eller flere kolonner skal være fyldte!</span>
+                                    </div>
+
+                                </div>                               
+
+                            </fieldset>
+                            
+                            <button type="button" onclick="" class="op-button-save op-button op-button-size-medium op-button-style-solid" data-color="primary-90">
+                                <span class="op-button-title">Add new Participant</span>
+                            </button>
+                        
+                        </div>
+
+                    </div><!-- .op-form__inner -->
+                </form><!-- .op-form-fields -->
+
+            </div>
         </div>
 
     </div><!-- .block__inner -->
