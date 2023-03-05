@@ -328,7 +328,7 @@ function onsiteprint_acf_init() {
 		/* ---------------------------------------------------------
 		 >  2x. Block: Show List of Event URL's
 		------------------------------------------------------------ */
-		acf_register_block_type( array(
+		/* acf_register_block_type( array(
 			'name'				=> 'onsiteprint-get-event-lists-urls',
 			'title'				=> __('Show List of Event URL\'s'),
 			'description'		=> __('[Front-end] Shows a URL list of Events.'),
@@ -336,7 +336,7 @@ function onsiteprint_acf_init() {
 			'category'			=> 'onsiteprint',
 			'icon'				=> 'list-view',
 			'keywords'			=> array( 'onsiteprint', 'event', 'show', 'list' ),
-		));
+		)); */
 
 		/* ---------------------------------------------------------
 		 >  2x. Block: Show Event Participants
