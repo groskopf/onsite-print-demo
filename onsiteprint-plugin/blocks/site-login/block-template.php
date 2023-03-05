@@ -62,6 +62,7 @@ if ( ! empty( $block['align'] ) ) {
     $className .= ' align' . $block['align'];
 }
 
+///// Start Session.
 session_start();
 
 /* ------------------------------------------------------------------------
