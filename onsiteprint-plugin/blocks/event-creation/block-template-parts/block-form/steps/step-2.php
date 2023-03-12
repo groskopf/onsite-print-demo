@@ -9,7 +9,7 @@
 
 <fieldset class="op-fieldset-step-2">
     <header class="op-fieldset-header">
-        <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">2/5</span></p>
+        <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">2/4</span></p>
         <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_2_title'] ) ?></h3>
         <p class="op-fieldset-description"><?= esc_attr( $acf['step_2_description'] ) ?></p>
     </header>
