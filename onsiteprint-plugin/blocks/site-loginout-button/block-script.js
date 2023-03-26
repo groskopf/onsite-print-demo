@@ -1,3 +1,6 @@
+
+console.log('It works with scripts in block.json!')
+
 /* ------------------------------------------------------------------------
 #  Template Creation Block Script
 ?  Updated: 2022-12-26 - 16:43 (Y:m:d - H:i)
@@ -6,7 +9,7 @@
 /* ------------------------------------------
  >   >  6a-7. Go To Step in Form 
 --------------------------------------------- */
-function opFormGoToStep( newStep ) {
+/* function opFormGoToStep( newStep ) {
 
     ///// Get the elements.
     let block = event.target.closest( 'section[id*="op-block"]' )
@@ -62,5 +65,5 @@ function opFormGoToStep( newStep ) {
         }
         
     }
-
 }
+ */

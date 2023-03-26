@@ -101,8 +101,8 @@ session_start();
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
 
-    <?php ///// #NG(2023/02/19) - Ask TG about WP Editor mode and Function to validation
-        if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || current_user_can( 'edit_posts' ) ) { ?>
+    <?php ///// Validate if the user is logged in with a Booking Code or a Wordpress login.
+        if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
 
         <div class="op-block__inner op-flex-col op-login">
 
@@ -137,7 +137,7 @@ session_start();
             
         </div><!-- .op-login -->
 
-    <?php } if ( isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || current_user_can( 'edit_posts' ) ) { ?>
+    <?php } if ( isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
 
         <div class="op-block__inner op-flex-col op-logout">
 
