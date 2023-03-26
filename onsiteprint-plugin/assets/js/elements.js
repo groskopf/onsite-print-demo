@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-26 - 20:45 (Y:m:d - H:i)
+ ?  Updated: 2023-03-21 - 22:29 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1603,6 +1603,62 @@ async function opCreateTemplate( debug, formElement ) {
 
 }
 
+/* ------------------------------------------
+ >  4b-3. Delete Template
+ ?  Updated: 2023-03-21 - 21:10 (Y:m:d - H:i)
+--------------------------------------------- */
+function opDeleteTemplate( debug, templateId ) {   
+        
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! templateId ) throw `Missing the Template ID!`
+
+        ///// Get the Local Storage of Templates.
+        const templatesStorage = opGetLocalStorage( debug, 'Templates' )
+
+        ///// Validate the Response from the Local Storage of Templates.
+        if ( templatesStorage.error !== false ) throw templatesStorage.response
+
+        ///// Get the Template List from the Local Storage of Templates.
+        let templateList = templatesStorage.response
+        
+        ///// Get the Template List without the Template.
+        let templateListWithoutTemplate = templateList.templateList.filter( template => template.templateCreationDate !== templateId )
+        
+        ///// Overwrite the Template List.
+        templateList.templateList = templateListWithoutTemplate
+        opConsoleDebug( debug, `The new Template list:`, templateList )
+
+        ///// Set the new Template List in Local Storage.
+        localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
+
+        ///// Create Response.
+        error = false, code = 201, message =  `The Template was Deleted!`
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opDeleteTemplate()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
 
 /* ---------------------------------------------------------
  >  4c. Event Storage
@@ -1721,9 +1777,9 @@ async function opCreateEvent( debug, formElement ) {
 
 }
 
-
 /* ------------------------------------------
  >  4c-2. Update Event
+ #NG - Must be split into two functions, an update event and an add new participant.
 --------------------------------------------- */
 async function opUpdateEvent( debug, eventId, formElement ) {   
         
@@ -1808,6 +1864,62 @@ async function opUpdateEvent( debug, eventId, formElement ) {
         
         ///// Throw Error Response in the Console.
         console.error( 'opCreateEvent()', opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
+/* ------------------------------------------
+ >  4c-3. Delete Event
+ ?  Updated: 2023-03-21 - 18:47 (Y:m:d - H:i)
+--------------------------------------------- */
+function opDeleteEvent( debug, eventId ) {   
+        
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+        if ( ! eventId ) throw `Missing the Event ID!`
+
+        ///// Get the Local Storage of Events.
+        const eventsStorage = opGetLocalStorage( debug, 'Events' )
+
+        ///// Validate the Response from the Local Storage of Events.
+        if ( eventsStorage.error !== false ) throw eventsStorage.response
+
+        ///// Get the Event List from the Local Storage of Events.
+        let eventList = eventsStorage.response
+        
+        ///// Get the Event List without the Event.
+        let eventListWithoutEvent = eventList.eventList.filter( event => event.eventCreationDate !== eventId )
+        
+        ///// Overwrite the Event List.
+        eventList.eventList = eventListWithoutEvent
+        opConsoleDebug( debug, `The new Event list:`, eventList )
+
+        ///// Set the new Event List in Local Storage.
+        localStorage.setItem( 'OP_PLUGIN_DATA_EVENTS', JSON.stringify( eventList ) )
+
+        ///// Create Response.
+        error = false, code = 201, message =  `The Event was Deleted!`
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, message = errorMessage
+        if ( errorMessage && ! code ) code = 400
+        
+        ///// Throw Error Response in the Console.
+        console.error( 'opDeleteEvent()', opReturnResponse( error, code, errorMessage ) )
         
     } finally {
         
@@ -2649,7 +2761,8 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
 
 
 /* ------------------------------------------
- >   >  6a-10. Adding Created Events to an Element 
+ >  6a-10. Adding Created Events to an Element
+ ?  Updated: 2023-03-21 - 21:39 (Y:m:d - H:i)
 --------------------------------------------- */
 function opAddCreatedEventsToElement( debug, blockId, containerElement, eventList ) {
 
@@ -2686,9 +2799,9 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                 ///// Create new element.
                 newTemplateElement = `
                     <article id="${ blockId }-${ eventList[i].eventCreationDate }-event">
-                        <div class="op-option-button" data-icon="circle-check">
+                        <button class="op-option-button" data-icon="xmark" onclick="opRemoveItemFromStorage( false, 'events', ${ eventList[i].eventCreationDate } ); return false">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                        </div>
+                        </button>
                         <div class="op-information">
                             <div class="op-info op-flex-row">
                                 <p class="op-text" data-icon="calendar-days">
@@ -2752,7 +2865,8 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
 }
 
 /* ------------------------------------------
- >   >  6a-11. Adding Created Templates to an Element 
+ >  6a-11. Adding Created Templates to an Element
+ ?  Updated: 2023-03-21 - 21:39 (Y:m:d - H:i)
 --------------------------------------------- */
 function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templateList ) {
 
@@ -2782,9 +2896,9 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                 ///// Create new element.
                 newTemplateElement = `
                     <article id="${ blockId }-${ templateList[i].templateCreationDate }-template">
-                        <div class="op-option-button" data-icon="circle-check">
+                        <button class="op-option-button" data-icon="xmark" onclick="opRemoveItemFromStorage( false, 'templates', ${ templateList[i].templateCreationDate } ); return false">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                        </div>
+                        </button>
                         <div class="op-information">
                             <div class="op-info op-flex-row">
                                 <p class="op-text" data-icon="calendar-days">
@@ -3268,6 +3382,75 @@ async function opAddNewParticipantToEventList( debug, eventId ) {
     }
 
 }
+
+/* ------------------------------------------
+ >  6a-18. Remove Event or Template from Local Storage
+ ?  Updated: 2023-03-21 - 18:47 (Y:m:d - H:i)
+--------------------------------------------- */
+function opRemoveItemFromStorage( debug, storageName, itemId ) {
+
+    ///// Create Variables.
+    let error, code, message, storageResponse
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! storageName ) throw 'Missing the Storage Name!'
+        if ( ! itemId ) throw 'Missing the Item ID!'
+         
+        ///// Check the Local Storage Name.
+        if ( storageName.toUpperCase() === 'EVENTS' ) {
+
+            ///// Get the Response from the Local Storage of Events.
+            storageResponse = opDeleteEvent( debug, itemId )
+            
+        } else if ( storageName.toUpperCase() === 'TEMPLATES' ) {
+            
+            ///// Get the Response from the Local Storage of Templates.
+            storageResponse = opDeleteTemplate( debug, itemId )
+            
+        } else throw 'Could not find the Local Storage!'
+        
+        ///// Validate the Local Storage Response.
+        opConsoleDebug( debug, 'Storage Response:', storageResponse.response )
+
+        ///// Validate the Local Storage Response.
+        if ( storageResponse.error !== false ) {
+            
+            ///// Throw Response.
+            throw storageResponse.response
+
+        } else {
+
+            ///// Create Response.
+            error = false, code = 200, message = `The Item was Deleted!`
+
+            ///// Reload Window.
+            window.location.reload()
+
+        }           
+        
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opRemoveItemFromStorage()`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
 
 
 /* ---------------------------------------------------------
