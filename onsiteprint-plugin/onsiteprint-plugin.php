@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.50
+ *	Version: 1.0.0.51
  ?	(Check the Version variable)
- ?	Updated: 2023-03-26 - 23:47 (Y:M:D - H:M)
+ ?	Updated: 2023-03-27 - 00:27 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -64,7 +64,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.50' );
+define( 'OP_VERSION', '1.0.0.51' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 

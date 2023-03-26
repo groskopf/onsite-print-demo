@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-06 - 16:20 (Y:m:d - H:i)
+ ?  Updated: 2023-03-27 - 00:20 (Y:m:d - H:i)
  ?  Last edit by: Niels
 
 ---------------------------------------------------------------------------
@@ -101,7 +101,6 @@ tfoot.op-pdf-footer {
     display: none;
 }
 
-
 /* ------------------------------------------
 >  Participant Column Info
 --------------------------------------------- */
@@ -109,7 +108,27 @@ tfoot.op-pdf-footer {
 .op-event-participant-list .op-participant-col-info {
     display: grid;
     grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem;
+    padding: 0 1rem 1rem 1.4rem;
     border-bottom: 1px solid #eee;
+}
+
+.op-event-participant-list .op-button.op-button-add {
+    background: none;
+    color: var(--wp--preset--color--neutral-60);
+    display: flex;
+    border: none;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-radius: 0;
+    cursor: unset;
+}
+
+.op-event-participant-list .op-participant-col-info .op-button-add .op-icon {
+    padding: 1rem;
+}
+
+.op-event-participant-list .op-participant-col-info .op-button-add .op-icon::after,
+.op-event-participant-list .op-button.op-button-add .op-button-title {
+    display: none;
 }
 
 /* ------------------------------------------
