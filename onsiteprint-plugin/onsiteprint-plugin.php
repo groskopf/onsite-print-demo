@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.48
+ *	Version: 1.0.0.50
  ?	(Check the Version variable)
- ?	Updated: 2023-03-21 - 22:29 (Y:M:D - H:M)
+ ?	Updated: 2023-03-26 - 23:47 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -42,6 +42,9 @@
 		x. 	Block: Show Event Participants
 		x. 	Block: Search for Event Participants
 		x. 	Block: Print Event Participants
+	4.	Custom Functions
+		a. 	Check if Gutenberg block editor is currently in use.
+		b. 	Get highest User Role.
 
 ---------------------------------------------------------------------------
  &	0. List of upcoming tasks
@@ -61,7 +64,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.48' );
+define( 'OP_VERSION', '1.0.0.50' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -155,7 +158,7 @@ add_action( 'acf/init', __NAMESPACE__ . '\op_acf_register_blocks' );
 
 
 /* ------------------------------------------------------------------------
- #  4. OLD ACF Custom Blocks Registration
+ #  3X. OLD ACF Custom Blocks Registration
  *	Create a new custom block to the Block view.
 --------------------------------------------------------------------------- */
 function onsiteprint_acf_init() {
@@ -382,9 +385,37 @@ function onsiteprint_acf_init() {
 add_action('acf/init', __NAMESPACE__ . '\onsiteprint_acf_init');
 
 
+/* ------------------------------------------------------------------------
+ #  4. Custom Functions
+ ---------------------------------------------------------------------------
+ >  4a. Check if Gutenberg block editor is currently in use.
+ *  The code below is from Freemius SDK, props to their team.
+ * 	https://github.com/Freemius/wordpress-sdk/commit/8a87d389c647b4588bfe96fc7d420d62a48cbac5
+ ------------------------------------------------------------ */
+/** @return void * @author Niels Gerdes * @since 1.0.0.49
+ --------------------------------------------------------------------------- */
+ function op_is_gutenberg_editor_active() {
+
+	if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+        ///// The Gutenberg plugin is on.
+        return true;
+    }
+
+	$current_screen = get_current_screen();
+
+	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+        ///// Gutenberg page on 5+.
+        return true;
+    }
+
+    return false;
+
+}
 
 
-/////// #NG: Is not used!!
+/* ---------------------------------------------------------
+ >  4b. Get highest User Role.
+------------------------------------------------------------ */
 // This function or its code might be handy other places. TG-2021-06-28 	
 // Eller benyt fx current_user_can('upload_files') når man blot vil tjekke den aktuelle bruger.
 function get_highest_user_role( $user_ID ) {

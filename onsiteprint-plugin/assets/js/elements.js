@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-03-21 - 22:29 (Y:m:d - H:i)
+ ?  Updated: 2023-03-26 - 23:47 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2540,14 +2540,18 @@ function opFormGoToStep( newStep ) {
             fieldsets[i].style.opacity = '0'
                     
             if ( i == slide ) {
-                fieldsets[i].style.left = `${ 0 }%`
+                fieldsets[i].style.transform = 'translateX( 0% )'
                 fieldsets[i].style.opacity = '1'
                 fieldsets[i].style.visibility = 'visible'
                 fieldsets[i].focus()
             } else if ( i <= slide ) {
-                fieldsets[i].style.left = `${ -100 }%`
+                fieldsets[i].style.transform = 'translateX( -100% )'
+                fieldsets[i].style.opacity = '0'
+                fieldsets[i].style.visibility = 'hidden'
             } else if ( i >= slide ) {
-                fieldsets[i].style.left = `${ 100 }%`
+                fieldsets[i].style.transform = 'translateX( 100% )'
+                fieldsets[i].style.opacity = '0'
+                fieldsets[i].style.visibility = 'hidden'
             }           
         }
 
