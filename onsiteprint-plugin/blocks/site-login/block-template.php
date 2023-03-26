@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-05 - 20:00 (Y:m:d - H:i)
+ ?  Updated: 2023-03-26 - 20:27 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -102,7 +102,7 @@ session_start();
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
 
     <?php ///// #NG(2023/02/19) - Ask TG about WP Editor mode and Function to validation
-        if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) ) { ?>
+        if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || current_user_can( 'edit_posts' ) ) { ?>
 
         <div class="op-block__inner op-flex-col op-login">
 
@@ -137,7 +137,7 @@ session_start();
             
         </div><!-- .op-login -->
 
-    <?php } else { ?>
+    <?php } if ( isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || current_user_can( 'edit_posts' ) ) { ?>
 
         <div class="op-block__inner op-flex-col op-logout">
 
