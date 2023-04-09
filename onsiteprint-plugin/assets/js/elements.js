@@ -2142,9 +2142,9 @@ async function opPrintParticipant( participantId ) {
 async function opCreatePrintDocument( printWindow, block, eventName ) {
     let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
 
-    let request = await fetch( 'http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css' )
+    //let request = await fetch( 'http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css' )
 
-    let response = await request.text()
+    //let response = await request.text()
 
     let htmlHead = document.querySelector( 'head' ).innerHTML
 
@@ -2229,6 +2229,7 @@ function opPrintEventParticipants( eventListId ) {
         setInterval( () => {
             printWindow.print()
             printWindow.close()
+            window.location.reload()
         }, 500)
     })
 

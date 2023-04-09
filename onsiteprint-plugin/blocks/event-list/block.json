@@ -1,0 +1,29 @@
+{
+    "version": "1.0.0.0",
+    "name": "acf/event-list",
+    "title": "Event List",
+    "description": "Displaying a List of Participants of the current Event with search functionality, if the User is logged in.",
+    "category": "onsiteprint",
+    "icon": "list-view",
+    "keywords": [ "onsiteprint", "event", "participant", "list", "search" ],
+    "editorScript": "file:./block-script.js",
+    "script": "file:./block-script.js",
+    "editorStyle": "file:./block-style.css",
+    "style": "file:./block-style.css",
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block-template.php"
+    },
+    "supports": {
+        "align": true,
+        "anchor": true,
+        "alignContent": true,
+        "spacing": {
+            "margin": true,
+            "padding": []
+        }
+    },
+    "example": {
+        "mode": "preview"
+    }
+}
