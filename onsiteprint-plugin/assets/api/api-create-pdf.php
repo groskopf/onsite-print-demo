@@ -113,7 +113,32 @@ $(document).ready(function () {
     }
 
         $("#grid").shieldGrid({
-
+            dataSource: {
+                data: participantList
+            },
+            paging: {
+                pageSize: 20,
+                pageLinksCount: 10
+            },
+            columns: [
+                { field: "id", width: "70px", title: "ID" },
+                { field: "line1", title: "Line 1" },
+                { field: "line2", title: "Line 2" },
+                { field: "line3", title: "Line 3" },
+                { field: "line4", title: "Line 4" },
+                { field: "line5", title: "Line 5" },
+                { field: "time", width: "70px", title: "Time" }
+            ],
+            toolbar: [
+                {
+                    buttons: [
+                        {
+                            commandName: "pdf",
+                            caption: '<span class="sui-sprite sui-grid-icon-export-pdf"></span> <span class="sui-grid-button-text">Export to PDF</span>'
+                        }
+                    ]
+                }
+            ],
             exportOptions: {
                 proxy: "/filesaver/save",
                 pdf: {
