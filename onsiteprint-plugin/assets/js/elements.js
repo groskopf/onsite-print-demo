@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-03-26 - 23:47 (Y:m:d - H:i)
+ ?  Updated: 2023-04-18 - 18:34 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -944,19 +944,28 @@ async function opSetGridContainer( debug, inputElement, type ) {
      
             ///// If the Fetch Response has Code 200 (OK).
             if ( apiData.code === 200 ) {
-
+                
+                let gridColName = gridContainer.getAttribute( 'data-grid-col-name' )
+                let gridNoCol = gridContainer.getAttribute( 'data-grid-no-col' )
+                let gridNewCol = gridContainer.getAttribute( 'data-grid-new-col' )
+                let colWidth = ( Number( gridWidth ) / ( Number( gridCols ) + 2 ) )
                 ///// Create new Grid Element.
                 eventGridElement = new DataGridXL( gridElementId, {
                     data: apiData.response,
                     allowFreezeRows: false,
                     allowFreezeCols: false,
                     colHeaderHeight: 60,
-                    colWidth: ( Number(gridWidth) / ( Number(gridCols) + 2 ) )
-
-                    /* colHeaderLabelFunction: function(index, id, field, title, labels){
-                        // use id as column label
-                        return String("Column #"+id);
-                    } */
+                    rowHeaderWidth: 44,
+                    colWidth: ( colWidth > 100 ) ? colWidth : 100,
+                    colHeaderLabelFunction: function( index, coord, colRef, labels ){
+                        //console.log( 'index: ', index, 'coord: ', coord, 'colRef: ', colRef, 'labels: ', labels )
+                        let colTitle = ( colRef.title ) ? colRef.title : `${ gridNewCol } ${ colRef.id }`
+                        if ( Number ( coord ) < Number ( gridCols ) ){
+                            return String( `<span class="op-col">${ gridColName } ${ Number ( coord + 1 ) }</span><span class="op-col-name">${ colTitle }</span>` );
+                        } else {
+                            return String( `<span class="op-col-no">${ gridNoCol }</span><span class="op-col-name">${ colTitle }</span>` );
+                        }
+                    }
                 } )
                 
                 ///// Create/throw Response.
@@ -987,7 +996,7 @@ async function opSetGridContainer( debug, inputElement, type ) {
 /* ---------------------------------------------------------
  >  2f. Validation of Inputs in Form
 ------------------------------------------------------------ */
-function opFormInputValidation( debug, type, inputElement ) {
+async function opFormInputValidation( debug, type, inputElement ) {
     
     ///// Create Variables.
     let error, code, message
@@ -1017,55 +1026,11 @@ function opFormInputValidation( debug, type, inputElement ) {
             ///// Get the Validated Input Response.
             const inputResponse = opValidateContainerInputs( debug, inputWrapperElement )
             
-            ///// Check if the Element needs to create a Grid.
-            if ( inputWrapperElement.classList.contains( 'op-input-grid') ) {
-
-                ///// Remove or Add the Grid Element.
-                if ( inputResponse.error !== false ) {
-
-                    ///// Remove the Grid from the Container Element.
-                    const removeGridResponse = opSetGridContainer( debug, inputElement, 'remove' )
-
-                    ///// Throw Response.
-                    if ( removeGridResponse.error !== false ) throw removeGridResponse.response
-
-                    ///// Remove Approval from the Step (Fieldset) in the Form Element.
-                    const removeApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'remove' )
-                
-                    ///// Throw Response.
-                    if ( removeApprovalResponse.error !== false ) throw removeApprovalResponse.response
-
-                    ///// Create Response.
-                    error = false, code = 200, message = `The Grid was Removed from the Container Element!`
-                    
-                } else {
-
-                    ///// Adding a new Grid to the Container Element.
-                    const addGridResponse = opSetGridContainer( debug, inputElement, 'add' )
-
-                    ///// Throw Response.
-                    if ( addGridResponse.error !== false ) throw addGridResponse.response
-
-                    ///// Add Approval to the Step (Fieldset) in the Form Element.
-                    const addApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'add' )
-
-                    ///// Throw Response.
-                    if ( addApprovalResponse.error !== false ) throw addApprovalResponse.response
-
-                    ///// Create Response.
-                    error = false, code = 200, message = `The Grid was Added to the Container Element!`
-
-                }
-
-            } else {
-
-                ///// Create/throw Response.
-                if ( inputResponse.error !== false ) throw inputResponse.response
-                else error = false, code = 200, message = `The Input was Approved!`
-            
-            }
-
-        } else if ( type == 'fieldset' ) {
+            ///// Create/throw Response.
+            if ( inputResponse.error !== false ) throw inputResponse.response
+            else error = false, code = 200, message = `The Input was Approved!`
+    
+        } else if ( type == 'fieldset' || type == 'grid' ) {
         
             ///// Get the Validated Fieldset Response.
             const fieldsetResponse = opValidateContainerInputs( debug, fieldsetElement )
@@ -1073,14 +1038,38 @@ function opFormInputValidation( debug, type, inputElement ) {
             ///// Remove or Add Validation.
             if ( fieldsetResponse.error !== false ) {
 
+                ///// Remove or Add the Grid Element.
+                if ( type == 'grid' ) {
+
+                    ///// Remove the Grid from the Container Element.
+                    const removeGridResponse = await opSetGridContainer( debug, inputElement, 'remove' )
+
+                    ///// Grid Response.
+                    if ( removeGridResponse.error !== false ) gridMessage = removeGridResponse.response
+                    else gridMessage = `the Grid was Removed from the Container Element!`
+                    
+                }
+
                 ///// Remove Approval from the Step (Fieldset) in the Form Element.
                 const removeApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'remove' )
                
                 ///// Throw Response.
                 if ( removeApprovalResponse.error !== false ) throw removeApprovalResponse.response
+                else if ( fieldsetResponse.error !== false ) throw fieldsetResponse.response
                 
             } else {
             
+                if ( type == 'grid' ) {
+
+                    ///// Adding a new Grid to the Container Element.
+                    const addGridResponse = await opSetGridContainer( debug, inputElement, 'add' )
+
+                    ///// Grid Response.
+                    if ( addGridResponse.error !== false ) gridMessage = addGridResponse.response
+                    else gridMessage = `the Grid was Added to the Container Element!`
+
+                }
+
                 ///// Add Approval to the Step (Fieldset) in the Form Element.
                 const addApprovalResponse = opSetApprovalToStepInForm( debug, fieldsetElement, 'add' )
 
@@ -1089,8 +1078,17 @@ function opFormInputValidation( debug, type, inputElement ) {
 
             }
 
-            ///// Create Response.
-            error = false, code = 200, message = `All the Inputs in the Fieldset was Approved!`
+            if ( type == 'grid' ) {
+                
+                ///// Create Response.
+                error = false, code = 200, message = `All the Inputs in the Fieldset was Approved and ${ gridMessage}!`
+                
+            } else {
+                
+                ///// Create Response.
+                error = false, code = 200, message = `All the Inputs in the Fieldset was Approved!`
+            
+            }
 
         } else if ( type == 'form' ) {
         
@@ -1804,7 +1802,7 @@ async function opUpdateEvent( debug, eventId, formElement ) {
         const eventList = eventsStorage.response           
         
         for( var i = 0; i < eventList.eventList.length; i++ ) {
-            if ( eventList.eventList[i].eventCreationDate === eventId ) {
+            if ( Number( eventList.eventList[i].eventCreationDate ) === Number( eventId ) ) {
                 
                 opConsoleDebug( debug, `Event-${ eventList.eventList[i].eventCreationDate }:`, eventList.eventList[i] )
 
@@ -1847,7 +1845,7 @@ async function opUpdateEvent( debug, eventId, formElement ) {
                 ///// Push Template Item variable into Template List.
                 eventList.eventList[i].eventParticipants.push( participantItem )               
 
-            }
+            } else opConsoleDebug( debug, `Event List:`, `The eventId(${eventId}) was not found!` )
         }
 
         ///// Set Event List in Local Storage.
@@ -2101,19 +2099,21 @@ async function opPrintParticipant( participantId ) {
             if ( participantUpdate.error !== false ) return opConsoleDebug( debug, 'participantUpdate:', participantUpdate.response )
             
             ///// Update Event Participant List Block. 
-            let eventPrintActive = block.getAttribute( 'data-print-active' )
-            participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintActive
-            participantElement.classList.add( 'op-print-active' )
-            participantElement.setAttribute( 'data-op-arrival', '1' )
+            let eventPrintActive = block.getAttribute( 'data-print-active' ) // #NG - Need to be changed to html tags instead
+            participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintActive // #NG - Need to be changed to html tags instead
+            //participantElement.classList.add( 'op-print-active' )
+            //participantElement.setAttribute( 'data-op-arrival', '1' )
+            participantElement.setAttribute( 'data-validation', '1' )
             participantElement.setAttribute( 'data-op-prints', participantPrints )
             participantElement.querySelector( 'header .op-col-amount-of-prints' ).innerText = participantPrints
             participantElement.querySelector( 'header .op-col-arrival-time' ).innerText = opTimeConverter( dateNow, 'hour-min' )
             participantElement.querySelector( 'footer .op-col-arrival-time .op-text' ).innerText = opTimeConverter( dateNow, 'hour-min' )
     
             setTimeout( function () {
-                let eventPrintSuccess = block.getAttribute( 'data-print-success' )
-                participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintSuccess
-                participantElement.classList.remove( 'op-print-active' )
+                let eventPrintSuccess = block.getAttribute( 'data-print-success' ) // #NG - Need to be changed to html tags instead
+                participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintSuccess // #NG - Need to be changed to html tags instead
+                //participantElement.classList.remove( 'op-print-active' )
+                participantElement.setAttribute( 'data-validation', '2' )
                 participantElement.classList.add( 'op-active' )
     
                 ///// Update Event Information Blocks. 
@@ -2123,9 +2123,13 @@ async function opPrintParticipant( participantId ) {
             //let windowUrl = `${ opGetFastApiInfo( 'url' ) + apiData.response.filename }`
             //opConsoleDebug( debug, 'windowUrl:', windowUrl )
 
+        } else {
+            participantElement.setAttribute( 'data-validation', '3' )
+            let eventPrintError = block.getAttribute( 'data-print-error' ) // #NG - Need to be changed to html tags instead
+            participantElement.querySelector( 'footer .op-message .op-text' ).innerText = eventPrintError // #NG - Need to be changed to html tags instead
         }
     
-    })
+    } )
 
     
     //////////////////// #NG: Below must be deleted later.    
@@ -2139,7 +2143,31 @@ async function opPrintParticipant( participantId ) {
 /* ---------------------------------------------------------
  >  5b. Create Print Document
 ------------------------------------------------------------ */
-async function opCreatePrintDocument( printWindow, block, eventName ) {
+async function opCreatePrintDocument( debug, printWindow, block, eventListId ) {
+
+
+    //////////////////// #NG: Needs to be looked at again - Search.
+    ///// Get Event List. 
+    const eventList = opGetEventList( eventListId )
+    if ( eventList.error !== false ) return opConsoleDebug( debug, 'eventList:', eventList.response )
+
+    ///// Get Event Item. 
+    const eventItem = eventList.response
+    opConsoleDebug( debug, 'eventItem:', eventItem )
+
+    ///// Get Event Name. 
+    let eventName = eventItem.eventName
+
+
+    ///// Get Template Item.
+    const templateItem = opGetTemplate( eventItem.eventTemplate )
+    if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
+    opConsoleDebug( debug, 'templateItem:', templateItem )
+
+    ///// Get the Amount of Columns.
+    let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+
+
     let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
 
     //let request = await fetch( 'http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css' )
@@ -2150,7 +2178,7 @@ async function opCreatePrintDocument( printWindow, block, eventName ) {
 
     //printWindow.document.write( `<html><head><title>${ pageTitle }</title><style>${response}</style></head>` )
     
-    printWindow.document.write( `<html><head><title>OnsitePrint.dk | ${ pageTitle }</title>${ htmlHead }<link rel="stylesheet" id="onsiteprint-plugin-styles-print-css" href="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css" media="all"></head>` )
+    printWindow.document.write( `<html><head><title>OnsitePrint.dk | ${ pageTitle }</title>${ htmlHead }<link rel="stylesheet" id="onsiteprint-plugin-styles-print-css" href="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css?ver=1.0.0.56" media="all"></head>` )
 
     printWindow.document.write( '<body onafterprint="self.close()"><h2>OnsitePrint.dk</h2>' )
 
@@ -2161,7 +2189,7 @@ async function opCreatePrintDocument( printWindow, block, eventName ) {
 
     ///// Add element to the container.
     printWindow.document.write( `
-        <div class="op-event-participant-list"><table class="op-pdf-container">
+        <div class="op-event-participant-list op-block__event" data-column-count="${ columnAmount }"><table class="op-pdf-container">
             <thead class="op-pdf-header">
                 <tr><th class="op-pdf-header-cell"></th><th class="op-pdf-header-info">
                     <div class="op-header-info">${ header + colInfo }</div>
@@ -2208,23 +2236,11 @@ function opPrintEventParticipants( eventListId ) {
     ///// Get Id's. 
     let blockId = block.getAttribute( 'id' ).substring(9)
 
-    //////////////////// #NG: Needs to be looked at again - Search.
-    ///// Get Event List. 
-    const eventList = opGetEventList( eventListId )
-    if ( eventList.error !== false ) return opConsoleDebug( debug, 'eventList:', eventList.response )
-
-    ///// Get Event Item. 
-    const eventItem = eventList.response
-    opConsoleDebug( debug, 'eventItem:', eventItem )
-
-    ///// Get Event Name. 
-    let eventName = eventItem.eventName
-
     ///// Create Browser Window. 
     printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }`  )
     
     ///// Create Print Document in Window, then open Print Window and close after. 
-    opCreatePrintDocument( printWindow, block, eventName).then( response => {
+    opCreatePrintDocument( debug, printWindow, block, eventListId ).then( response => {
         opConsoleDebug( debug, 'Response:', response )
         setInterval( () => {
             printWindow.print()
@@ -2266,10 +2282,10 @@ function opAddEventParticipant( debug, block, participant ) {
     participantPrints = participant.prints
     participantTimeFull = opTimeConverter( participant.time, 'full' )
     participantTimeHour = opTimeConverter( participant.time, 'hour-min' )
-    participantActive = participant.active
+    participantActive = ( participant.active == 1 ) ? 2 : 0
     
     participantElement = `
-        <article class="op-participant_${ participantId }" data-op-arrival="${ participantActive }" data-op-prints="${ participantPrints }" onclick="opToggleActive( 'class', 'op-participant_' )">
+        <article class="op-participant_${ participantId }" data-validation="${ participantActive }" data-op-prints="${ participantPrints }" onclick="opToggleActive( 'class', 'op-participant_' )">
             <header>
                 <p class="op-col-icon" data-icon="user">
                     <span class="op-icon" role="img" aria-label="User Icon"></span>
@@ -2315,6 +2331,7 @@ function opAddEventParticipant( debug, block, participant ) {
 
 /* ------------------------------------------
  >   >  6a-2. Add Search Filter to the Event Participants List block
+ // #NG - Is not used anymore! 
 --------------------------------------------- */
 function opAddSearchFilter( debug, block, templateId ) {
 
@@ -3930,13 +3947,17 @@ function opEventCreationBlocks() {
 
                     ///// Get Template Item.
                     const templateItem = opGetTemplate( templateId )
-                    if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
+                    if ( templateItem.error !== false ) opConsoleDebug( debug, 'templateItem:', 'Could not find the Template!' )
+
+                    ///// Get the Amount of Columns.
+                    let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
 
                     let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
                     
                     let formElement = radioInput.closest( '.op-form-steps' )
-                    opSetGridCols( true, 1, formElement )
+                    opSetGridCols( debug, columnAmount, formElement )
                     
+                    // #NG3
                     ///// #NG - Need validation from opSetGridCols() before proceeding! 
 
                     radioInput.checked = true
@@ -4191,7 +4212,8 @@ function opDocumentReady() {
             'opEventParticipantListBlocks',
             'opTemplateCreationBlocks',
             'opEventCreationBlocks',
-            'opDashboardBlocks'
+            'opDashboardBlocks',
+            'opEventListBlocks'
         ]
 
         ///// Check if the Functions exist and execute

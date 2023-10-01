@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
 
- *  The OnsitePrint (Event List) Block.
+ *  The OnsitePrint (Event) Block.
  *  Displaying a List of Participants of the current Event with search functionality, if the User is logged in.
  *
  *  @link https://www.advancedcustomfields.com/resources/
@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-04-09 - 22:47 (Y:m:d - H:i)
+ ?  Updated: 2023-04-13 - 19:26 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -21,17 +21,17 @@ require_once( __DIR__.'/../../private/session.php' );
  #  The Block Data
 --------------------------------------------------------------------------- */
 
-$path = 'event_list_';
+$path = 'event_';
 
 $options = array(
     'event_id'          => empty( $_GET['event'] ) ? false : $_GET['event'],
-    'enable_search'     => get_field( $path . 'enable_search' ),
+    'enable_search'     => get_field( $path . 'enable_search' ) ? true : false,
 );
 
 $header = array(
     'search_message'    => get_field( $path . 'header_search_message' ) ?: 'Search for Participants here...',
     'search_filter'     => get_field( $path . 'header_search_filter' ) ?: 'All Columns',
-    'column'            => get_field( $path . 'header_columns_col1' ) ?: 'Column',
+    'column'            => get_field( $path . 'header_columns_col' ) ?: 'Column',
     'print_all'         => get_field( $path . 'header_columns_print_all' ) ?: 'Print All',
     'add_participant'   => get_field( $path . 'header_columns_add_participant' ) ?: 'Add new Participant',
 );
@@ -45,7 +45,7 @@ $modal = array(
 );
 
 $list = array(  
-    'print_button'      => get_field( $path . 'list_button_print' ) ?: 'Print',
+    'print_button'      => get_field( $path . 'list_print_button' ) ?: 'Print',
     'messages_printing' => get_field( $path . 'list_messages_printing' ) ?: 'Printer Participant...',
     'messages_success'  => get_field( $path . 'list_messages_success' ) ?: 'Participant was successfully printed.', 
     'messages_error'    => get_field( $path . 'list_messages_error' ) ?: 'Something went wrong while printing!', 
@@ -57,7 +57,7 @@ if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-event-list op-flex-col alignfull';
+$className = 'op-block__event op-flex-col alignfull';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -72,7 +72,7 @@ if ( ! empty( $block['align'] ) ) {
 --------------------------------------------------------------------------- */
 ?>
 
-<section id="<?= esc_attr( $id ) ?>" class="<?= esc_attr( $className ) ?>" data-event-id="<?= esc_attr( $options['event_id'] ) ?>" data-print-active="<?= esc_attr( $list['messages_printing'] ) ?>" data-print-success="<?= esc_attr( $list['messages_success'] ) ?>" data-print-error="<?= esc_attr( $list['messages_error'] ) ?>" data-print-button="<?= esc_attr( $list['print_button'] ) ?>"  data-column-count="3">
+<section id="<?= esc_attr( $id ) ?>" class="<?= esc_attr( $className ) ?>" data-event-id="<?= esc_attr( $options['event_id'] ) ?>" data-print-active="<?= esc_attr( $list['messages_printing'] ) ?>" data-print-success="<?= esc_attr( $list['messages_success'] ) ?>" data-print-error="<?= esc_attr( $list['messages_error'] ) ?>" data-print-button="<?= esc_attr( $list['print_button'] ) ?>"  data-column-count="5">
     <div class="op-block__inner op-flex-col">
 
     <?php

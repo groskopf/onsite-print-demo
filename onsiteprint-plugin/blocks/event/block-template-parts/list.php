@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: List
- ?  Updated: 2023-04-09 - 22:47 (Y:m:d - H:i)
+ ?  Updated: 2023-04-13 - 19:48 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -68,7 +68,7 @@
                         <span class="op-text">Valhalla A/S</span>
                     </p>
                 </div>
-                <time class="op-col-arrival-time" datetime="2000-01-01 16:20">16:20</time>
+                <time class="op-col-arrival-time" datetime="2000-01-01 12:00">12:00</time>
                 <div class="op-col-print-info">
                     <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title"><?= esc_attr( $list['print_button'] ) ?></span></button>
                     <p class="op-col-amount-of-prints">0</p>
@@ -105,7 +105,7 @@
                         <span class="op-text">Valhalla A/S</span>
                     </p>
                 </div>
-                <time class="op-col-arrival-time" datetime="2000-01-01 16:20">16:20</time>
+                <time class="op-col-arrival-time" datetime="2000-01-01 12:10">12:10</time>
                 <div class="op-col-print-info">
                     <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title"><?= esc_attr( $list['print_button'] ) ?></span></button>
                     <p class="op-col-amount-of-prints">1</p>
@@ -125,8 +125,8 @@
 
         <article class="op-participant_test op-active" data-validation="3" data-op-arrival="0" data-op-prints="0">
             <header>
-                <p class="op-col-icon" data-icon="user">
-                    <span class="op-icon" role="img" aria-label="User Icon"></span>
+                <p class="op-col-icon" data-icon="circle-exclamation">
+                    <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
                 </p>
                 <div class="op-col-lines">
                     <p class="op-col-line-1">
@@ -142,7 +142,7 @@
                         <span class="op-text">Valhalla A/S</span>
                     </p>
                 </div>
-                <time class="op-col-arrival-time" datetime="2000-01-01 16:20">16:20</time>
+                <time class="op-col-arrival-time" datetime="2000-01-01 12:20">12:20</time>
                 <div class="op-col-print-info">
                     <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title"><?= esc_attr( $list['print_button'] ) ?></span></button>
                     <p class="op-col-amount-of-prints">0</p>

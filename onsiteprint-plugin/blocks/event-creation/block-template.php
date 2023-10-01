@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-05 - 18:24 (Y:m:d - H:i)
+ ?  Updated: 2023-04-17 - 19:37 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -50,12 +50,15 @@ $acf = array(
     'step_3_process'        => get_field( $ec . 'steps_step_3_process' ) ?: 'Select CSV file',
     'step_3_title'          => get_field( $ec . 'steps_step_3_title' ) ?: 'Please select a CSV file',
     'step_3_description'    => get_field( $ec . 'steps_step_3_description' ) ?: 'Some text her...',
-    'step_3_grid_title'     => get_field( $ec . 'steps_step_3_grid_title' ) ?: 'Change CSV List',
     'step_3_field_1_title'  => get_field( $ec . 'steps_step_3_field_1_title' ) ?: 'Select / upload CSV file',
     'step_3_field_1_val'    => get_field( $ec . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected or it is an invalid File Type!',
     'step_3_field_2_val'    => get_field( $ec . 'steps_step_3_field_2_validation' ) ?: 'The checkbox must be checked!',
     'step_3_field_2_value'  => get_field( $ec . 'steps_step_3_field_2_value' ) ?: 'The CSV List looks Great!',
-    
+    'step_3_grid_title'     => get_field( $ec . 'steps_step_3_grid_title' ) ?: 'Change CSV List',
+    'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
+    'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
+    'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
+
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
     'step_4_title'          => get_field( $ec . 'steps_step_4_title' ) ?: 'Finally, save your new Event',
     'step_4_description'    => get_field( $ec . 'steps_step_4_description' ) ?: 'Some text her...',

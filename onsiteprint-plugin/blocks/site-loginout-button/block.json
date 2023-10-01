@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0.1",
+    "version": "1.0.0.0",
     "name": "acf/site-loginout-button",
     "title": "Site Login/Logout Button",
     "description": "Displaying a Button to Login/Logout of the website.",

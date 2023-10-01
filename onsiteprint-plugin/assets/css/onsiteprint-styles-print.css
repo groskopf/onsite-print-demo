@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-03-27 - 00:20 (Y:m:d - H:i)
+ ?  Updated: 2023-04-23 - 20:47 (Y:m:d - H:i)
  ?  Last edit by: Niels
 
 ---------------------------------------------------------------------------
@@ -105,11 +105,29 @@ tfoot.op-pdf-footer {
 >  Participant Column Info
 --------------------------------------------- */
 
-.op-event-participant-list .op-participant-col-info {
+.op-event-participant-list.op-block__event .op-participant-col-info {
     display: grid;
-    grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem;
     padding: 0 1rem 1rem 1.4rem;
-    border-bottom: 1px solid #eee;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="1" ] .op-participant-col-info {
+    grid-template-columns: 5rem 1fr calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="2" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(2, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="3" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="4" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(4, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="5" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(5, 1fr) calc( 5ch + 4rem ) 5rem;
 }
 
 .op-event-participant-list .op-button.op-button-add {
@@ -122,7 +140,7 @@ tfoot.op-pdf-footer {
     cursor: unset;
 }
 
-.op-event-participant-list .op-participant-col-info .op-button-add .op-icon {
+.op-event-participant-list.op-block__event .op-participant-col-info .op-button.op-button-add .op-icon {
     padding: 1rem;
 }
 
@@ -205,14 +223,5 @@ tfoot.op-pdf-footer {
 }
 
 .op-event-participant-list article footer {
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.op-event-participant-list article.op-active:is( [data-op-arrival="1"], .op-print-active ) footer {
-    padding: 1.6rem 1.4rem 0.6rem;
-}
-
-.op-event-participant-list footer .op-col-arrival-time .op-icon {
-    height: 2rem;
+    display: none;
 }

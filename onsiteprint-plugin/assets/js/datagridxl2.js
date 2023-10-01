@@ -3,7 +3,7 @@
  *  v2.22.12.02
  *  (c) Vanilla Components
  *  https://datagridxl.com/buy
- ?	Updated: 2023-01-21 - 16:08 (Y:M:D - H:M) - Niels Gerdes (#NG)
+ ?	Updated: 2023-04-17 - 20:23 (Y:M:D - H:M) - Niels Gerdes (#NG)
 --------------------------------------------------------------------------- */
 
 var DataGridXL = function () {
@@ -459,8 +459,8 @@ var DataGridXL = function () {
             },
             ".dgxl-bar": function () {
                 return {
-                    "column-gap": "6px",
-                    padding: "6px"
+                    "column-gap": "4px", // #NG - 6px
+                    padding: "0 0 4px" // #NG - 6px
                 }
             },
             ".dgxl-inputWrapper": function () {
@@ -747,11 +747,11 @@ var DataGridXL = function () {
     }
 
     function lt() {
-        return this.topBar && this.topBar.length ? 48 : 0
+        return this.topBar && this.topBar.length ? 44 : 0 // #NG - 48
     }
 
     function ht() {
-        return this.bottomBar && this.bottomBar.length ? 48 : 0
+        return this.bottomBar && this.bottomBar.length ? 44 : 0 // #NG - 48
     }
 
     function at() {
@@ -5982,7 +5982,7 @@ var DataGridXL = function () {
                         style: {
                             display: "flex",
                             "flex-grow": 1,
-                            "grid-gap": "2px"
+                            "grid-gap": "4px" // #NG - 2px
                         },
                         children: [{
                             name: "inputWrapper",
@@ -6084,6 +6084,22 @@ var DataGridXL = function () {
                     },
                     fullscreenleave: function (t) {
                         this.constructor._isIOS && t.fullscreenButton.removeAttribute("disabled"), t.fullscreenButton.innerHTML = t.fullscreenButton._iconEnter
+                    }
+                }
+            },
+            layoutButton: { // #NG - New Element
+                name: "layoutButton",
+                node: function () {
+                    var t = `<button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="money-check" data-icon-position="left" data-title-visibility="1"><span class="op-icon" role="img" aria-label="Layout Icon"></span><span class="op-button-title">See chosen Template</span></button>`;
+                    return {
+                        tag: "div",
+                        name: "layoutButton",
+                        html: t,
+                    }
+                },
+                listeners: {
+                    "layoutButton.click": function (t) {
+                        //this.toggleFullscreen()
                     }
                 }
             },
@@ -6626,6 +6642,7 @@ var DataGridXL = function () {
             }
         },
         Qr = ["searchBar", "fullscreenButton"], // #NG - ["searchBar"],
+        //Qr = ["layoutButton", "searchBar", "fullscreenButton"], // #NG - ["searchBar"],
         Jr = [] // #NG - ["fullscreenButton", "inputBar", "credits"];
 
     function tl(t, e, i, o) {

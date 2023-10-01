@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2023-02-06 - 20:00 (Y:m:d - H:i)
+ ?  Updated: 2023-04-15 - 18:21 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -25,30 +25,14 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( false, 'input' )" name="csv-file" type="file" accept=".csv" required>
+                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( false, 'grid' )" name="csv-file" type="file" accept=".csv" required>
             </div>
         </label>
 
-        <div class="op-grid-wrapper" data-grid-cols="0">
+        <div class="op-grid-wrapper" data-grid-cols="0" data-grid-col-name="<?= esc_attr( $acf['step_3_col'] ) ?>" data-grid-no-col="<?= esc_attr( $acf['step_3_no_col'] ) ?>" data-grid-new-col="<?= esc_attr( $acf['step_3_new_col'] ) ?>">
 
             <p class="op-label-title"><?= esc_attr( $acf['step_3_grid_title'] ) ?></p>
             <div id="<?= esc_attr($id) ?>-form-grid"></div>
-
-            <label for="<?= esc_attr($id) ?>-grid-input" class="op-input-wrapper op-grid-input" data-validation="0">
-                <div class="op-input-field">
-                    <div class="op-input-validation" data-icon="circle-exclamation">
-                        <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
-                        <span class="op-message"><?= esc_attr( $acf['step_3_field_2_val'] ) ?></span>
-                    </div>
-                    <div class="op-input-checkbox op-input-border">
-                        <input id="<?= esc_attr($id) ?>-grid-input" oninput="opFormInputValidation()" name="grid" type="checkbox" required>
-                        <div class="op-radio-check" data-icon="circle-check">
-                            <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                        </div>
-                        <p class="op-input-description"><?= esc_attr( $acf['step_3_field_2_value'] ) ?></p>
-                    </div>
-                </div>
-            </label>
 
         </div>
 
