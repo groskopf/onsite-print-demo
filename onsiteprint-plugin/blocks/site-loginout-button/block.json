@@ -1,0 +1,29 @@
+{
+    "version": "1.0.0.0",
+    "name": "acf/site-loginout-button",
+    "title": "Site Login/Logout Button",
+    "description": "Displaying a Button to Login/Logout of the website.",
+    "category": "onsiteprint",
+    "icon": "lock",
+    "keywords": [ "onsiteprint", "button", "login", "logout", "user" ],
+    "editorScript": "file:./block-script.js",
+    "script": "file:./block-script.js",
+    "editorStyle": "file:./block-style.css",
+    "style": "file:./block-style.css",
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block-template.php"
+    },
+    "supports": {
+        "align": true,
+        "anchor": true,
+        "alignContent": true,
+        "spacing": {
+            "margin": true,
+            "padding": []
+        }
+    },
+    "example": {
+        "mode": "preview"
+    }
+}

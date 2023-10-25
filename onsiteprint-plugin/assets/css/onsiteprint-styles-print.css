@@ -1,0 +1,227 @@
+/* ------------------------------------------------------------------------
+
+ *  Plugin Name: OnsitePrint Plugin
+ *  Description: This is the Styles to the OnsitePrint Plugin.
+ *  Author: Gerdes Group
+ *  Author URI: https://www.clarify.nu/
+ ?  Updated: 2023-04-23 - 20:47 (Y:m:d - H:i)
+ ?  Last edit by: Niels
+
+---------------------------------------------------------------------------
+ #  TABLE OF CONTENTS:
+---------------------------------------------------------------------------
+
+    1. Site Setup
+    2. ACF Custom Blocks
+
+---------------------------------------------------------------------------
+ #  1. Site Setup
+--------------------------------------------------------------------------- */
+
+html {
+    font-size: 31.25%;
+}
+
+body {
+    overflow: visible;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.op-pdf-container {
+    width: 100%;
+    font-size: inherit;
+}
+
+table .row-list-info,
+table .op-event-item header {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+}
+
+table .list-info {
+    display: grid;
+    grid-template-columns: repeat( 4, 25% );
+}
+
+table.op-pdf-container article {
+    page-break-inside: avoid;
+}
+
+thead.op-pdf-header {
+    display: table-header-group;
+}
+
+tfoot.op-pdf-footer {
+    display: table-footer-group;
+}
+
+.pdf-header {
+    display: table-footer-group;
+}
+
+/* .op-page-number::before {
+    counter-increment: page;
+    content:"Page " counter(page);
+    left: 0; 
+    top: 100%;
+    white-space: nowrap; 
+    z-index: 20;
+    -moz-border-radius: 5px; 
+    -moz-box-shadow: 0px 0px 4px #222;  
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);  
+}
+ */    
+/*.number::before {
+    counter-increment: page;
+    font-size: 5rem;
+    content:counter(page);
+}
+.pdf-header {
+    display: table-footer-group;
+}*/
+
+/*.number::before {
+    counter-increment: page;
+    content: counter(page) " of " counter(pages);
+    font-size: 3rem;
+}*/
+
+
+/* ------------------------------------------------------------------------
+ #  2. ACF Custom Blocks
+---------------------------------------------------------------------------
+ >  2c-8. Event Participant List
+------------------------------------------------------------ */
+
+.op-event-participant-list .op-button {
+    display: none;
+}
+
+/* ------------------------------------------
+>  Participant Column Info
+--------------------------------------------- */
+
+.op-event-participant-list.op-block__event .op-participant-col-info {
+    display: grid;
+    padding: 0 1rem 1rem 1.4rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="1" ] .op-participant-col-info {
+    grid-template-columns: 5rem 1fr calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="2" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(2, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="3" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(3, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="4" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(4, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list.op-block__event[ data-column-count="5" ] .op-participant-col-info {
+    grid-template-columns: 5rem repeat(5, 1fr) calc( 5ch + 4rem ) 5rem;
+}
+
+.op-event-participant-list .op-button.op-button-add {
+    background: none;
+    color: var(--wp--preset--color--neutral-60);
+    display: flex;
+    border: none;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-radius: 0;
+    cursor: unset;
+}
+
+.op-event-participant-list.op-block__event .op-participant-col-info .op-button.op-button-add .op-icon {
+    padding: 1rem;
+}
+
+.op-event-participant-list .op-participant-col-info .op-button-add .op-icon::after,
+.op-event-participant-list .op-button.op-button-add .op-button-title {
+    display: none;
+}
+
+/* ------------------------------------------
+>  Participant Rows
+--------------------------------------------- */
+
+.op-event-participant-list article header {
+    grid-template-columns: auto 1fr calc( 5ch + 4rem ) auto;
+    gap: 0;
+
+ }
+
+.op-event-participant-list article header :is( .op-col-icon, .op-col-arrival-time, .op-button .op-button-title ) {
+    display: flex;
+}
+
+.op-event-participant-list .op-col-lines {
+    display: grid;
+    grid-template-columns: repeat(3, calc(100% / 3));
+    padding: 0;
+}
+
+.op-event-participant-list .op-col-print-info .op-button {
+    min-width: 16rem;
+    border-radius: 0 0.4rem 0.4rem 0;
+} 
+    
+ .op-event-participant-list .op-col-print-info .op-button .op-icon {
+    display: none;
+}
+
+.op-event-participant-list .op-col-print-info .op-button .op-button-title {
+    padding-left: 2.4rem;
+}
+
+.op-event-participant-list :where( .op-icon )::before {
+    font: var(--fa-font-solid);
+    font-size: 2.4rem;
+}
+
+.op-event-participant-list .op-col-lines p, 
+.op-event-participant-list header .op-col-arrival-time {
+    min-width: 0;
+    padding: 0.9rem 2rem;
+}
+
+.op-event-participant-list .op-col-lines p:not(:last-child) {
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-bottom: none;
+}
+
+.op-event-participant-list .op-col-lines p .op-label {
+    display: none;
+}
+
+.op-event-participant-list .op-col-lines p .op-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.op-event-participant-list header .op-col-arrival-time::before {
+    display: none;
+}
+
+.op-event-participant-list .op-col-print-info {
+    flex-direction: row-reverse;
+}
+
+.op-event-participant-list .op-col-print-info .op-col-amount-of-prints {
+    width: 5rem;
+    border: 0.1rem solid #eee;
+    border-radius: 0.4rem;
+}
+
+.op-event-participant-list article footer {
+    display: none;
+}

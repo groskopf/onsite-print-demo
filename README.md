@@ -1,2 +1,5 @@
 # onsite-print-demo
-First web interface examples
+Onsiteprint.dk web interface - Build  
+
+## List of Contents:
+> - WordPress Plugin - OnsitePrint Plugin

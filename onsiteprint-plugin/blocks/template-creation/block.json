@@ -1,0 +1,29 @@
+{
+    "version": "1.0.2.3",
+    "name": "acf/template-creation",
+    "title": "Template Creation",
+    "description": "Displaying a Creation Form to Create a new Template, if the User is logged in.",
+    "category": "onsiteprint",
+    "icon": "admin-appearance",
+    "keywords": [ "onsiteprint", "template", "create", "new" ],
+    "editorScript": "file:./block-script.js",
+    "script": "file:./block-script.js",
+    "editorStyle": "file:./block-style.css",
+    "style": "file:./block-style.css",
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "block-template.php"
+    },
+    "supports": {
+        "align": true,
+        "anchor": true,
+        "alignContent": true,
+        "spacing": {
+            "margin": true,
+            "padding": []
+        }
+    },
+    "example": {
+        "mode": "preview"
+    }
+}
