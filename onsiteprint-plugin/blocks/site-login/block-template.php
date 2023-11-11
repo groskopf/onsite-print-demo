@@ -9,9 +9,15 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-26 - 20:27 (Y:m:d - H:i)
+ ?  Updated: 2023-11-11 - 19:54 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
+ #  Redirect if User is not Logged In
+--------------------------------------------------------------------------- */
+
+require( __DIR__.'/../../private/session.php' );
+
+/* ------------------------------------------------------------------------
  #  The Block Data
 --------------------------------------------------------------------------- */
 
@@ -21,10 +27,10 @@ $options = array(
     'style_color'       => get_field( $path . 'color' ) ?: 'primary-60',
 );
 
-if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) ) {
+if ( $OP_LOGIN === false ) {
     $header = array(
         'title'         => get_field( $path . 'login_title' ) ?: 'Login with Booking Code',
-        'description'   => get_field( $path . 'login_description' ) ?: 'Login to our web service and easily complete your event.',    
+        'description'   => get_field( $path . 'login_description' ) ?: 'Log in to our web service and easily complete your event.',    
     );
 } else {
     $header = array(
@@ -91,9 +97,6 @@ if ( ! empty( $block['align'] ) ) {
     $className .= ' align' . $block['align'];
 }
 
-///// Start Session.
-session_start();
-
 /* ------------------------------------------------------------------------
  #  The Block Content
 --------------------------------------------------------------------------- */
@@ -102,7 +105,7 @@ session_start();
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
 
     <?php ///// Validate if the user is logged in with a Booking Code or a Wordpress login.
-        if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
+        if ( $OP_LOGIN === false || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
 
         <div class="op-block__inner op-flex-col op-login">
 
@@ -137,7 +140,7 @@ session_start();
             
         </div><!-- .op-login -->
 
-    <?php } if ( isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
+    <?php } if ( $OP_LOGIN === true || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
 
         <div class="op-block__inner op-flex-col op-logout">
 
