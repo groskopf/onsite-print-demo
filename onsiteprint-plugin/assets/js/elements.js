@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-04-18 - 18:34 (Y:m:d - H:i)
+ ?  Updated: 2023-12-13 - 15:30 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1310,7 +1310,7 @@ async function opCreateBooking( debug, bookingData ) {
             formData.append( 'booking-item', JSON.stringify( bookingItem ) )
 
             ///// The URL to the API.
-            const acsUrl = `${ opGetCurrentScriptPath() }/../api/api-create-session.php`
+            const acsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-create-session.php`
 
             ///// Fetch from Local PHP file.
             const createBookingResponse = await opGetApiData( debug, 'POST', formData, acsUrl, 'json', 'form' )
@@ -1323,7 +1323,7 @@ async function opCreateBooking( debug, bookingData ) {
             else if ( createBookingResponse.response.session.bookingId !== bookingData.booking_code ) {
 
                 ///// The URL to the API.
-                const adsUrl = `${ opGetCurrentScriptPath() }/../api/api-delete-session.php`
+                const adsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-delete-session.php`
 
                 ///// Fetch from Local PHP file.
                 const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
@@ -1382,7 +1382,7 @@ async function opGetBookingFromSession( debug ) {
         if ( ! debug ) debug = false
 
         ///// The URL to the API.
-        const agsUrl = `${ opGetCurrentScriptPath() }/../api/api-get-session.php`
+        const agsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-get-session.php`
 
         ///// Fetch from Local PHP file.
         const getBookingResponse = await opGetApiData( debug, 'GET', '', agsUrl, 'json' )
@@ -3189,7 +3189,7 @@ async function opLogoutButton( debug, url, inputElement ) {
         let blockElement = inputElement.closest( 'section[id*="op-block"]' )
 
         ///// The URL to the API.
-        const adsUrl = `${ opGetCurrentScriptPath() }/../api/api-delete-session.php`
+        const adsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-delete-session.php`
 
         ///// Fetch from Local PHP file.
         const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )

@@ -11,7 +11,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-11-01 - 05:30 (Y:m:d - H:i)
+ ?  Updated: 2023-12-13 - 15:30 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  Connect to the FastAPI Server
@@ -23,18 +23,7 @@ try{
     checkConnection();
 
     if ( $_SERVER['REQUEST_METHOD'] === 'GET' ) { 
-
-        // **PREVENTING SESSION HIJACKING**
-        // Prevents javascript XSS attacks aimed to steal the session ID
-        ini_set('session.cookie_httponly', 1);
-
-        // **PREVENTING SESSION FIXATION**
-        // Session ID cannot be passed through URLs
-        ini_set('session.use_only_cookies', 1);
-
-        // Uses a secure connection (HTTPS) if possible
-        ini_set('session.cookie_secure', 1);
-        
+       
         ///// Start Session.
         session_start();
 
