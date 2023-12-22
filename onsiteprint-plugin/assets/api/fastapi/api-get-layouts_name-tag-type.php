@@ -2,7 +2,7 @@
 /* ------------------------------------------------------------------------
 
  *  Plugin Name: OnsitePrint Plugin
- *  Description: Getting the Booking from the FastAPI Server.
+ *  Description: Getting the Layouts with Name Tag Type from the FastAPI Server.
  *  Author: Gerdes Group
  *  Author URL: https://www.clarify.nu/
  *
@@ -13,7 +13,7 @@
  *  @since OnsitePrint Plugin 1.0
  * 
  *  Version: 1.0.0
- ?  Updated: 2023-12-20 - 03:50 (Y:m:d - H:i)
+ ?  Updated: 2023-12-21 - 05:17 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Content
@@ -23,23 +23,23 @@ try{
     //// Get Basic Functions.
     require_once( '../../../basic.php' );
 
-    //// Create the Booking Code variable.
-    $bookingCode = $_POST['booking-code'];
+    //// Create the Name Tag Type variable.
+    $nameTagType = $_POST['name-tag-type'];
 
     if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
 
         //// Send Error Response.
         sendResponse( 400, array( 'message' => 'Wrong Request Method!' ), __LINE__ );
 
-    } elseif ( ! $bookingCode ) {
+    } elseif ( ! $nameTagType ) {
             
         //// Send Error Response.
-        return sendResponse( 400, array( 'message' => 'Missing the Booking Code!' ), __LINE__ );
+        return sendResponse( 400, array( 'message' => 'Missing the Name Tag Type!' ), __LINE__ );
         
-    } elseif ( preg_match( '/^[0-9a-zA-Z]{15,}$/', $bookingCode ) === 0 ) {
+    } elseif ( preg_match( '/^[0-9]{7,7}$/', $nameTagType ) === 0 ) {
 
         //// Send Error Response.
-        sendResponse( 400, array( 'message' => 'The Booking Code must be longer than 15 characters and contain only digits and letters!' ), __LINE__ );
+        sendResponse( 400, array( 'message' => 'The Name Tag Type can only be 7 characters and contain digits!' ), __LINE__ );
 
     } else {
 
@@ -51,7 +51,7 @@ try{
 
         //// Set the cURL option.
         curl_setopt_array( $curlHandle, array(
-            CURLOPT_URL => $serverURL . 'bookings/' . $bookingCode,
+            CURLOPT_URL => $serverURL . '/layouts/name_tags/' . $nameTagType,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -74,12 +74,12 @@ try{
         if ( $httpStatus == 200 ) {
         
             //// Send Approved Response.
-            sendResponse( $httpStatus, array( 'message' => 'The Booking was Found!', 'booking' => json_decode( $curlResponse ) ), __LINE__ );
+            sendResponse( $httpStatus, array( 'message' => 'The Name Tag Type was Found!', 'nameTagType' => json_decode( $curlResponse ) ), __LINE__ );
             
         } elseif ( $httpStatus == 404 ) {
 
             //// Send Error Response.
-            sendResponse( $httpStatus, array( 'message' => 'The Booking was not Found!' ), __LINE__ );
+            sendResponse( $httpStatus, array( 'message' => 'The Name Tag Type was not Found!' ), __LINE__ );
 
         } else {
 

@@ -11,85 +11,98 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-12-13 - 15:30 (Y:m:d - H:i)
+ * 
+ *  Version: 1.0.0
+ ?  Updated: 2023-12-22 - 04:37 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Content
 --------------------------------------------------------------------------- */
 
 try {
-   
+
     //// Get Basic Functions.
-    require_once( __DIR__ . '/../../../basic.php' );
+    require_once( '../../../basic.php' );
+
+    //// Check if Login Session exist.
+    checkLoginSession();
+
+    //// Create the Booking Code variable.
+    $bookingCode = $_POST['booking-code'];
 
     if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
 
-        //// Send Unauthorized Response.
-        sendResponse( 400, 'Wrong Request Method!', __LINE__ );
-    
+        //// Send Error Response.
+        sendResponse( 400, array( 'message' => 'Wrong Request Method!' ), __LINE__ );
+
     } else {
+       
+        //// Create new API Request (Get Booking).
+        $getBooking = new apiRequest();
+        $getBooking -> url = 'https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/api/fastapi/api-get-booking.php';
+        $getBooking -> fields = array( 'booking-code' => $bookingCode );
 
-        //// Check if Login Session exist.
-        checkLoginSession();
-        
-        if ( ! $_POST['booking-item'] ) {
-            
-            //// Send Unauthorized Response.
-            sendResponse( 400, 'Missing the Booking ID!', __LINE__ );
-            
-        } else {
-            $postdata = http_build_query( 
-                array(
-                    'bookingId' => $_POST['booking-item']
-                )
-            );
+        //// The Response from the API Request.
+        $booking = json_decode( $getBooking -> post() );
 
-            $options = array( 'http' =>
-                array(
-                    'method'    => 'POST',
-                    'header'    => 'Content-Type: application/x-www-form-urlencoded',
-                    'content'   => 'bookingId=' . $_POST['booking-item']
-                )
-            );
+        if ( $booking->code !== 200 ) {
 
-            $content = stream_context_create( $options );
+            //// Send Error Response.
+            sendResponse( $booking->code, $booking->response, __LINE__ );
 
-            //// Get Booking Information from API.
-            $bookingItem = '{
-                "start_date": "2023-12-19",
-                "end_date": "2023-12-19",
-                "printer_code": "1OPYKBGXVN_1",
-                "booking_code": "string",
-                "name_tag_type": "4786103"
-              }';//file_get_contents( '../fastapi/api-get-booking.php', false, $content );
-            
-            // Remember to check .htaccess
-
-            ///// Prevents javascript XSS attacks aimed to steal the session ID.
-            ini_set('session.cookie_httponly', 1);
-
-            ///// Session ID cannot be passed through URLs.
-            ini_set('session.use_only_cookies', 1);
-
-            ///// Uses a secure connection (HTTPS) if possible.
-            ini_set('session.cookie_secure', 1);
-
-            ///// Start the Session.
-            session_start();
-            return
-            ///// Set the Session value.
-            $_SESSION['OP_PLUGIN_DATA_BOOKING'] = $bookingItem;
-            
-            ///// Return the Response.
-            sendResponse( 201, '{"message":"Session was Created!", "session":' . $bookingItem . '}', __LINE__ );
-
-        
         }
+
+        //// Create new API Request (Get Layouts with Name Tag Type).
+        $getLayouts = new apiRequest();
+        $getLayouts -> url = 'https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/api/fastapi/api-get-layouts_name-tag-type.php';
+        $getLayouts -> fields = array( 'name-tag-type' => $booking->response->booking->name_tag_type  );
+
+        //// The Response from the API Request.
+        $layouts = json_decode( $getLayouts -> post() );
+
+        if ( $layouts->code !== 200 ) {
+
+            //// Send Error Response.
+            sendResponse( $layouts->code, $layouts->response, __LINE__ );
+
+        }
+
+        //// Create Session Item.
+        $sessionItem = array(
+            'bookingCode'           => $booking->response->booking->booking_code, 
+            'bookingStartDate'      => $booking->response->booking->start_date, 
+            'bookingEndDate'        => $booking->response->booking->end_date,
+            'printerID'             => $booking->response->booking->printer_code, 
+            'nameTagType'           => array(
+                'nameTagTypeID'         => $booking->response->booking->name_tag_type, 
+                'nameTagTypeLayouts'    => $layouts->response->nameTagType->layouts
+            )
+        );        
+
+        //// Create Cookie Options.
+        $cookieOptions = array (
+            'expires' => strtotime( $booking->response->booking->end_date ), 
+            //'expires' => strtotime("+60 seconds"), 
+            'path' => '/', 
+            //'domain' => '', // '.example.com' leading dot for compatibility or use subdomain
+            'secure' => true,     // or false
+            'httponly' => true,    // or false
+            'samesite' => 'Strict' // None || Lax  || Strict
+        );
+
+        //// Set Cookie in Browser.
+        setcookie('OP_PLUGIN_DATA_SESSION', json_encode( $sessionItem ), $cookieOptions);
+        
+        //// Send Approved Response.
+        //sendResponse( 201, array( 'message' => 'The Session was Created!', 'session' => $sessionItem ), __LINE__ );
+        sendResponse( 201, array( 'message' => 'The Session was Created!' ), __LINE__ );
 
     }
     
 } catch( PDOException $exception ) {
+
     ///// Only echo when debugging.
     //echo $exception;
-    sendResponse( 500, 'System under maintaining.', __LINE__ );
+    sendResponse( 500, array( 'details' => 'System under maintaining.' ), __LINE__ );
+
 }

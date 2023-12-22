@@ -24,39 +24,28 @@ try{
 
     if ( $_SERVER['REQUEST_METHOD'] === 'GET' ) { 
        
-        ///// Start Session.
-        session_start();
+        require_once( __DIR__ . '/../../../private/authorization.php' );
 
-        ///// Validate if the user is logged in with a Booking Code or a Wordpress login.
-        if ( isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) ) { 
+        // Initiate curl session in a variable (resource)
+        $curl_handle = curl_init();
 
-            require_once( __DIR__ . '/../../../private/authorization.php' );
+        // Set the curl URL option
+        curl_setopt( $curl_handle, CURLOPT_URL, $serverURL . 'layouts/sheets' );
 
-            // Initiate curl session in a variable (resource)
-            $curl_handle = curl_init();
+        curl_setopt( $curl_handle, CURLOPT_HTTPHEADER, array( 
+            'accept: application/json', 
+            'access_token: ' . $serverToken 
+        ) );
 
-            // Set the curl URL option
-            curl_setopt( $curl_handle, CURLOPT_URL, $serverURL . 'layouts/sheets' );
+        // This option will return data as a string instead of direct output
+        curl_setopt( $curl_handle, CURLOPT_RETURNTRANSFER, true );
 
-            curl_setopt( $curl_handle, CURLOPT_HTTPHEADER, array( 
-                'accept: application/json', 
-                'access_token: ' . $serverToken 
-            ) );
-
-            // This option will return data as a string instead of direct output
-            curl_setopt( $curl_handle, CURLOPT_RETURNTRANSFER, true );
-
-            // Execute curl & store data in a variable
-            $curl_response = curl_exec( $curl_handle );
-            
-            curl_close( $curl_handle );
-
-            echo $curl_response;
+        // Execute curl & store data in a variable
+        $curl_response = curl_exec( $curl_handle );
         
-        } else {
-            //// Send Unauthorized Response.
-            sendError( 401, 'Missing login information.', __LINE__ );
-        }
+        curl_close( $curl_handle );
+
+        echo $curl_response;
     
     } else {
         //// Send Wrong Request Response.

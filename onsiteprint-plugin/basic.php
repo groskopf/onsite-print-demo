@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-12-20 - 01:18 (Y:m:d - H:i)
+ ?  Updated: 2023-12-21 - 00:04 (Y:m:d - H:i)
 
  ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -62,13 +62,17 @@ function checkConnection() {
 	if ( isset( $_SERVER['HTTPS'] ) ) {
 		
 		if ( $_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] == 443 ) {
+
 			///// Connection is secured and page is called from HTTPS.
 			return true;
+		
 		}
 
-	} else { 
-		// Connection is made through HTTP 
-		sendError( 500, 'Connection is not secured and page is called from HTTP!', __LINE__ );
+	} else {
+
+		//// Connection is made through HTTP 
+		sendResponse( 500, array( 'details' => 'Connection is not secured and page is called from HTTP!' ), __LINE__ );
+
 	}
 }
 
@@ -83,8 +87,46 @@ function checkLoginSession() {
 	if ( $OP_LOGIN === true ) {
 
 		//// Send Error Response.
-		sendError( 400, 'Login Session already exist!', __LINE__ );
+		sendResponse( 400, array( 'message' => 'Login Session already exist!' ), __LINE__ );
+
+	}
+
+}
+
+/* ---------------------------------------------------------
+ >  1C. Send an Error if Login Session exist.
+------------------------------------------------------------ */
+class apiRequest {
+	public $url;
+	public $fields;
+	
+	public function post() {
+
+		//// Initiate cURL session in a variable (resource).
+		$curlHandle = curl_init();
 		
+		//// Set the cURL option.
+		curl_setopt_array( $curlHandle, array(
+			CURLOPT_URL => $this->url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => $this->fields,
+		));
+
+		//// Execute cURL & store data in variables.
+		$curlResponse = curl_exec( $curlHandle );
+		$httpStatus = curl_getinfo( $curlHandle, CURLINFO_HTTP_CODE );
+	
+		//// Close the cURL session.
+		curl_close( $curlHandle );
+	
+		return $curlResponse;
+	
 	}
 
 }

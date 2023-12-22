@@ -7,7 +7,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-02-19 - 15:23 (Y:m:d - H:i)
+ ?  Updated: 2023-12-22 - 04:30 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The API Content
@@ -18,18 +18,20 @@ try {
     if ( $_SERVER['REQUEST_METHOD'] === 'DELETE' ) { 
         
         ///// Start Session.
-        session_start();
+        //session_start();
 
         ///// Validate Booking Item.
-        if ( ! isset( $_SESSION['OP_PLUGIN_DATA_BOOKING'] ) ) {
+        if ( ! $_COOKIE['OP_PLUGIN_DATA_SESSION'] ) {
             http_response_code(400);
             header('Content-Type: application/json');
             echo '{"message":"Could not find any Session to Delete!"}';
             exit();
         } else {
             
-            ///// Destroy Session.
-            session_destroy();
+            //// Destroy Session.
+            //// Important if the cookie is used later in the code.
+            unset( $_COOKIE['OP_PLUGIN_DATA_SESSION'] ); 
+            setcookie( 'OP_PLUGIN_DATA_SESSION', '', -1, '/' );
             
             ///// Return the Response.
             http_response_code(200);
