@@ -12,8 +12,8 @@
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
  * 
- *  Version: 1.0.0
- ?  Updated: 2023-12-20 - 03:50 (Y:m:d - H:i)
+ *  Version: 1.0.1
+ ?  Updated: 2023-12-31 - 04:15 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Content
@@ -23,7 +23,8 @@ try{
     //// Get Basic Functions.
     require_once( '../../../basic.php' );
 
-    //// Create the Booking Code variable.
+    //// Create variables from POST.
+    $userToken = $_POST['user-token'];
     $bookingCode = $_POST['booking-code'];
 
     if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
@@ -31,11 +32,16 @@ try{
         //// Send Error Response.
         sendResponse( 400, array( 'message' => 'Wrong Request Method!' ), __LINE__ );
 
-    } elseif ( ! $bookingCode ) {
-            
+    } elseif ( ! $userToken && $userToken !== $_COOKIE['OP_PLUGIN_DATA_SESSION'] ) {
+
         //// Send Error Response.
-        return sendResponse( 400, array( 'message' => 'Missing the Booking Code!' ), __LINE__ );
-        
+        sendResponse( 400, array( 'message' => 'Something went wrong with the Authorization!' ), __LINE__ );
+
+    } elseif ( ! $bookingCode ) {
+
+        //// Send Error Response.
+        sendResponse( 400, array( 'message' => 'Missing the Booking Code!' ), __LINE__ );
+
     } elseif ( preg_match( '/^[0-9a-zA-Z]{15,}$/', $bookingCode ) === 0 ) {
 
         //// Send Error Response.
@@ -43,7 +49,7 @@ try{
 
     } else {
 
-        //// Get variables from authorization.php ($serverURL, $serverToken). 
+        //// Get variables from authorization.php ($serverURL, $serverToken).
         require_once( '../../../private/authorization.php' );
 
         //// Initiate cURL session in a variable (resource).
@@ -72,10 +78,10 @@ try{
         curl_close( $curlHandle );
 
         if ( $httpStatus == 200 ) {
-        
+
             //// Send Approved Response.
             sendResponse( $httpStatus, array( 'message' => 'The Booking was Found!', 'booking' => json_decode( $curlResponse ) ), __LINE__ );
-            
+
         } elseif ( $httpStatus == 404 ) {
 
             //// Send Error Response.

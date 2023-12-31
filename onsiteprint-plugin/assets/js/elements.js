@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-12-22 - 04:30 (Y:m:d - H:i)
+ ?  Updated: 2023-12-31 - 04:52 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -3154,12 +3154,21 @@ async function opLogoutButton( debug, url, inputElement ) {
 
         ///// Get the Block Element.
         let blockElement = inputElement.closest( 'section[id*="op-block"]' )
+        
+        ///// Get the Cookie Token.
+        const userToken = document.cookie.match('(^|;)\\s*' + 'OP_PLUGIN_DATA_SESSION' + '\\s*=\\s*([^;]+)')?.pop() || ''
+        
+        ///// Get the Data from the Form Element.
+        const formData = new FormData()
+
+        ///// Add JSON from Grid to Form Element
+        formData.append( 'user-token', userToken )
 
         ///// The URL to the API.
-        const adsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-delete-session.php`
+        const agsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-delete-session.php`
 
-        ///// Fetch from Local PHP file.
-        const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
+        ///// Fetch from the FastAPI.
+        const deleteBookingResponse = await opGetApiData( debug, 'POST', formData, agsUrl, 'json', 'form' )
 
         ///// Console Log if the Debug parameter is 'true'.
         opConsoleDebug( debug, `Delete Booking Response:`, deleteBookingResponse )

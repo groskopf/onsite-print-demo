@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-12-21 - 00:04 (Y:m:d - H:i)
+ ?  Updated: 2023-12-31 - 01:02 (Y:m:d - H:i)
 
  ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -19,6 +19,9 @@
 	1. 	Basic Functions
 		a. 	Send Response as JSON
 		b. 	Check the Server Connection
+		c. Get Plugin Url
+		d. Send an Error if Login Session exist
+		e. Return an API Request
 
 ---------------------------------------------------------------------------
  &	0. List of upcoming tasks
@@ -77,7 +80,22 @@ function checkConnection() {
 }
 
 /* ---------------------------------------------------------
- >  1C. Send an Error if Login Session exist.
+ >  1c. Get Plugin Url.
+------------------------------------------------------------ */
+function getPluginUrl() {
+
+	//// This script returns the URL of the current folder.
+    $realDocRoot = realpath($_SERVER['DOCUMENT_ROOT']);
+    $realDirPath = realpath(__DIR__);
+    $suffix = str_replace($realDocRoot, '', $realDirPath);
+    $prefix = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+    $folderUrl = $prefix . $_SERVER['HTTP_HOST'] . $suffix;
+    return $folderUrl; 
+
+}
+
+/* ---------------------------------------------------------
+ >  1d. Send an Error if Login Session exist.
 ------------------------------------------------------------ */
 function checkLoginSession() {
 
@@ -94,7 +112,7 @@ function checkLoginSession() {
 }
 
 /* ---------------------------------------------------------
- >  1C. Send an Error if Login Session exist.
+ >  1e. Return an API Request.
 ------------------------------------------------------------ */
 class apiRequest {
 	public $url;

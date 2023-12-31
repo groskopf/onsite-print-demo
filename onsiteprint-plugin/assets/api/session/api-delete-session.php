@@ -1,56 +1,59 @@
 <?php
 /* ------------------------------------------------------------------------
 
- *  The OnsitePrint (Delete Session) API.
- *  Deleting the PHP Session in the Browser with Booking Information.
+ *  Plugin Name: OnsitePrint Plugin
+ *  Description: Delete Cookies in the Browser.
+ *  Author: Gerdes Group
+ *  Author URL: https://www.clarify.nu/
+ *
+ *  @link: https://stackoverflow.com/questions/22221807/session-cookies-http-secure-flag-how-do-you-set-these
  *
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-12-22 - 04:30 (Y:m:d - H:i)
+ * 
+ *  Version: 1.0.1
+ ?  Updated: 2023-12-31 - 04:52 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
- #  The API Content
+ #  The Content
 --------------------------------------------------------------------------- */
-
 try {
 
-    if ( $_SERVER['REQUEST_METHOD'] === 'DELETE' ) { 
-        
-        ///// Start Session.
-        //session_start();
+    //// Get Basic Functions.
+    require_once( '../../../basic.php' );
 
-        ///// Validate Booking Item.
-        if ( ! $_COOKIE['OP_PLUGIN_DATA_SESSION'] ) {
-            http_response_code(400);
-            header('Content-Type: application/json');
-            echo '{"message":"Could not find any Session to Delete!"}';
-            exit();
-        } else {
-            
-            //// Destroy Session.
-            //// Important if the cookie is used later in the code.
-            unset( $_COOKIE['OP_PLUGIN_DATA_SESSION'] ); 
-            setcookie( 'OP_PLUGIN_DATA_SESSION', '', -1, '/' );
-            
-            ///// Return the Response.
-            http_response_code(200);
-            header( 'Content-Type: application/json' );
-            echo '{"message":"Session was Deleted!"}';
-        
-        }
+    //// Create variable from POST.
+    $userToken = $_POST['user-token'];
+    
+    if ( $_SERVER[ 'REQUEST_METHOD' ] !== 'POST' ) {
+
+        //// Send Error Response.
+        sendResponse( 400, array( 'message' => 'Wrong Request Method!' ), __LINE__ );
+
+    } elseif ( ! $userToken && $userToken !== $_COOKIE['OP_PLUGIN_DATA_SESSION'] ) {
+
+        //// Send Error Response.
+        sendResponse( 400, array( 'message' => 'Something went wrong with the Authorization!' ), __LINE__ );
 
     } else {
-        http_response_code(400);
-        header('Content-Type: application/json');
-        echo '{"message":"Wrong Request Method!"}';
-        exit();
+           
+        //// Destroy Cookies.
+        //// Important if the cookie is used later in the code.
+        unset( $_COOKIE['OP_PLUGIN_DATA_USER'] );
+        setcookie( 'OP_PLUGIN_DATA_USER', '', -1, '/' );
+        unset( $_COOKIE['OP_PLUGIN_DATA_SESSION'] );
+        setcookie( 'OP_PLUGIN_DATA_SESSION', '', -1, '/' );
+
+        //// Send Approved Response.
+        sendResponse( 200, array( 'message' => 'Session was Deleted!' ), __LINE__ );
+
     }
 
-}
+} catch( PDOException $exception ) {
 
-catch( Exception $ex ) {
-    http_response_code(500);
-    header('Content-Type: application/json');
-    echo '{"message":"Error at line: '.__LINE__.'"}';
+    ///// Only echo when debugging.
+    //echo $exception;
+    sendResponse( 500, array( 'details' => 'System under maintaining.' ), __LINE__ );
+
 }
