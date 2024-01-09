@@ -7,13 +7,15 @@
  *  Author URL: https://www.clarify.nu/
  *
  *  @link: https://stackoverflow.com/questions/22221807/session-cookies-http-secure-flag-how-do-you-set-these
+ *  @link: https://en.wikipedia.org/wiki/Cross-site_request_forgery
+ *  @link: https://en.wikipedia.org/wiki/Cryptographic_nonce
  *
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
  * 
- *  Version: 1.0.1
- ?  Updated: 2023-12-31 - 04:52 (Y:m:d - H:i)
+ *  Version: 1.0.2
+ ?  Updated: 2024-01-08 - 01:05 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Content
@@ -23,9 +25,6 @@ try {
     //// Get Basic Functions.
     require_once( '../../../basic.php' );
 
-    //// Check if Login Session exist.
-    checkLoginSession();
-
     //// Create the Booking Code variable.
     $bookingCode = $_POST[ 'booking-code' ];
 
@@ -34,10 +33,15 @@ try {
         //// Send Error Response.
         sendResponse( 400, array( 'message' => 'Wrong Request Method!' ), __LINE__ );
 
+    } elseif ( checkLoginSession() ) {
+
+        //// Send Error Response.
+		sendResponse( 400, array( 'message' => 'Login Session already exist!' ), __LINE__ );
+
     } else {
 
         //// Create new unique User Token ID.
-        $userToken = uniqid();
+        $userToken = time() . 123456;
 
         //// Create Session Cookie Options.
         $sessionCookieOptions = array (
@@ -53,7 +57,7 @@ try {
         setcookie( 'OP_PLUGIN_DATA_SESSION', $userToken, $sessionCookieOptions );
        
         //// Create new API Request (Get Booking).
-        $getBooking = new apiRequest();
+        $getBooking = new opApiRequest();
         $getBooking -> url = getPluginUrl() . '/assets/api/fastapi/api-get-booking.php';
         $getBooking -> fields = array(
             'user-token' => $userToken,
@@ -71,7 +75,7 @@ try {
         }
 
         //// Create new API Request (Get Layouts with Name Tag Type).
-        $getLayouts = new apiRequest();
+        $getLayouts = new opApiRequest();
         $getLayouts -> url = getPluginUrl() . '/assets/api/fastapi/api-get-layouts_name-tag-type.php';
         $getLayouts -> fields = array(
             'user-token' => $userToken,
@@ -118,8 +122,14 @@ try {
             'samesite' => 'Strict'  // None || Lax || Strict
         );
 
+        //// Get variables from authorization.php ($serverURL, $serverToken).
+        require_once( '../../../private/encryption.php' );
+
+        //// Use openssl_encrypt() function to encrypt the data.
+        $encryptedData = openssl_encrypt( json_encode( $sessionItem ), $method, $keyToken, $options, $userToken );
+
         //// Set Cookies in Browser.
-        setcookie( 'OP_PLUGIN_DATA_USER', json_encode( $sessionItem ), $userCookieOptions );
+        setcookie( 'OP_PLUGIN_DATA_USER', $encryptedData, $userCookieOptions );
         setcookie( 'OP_PLUGIN_DATA_SESSION', $userToken, $sessionCookieOptions );
 
         //// Send Approved Response.

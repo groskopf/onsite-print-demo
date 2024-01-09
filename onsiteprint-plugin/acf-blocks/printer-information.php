@@ -15,6 +15,22 @@
  #  The Block Data
 --------------------------------------------------------------------------- */
 
+$printerID = 'Loading...';
+
+if ( $GLOBALS['op_login_session'] ) {
+
+    //// Get variables from authorization.php ($serverURL, $serverToken).
+    require( __DIR__ . '/../private/encryption.php' );
+    
+    //// Use openssl_decrypt() function to decrypt the data.
+    $decryption = openssl_decrypt( $_COOKIE['OP_PLUGIN_DATA_USER'], $method, $keyToken, $options, $_COOKIE['OP_PLUGIN_DATA_SESSION'] );
+    
+    $booking = json_decode( $decryption );
+
+    $printerID = $booking->printerID;
+
+}
+
 $printerIdLabel = get_field('printer_id_label');
 
 $id = 'op-' . $block['id'];
@@ -48,7 +64,7 @@ if( ! $printerIdLabel ) {
 
         <p class="printer-id flex-col">
             <span class="label"><?= esc_attr($printerIdLabel) ?></span>
-            <span class="text">Loading...</span>
+            <span class="text"><?= esc_attr($printerID) ?></span>
         </p>
 
     </div><!-- .block__inner -->

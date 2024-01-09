@@ -15,7 +15,7 @@
  #  Redirect if User is not Logged In
 --------------------------------------------------------------------------- */
 
-require( __DIR__.'/../../private/session.php' );
+$OP_LOGIN = $GLOBALS['op_login_session'];
 
 /* ------------------------------------------------------------------------
  #  The Block Data

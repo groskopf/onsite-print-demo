@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.53
+ *	Version: 1.0.0.54
  ?	(Check the Version variable)
- ?	Updated: 2023-04-18 - 18:35 (Y:M:D - H:M)
+ ?	Updated: 2024-01-09 - 02:32 (Y:M:D - H:M)
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -62,9 +62,18 @@
 namespace GerdesGroup\op;
 
 /* ---------------------------------------------------------
+ >	1a. Security
+ *	Abort if this file is called directly
+------------------------------------------------------------ */
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'Location:' . trailingslashit( plugin_dir_url( __FILE__ ) ) );
+    die;
+}
+
+/* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.53' );
+define( 'OP_VERSION', '1.0.0.54' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -123,6 +132,7 @@ function onsiteprint_enqueue_editor_styles() {
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\onsiteprint_enqueue_editor_styles', 20, 1 );
 
+
 /* ------------------------------------------------------------------------
  #  2. Custom Block Category Registration
  *	Create a new category to the Block view in the Wordpress page/post editor.
@@ -157,6 +167,22 @@ function op_acf_register_blocks() {
 	}
 }
 add_action( 'acf/init', __NAMESPACE__ . '\op_acf_register_blocks' );
+
+
+/* ------------------------------------------------------------------------
+ #  4. Check if Login Session exist.
+ *	Creates a global variable (TRUE or FALSE).
+--------------------------------------------------------------------------- */
+function op_check_login_session(){
+    // add your custom code here to do something
+	include_once( OP_ROOT_PATH . 'basic.php' );
+	
+	$op_login_session = checkLoginSession();
+	
+	$GLOBALS['op_login_session'] = $op_login_session;
+
+}
+add_action( 'init', __NAMESPACE__ . '\op_check_login_session' );
 
 
 /* ------------------------------------------------------------------------

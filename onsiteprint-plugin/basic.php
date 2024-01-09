@@ -6,10 +6,15 @@
  *  Author: Gerdes Group
  *  Author URL: https://www.clarify.nu/
  *
+ *  @link: https://stackoverflow.com/questions/22221807/session-cookies-http-secure-flag-how-do-you-set-these
+ *  @link: https://stackoverflow.com/questions/686155/remove-a-cookie
+ *
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-12-31 - 01:02 (Y:m:d - H:i)
+ * 
+ *  Version: 1.0.2
+ ?  Updated: 2024-01-09 - 02:32 (Y:m:d - H:i)
 
  ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -20,8 +25,9 @@
 		a. 	Send Response as JSON
 		b. 	Check the Server Connection
 		c. Get Plugin Url
-		d. Send an Error if Login Session exist
-		e. Return an API Request
+		d. Return an API Request
+		e. Send an Error if Login Session exist
+		f. Destroy Login Session.
 
 ---------------------------------------------------------------------------
  &	0. List of upcoming tasks
@@ -95,28 +101,46 @@ function getPluginUrl() {
 }
 
 /* ---------------------------------------------------------
- >  1d. Send an Error if Login Session exist.
+ >  1d. Return an API Request.
 ------------------------------------------------------------ */
-function checkLoginSession() {
-
-	//// Check if Login Session exist.
-	require_once( 'private/session.php' );
-
-	if ( $OP_LOGIN === true ) {
-
-		//// Send Error Response.
-		sendResponse( 400, array( 'message' => 'Login Session already exist!' ), __LINE__ );
-
-	}
-
-}
-
-/* ---------------------------------------------------------
- >  1e. Return an API Request.
------------------------------------------------------------- */
-class apiRequest {
+class opApiRequest {
 	public $url;
 	public $fields;
+	public $httpHeader;
+	
+	public function get() {
+
+		//// Initiate cURL session in a variable (resource).
+		$curlHandle = curl_init();
+		
+		//// Set the cURL option.
+		curl_setopt_array( $curlHandle, array(
+			CURLOPT_URL => $this->url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'GET',
+		));
+
+		if ( $this->$httpHeader ) {
+			curl_setopt_array( $curlHandle, array(
+				CURLOPT_HTTPHEADER => $this->$httpHeader,
+			));
+		}
+
+		//// Execute cURL & store data in variables.
+		$curlResponse = curl_exec( $curlHandle );
+		$httpStatus = curl_getinfo( $curlHandle, CURLINFO_HTTP_CODE );
+	
+		//// Close the cURL session.
+		curl_close( $curlHandle );
+	
+		return $curlResponse;
+	
+	}
 	
 	public function post() {
 
@@ -136,6 +160,12 @@ class apiRequest {
 			CURLOPT_POSTFIELDS => $this->fields,
 		));
 
+		if ( $this->$httpHeader ) {
+			curl_setopt_array( $curlHandle, array(
+				CURLOPT_HTTPHEADER => $this->$httpHeader,
+			));
+		}
+
 		//// Execute cURL & store data in variables.
 		$curlResponse = curl_exec( $curlHandle );
 		$httpStatus = curl_getinfo( $curlHandle, CURLINFO_HTTP_CODE );
@@ -146,5 +176,39 @@ class apiRequest {
 		return $curlResponse;
 	
 	}
+
+}
+
+/* ---------------------------------------------------------
+ >  1e. Send TRUE or FALSE if Login Session exist.
+------------------------------------------------------------ */
+function checkLoginSession() {
+
+	//// Check Login Session (Cookies).
+	$checkLogin = new opApiRequest();
+	$checkLogin -> url = getPluginUrl() . '/assets/api/session/api-check-session.php';
+	$checkLogin -> $httpHeader = array(
+		'Cookie:OP_PLUGIN_DATA_USER='. $_COOKIE['OP_PLUGIN_DATA_USER'] . '; OP_PLUGIN_DATA_SESSION=' . $_COOKIE['OP_PLUGIN_DATA_SESSION']
+	);
+	
+	//// The Response from the API Request.
+	$sessionLogin = json_decode( $checkLogin -> get() );
+	
+	//// Return TRUE or FALSE.
+	return ( $sessionLogin->error ) ? false : true;
+
+}
+
+/* ---------------------------------------------------------
+ >  1f. Destroy Login Session.
+------------------------------------------------------------ */
+function destroyLoginSession() {
+
+	//// Destroy Login Session (Cookies).
+	//// Important if the cookie is used later in the code.
+	unset( $_COOKIE['OP_PLUGIN_DATA_USER'] );
+	setcookie( 'OP_PLUGIN_DATA_USER', '', -1, '/' );
+	unset( $_COOKIE['OP_PLUGIN_DATA_SESSION'] );
+	setcookie( 'OP_PLUGIN_DATA_SESSION', '', -1, '/' );
 
 }

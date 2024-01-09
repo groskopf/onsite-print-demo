@@ -3523,9 +3523,9 @@ function opBookingInformationBlocks() {
             let bookingStartDateFull = opTimeConverter( bookingItem.response.bookingStartDate, 'full' )
             let bookingEndDateFull = opTimeConverter( bookingItem.response.bookingEndDate, 'full' )
 
-            block.querySelector('.booking-code .text').innerHTML = bookingItem.response.bookingId
-            block.querySelector('.booking-start-date .text').innerHTML = bookingStartDate
-            block.querySelector('.booking-end-date .text').innerHTML = bookingEndDate
+            //block.querySelector('.booking-code .text').innerHTML = bookingItem.response.bookingId
+            //block.querySelector('.booking-start-date .text').innerHTML = bookingStartDate
+            //block.querySelector('.booking-end-date .text').innerHTML = bookingEndDate
             block.querySelector('.booking-start-date .text').setAttribute('datetime', bookingStartDateFull)
             block.querySelector('.booking-end-date .text').setAttribute('datetime', bookingEndDateFull)
 
@@ -3554,7 +3554,7 @@ function opPrinterInformationBlocks() {
             const bookingItem = await opGetBookingFromSession( debug )
             opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
-            block.querySelector('.printer-id .text').innerHTML = bookingItem.response.printerId
+            //block.querySelector('.printer-id .text').innerHTML = bookingItem.response.printerId
 
         })
     }

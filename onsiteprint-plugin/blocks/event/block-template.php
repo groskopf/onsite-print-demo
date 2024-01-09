@@ -9,14 +9,13 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-11-11 - 20:50 (Y:m:d - H:i)
+ ?  Updated: 2024-01-09 - 02:41 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
 --------------------------------------------------------------------------- */
 
-require( __DIR__.'/../../private/session.php' );
-if ( $OP_LOGIN === false ) {
+if ( ! $GLOBALS['op_login_session'] ) {
     ///// Redirect.
     header('Location: /'); exit();
 }
