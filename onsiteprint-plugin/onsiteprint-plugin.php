@@ -177,9 +177,9 @@ function op_check_login_session(){
     // add your custom code here to do something
 	include_once( OP_ROOT_PATH . 'basic.php' );
 	
-	$op_login_session = checkLoginSession();
+	global $op_login_session;
 	
-	$GLOBALS['op_login_session'] = $op_login_session;
+	$op_login_session = checkLoginSession();
 
 }
 add_action( 'init', __NAMESPACE__ . '\op_check_login_session' );

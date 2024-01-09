@@ -15,7 +15,8 @@
  #  Redirect if User is not Logged In
 --------------------------------------------------------------------------- */
 
-$OP_LOGIN = $GLOBALS['op_login_session'];
+global $op_login_session;
+$OP_LOGIN = $op_login_session;
 
 /* ------------------------------------------------------------------------
  #  The Block Data

@@ -15,7 +15,8 @@
  #  Redirect if User is not Logged In
 --------------------------------------------------------------------------- */
 
-if ( ! $GLOBALS['op_login_session'] ) {
+global $op_login_session;
+if ( ! $op_login_session ) {
     ///// Redirect.
     header('Location: /'); exit();
 }

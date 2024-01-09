@@ -125,9 +125,9 @@ class opApiRequest {
 			CURLOPT_CUSTOMREQUEST => 'GET',
 		));
 
-		if ( $this->$httpHeader ) {
+		if ( $this->httpHeader ) {
 			curl_setopt_array( $curlHandle, array(
-				CURLOPT_HTTPHEADER => $this->$httpHeader,
+				CURLOPT_HTTPHEADER => $this->httpHeader,
 			));
 		}
 
@@ -160,9 +160,9 @@ class opApiRequest {
 			CURLOPT_POSTFIELDS => $this->fields,
 		));
 
-		if ( $this->$httpHeader ) {
+		if ( $this->httpHeader ) {
 			curl_setopt_array( $curlHandle, array(
-				CURLOPT_HTTPHEADER => $this->$httpHeader,
+				CURLOPT_HTTPHEADER => $this->httpHeader,
 			));
 		}
 
@@ -184,11 +184,14 @@ class opApiRequest {
 ------------------------------------------------------------ */
 function checkLoginSession() {
 
+	$opUser = $_COOKIE['OP_PLUGIN_DATA_USER'];
+	$opSession = $_COOKIE['OP_PLUGIN_DATA_SESSION'];
+
 	//// Check Login Session (Cookies).
 	$checkLogin = new opApiRequest();
 	$checkLogin -> url = getPluginUrl() . '/assets/api/session/api-check-session.php';
-	$checkLogin -> $httpHeader = array(
-		'Cookie:OP_PLUGIN_DATA_USER='. $_COOKIE['OP_PLUGIN_DATA_USER'] . '; OP_PLUGIN_DATA_SESSION=' . $_COOKIE['OP_PLUGIN_DATA_SESSION']
+	$checkLogin -> httpHeader = array(
+		'Cookie:OP_PLUGIN_DATA_USER='. $opUser . '; OP_PLUGIN_DATA_SESSION=' . $opSession
 	);
 	
 	//// The Response from the API Request.

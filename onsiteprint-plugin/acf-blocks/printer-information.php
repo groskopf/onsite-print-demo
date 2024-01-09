@@ -17,7 +17,8 @@
 
 $printerID = 'Loading...';
 
-if ( $GLOBALS['op_login_session'] ) {
+global $op_login_session;
+if ( $op_login_session ) {
 
     //// Get variables from authorization.php ($serverURL, $serverToken).
     require( __DIR__ . '/../private/encryption.php' );
