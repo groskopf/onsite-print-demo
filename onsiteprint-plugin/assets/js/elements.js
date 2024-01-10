@@ -2222,10 +2222,106 @@ async function opCreatePrintDocument( debug, printWindow, block, eventListId ) {
 
 }
 
+/* ------------------------------------------
+>  6a-13. Create CSV file
+--------------------------------------------- */
+async function opCreateFileCSV( debug, eventListId ) {
+    
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! eventListId ) throw 'Missing Event List ID!'
+        else {
+
+            //////////////////// #NG: Needs to be looked at again - Search.
+            ///// Get Event List. 
+            const eventList = opGetEventList( eventListId )
+            if ( eventList.error !== false ) return opConsoleDebug( debug, 'eventList:', eventList.response )
+            
+            ///// Get Event Item. 
+            const eventItem = eventList.response
+            opConsoleDebug( debug, 'eventItem:', eventItem )
+
+            const items = eventItem.eventParticipants
+            const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+            const header = Object.keys(items[0])
+            const csvFile = [
+            header.join(','), // header row first
+            ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+            ].join('\r\n')
+
+            var filename = eventItem.eventName;
+            
+            var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                var link = document.createElement("a");
+                if (link.download !== undefined) { // feature detection
+                    // Browsers that support HTML5 download attribute
+                    var url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", filename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+
+            /* ///// Create new Form Element.
+            const formData = new FormData()
+
+            ///// Add Data to the new Form Element
+            formData.append( 'event-list', JSON.stringify( eventItem.eventParticipants ) )
+
+            ///// The URL to the API.
+            const url = `${ opGetCurrentScriptPath() }/../api/api-convert-json-into-csv.php`
+
+            ///// Fetch from Local PHP file.
+            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Data:`, apiData )
+
+            ///// If the Fetch Response has Code 200.
+            if ( apiData.code === 200 ) {
+                
+                ///// Create Approved Response.
+                error = false, code = 200, message = apiData.response
+                
+            } else throw 'The API Data has an Error!' */
+            
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opCreateFileCSV(${ eventListId })`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
 /* ---------------------------------------------------------
  >  5c. Print All Participants (PDF)
 ------------------------------------------------------------ */
-function opPrintEventParticipants( eventListId ) {
+function opDownloadEventParticipants( fileType, eventListId ) {
 
     ///// Debug the function
     let debug = false // true or false 
@@ -2236,18 +2332,30 @@ function opPrintEventParticipants( eventListId ) {
     ///// Get Id's. 
     let blockId = block.getAttribute( 'id' ).substring(9)
 
-    ///// Create Browser Window. 
-    printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }`  )
-    
-    ///// Create Print Document in Window, then open Print Window and close after. 
-    opCreatePrintDocument( debug, printWindow, block, eventListId ).then( response => {
-        opConsoleDebug( debug, 'Response:', response )
-        setInterval( () => {
-            printWindow.print()
-            printWindow.close()
-            window.location.reload()
-        }, 500)
-    })
+    if ( fileType.toLowerCase() !== 'csv' ) {
+        ///// Create Browser Window. 
+        printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }`  )
+        
+        ///// Create Print Document in Window, then open Print Window and close after. 
+        opCreatePrintDocument( debug, printWindow, block, eventListId ).then( response => {
+            opConsoleDebug( debug, 'Response:', response )
+            setInterval( () => {
+                printWindow.print()
+                printWindow.close()
+                window.location.reload()
+            }, 500)
+        })
+    } else {
+       
+        //////////////////// #NG: Needs to be looked at again - Search.
+        ///// Get Event List.
+        const fileCSV = opCreateFileCSV( debug, eventListId )
+        if ( fileCSV.error !== false ) return opConsoleDebug( debug, 'fileCSV:', fileCSV.response )
+        
+        ///// Get Event Item. 
+        const fileCSVItem = fileCSV.response
+        opConsoleDebug( debug, 'fileCSVItem:', fileCSVItem )
+    }
 
 }
 
