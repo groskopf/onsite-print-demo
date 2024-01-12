@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0.8",
+    "version": "1.0.0.9",
     "name": "acf/dashboard",
     "title": "Dashboard",
     "description": "Displaying a Dashboard of Events and Templates, if the User is logged in.",

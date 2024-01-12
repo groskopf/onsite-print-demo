@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-04-18 - 18:34 (Y:m:d - H:i)
+ ?  Updated: 2023-12-31 - 04:52 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1262,7 +1262,7 @@ async function opGetApiData( debug, method, bodyInput, url, output, contentType 
 /* ------------------------------------------
  >  3c. Create Booking
 --------------------------------------------- */
-async function opCreateBooking( debug, bookingData ) {   
+async function opCreateBooking( debug, bookingCode ) {   
 
     ///// Create Variables.
     let error, code, message
@@ -1271,79 +1271,46 @@ async function opCreateBooking( debug, bookingData ) {
 
         ///// Set the Parameter If the Debug is not defined.
         if ( ! debug ) debug = false
+        
+        ///// Create new Form Element.
+        const formData = new FormData()
 
-        ///// Validate the Function Parameters.
-        if ( ! bookingData ) throw `Missing the Booking Data in the Function Parameters!`
+        ///// Add Data to the new Form Element
+        formData.append( 'booking-code', bookingCode )
 
         ///// The URL to the API.
-        const url = `${ opGetFastApiInfo( 'url' ) }layouts/name_tags/${bookingData.name_tag_type}`
+        const acsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-create-session.php`
 
-        ///// Fetch from the FastAPI.
-        const nameTagType = await opGetApiData( debug, 'GET', '', url, 'json' )
+        ///// Fetch from Local PHP file.
+        const createBookingResponse = await opGetApiData( true, 'POST', formData, acsUrl, 'json', 'form' )
 
         ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( debug, `Name Tag Type:`, nameTagType )
+        opConsoleDebug( debug, `Create Booking Response:`, createBookingResponse )
 
         ///// Validate the Fetch Response.
-        if ( nameTagType.error !== false ) throw 'Could not find any Name Tag Type for the Booking!'
-        else {        
-            
-            ///// Define new Booking Item variable.
-            let bookingItem = { 
-                bookingId : bookingData.booking_code, 
-                bookingStartDate : bookingData.start_date, 
-                bookingEndDate : bookingData.end_date,
-                printerId : bookingData.printer_code, 
-                nameTagType : {
-                    nameTagTypeId : bookingData.name_tag_type, 
-                    nameTagTypeLayouts : nameTagType.response.layouts
-                }
-            }
-
-            ///// Console Log if the Debug parameter is 'true'.
-            opConsoleDebug( debug, `Booking Item:`, bookingItem )
-            
-            ///// Create new Form Element.
-            const formData = new FormData()
-
-            ///// Add Data to the new Form Element
-            formData.append( 'booking-item', JSON.stringify( bookingItem ) )
+        if ( createBookingResponse.error !== false ) throw 'Could not Create the Booking!'
+        /* else if ( createBookingResponse.response.session.bookingCode !== bookingCode ) {
 
             ///// The URL to the API.
-            const acsUrl = `${ opGetCurrentScriptPath() }/../api/api-create-session.php`
+            const adsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-delete-session.php`
 
             ///// Fetch from Local PHP file.
-            const createBookingResponse = await opGetApiData( debug, 'POST', formData, acsUrl, 'json', 'form' )
+            const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
 
             ///// Console Log if the Debug parameter is 'true'.
-            opConsoleDebug( debug, `Create Booking Response:`, createBookingResponse )
+            opConsoleDebug( debug, `Delete Booking Response:`, deleteBookingResponse )
 
             ///// Validate the Fetch Response.
-            if ( createBookingResponse.error !== false ) throw 'Could not Create the Booking!'
-            else if ( createBookingResponse.response.session.bookingId !== bookingData.booking_code ) {
+            if ( deleteBookingResponse.error !== false ) throw deleteBookingResponse.response.message
+            else throw 'The Booking ID and Code do not Match!'
 
-                ///// The URL to the API.
-                const adsUrl = `${ opGetCurrentScriptPath() }/../api/api-delete-session.php`
-
-                ///// Fetch from Local PHP file.
-                const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
-
-                ///// Console Log if the Debug parameter is 'true'.
-                opConsoleDebug( debug, `Delete Booking Response:`, deleteBookingResponse )
-
-                ///// Validate the Fetch Response.
-                if ( deleteBookingResponse.error !== false ) throw deleteBookingResponse.response.message
-                else throw 'The Booking ID and Code do not Match!'
-
-            } else {
-                
-                ///// Create Response.
-                error = false, code = createBookingResponse.code, message = `The Booking was created perfectly!`
-
-            }
+        } */ else {
+            
+            ///// Create Response.
+            error = false, code = createBookingResponse.code, message = `The Booking was created perfectly!`
 
         }
-            
+           
     } catch( errorMessage ) {
 
         ///// Throw Error Response.
@@ -1382,7 +1349,7 @@ async function opGetBookingFromSession( debug ) {
         if ( ! debug ) debug = false
 
         ///// The URL to the API.
-        const agsUrl = `${ opGetCurrentScriptPath() }/../api/api-get-session.php`
+        const agsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-get-session.php`
 
         ///// Fetch from Local PHP file.
         const getBookingResponse = await opGetApiData( debug, 'GET', '', agsUrl, 'json' )
@@ -3187,12 +3154,21 @@ async function opLogoutButton( debug, url, inputElement ) {
 
         ///// Get the Block Element.
         let blockElement = inputElement.closest( 'section[id*="op-block"]' )
+        
+        ///// Get the Cookie Token.
+        const userToken = document.cookie.match('(^|;)\\s*' + 'OP_PLUGIN_DATA_SESSION' + '\\s*=\\s*([^;]+)')?.pop() || ''
+        
+        ///// Get the Data from the Form Element.
+        const formData = new FormData()
+
+        ///// Add JSON from Grid to Form Element
+        formData.append( 'user-token', userToken )
 
         ///// The URL to the API.
-        const adsUrl = `${ opGetCurrentScriptPath() }/../api/api-delete-session.php`
+        const agsUrl = `${ opGetCurrentScriptPath() }/../api/session/api-delete-session.php`
 
-        ///// Fetch from Local PHP file.
-        const deleteBookingResponse = await opGetApiData( debug, 'DELETE', '', adsUrl, 'json' )
+        ///// Fetch from the FastAPI.
+        const deleteBookingResponse = await opGetApiData( debug, 'POST', formData, agsUrl, 'json', 'form' )
 
         ///// Console Log if the Debug parameter is 'true'.
         opConsoleDebug( debug, `Delete Booking Response:`, deleteBookingResponse )
@@ -3254,41 +3230,24 @@ async function opBookingFormValidation( debug, url ) {
         ///// Get the Booking Code from Form.
         let bookingElement = formElement[ 'bookingcode' ]
         let bookingCode = bookingElement.value
-        
-        ///// Get the Validated Input Response.
-        const bookingResponse = await opGetBookingFromFastAPI( debug, bookingCode )
-        
-        
-        ///// Validate to Booking Code.
-        if ( bookingResponse.error !== false ) {
+
+        const createdBookingResponse = await opCreateBooking( debug, bookingCode )
+
+        if ( createdBookingResponse.error !== false ) throw createdBookingResponse.response
+        else {
+
+            let addApprovalToElements = opAddValidationToElements( debug, formElement, [ bookingElement ], 'approve' )
             
-            let addErrorToElements = opAddValidationToElements( debug, formElement, [ bookingElement ], 'error' )
-            
-            if ( addErrorToElements.error !== false ) throw addErrorToElements.response
+            if ( addApprovalToElements.error !== false ) throw addErrorToElements.response
             else {
+
                 ///// Create Response.
-                error = false, code = 200, message = `The Error was Added to the Booking Element!`
-            }
-
-        } else {
-
-            const createdBookingResponse = await opCreateBooking( debug, bookingResponse.response )
-
-            if ( createdBookingResponse.error !== false ) throw createdBookingResponse.response
-            else {
-
-                let addApprovalToElements = opAddValidationToElements( debug, formElement, [ bookingElement ], 'approve' )
-                
-                if ( addApprovalToElements.error !== false ) throw addErrorToElements.response
-                else {
-                    ///// Create Response.
-                    error = false, code = 200, message = `The Approval was Added to the Booking Element!`
+                error = false, code = 200, message = `The Approval was Added to the Booking Element!`
                     
-                    ///// Relocate to the URL Link.
-                    opRelocateFromModal( url )
-                }
+                ///// Relocate to the URL Link.
+                opRelocateFromModal( url )
+                    
             }
-
         }
  
     } catch( errorMessage ) {
@@ -3564,9 +3523,9 @@ function opBookingInformationBlocks() {
             let bookingStartDateFull = opTimeConverter( bookingItem.response.bookingStartDate, 'full' )
             let bookingEndDateFull = opTimeConverter( bookingItem.response.bookingEndDate, 'full' )
 
-            block.querySelector('.booking-code .text').innerHTML = bookingItem.response.bookingId
-            block.querySelector('.booking-start-date .text').innerHTML = bookingStartDate
-            block.querySelector('.booking-end-date .text').innerHTML = bookingEndDate
+            //block.querySelector('.booking-code .text').innerHTML = bookingItem.response.bookingId
+            //block.querySelector('.booking-start-date .text').innerHTML = bookingStartDate
+            //block.querySelector('.booking-end-date .text').innerHTML = bookingEndDate
             block.querySelector('.booking-start-date .text').setAttribute('datetime', bookingStartDateFull)
             block.querySelector('.booking-end-date .text').setAttribute('datetime', bookingEndDateFull)
 
@@ -3595,7 +3554,7 @@ function opPrinterInformationBlocks() {
             const bookingItem = await opGetBookingFromSession( debug )
             opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
-            block.querySelector('.printer-id .text').innerHTML = bookingItem.response.printerId
+            //block.querySelector('.printer-id .text').innerHTML = bookingItem.response.printerId
 
         })
     }
