@@ -112,6 +112,9 @@ function opTimeConverter( timestamp, display, language ){
     let time, year, months, month, monthName, date, hour, min, sec
 
     let currentDate = new Date( timestamp )
+    //#NG
+    //Math.floor(new Date().getTime()/1000.0) The getTime method returns the time in milliseconds.
+
 
     if ( currentDate == 'Invalid Date' ) {
         return ''
@@ -125,12 +128,14 @@ function opTimeConverter( timestamp, display, language ){
 
     year = currentDate.getFullYear()
     monthName = months[ currentDate.getMonth() ]
-    month = months.indexOf( monthName ) + 1
+    month = ( months.indexOf( monthName ) + 1 )
     date = currentDate.getDate()
     hour = currentDate.getHours()
     min = currentDate.getMinutes()
     sec = currentDate.getSeconds()
 
+    if ( month.toString().length == 1 ) month = `0${ month }` 
+    if ( date.toString().length == 1 ) date = `0${ date }`
     if ( min.toString().length == 1 ) min = `0${ min }` 
     if ( hour.toString().length == 1 ) hour = `0${ hour }`
 
@@ -142,6 +147,8 @@ function opTimeConverter( timestamp, display, language ){
         time = `${date}. ${monthName}. ${year} - ${hour}:${min}:${sec}`
     } else if ( display == 'full' ) {
         time = `${year}-${month}-${date} ${hour}:${min}:${sec}`
+    } else if ( display == 'file' ) {
+        time = `${year}-${month}-${date}_${hour}${min}`
     }
 
     return time
@@ -313,6 +320,7 @@ async function opFetchDataFromApi( debug, url, options, output ) {
                 ///// Return the Data as a Blob or JSON.
                 if ( output == 'blob' ) message = await fetchResponse.blob()
                 else if ( output == 'json' ) message = await fetchResponse.json()
+                else if ( output == 'text' ) message = await fetchResponse.text()
                 else throw 'Could not find the Output Type!'
 
             } else if ( code >= 400 && code <= 499 ) throw await fetchResponse.json()
@@ -2248,56 +2256,49 @@ async function opCreateFileCSV( debug, eventListId ) {
             ///// Get Event Item. 
             const eventItem = eventList.response
             opConsoleDebug( debug, 'eventItem:', eventItem )
-
+           
+            let currentDate = opTimeConverter( new Date(), 'file')
+            let filename = eventItem.eventName.replace(/ /g,"-")
+            let newFilename = ( filename + '_' + currentDate.toString() )
             const items = eventItem.eventParticipants
-            const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
-            const header = Object.keys(items[0])
-            const csvFile = [
-            header.join(','), // header row first
-            ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-            ].join('\r\n')
+                        
+            items.forEach( participant => {
+                ///// Epoch Timestamp - https://www.epochconverter.com/
+                let myDate = new Date( Number(participant.time) )
+                let myEpoch = Math.floor( myDate.getTime() / 1000.0 )
+                participant.time = myEpoch
+            })
 
-            var filename = eventItem.eventName;
-            
-            var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+            ///// Create new Form Element.
+            const formData = new FormData()
+
+            ///// Add Data to the new Form Element
+            formData.append( 'event-list', JSON.stringify( items ) )
+
+            ///// The URL to the API.
+            const url = `${ opGetCurrentScriptPath() }/../api/convert-files/api-convert-json-into-csv.php`
+
+            ///// Fetch from Local PHP file.
+            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Data:`, apiData.response )
+
+            var blob = new Blob( apiData.response, { type: 'text/csv;charset=utf-8;' } );
             if (navigator.msSaveBlob) { // IE 10+
-                navigator.msSaveBlob(blob, filename);
+                navigator.msSaveBlob(blob, newFilename);
             } else {
                 var link = document.createElement("a");
-                if (link.download !== undefined) { // feature detection
-                    // Browsers that support HTML5 download attribute
-                    var url = URL.createObjectURL(blob);
-                    link.setAttribute("href", url);
-                    link.setAttribute("download", filename);
+                if (link.download !== undefined) { // feature detection                
+                    var bloburl = URL.createObjectURL(blob);
+                    link.setAttribute("href", bloburl);
+                    link.setAttribute("download", newFilename);
                     link.style.visibility = 'hidden';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                 }
             }
-
-            /* ///// Create new Form Element.
-            const formData = new FormData()
-
-            ///// Add Data to the new Form Element
-            formData.append( 'event-list', JSON.stringify( eventItem.eventParticipants ) )
-
-            ///// The URL to the API.
-            const url = `${ opGetCurrentScriptPath() }/../api/api-convert-json-into-csv.php`
-
-            ///// Fetch from Local PHP file.
-            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
-
-            ///// Console Log if the Debug parameter is 'true'.
-            opConsoleDebug( debug, `API Data:`, apiData )
-
-            ///// If the Fetch Response has Code 200.
-            if ( apiData.code === 200 ) {
-                
-                ///// Create Approved Response.
-                error = false, code = 200, message = apiData.response
-                
-            } else throw 'The API Data has an Error!' */
             
         }
 
