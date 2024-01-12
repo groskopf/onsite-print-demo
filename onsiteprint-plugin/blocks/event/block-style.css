@@ -176,6 +176,7 @@
     position: absolute;
     top: calc(100% - 0.6rem);
     right: 0.5rem;
+    z-index: 1;
     border: 0.1rem solid var(--wp--preset--color--primary-100);
     border-radius: 0.4rem 0 0.4rem 0.4rem;
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
