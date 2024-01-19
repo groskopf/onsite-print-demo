@@ -2048,6 +2048,8 @@ async function opPrintParticipant( participantId ) {
     const template = templateItem.response
     opConsoleDebug( debug, 'Template:', template )
 
+    ///// Get the Amount of Columns.
+    let columnAmount = template.templateLayoutColumns.charAt(0)
 
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Participant Item. 
@@ -2062,11 +2064,11 @@ async function opPrintParticipant( participantId ) {
     let bookingCode = bookingItem.response.bookingId
     let layout = template.templateLayout
     let imageFilename = template.templateFilenameUploaded
-    let string1 = participant.line1
-    let string2 = participant.line2
-    let string3 = participant.line3
-    let string4 = ""//participant.line4
-    let string5 = ""//participant.line5
+    let string1 = ( 1 <= columnAmount ) ? participant.line1 : ""
+    let string2 = ( 2 <= columnAmount ) ? participant.line2 : ""
+    let string3 = ( 3 <= columnAmount ) ? participant.line3 : ""
+    let string4 = ( 4 <= columnAmount ) ? participant.line4 : ""
+    let string5 = ( 5 <= columnAmount ) ? participant.line5 : ""
 
     ///// The URL to the API.
     let  url = `${ opGetFastApiInfo( 'url' ) }name_tags/${ bookingCode }?layout=${ layout }`
@@ -2258,7 +2260,7 @@ function opPrintEventParticipants( eventListId ) {
 ------------------------------------------------------------
  >  6a-1. Add Event Participant to Block
 --------------------------------------------- */
-function opAddEventParticipant( debug, block, participant ) {
+function opAddEventParticipant( debug, block, participant, columnAmount ) {
 
     ///// Get the elements.
     let eventPrintSuccess = block.getAttribute( 'data-print-success' )
@@ -2271,14 +2273,10 @@ function opAddEventParticipant( debug, block, participant ) {
     //////////////////// #NG: Missing Layout Information.
 
     ///// Create Participant variables.
-    let participantId, participantline1, participantline2, participantline3, participantline4, participantline5, participantPrints, participantTimeFull, participantTimeHour, participantActive, participantElement
+    let participantId, participantLine, participantLines, participantPrints, participantTimeFull, participantTimeHour, participantActive, participantElement
 
     participantId = participant.id
-    participantline1 = participant.line1
-    participantline2 = participant.line2
-    participantline3 = participant.line3
-    participantline4 = participant.line4
-    participantline5 = participant.line5
+    participantLines = [ participant.line1, participant.line2, participant.line3, participant.line4, participant.line5 ]
     participantPrints = participant.prints
     participantTimeFull = opTimeConverter( participant.time, 'full' )
     participantTimeHour = opTimeConverter( participant.time, 'hour-min' )
@@ -2290,20 +2288,23 @@ function opAddEventParticipant( debug, block, participant ) {
                 <p class="op-col-icon" data-icon="user">
                     <span class="op-icon" role="img" aria-label="User Icon"></span>
                 </p>
-                <div class="op-col-lines">
-                    <p class="op-col-line-1">
-                        <span class="op-label">1</span>
-                        <span class="op-text">${ participantline1 }</span>
-                    </p>
-                    <p class="op-col-line-2">
-                        <span class="op-label">2</span>
-                        <span class="op-text">${ participantline2 }</span>
-                    </p>
-                    <p class="op-col-line-3">
-                        <span class="op-label">3</span>
-                        <span class="op-text">${ participantline3 }</span>
-                    </p>
-                </div>
+                <div class="op-col-lines">`
+
+                    
+
+    for( let i = 0; i < columnAmount; ++i ) {
+
+        participantElement += `
+            <p class="op-col-line-${ i+1 }">
+                <span class="op-label">${ i+1 }</span>
+                <span class="op-text">${ participantLines[i] }</span>
+            </p>
+        `
+
+    }
+    
+    participantElement += `
+            </div>
                 <time class="op-col-arrival-time" datetime="${ participantTimeFull }">${ participantTimeHour }</time>
                 <div class="op-col-print-info">
                     <button class="op-participant-print op-button op-button-size-medium op-button-style-solid" data-color="primary-90" data-icon="print" data-icon-position="left" onclick="opPrintParticipant('${participantId}'); return false"><span class="op-icon" role="img" aria-label="Printer Icon"></span><span class="op-button-title">${ eventPrintButton }</span></button>
@@ -2322,6 +2323,8 @@ function opAddEventParticipant( debug, block, participant ) {
             </footer>
         </article>
     `
+
+    opConsoleDebug( true, 'participantElement:', participantElement )
 
     return new Promise( resolve => {
         resolve( { element: participantElement } )
@@ -2462,10 +2465,19 @@ function opSearchEventParticipants() {
     
     participantListElement.innerHTML = ''
     
+    // #NG (2023-02-26) - New Code
+    ///// Get Template Item.
+    const templateItem = opGetTemplate( eventItems[0].eventTemplate )
+    if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
+    opConsoleDebug( debug, 'templateItem:', templateItem )
+
+    ///// Get the Amount of Columns.
+    let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+
     ///// For each Participant create Participant Element.
     for( let i = 0; i < participants.length; ++i ) {
 
-        opAddEventParticipant( debug, block, participants[i] ).then( response => {
+        opAddEventParticipant( debug, block, participants[i], columnAmount ).then( response => {
             opConsoleDebug( debug, 'Response:', response )
             participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
         })
@@ -3725,6 +3737,10 @@ function opEventTemplateInformationBlocks() {
 ------------------------------------------------------------ */
 function opEventParticipantListBlocks() {
 
+    /* -----------------------------------
+        OLD BLOCK - NOT USED
+    --------------------------------------*/
+
     ///// Debug the function
     let debug = false // true or false 
 
@@ -3789,7 +3805,7 @@ function opEventParticipantListBlocks() {
             ///// Get Template Item.
             const templateItem = opGetTemplate( eventItems[0].eventTemplate )
             if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
-            opConsoleDebug( debug, 'templateItem:', templateItem )
+            opConsoleDebug( true, 'templateItem:', templateItem )
 
             
             ///// Get the Amount of Columns.
