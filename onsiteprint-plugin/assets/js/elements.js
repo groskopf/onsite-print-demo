@@ -2726,6 +2726,9 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
                 ///// Console Log if the Debug parameter is 'true'.
                 opConsoleDebug( debug, `Template(${ templateList[i].templateCreationDate })`, templateList[i] )
 
+                ///// The URL to the Layouts.
+                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
+
                 ///// Create new element.
                 newTemplateElement = `
                     <div class="op-radio-input">
@@ -2760,7 +2763,7 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
                                     </p>
                                 </div>
                                 <div class="op-image op-flex-col">
-                                    <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/event-creation/block-template-parts/block-form/img/${ templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                                    <img src="${ svgUrl + templateList[i].templateLayoutColumns + '/' + templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
                                 </div>
                             </div>
                             
@@ -2830,6 +2833,9 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                 ///// Console Log if the Debug parameter is 'true'.
                 opConsoleDebug( debug, `templateItem`, templateItem )
                 
+                ///// The URL to the Layouts.
+                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
+
                 ///// Create new element.
                 newTemplateElement = `
                     <article id="${ blockId }-${ eventList[i].eventCreationDate }-event">
@@ -2858,7 +2864,7 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                                 </p>
                             </div>
                             <div class="op-image op-flex-col">
-                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/event-creation/block-template-parts/block-form/img/${ templateItem.response.templateLayoutColumns }_${ templateItem.response.templateLayout }.svg" alt="Template: ${ templateItem.response.templateLayout }" width="100%" height="auto">
+                                <img src="${ svgUrl + templateItem.response.templateLayoutColumns + '/' + templateItem.response.templateLayoutColumns }_${ templateItem.response.templateLayout }.svg" alt="Template: ${ templateItem.response.templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
                                 <a href="${ eventLink }?event=${ eventList[i].eventCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
@@ -2927,6 +2933,9 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                 let templateLink = containerElement.getAttribute('date-template-link')
                 let templateLinkTitle = containerElement.getAttribute('date-template-link-title')
 
+                ///// The URL to the Layouts.
+                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
+
                 ///// Create new element.
                 newTemplateElement = `
                     <article id="${ blockId }-${ templateList[i].templateCreationDate }-template">
@@ -2959,7 +2968,7 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                                 </p>
                             </div>
                             <div class="op-image op-flex-col">
-                                <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/event-creation/block-template-parts/block-form/img/${ templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                                <img src="${ svgUrl + templateList[i].templateLayoutColumns + '/' + templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
                                 <a href="${ templateLink }?template=${ templateList[i].templateCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
@@ -3862,12 +3871,15 @@ function opTemplateCreationBlocks() {
 
             ///// Get Booking Item.
             const bookingItem = await opGetBookingFromSession( debug )
-            opConsoleDebug( debug, 'bookingItem:', bookingItem )
+            opConsoleDebug( true, 'bookingItem:', bookingItem )
 
             ///// Get Layouts from Booking.
             const layouts = bookingItem.response.nameTagType.nameTagTypeLayouts
             if ( layouts.length == 0 ) return opConsoleDebug( true, 'layouts:', 'Could not find any Layouts!' )
             opConsoleDebug( debug, 'Layouts:', layouts )
+
+            ///// The URL to the Layouts.
+            const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/3C/`
 
             let layoutNumber = 0
 
@@ -3887,7 +3899,7 @@ function opTemplateCreationBlocks() {
                                 </div>
                                 <div class="op-radio-info">
                                     <div class="op-image op-flex-col">
-                                        <img src="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/blocks/template-creation/block-template-parts/block-form/img/3C_${ layouts[i] }.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
+                                        <img src="${ svgUrl }3C_${ layouts[i] }.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
                                     </div>
                                 </div>
                             </label>
