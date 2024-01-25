@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-05 - 18:19 (Y:m:d - H:i)
+ ?  Updated: 2024-01-25 - 03:53 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -42,8 +42,13 @@ $acf = array(
     'step_2_process'        => get_field( $tc . 'steps_step_2_process' ) ?: 'Choose Layout',
     'step_2_title'          => get_field( $tc . 'steps_step_2_title' ) ?: 'What kind of layout are you looking for?',
     'step_2_description'    => get_field( $tc . 'steps_step_2_description' ) ?: 'Some text her...',
-    'step_2_field_1_title'  => get_field( $tc . 'steps_step_2_field_1_title' ) ?: 'Layouts',
+    'step_2_field_1_title'  => get_field( $tc . 'steps_step_2_field_1_title' ) ?: 'Choose Layout based on Number of Columns',
     'step_2_field_1_val'    => get_field( $tc . 'steps_step_2_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
+    'step_2_col_1_title'    => get_field( $tc . 'steps_step_2_col_1_title' ) ?: '1 Column',
+    'step_2_col_2_title'    => get_field( $tc . 'steps_step_2_col_2_title' ) ?: '2 Columns',
+    'step_2_col_3_title'    => get_field( $tc . 'steps_step_2_col_3_title' ) ?: '3 Columns',
+    'step_2_col_4_title'    => get_field( $tc . 'steps_step_2_col_4_title' ) ?: '4 Columns',
+    'step_2_col_5_title'    => get_field( $tc . 'steps_step_2_col_5_title' ) ?: '5 Columns',
 
     'step_3_process'        => get_field( $tc . 'steps_step_3_process' ) ?: 'Select Image',
     'step_3_title'          => get_field( $tc . 'steps_step_3_title' ) ?: 'Please select your Image/Logo',

@@ -1,4 +1,53 @@
 /* ------------------------------------------------------------------------
 #  Template Creation Block Style
-?  Updated: 2023-01-07 - 17:39 (Y:m:d - H:i)
+?  Updated: 2024-01-25 - 05:49 (Y:m:d - H:i)
 --------------------------------------------------------------------------- */
+
+.op-form .op-form-layouts details {
+    display: flex;
+    flex-direction: column;
+    border-right: 0.1rem solid var(--form-color-light);
+    border-left: 0.1rem solid var(--form-color-light);
+    overflow: hidden;
+}
+
+.op-form .op-form-layouts details:first-child,
+.op-form .op-form-layouts details:first-child summary {
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-form .op-form-layouts details:last-child {
+    border-bottom: 0.1rem solid var(--form-color-light);
+    border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.op-form .op-form-layouts details summary {
+    color: var(--form-color-dark);
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-top: 0.1rem solid var(--form-color-light);
+    cursor: pointer;
+    transition: all 200ms ease-in-out, color 100ms ease-in-out;
+}
+
+.op-form .op-form-layouts details[open] summary {
+    background-color: var(--form-color-light);
+}
+
+.op-form .op-form-layouts details summary:hover {
+    background-color: var(--form-color-medium);
+    color: var(--wp--preset--color--white);
+}
+
+.op-form .op-form-layouts details[open] summary .op-icon {
+    transform: rotate(180deg);
+}
+
+.op-form .op-form-layouts .op-form-radio-inputs {
+    background-color: var(--wp--preset--color--neutral-20);
+    padding: 2rem;
+    border-top: 0.1rem solid var(--form-color-light);
+}

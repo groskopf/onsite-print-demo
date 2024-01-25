@@ -4,7 +4,7 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-04-18 - 18:34 (Y:m:d - H:i)
+ ?  Updated: 2024-01-25 - 04:14 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1564,8 +1564,8 @@ async function opCreateTemplate( debug, formElement ) {
                         'templateName' : formElement[ 'name' ].value, 
                         'templateFilenameOriginal' : filenameOriginal,
                         'templateFilenameUploaded' : filenameUploaded,
-                        'templateLayout' : formElement[ 'layout' ].value,
-                        'templateLayoutColumns' : '3C'
+                        'templateLayout' : formElement[ 'layout' ].value.slice(3),
+                        'templateLayoutColumns' : formElement[ 'layout' ].value.slice(0, 2)
                     }
                     
                     ///// Push Template Item variable into Template List.
@@ -3866,57 +3866,74 @@ function opTemplateCreationBlocks() {
             
             ///// Get the elements.
             let blockId = block.getAttribute( 'id' )
-            let container = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
             opConsoleDebug( debug, 'blockId:', blockId )
 
             ///// Get Booking Item.
             const bookingItem = await opGetBookingFromSession( debug )
-            opConsoleDebug( true, 'bookingItem:', bookingItem )
+            opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
             ///// Get Layouts from Booking.
             const layouts = bookingItem.response.nameTagType.nameTagTypeLayouts
             if ( layouts.length == 0 ) return opConsoleDebug( true, 'layouts:', 'Could not find any Layouts!' )
             opConsoleDebug( debug, 'Layouts:', layouts )
 
+            let cols = [ '1C', '2C', '3C', '4C', '5C' ]
+            //let cols = [ '3C', '4C' ]
+
             ///// The URL to the Layouts.
-            const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/3C/`
+            const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
 
-            let layoutNumber = 0
+            let container, col
 
-            for( var i = 0; i < layouts.length; i++ ) {
-                if ( layouts[i].includes( 'P' ) ) {
-
-                    ++layoutNumber
-
-                    opConsoleDebug( debug, `layout-${layoutNumber}:`, layouts[i] )
-    
-                    layoutElement = `
-                        <div class="op-radio-input">
-                            <input type="radio" id="${ blockId }-${ layouts[i] }-input" oninput="opFormInputValidation()" name="layout" value="${ layouts[i] }" required>
-                            <label for="${ blockId }-${ layouts[i] }-input">
-                                <div class="op-radio-check" data-icon="circle-check">
-                                    <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                                </div>
-                                <div class="op-radio-info">
-                                    <div class="op-image op-flex-col">
-                                        <img src="${ svgUrl }3C_${ layouts[i] }.svg" alt="Layout: ${ layouts[i] }" width="100%" height="auto">
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                    `
-
-                    /* <p class="op-radio-info">
-                        <span class="op-text">${ layouts[i] }</span>
-                    </p> */
-
-
-                    ///// Add element to the container.
-                    container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
-
-                }             
+            let checkImageURL = async function( col, imageName ) {
+                //let image = new Image()
+                let url_image = svgUrl + col + '/' + col + '_' + imageName + '.svg'
+                //image.src = url_image
+                return await opFetchDataFromApi( false, url_image, {}, 'blob' )
             }
+            
+            for( var c = 0; c < cols.length; c++ ) {
 
+                for( var i = 0; i < layouts.length; i++ ) {
+
+                    if ( ( await checkImageURL( cols[c], layouts[i] )).error == false ) {
+
+                        if ( layouts[i].includes( 'P' ) ) {
+
+                            opConsoleDebug( debug, `layout-${i}:`, layouts[i] )
+            
+                            col = cols[c].slice( 0, -1 )
+
+                            layoutElement = `
+                                <div class="op-radio-input" data-layout-col="${ col }">
+                                    <input type="radio" id="${ blockId }-${ cols[c] }_${ layouts[i] }-input" oninput="opFormInputValidation()" name="layout" value="${ cols[c] }_${ layouts[i] }" required>
+                                    <label for="${ blockId }-${ cols[c] }_${ layouts[i] }-input">
+                                        <div class="op-radio-check" data-icon="circle-check">
+                                            <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                                        </div>
+                                        <div class="op-radio-info">
+                                            <div class="op-image op-flex-col">
+                                                <img src="${ svgUrl + cols[c] }/${ cols[c] }_${ layouts[i] }.svg" alt="Columns: ${ col }, Layout: ${ layouts[i] }" width="100%" height="auto">
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            `
+
+                            /* <p class="op-radio-info">
+                                <span class="op-text">${ layouts[i] }</span>
+                            </p> */
+
+                            container = block.querySelector( `#${ blockId }-radio-inputs .op-form-layouts .op-layouts-col-${ col } .op-form-radio-inputs` )
+
+                            ///// Add element to the container.
+                            container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
+
+                        }
+                    }
+                }
+
+            }
         })
     }
 }
