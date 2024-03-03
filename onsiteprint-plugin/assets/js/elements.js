@@ -4,7 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-01-25 - 04:14 (Y:m:d - H:i)
+ ?  Updated: 2024-03-03 - 01:17 (Y:m:d - H:i)
+ ?  Info: Added new token to JS.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1174,7 +1175,7 @@ function opGetFastApiInfo( object ) {
 
     ///// List of FastAPI Tokens
     const fastApiToken = [
-        'iZiICytrYEikgyNO',
+        'aGNhb2kzOG5jbzNu',
         'iYxAmDotuEqEEZYR'
     ]
 
