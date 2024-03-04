@@ -1,0 +1,21 @@
+{ 
+    "blockID" : "op-block_6949a8ac23607d87e1f6e2f1f3f8666f",
+    "lastUpdated" : 1709062826271,
+    "details" : {
+        "form" : [
+            {
+                "inputName" : "name",
+                "value" : "Skabelon 1"
+            },
+            {
+                "inputName" : "layout",
+                "value" : "3C_layout_3PBR"
+            },
+            {
+                "inputName" : "image",
+                "value" : ""
+            }
+        ],
+        "fastAPI" : ""
+    }
+}

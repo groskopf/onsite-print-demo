@@ -21,10 +21,17 @@
 import { opEventBlocks } from '../../../blocks/event/block-script.js'
 export { opEventBlocks }
 
+/* ---------------------------------------------------------
+ >  1b. Block: Template Creation
+------------------------------------------------------------ */
+import { opTemplateCreationBlocks } from '../../../blocks/template-creation/block-script.js'
+export { opTemplateCreationBlocks }
+
 /* ------------------------------------------------------------------------
  #  2. Call all functions in Blocks
 --------------------------------------------------------------------------- */
 export function opCallAllFunctions( debug ) {
     ///// 1a. Block: Event
     opEventBlocks( debug )
+    opTemplateCreationBlocks( debug )
 }

@@ -445,13 +445,15 @@ function opValidateLocalStorage( debug, storage, storageName ) {
         if ( storage ) {
             error = false, code = 200, message = storage
         } else if ( storage == '' || storage == undefined ) {
-            ///// #NG (2023-02-26) - Bookings are removed!
+            ///// #NG (2024-03-04) - Added Blocks!
             if ( storageName === 'BOOKINGS' ){
                 error = false, code = 204, message = { bookingList : [] }
             } else if ( storageName === 'TEMPLATES' ){
                 error = false, code = 204, message = { templateList : [] }
             } else if ( storageName === 'EVENTS' ){
                 error = false, code = 204, message = { eventList : [] }
+            } else if ( storageName === 'BLOCKS' ){
+                error = false, code = 204, message = { blockList : [] }
             }
         } else {
             throw `Something went wrong with the Local Storage (${ storageName }) validation!`
@@ -2510,13 +2512,13 @@ function opRelocateFromModal( url ) {
 /* ------------------------------------------
  >   >  6a-7. Go To Step in Form 
 --------------------------------------------- */
-function opFormGoToStep( newStep ) {
+function opFormGoToStep( newStep, eventTarget ) {
 
     ///// Debug the function
     let debug = false // true or false
 
     ///// Get the elements.
-    let eventTarget = event.target
+    if ( ! eventTarget ) eventTarget = event.target
     let block = eventTarget.closest( 'section[id*="op-block"]' )
     let form = block.querySelector( '.op-form-steps' )
     let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
@@ -2578,6 +2580,9 @@ function opFormGoToStep( newStep ) {
     
         if ( newStep == allSteps ) {
             form.setAttribute( 'data-form-step-last', true )
+
+            // #NG-2024 her skal kode ind...
+
         } else {
             form.setAttribute( 'data-form-step-last', false )
         }
@@ -3722,104 +3727,9 @@ function opEventTemplateInformationBlocks() {
 /* ---------------------------------------------------------
  >  6c-7. Event Participant List
  *  Check if multiple (Event Participant List) Blocks is on page
- ?  Updated: 2023-02-21 - 19:10 (Y:m:d - H:i)
+ ?  Updated: 2024-03-03 - 02:54 (Y:m:d - H:i)
+ #  Important: This function is no longer used, look at JS in Block.
 ------------------------------------------------------------ */
-function opEventParticipantListBlocks() {
-
-    ///// Debug the function
-    let debug = false // true or false 
-
-    ///// Get the elements.
-    let blockName = 'Event Participant List'
-    let blocks = document.querySelectorAll( '.op-event-participant-list' )
-    opConsoleDebug( debug, 'blocks:', blocks )
-
-    ///// Get each Block.
-    if ( blocks ) {
-        blocks.forEach( block => {
-                       
-            ///// Get Event Id. 
-            let eventListId = block.getAttribute( 'data-event-id' )
-
-            ///// Get the elements.
-            let participantListElement = block.querySelector( '.op-participant-rows' )
-        
-
-            //////////////////// #NG: Missing login validation
-
-
-            ///// Validate Local Storage of Events.
-            const eventsStorage = opGetLocalStorage( debug, 'Events' )
-
-            ///// Get Event List. 
-            const eventList = eventsStorage.response.eventList
-            opConsoleDebug( debug, 'eventList:', eventList )
-
-            ///// Validate Event List.
-            if ( ! eventList || ! eventList[0] ) return opValidateBlock( block, blockName, 'No Events have been created yet!' )
-            
-            ///// Filter Event Items.
-            let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
-            opConsoleDebug( debug, `event-${eventListId}:`, eventItems )
-            
-            ///// Validate Event Item. 
-            if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
-            
-            ///// Add Search Filter to the Event Participants List block. 
-            const searchFilter = opAddSearchFilter( debug, block, eventItems[0].eventTemplate )
-            opConsoleDebug( debug, 'searchFilter:', searchFilter )
-
-            ///// Get Event Participants. 
-            let participants = eventItems[0].eventParticipants
-            opConsoleDebug( debug, 'participants:', participants )
-           
-            participantListElement.innerHTML = ''
-
-            ///// For each Participant create Participant Element.
-            for( let i = 0; i < participants.length; ++i ) {
-
-                opAddEventParticipant( debug, block, participants[i] ).then( response => {
-                    opConsoleDebug( debug, 'Response:', response )
-                    participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
-                })
-
-            }
-
-            
-            // #NG (2023-02-26) - New Code
-            ///// Get Template Item.
-            const templateItem = opGetTemplate( eventItems[0].eventTemplate )
-            if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
-            opConsoleDebug( debug, 'templateItem:', templateItem )
-
-            
-            ///// Get the Amount of Columns.
-            let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
-            
-            ///// Get All Column Elements.
-            let columnElements = block.querySelectorAll( '.op-modal .op-fieldset__inner .op-input-wrapper input' )
-            
-            if ( columnAmount !== columnElements.length ) {
-                opConsoleDebug( debug, 'columnElements:', 'There are too many Column Elements in relation to the Number of Columns in the Event!' )
-                
-                ///// Delete the Column Element if the Column Number is above the Amount of Columns.
-                for( let i = 0; i < columnElements.length; ++i ) {                   
-                    if ( columnAmount < Number( i + 1 ) ) {
-                        columnElements[i].closest( '.op-input-wrapper' ).remove()
-                        opConsoleDebug( debug, `columnElement-${ Number( i + 1 ) }:`, 'The Column Element is deleted!' )
-                    }
-                }
-            } else opConsoleDebug( debug, 'columnElements:', 'The Number of Column Elements is Correct!' )
-
-            ///// Add Function to Modal Window. 
-            block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
-
-            ///// Add Function to Modal Window. 
-            block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
-
-        })
-    }
-}
 
 /* ---------------------------------------------------------
  >  6c-8. Template Creation
@@ -4210,7 +4120,6 @@ function opDocumentReady() {
             'opPrinterInformationBlocks',
             'opEventInformationBlocks',
             'opEventTemplateInformationBlocks',
-            'opEventParticipantListBlocks',
             'opTemplateCreationBlocks',
             'opEventCreationBlocks',
             'opDashboardBlocks',
