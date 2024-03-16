@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-03-04 - 00:47 (Y:m:d - H:i)
- ?  Info: Changed class name.
+ ?  Updated: 2024-03-13 - 20:28 (Y:m:d - H:i)
+ ?  Info: Changed buttons in snackbar.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -97,6 +97,19 @@ if ( ! empty( $block['align'] ) ) {
             <h2 class="op-block-title"><?= esc_attr( $acf['header_title'] ) ?></h2>
             <p class="op-block-description"><?= esc_attr( $acf['header_description'] ) ?></p>
         </header>
+
+        <div class="op-snackbar">
+            <p class="op-snackbar-info">Du har en klade fra den <b class="op-snackbar-time"></b></p>
+            <div class="op-snackbar-buttons">
+                <button class="op-continue-template op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-color-hover="accent-60">
+                    <span class="op-button-title">Fortsæt klade</span>
+                </button>
+                <button class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="error-100" data-color-hover="error-100" data-icon="trash" data-icon-position="right" data-title-visibility="1">
+                    <span class="op-icon" role="img" aria-label="Check Trash Icon"></span>
+                    <span class="op-button-title">Kassér klade</span>
+                </button>
+            </div>
+        </div>
 
         <form id="<?= esc_attr($id) ?>__form" class="op-form-steps op-flex-fill" action="POST" data-form-step="1" data-form-steps="4"  data-form-step-last="false">
 

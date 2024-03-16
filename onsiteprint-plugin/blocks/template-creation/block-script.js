@@ -15,11 +15,11 @@ import * as opLocalStorage from '../../assets/js/inc/local-storage/local-storage
 export function opTemplateCreationBlocks( debug ) {
     
     try {
-
+        
         ///// Set the Parameter If is not defined.
         ////* true or false
         if ( debug !== true ) debug = false
-
+        
         ///// Create Variables.
         var debugInfo = []
 
@@ -51,19 +51,31 @@ export function opTemplateCreationBlocks( debug ) {
                 ///// Get the Block ID.
                 let blockId = block.getAttribute( 'id' )
 
-                const shadowBlock = opLocalStorage.getBlock( debug, blockId )
-
-                console.log(shadowBlock)
+                const blockStorageResponse = opLocalStorage.getBlock( debug, blockId )
 
                 ///// Validate the Response from the Shadow Block.
-                if ( shadowBlock.code == 200 ) {
+                if ( blockStorageResponse.code == 200 ) {
+
+                    let shadowBlock = blockStorageResponse.response.details[0]
+                    let shadowTime = shadowBlock.lastUpdated
+                    let shadowForm = shadowBlock.details.form
+                    let snackbar = block.querySelector( '.op-snackbar' )
+
+                    snackbar.querySelector( '.op-snackbar-info b' ).textContent = opModuleBasic.opTimeConverter( shadowTime, 'date-month-year', 'da' )
+
+                    ///// Remove Snackbar if Button is Clicked. 
+                    opModuleBasic.opListener( 'click', snackbar.querySelector( '.op-new-template' ), function () {
+                        snackbar.remove()
+                    } )
                     
-                    let form = shadowBlock.response.details[0].details.form
+                    
+                    
+
                     let buttons = block.querySelectorAll( '.op-form-process__inner button' )
 
-                    if ( form[0].value !== "" ) {
+                    if ( shadowForm[0].value !== "" ) {
                         let nameInput = block.querySelector( `#${ blockId }-name-input` )
-                        nameInput.value = form[0].value
+                        nameInput.value = shadowForm[0].value
                         opFormInputValidation( debug, 'fieldset', nameInput )
                         opFormGoToStep( 'step-2', buttons[1] )
                     }
@@ -97,9 +109,9 @@ export function opTemplateCreationBlocks( debug ) {
         } )
 
     } finally {
-        
+
         ///// Log Debug Details in the Console.
-        if ( debug == true ) console.debug( 'DEBUG:', debugInfo )       
+        if ( debug == true ) console.debug( 'opTemplateCreationBlocks:', debugInfo )       
 
     }
     

@@ -4,7 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-26 - 23:47 (Y:m:d - H:i)
+ ?  Updated: 2024-03-13 - 20:08 (Y:m:d - H:i)
+ ?  Info: Change in Button Visibility.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -109,6 +110,7 @@ html {
     --fa-icon-house: "\f015";
     --fa-icon-table-cells: "\f00a";
     --fa-icon-money-check: "\f53c";
+    --fa-icon-trash: "\f1f8";
 
 }
 
@@ -259,6 +261,10 @@ html {
     transform: scaleY(1.4);
 }
 
+[data-icon="trash"] .op-icon::before {
+	content: var(--fa-icon-trash);
+}
+
 
 .op-flex-row {
     display: flex;
@@ -299,13 +305,139 @@ html {
 
 /* ---------------------------------------------------------
  >  1a. Buttons
------------------------------------------------------------- */
+------------------------------------------------------------
+ >  1a-1. Button Colors
+--------------------------------------------- */
 
 .op-button {
     --solid-background-color: var(--wp--preset--color--white);
     --solid-color: var(--wp--preset--color--black);
     --outline-color: var(--wp--preset--color--black);
     --outline-border-color: var(--wp--preset--color--black);
+}
+
+.op-button:is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--accent-60);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+/* ---------------------------
+>  Button Colors - White
+------------------------------ */
+
+.op-button:where( [data-color="white"] ) {
+    --solid-background-color: var(--wp--preset--color--white);
+    --solid-color: var(--wp--preset--color--primary-90);
+}
+
+/* ---------------------------
+>  Button Colors - Black
+------------------------------ */
+
+.op-button:where( [data-color="black"] ) {
+    --solid-background-color: var(--wp--preset--color--black);
+    --solid-color: var(--wp--preset--color--white);
+}
+
+/* ---------------------------
+>  Button Colors - Primary
+------------------------------ */
+
+.op-button:where( [data-color="primary-100"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-100);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-100);
+    --outline-border-color: var(--wp--preset--color--primary-100);
+}
+
+.op-button:where( [data-color="primary-90"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-90);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-90);
+    --outline-border-color: var(--wp--preset--color--primary-90);
+}
+
+.op-button:where( [data-color="primary-60"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-60);
+    --outline-border-color: var(--wp--preset--color--primary-60);
+}
+
+.op-button:where( [data-color="primary-20"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-20);
+    --solid-color: var(--wp--preset--color--primary-100);
+    --outline-color: var(--wp--preset--color--primary-10);
+    --outline-border-color: var(--wp--preset--color--primary-20);
+}
+
+/* ---------------------------
+>  Button Colors - Secondary
+------------------------------ */
+
+.op-button:where( [data-color="secondary-60"] ) {
+    --solid-background-color: var(--wp--preset--color--secondary-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--secondary-60);
+    --outline-border-color: var(--wp--preset--color--secondary-60);
+}
+
+.op-button:where( [data-color="secondary-20"] ) {
+    --solid-background-color: var(--wp--preset--color--secondary-20);
+    --solid-color: var(--wp--preset--color--secondary-100);
+    --outline-color: var(--wp--preset--color--secondary-10);
+    --outline-border-color: var(--wp--preset--color--secondary-20);
+}
+
+/* ---------------------------
+>  Button Colors - Accent
+------------------------------ */
+
+.op-button:where( [data-color="accent-60"] ) {
+    --solid-background-color: var(--wp--preset--color--accent-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--accent-80);
+    --outline-border-color: var(--wp--preset--color--accent-60);
+}
+
+.op-button:where( [data-color-hover="accent-60"] ):is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--accent-60);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+.op-button:where( [data-color="accent-20"] ) {
+    --solid-background-color: var(--wp--preset--color--accent-20);
+    --solid-color: var(--wp--preset--color--accent-100);
+    --outline-color: var(--wp--preset--color--accent-10);
+    --outline-border-color: var(--wp--preset--color--accent-20);
+}
+
+/* ---------------------------
+>  Button Colors - Error
+------------------------------ */
+
+.op-button:where( [data-color="error-100"] ) {
+    --solid-background-color: var(--wp--preset--color--error-100);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--error-100);
+    --outline-border-color: var(--wp--preset--color--error-100);
+}
+
+.op-button:where( [data-color-hover="error-100"] ):is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--error-100);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+.op-button:where( [data-color-hover="error-100"] ):is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--error-100);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+/* ------------------------------------------
+ >  1a-2. Button Default CSS 
+--------------------------------------------- */
+
+.op-button {
     font-family: var(--wp--preset--font-family--montserrat);
     font-weight: 500;
     text-align: center;
@@ -328,13 +460,13 @@ html {
 }
 
 .op-button:is( :hover, :focus ) {
-    background-color: var(--wp--preset--color--accent-60);
-    color: var(--wp--preset--color--white);
-    border: 0.1rem solid var(--wp--preset--color--accent-60);
+    background-color: var(--hover-background-color);
+    color: var(--hover-color);
+    border: 0.1rem solid var(--hover-background-color);
     transition: all 200ms ease-in-out, color 100ms ease-in-out;
 }
 
-.op-button:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ),
+.op-button:is( :hover, :focus ):is( [data-color*="accent"] ):not( :disabled, [data-color-hover] ),
 :is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover, :focus ) {
     background-color: var(--wp--preset--color--primary-90);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
@@ -515,81 +647,10 @@ html {
     padding-left: 3rem;
 }
 
-
 /* ------------------------------------------
- >  1a-2. Button Colors/Styles
+ >  1a-2. Button Styles
 ---------------------------------------------
- >  Button Colors
------------------------------- */
-
-.op-button:where( [data-color="white"] ) {
-    --solid-background-color: var(--wp--preset--color--white);
-    --solid-color: var(--wp--preset--color--primary-90);
-}
-
-.op-button:where( [data-color="black"] ) {
-    --solid-background-color: var(--wp--preset--color--black);
-    --solid-color: var(--wp--preset--color--white);
-}
-
-.op-button:where( [data-color="primary-100"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-100);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--primary-100);
-    --outline-border-color: var(--wp--preset--color--primary-100);
-}
-
-.op-button:where( [data-color="primary-90"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-90);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--primary-90);
-    --outline-border-color: var(--wp--preset--color--primary-90);
-}
-
-.op-button:where( [data-color="primary-60"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-60);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--primary-60);
-    --outline-border-color: var(--wp--preset--color--primary-60);
-}
-
-.op-button:where( [data-color="primary-20"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-20);
-    --solid-color: var(--wp--preset--color--primary-100);
-    --outline-color: var(--wp--preset--color--primary-10);
-    --outline-border-color: var(--wp--preset--color--primary-20);
-}
-
-.op-button:where( [data-color="secondary-60"] ) {
-    --solid-background-color: var(--wp--preset--color--secondary-60);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--secondary-60);
-    --outline-border-color: var(--wp--preset--color--secondary-60);
-}
-
-.op-button:where( [data-color="secondary-20"] ) {
-    --solid-background-color: var(--wp--preset--color--secondary-20);
-    --solid-color: var(--wp--preset--color--secondary-100);
-    --outline-color: var(--wp--preset--color--secondary-10);
-    --outline-border-color: var(--wp--preset--color--secondary-20);
-}
-
-.op-button:where( [data-color="accent-60"] ) {
-    --solid-background-color: var(--wp--preset--color--accent-60);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--accent-80);
-    --outline-border-color: var(--wp--preset--color--accent-60);
-}
-
-.op-button:where( [data-color="accent-20"] ) {
-    --solid-background-color: var(--wp--preset--color--accent-20);
-    --solid-color: var(--wp--preset--color--accent-100);
-    --outline-color: var(--wp--preset--color--accent-10);
-    --outline-border-color: var(--wp--preset--color--accent-20);
-}
-
-/* ---------------------------
->  Button Style - Solid
+ >  Button Style - Solid
 ------------------------------ */
 
 .op-button:where( .op-button-style-solid ) {
@@ -636,11 +697,11 @@ html {
     background-color: var(--wp--preset--color--accent-70);
     color: var(--wp--preset--color--white);
     width: max-content;
+    min-height: inherit;
     max-width: 24rem;
     padding-right: 0;
 	padding-left: 0;
     position: absolute;
-    top: -0.1rem;
     left: 100%;
     z-index: 0;
     opacity: 0;

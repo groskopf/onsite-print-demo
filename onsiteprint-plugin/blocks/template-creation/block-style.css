@@ -1,4 +1,46 @@
 /* ------------------------------------------------------------------------
 #  Template Creation Block Style
-?  Updated: 2024-03-04 - 00:40 (Y:m:d - H:i)
+?  Updated: 2024-03-06 - 21:42 (Y:m:d - H:i)
 --------------------------------------------------------------------------- */
+.op-snackbar {
+    background: var(--wp--preset--color--action-20);
+    color: var(--wp--preset--color--black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border: 0.1rem solid var(--wp--preset--color--action-60);
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-snackbar .op-snackbar-info {
+    padding: 1rem 2rem;
+}
+
+.op-snackbar .op-snackbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* 
+.op-snackbar .op-button {
+    background-color: var(--wp--preset--color--white);
+}
+.op-snackbar .op-button.op-button-cancel {
+    background-color: var(--wp--preset--color--white);
+    color: var(--wp--preset--color--error-100);
+    border-color: var(--wp--preset--color--error-100);
+}
+.op-snackbar .op-button.op-button-cancel:hover {
+    background-color: var(--wp--preset--color--error-80);
+    color: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--error-80);
+}
+.op-snackbar .op-button.op-button-cancel:hover .op-button-title {
+    background-color: var(--wp--preset--color--error-100);
+    color: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--error-100);
+} */

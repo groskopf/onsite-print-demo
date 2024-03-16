@@ -17,7 +17,7 @@ export function getBlock( debug, blockID ) {
 
         ///// Set the Parameter If is not defined.
         ////* true or false
-        if ( debug !== true ) debug = true//false
+        if ( debug !== true ) debug = false
 
         ///// Create Variables.
         var debugInfo = []
