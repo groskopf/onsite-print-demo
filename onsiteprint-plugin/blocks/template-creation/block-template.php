@@ -9,7 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-01-25 - 03:53 (Y:m:d - H:i)
+ ?  Updated: 2024-03-22 - 15:21 (Y:m:d - H:i)
+ ?  Info: New Step (2) with amount of Lines at the Layout. 
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -22,6 +23,7 @@ require_once( __DIR__.'/../../private/session.php' );
 --------------------------------------------------------------------------- */
 
 $tc = 'template_creation_';
+$amountOfSteps = 5;
 
 $acf = array(
     'style_color'           => get_field( $tc . 'color' ),
@@ -38,30 +40,36 @@ $acf = array(
     'step_1_description'    => get_field( $tc . 'steps_step_1_description' ) ?: 'Some text her...',
     'step_1_field_1_title'  => get_field( $tc . 'steps_step_1_field_1_title' ) ?: 'Template Name',
     'step_1_field_1_val'    => get_field( $tc . 'steps_step_1_field_1_validation' ) ?: 'The input field is empty!',
-    
-    'step_2_process'        => get_field( $tc . 'steps_step_2_process' ) ?: 'Choose Layout',
-    'step_2_title'          => get_field( $tc . 'steps_step_2_title' ) ?: 'What kind of layout are you looking for?',
+   
+    'step_2_process'        => get_field( $tc . 'steps_step_2_process' ) ?: 'Amount of Lines',
+    'step_2_title'          => get_field( $tc . 'steps_step_2_title' ) ?: 'How many Lines are you looking for?',
     'step_2_description'    => get_field( $tc . 'steps_step_2_description' ) ?: 'Some text her...',
-    'step_2_field_1_title'  => get_field( $tc . 'steps_step_2_field_1_title' ) ?: 'Choose Layout based on Number of Columns',
+    'step_2_field_1_title'  => get_field( $tc . 'steps_step_2_field_1_title' ) ?: 'Choose the Amount of Lines',
     'step_2_field_1_val'    => get_field( $tc . 'steps_step_2_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
-    'step_2_col_1_title'    => get_field( $tc . 'steps_step_2_col_1_title' ) ?: '1 Column',
-    'step_2_col_2_title'    => get_field( $tc . 'steps_step_2_col_2_title' ) ?: '2 Columns',
-    'step_2_col_3_title'    => get_field( $tc . 'steps_step_2_col_3_title' ) ?: '3 Columns',
-    'step_2_col_4_title'    => get_field( $tc . 'steps_step_2_col_4_title' ) ?: '4 Columns',
-    'step_2_col_5_title'    => get_field( $tc . 'steps_step_2_col_5_title' ) ?: '5 Columns',
+    'step_2_line_1_title'   => get_field( $tc . 'steps_step_2_line_1_title' ) ?: '1 Line',
+    'step_2_line_2_title'   => get_field( $tc . 'steps_step_2_line_2_title' ) ?: '2 Lines',
+    'step_2_line_3_title'   => get_field( $tc . 'steps_step_2_line_3_title' ) ?: '3 Lines',
+    'step_2_line_4_title'   => get_field( $tc . 'steps_step_2_line_4_title' ) ?: '4 Lines',
+    'step_2_line_5_title'   => get_field( $tc . 'steps_step_2_line_5_title' ) ?: '5 Lines',
 
     'step_3_process'        => get_field( $tc . 'steps_step_3_process' ) ?: 'Select Image',
     'step_3_title'          => get_field( $tc . 'steps_step_3_title' ) ?: 'Please select your Image/Logo',
     'step_3_description'    => get_field( $tc . 'steps_step_3_description' ) ?: 'Some text her...',
     'step_3_field_1_title'  => get_field( $tc . 'steps_step_3_field_1_title' ) ?: 'Select/upload logo file',
     'step_3_field_1_val'    => get_field( $tc . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected!',
-
-    'step_4_process'        => get_field( $tc . 'steps_step_4_process' ) ?: 'Save Template',
-    'step_4_title'          => get_field( $tc . 'steps_step_4_title' ) ?: 'Finally, save your new Template',
+    
+    'step_4_process'        => get_field( $tc . 'steps_step_4_process' ) ?: 'Choose Layout',
+    'step_4_title'          => get_field( $tc . 'steps_step_4_title' ) ?: 'What kind of layout are you looking for?',
     'step_4_description'    => get_field( $tc . 'steps_step_4_description' ) ?: 'Some text her...',
-    'step_4_field_1_title'  => get_field( $tc . 'steps_step_4_field_1_title' ) ?: 'Template Approval',
-    'step_4_field_1_val'    => get_field( $tc . 'steps_step_4_field_1_validation' ) ?: 'The checkbox must be checked!',
-    'step_4_field_1_value'  => get_field( $tc . 'steps_step_4_field_1_value' ) ?: 'I Approve the Template.',
+    'step_4_field_1_title'  => get_field( $tc . 'steps_step_4_field_1_title' ) ?: 'Choose Layout based on Number of Columns',
+    'step_4_field_1_val'    => get_field( $tc . 'steps_step_4_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
+
+    'step_5_process'        => get_field( $tc . 'steps_step_5_process' ) ?: 'Save Template',
+    'step_5_title'          => get_field( $tc . 'steps_step_5_title' ) ?: 'Finally, save your new Template',
+    'step_5_description'    => get_field( $tc . 'steps_step_5_description' ) ?: 'Some text her...',
+    'step_5_field_1_title'  => get_field( $tc . 'steps_step_5_field_1_title' ) ?: 'Template Approval',
+    'step_5_field_1_val'    => get_field( $tc . 'steps_step_5_field_1_validation' ) ?: 'The checkbox must be checked!',
+    'step_5_field_1_value'  => get_field( $tc . 'steps_step_5_field_1_value' ) ?: 'I Approve the Template.',
 
     'modal_title'           => get_field( $tc . 'modal_title' ) ?: 'Template have been Saved!',
     'modal_description'     => get_field( $tc . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or create a new Event with the new template.',
@@ -94,7 +102,7 @@ if ( ! empty( $block['align'] ) ) {
 --------------------------------------------------------------------------- */
 ?>
 
-<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
+<section id="<?= esc_attr($id) ?>" class="<?= esc_attr( $className ) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
     <div class="op-block__inner op-flex-col">
 
         <header class="op-block__header op-flex-col">
@@ -102,7 +110,7 @@ if ( ! empty( $block['align'] ) ) {
             <p class="op-block-description"><?= esc_attr( $acf['header_description'] ) ?></p>
         </header>
 
-        <form id="<?= esc_attr($id) ?>__form" class="op-form-steps op-flex-fill" action="POST" data-form-step="1" data-form-steps="4"  data-form-step-last="false">
+        <form id="<?= esc_attr( $id ) ?>__form" class="op-form-steps op-flex-fill" action="POST" data-form-step="1" data-form-steps="<?= esc_attr( $amountOfSteps ) ?>"  data-form-step-last="false">
 
             <button type="submit" disabled style="display: none" aria-hidden="true"></button>
            
@@ -111,7 +119,7 @@ if ( ! empty( $block['align'] ) ) {
 
                     <?php $form_steps = glob( __DIR__ . '/block-template-parts/block-form/steps/*' );
 
-                    for ( $i=0; $i < count($form_steps); $i++ ) { 
+                    for ( $i=0; $i < count( $form_steps ); $i++ ) { 
                         
                         $num = $i + 1;
                         $color = ( $i == 0 ) ? $styleColor . '-60' : $styleColor . '-20'; ?>
@@ -178,4 +186,4 @@ if ( ! empty( $block['align'] ) ) {
         </div>
         
     </div><!-- .op-block__inner -->
-</section><!-- #<?= esc_attr($id) ?> -->
+</section><!-- #<?= esc_attr( $id ) ?> -->

@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-03-03 - 01:17 (Y:m:d - H:i)
- ?  Info: Added new token to JS.
+ ?  Updated: 2024-03-23 - 00:07 (Y:m:d - H:i)
+ ?  Info: Added Validation if an Input Element is Required.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -586,34 +586,40 @@ function opValidateContainerInputs( debug, container ) {
                 let inputId = containerInputs[i].getAttribute( 'id' )
                 let inputType = containerInputs[i].getAttribute( 'type' )
                 let inputName = containerInputs[i].getAttribute( 'name' )
+                let inputRequired = containerInputs[i].required
 
                 ///// Create Variables.
                 let inputError = false, inputMessage = 'The input field is approved!'
                 
-                ///// Validate the Input Element.
-                if ( inputType == 'radio' && ! containerInputs[i].checked ) {
-                    inputError = true , inputMessage = 'One of the Radio Buttons must be checked!'
-                } else if ( inputType == 'checkbox' && ! containerInputs[i].checked ) {
-                    inputError = true , inputMessage = 'The Checkbox must be checked!'
-                } else if ( ! containerInputs[i].value || containerInputs[i].value.trim().length == 0 ) {
-                    inputError = true , inputMessage = 'The input field is empty!'
-                } else if ( inputType == 'file' ) {
-
-                    const fileValid = [ ...containerInputs[i].files ].every( file => {
-                        if ( ! containerInputs[i].accept ) {
-                          return true
-                        }
-                        return containerInputs[i].accept.replace( /\s/g, '' ).split( ',' ).filter( accept => {
-                          return new RegExp( accept.replace( '*', '.\*' ) ).test( file.type )
-                        } ).length > 0
-                    } )
-
-                    if ( fileValid !== true ) {
-                        inputError = true , inputMessage = 'The File type is not valid!'
-                    }                  
-
-                }
+                ///// Validate if the Input Element is Required.
+                if ( inputRequired ) {
                 
+                    ///// Validate the Input Element.
+                    if ( inputType == 'radio' && ! containerInputs[i].checked ) {
+                        inputError = true , inputMessage = 'One of the Radio Buttons must be checked!'
+                    } else if ( inputType == 'checkbox' && ! containerInputs[i].checked ) {
+                        inputError = true , inputMessage = 'The Checkbox must be checked!'
+                    } else if ( ! containerInputs[i].value || containerInputs[i].value.trim().length == 0 ) {
+                        inputError = true , inputMessage = 'The input field is empty!'
+                    } else if ( inputType == 'file' ) {
+
+                        const fileValid = [ ...containerInputs[i].files ].every( file => {
+                            if ( ! containerInputs[i].accept ) {
+                            return true
+                            }
+                            return containerInputs[i].accept.replace( /\s/g, '' ).split( ',' ).filter( accept => {
+                            return new RegExp( accept.replace( '*', '.\*' ) ).test( file.type )
+                            } ).length > 0
+                        } )
+
+                        if ( fileValid !== true ) {
+                            inputError = true , inputMessage = 'The File type is not valid!'
+                        }                  
+
+                    }
+                    
+                }
+
                 ///// Push the Input into the Array of Inputs.
                 arrayOfInputs.push( { error : inputError, id : inputId, type : inputType, name : inputName, message : inputMessage } )
 
@@ -3925,7 +3931,7 @@ function opTemplateCreationBlocks() {
                                 <span class="op-text">${ layouts[i] }</span>
                             </p> */
 
-                            container = block.querySelector( `#${ blockId }-radio-inputs .op-form-layouts .op-layouts-col-${ col } .op-form-radio-inputs` )
+                            container = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
 
                             ///// Add element to the container.
                             container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
