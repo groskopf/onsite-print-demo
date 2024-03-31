@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-03-23 - 00:07 (Y:m:d - H:i)
- ?  Info: Added Validation if an Input Element is Required.
+ ?  Updated: 2024-03-31 - 01:57 (Y:m:d - H:i)
+ ?  Info: opValidateContainerInputs(): Added Validation if an Input Element is Required and Changed the Array with Errors.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -626,40 +626,23 @@ function opValidateContainerInputs( debug, container ) {
             }
            
             ///// Create Variables.
-            let arrayOfInputsWithErrors = arrayOfInputs.filter( input => input.error == true )
             let inputsWithApproval = arrayOfInputs.filter( input => input.error == false )
-            let inputsWithErrors = []
-            let inputName           
-            
-            ///// .
-            for( let i = 0; i < arrayOfInputsWithErrors.length; ++i ) {
-                
-                if ( Array.isArray( inputsWithApproval ) && inputsWithApproval.length !== 0 ) {
-                    
-                    let approvedInputs = inputsWithApproval.filter( input => ( input.id !== arrayOfInputsWithErrors[i].id ) && ( input.name !== arrayOfInputsWithErrors[i].name ) )
-                    //opConsoleDebug( true, `approvedInputs:`, approvedInputs )
-                    
-                    if ( Array.isArray( approvedInputs ) && approvedInputs.length !== 0 ) {
-                        inputsWithErrors.push( arrayOfInputsWithErrors[i] )                       
-                    }
-                    
-                } else if ( arrayOfInputsWithErrors[i].name != inputName ) {
-                    inputName = arrayOfInputsWithErrors[i].name
-                    inputsWithErrors.push( arrayOfInputsWithErrors[i] )
-                }
-                
-            }
+            let inputsWithErrors = arrayOfInputs.filter( input => input.error == true && ! inputsWithApproval.some( approvalInput => approvalInput.name === input.name ) )
 
-            //opConsoleDebug( true, `inputsWithErrors:`, inputsWithErrors )
-            
+            /* console.table( arrayOfInputs )
+            console.table( inputsWithApproval )
+            console.table( inputsWithErrors ) */
+
+            ///// Adding Error Validation to the Inputs.
             if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length !== 0 ) {
                 
                 let addErrorToElements = opAddValidationToElements( debug, container, inputsWithErrors, 'error' )
-
+                
                 if ( addErrorToElements.error !== false ) opConsoleDebug( debug, `opValidateContainerInputs(error):`, addErrorToElements.response )
-
+                
             }
             
+            ///// Adding Approval Validation to the Inputs.
             if ( Array.isArray( inputsWithApproval ) && inputsWithApproval.length !== 0 ) {
 
                 let addApprovalToElements = opAddValidationToElements( debug, container, inputsWithApproval, 'approve' )
@@ -669,7 +652,7 @@ function opValidateContainerInputs( debug, container ) {
             }
 
             ///// Create Approved or Rejected Response.
-            if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length === 0 && ( inputsWithApproval.length + arrayOfInputsWithErrors.length ) == arrayOfInputs.length ) {
+            if ( Array.isArray( inputsWithErrors ) && inputsWithErrors.length === 0 ) {
                 error = false, code = 200, message = `All Elements are Approved!`
             } else throw `One or more Elements has an Error!`
             
