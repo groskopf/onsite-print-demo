@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 2
- ?  Updated: 2024-03-22 - 15:21 (Y:m:d - H:i)
- ?  Info: New Step (2) with amount of Lines at the Layout. 
+ ?  Updated: 2024-03-30 - 00:25 (Y:m:d - H:i)
+ ?  Info: Step (3), added choice of Image.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -25,7 +25,7 @@ $stepNumber = 2;
                 <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
                 <span class="op-message"><?= esc_attr( $acf['step_'.$stepNumber.'_field_1_val'] ) ?></span>
             </div>
-            <div class="op-form-layout-lines">
+            <div class="op-form-radio-lines">
 
                 <div class="op-radio-input op-flex-row">
                     <input type="radio" id="<?= esc_attr($id) ?>-radio-input-1" oninput="opFormInputValidation()" name="layout" value="1" required>

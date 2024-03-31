@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-03-22 - 15:21 (Y:m:d - H:i)
- ?  Info: New Step (2) with amount of Lines at the Layout. 
+ ?  Updated: 2024-03-30 - 00:25 (Y:m:d - H:i)
+ ?  Info: Step (3), added choice of Image.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -55,8 +55,13 @@ $acf = array(
     'step_3_process'        => get_field( $tc . 'steps_step_3_process' ) ?: 'Select Image',
     'step_3_title'          => get_field( $tc . 'steps_step_3_title' ) ?: 'Please select your Image/Logo',
     'step_3_description'    => get_field( $tc . 'steps_step_3_description' ) ?: 'Some text her...',
-    'step_3_field_1_title'  => get_field( $tc . 'steps_step_3_field_1_title' ) ?: 'Select/upload logo file',
-    'step_3_field_1_val'    => get_field( $tc . 'steps_step_3_field_1_validation' ) ?: 'No file has been selected!',
+    'step_3_field_1_title'  => get_field( $tc . 'steps_step_3_field_1_title' ) ?: 'Logo option',
+    'step_3_field_1_value'  => get_field( $tc . 'steps_step_3_field_1_value' ) ?: 'Yes I want a Logo on my Template.',
+    'step_3_field_1_val'    => get_field( $tc . 'steps_step_3_field_1_validation' ) ?: 'An option must be selected!',
+    'step_3_line_1_title'   => get_field( $tc . 'steps_step_3_line_1_title' ) ?: 'Yes I want a Logo on my Template.',
+    'step_3_line_2_title'   => get_field( $tc . 'steps_step_3_line_2_title' ) ?: 'No I do not need a Logo.',
+    'step_3_field_2_title'  => get_field( $tc . 'steps_step_3_field_2_title' ) ?: 'Select/upload logo file',
+    'step_3_field_2_val'    => get_field( $tc . 'steps_step_3_field_2_validation' ) ?: 'No file has been selected!',
     
     'step_4_process'        => get_field( $tc . 'steps_step_4_process' ) ?: 'Choose Layout',
     'step_4_title'          => get_field( $tc . 'steps_step_4_title' ) ?: 'What kind of layout are you looking for?',

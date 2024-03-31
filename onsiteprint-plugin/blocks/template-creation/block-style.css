@@ -1,6 +1,7 @@
 /* ------------------------------------------------------------------------
-#  Template Creation Block Style
-?  Updated: 2024-01-25 - 05:49 (Y:m:d - H:i)
+ #  Template Creation Block Style
+ ?  Updated: 2024-03-30 - 00:25 (Y:m:d - H:i)
+ ?  Info: Step (3), added choice of Image.
 --------------------------------------------------------------------------- */
 
 .op-form .op-form-layouts details {
@@ -53,7 +54,7 @@
 }
 
 
-.op-form .op-form-layout-lines {
+.op-form .op-form-radio-lines {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -62,11 +63,11 @@
     border-radius: 0.4rem;
 }
 
-.op-form .op-form-layout-lines .op-radio-input {
+.op-form .op-form-radio-lines .op-radio-input {
     display: flex;
 }
 
-.op-form .op-form-layout-lines .op-radio-input label {
+.op-form .op-form-radio-lines .op-radio-input label {
     background-color: var(--wp--preset--color--white);
     display: flex;
     align-items: center;
@@ -77,7 +78,7 @@
     transition: border-color 200ms ease-in-out;
 }
 
-.op-form .op-form-layout-lines .op-radio-input input {
+.op-form .op-form-radio-lines .op-radio-input input {
     width: 1px;
     height: 1px;
     margin: -1px;
@@ -90,12 +91,12 @@
     clip-path: inset(50%);
 }
 
-.op-form .op-form-layout-lines .op-radio-input label:where( :hover, :focus ),
-.op-form .op-form-layout-lines .op-radio-input input:checked ~ label {
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ),
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label {
     border-color: var(--form-color-medium);
 }
 
-.op-form .op-form-layout-lines .op-radio-input label .op-radio-check {
+.op-form .op-form-radio-lines .op-radio-input label .op-radio-check {
     background-color: var(--wp--preset--color--white);
     display: flex;
     justify-content: center;
@@ -107,7 +108,7 @@
     transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
 }
 
-.op-form .op-form-layout-lines .op-radio-input label .op-radio-check .op-icon {
+.op-form .op-form-radio-lines .op-radio-input label .op-radio-check .op-icon {
     background-color: var(--wp--preset--color--white);
     color: var(--form-color-medium);
     font-size: 2rem;
@@ -121,27 +122,27 @@
     transition: border-color 200ms ease-in-out;
 }
 
-.op-form .op-form-layout-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check,
-.op-form .op-form-layout-lines .op-radio-input input:checked ~ label .op-radio-check,
-.op-form .op-form-layout-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
-.op-form .op-form-layout-lines .op-radio-input input:checked ~ label .op-radio-check .op-icon {
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label .op-radio-check,
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label .op-radio-check .op-icon {
     border-color: var(--form-color-medium);
 }
 
-.op-form .op-form-layout-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check {
     background-color: var(--form-color-light);
 }
 
 
-.op-form .op-form-layout-lines .op-radio-input label .op-radio-check .op-icon::before {
+.op-form .op-form-radio-lines .op-radio-input label .op-radio-check .op-icon::before {
     display: none;
 }
 
-.op-form .op-form-layout-lines .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
     display: flex;
 }
 
-.op-form .op-form-layout-lines .op-input-description {
+.op-form .op-form-radio-lines .op-input-description {
     font-weight: 500;
     display: flex;
     padding: 0.5rem 4.5rem 0.5rem 1.5rem;
