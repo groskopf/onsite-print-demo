@@ -4245,7 +4245,6 @@ function opDocumentReady() {
             'opEventInformationBlocks',
             'opEventTemplateInformationBlocks',
             'opEventParticipantListBlocks',
-            'opTemplateCreationBlocks',
             'opEventCreationBlocks',
             'opDashboardBlocks',
             'opEventListBlocks'

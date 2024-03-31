@@ -1,66 +1,77 @@
 /* ------------------------------------------------------------------------
-#  Template Creation Block Script
-?  Updated: 2022-12-26 - 16:43 (Y:m:d - H:i)
+ #  The OnsitePrint (Template Creation) Block Script 
+ *  Check if multiple Blocks of the Template Creation is on page.
+ ?  Updated: 2024-03-31 - 03:45 (Y:m:d - H:i)
+ ?  Info: Added Template Creation (1b).
+---------------------------------------------------------------------------
+ #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
+import * as opModuleBasic from '../../assets/js/inc/basic.js'
+//import * as opModuleEvent from '../../assets/js/inc/template/template.js'
 
-/* ------------------------------------------
- >   >  6a-7. Go To Step in Form 
---------------------------------------------- */
-function opFormGoToStep( newStep ) {
+/* ------------------------------------------------------------------------
+#  2. Functions of Blocks
+--------------------------------------------------------------------------- */
+export function opTemplateCreationBlocks( debug ) {
 
-    ///// Get the elements.
-    let block = event.target.closest( 'section[id*="op-block"]' )
-    let form = block.querySelector( '.op-form-steps' )
-    let allSteps = form.getAttribute( 'data-form-steps' )
-    let currentStep = form.getAttribute( 'data-form-step' ) 
+    ///// Create Variables.
+    let error, code, message, blockCount = 0
 
-    if ( newStep.includes( 'step-') ) {
-        newStep = newStep.slice(5)
-    } else if ( newStep == 'next' ) {
-        newStep = ++currentStep
-    } else if ( newStep == 'back' ) {
-        newStep = currentStep-1
-    }
+    try {
 
-    if ( newStep >= 1 && newStep <= allSteps ) {
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
 
-        let slide = newStep - 1
-    
-        let fieldset = form.querySelectorAll( 'fieldset' )
-        let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
-        
-        for( let i = 0; i < processButtons.length; ++i ) {
-            processButtons[i].blur()
+        ///// Get the elements.
+        let blockName = 'Template Creation'
+        let blocks = document.querySelectorAll( 'section.op-block__template-creation' )
 
-            if ( i !== slide ) {
-                processButtons[i].setAttribute( 'data-color', 'secondary-20' )                
-            } else {
-                processButtons[i].setAttribute( 'data-color', 'secondary-60' )
-            }        
-        }
-
-        for( let i = 0; i < fieldset.length; ++i ) {
-            fieldset[i].style.opacity = '0'
+        ///// Throw an Error if no Block was found.
+        if ( ! blocks || blocks.length === 0 ) throw `Could not find any ${ blockName } Blocks!` 
+        else {
             
-            if ( i == slide ) {
-                fieldset[i].style.left = `${ 0 }%`
-                fieldset[i].style.opacity = '1'
-                fieldset[i].focus()
-            } else if ( i <= slide ) {
-                fieldset[i].style.left = `${ -100 }%`
-            } else if ( i >= slide ) {
-                fieldset[i].style.left = `${ 100 }%`
-            }           
-        }
+            ///// Get each Block.
+            blocks.forEach( block => {
+                
+                ///// Count the Blocks. 
+                ++blockCount
 
-        form.setAttribute( 'data-form-step', newStep )
-    
-        if ( newStep == allSteps ) {
-            form.setAttribute( 'data-form-step-last', true )
-        } else {
-            form.setAttribute( 'data-form-step-last', false )
-        }
+                ///// Get the elements.
+                let blockId = block.getAttribute( 'id' )
+                opConsoleDebug( debug, 'blockId:', blockId )
+
+                ///// Get Booking Item.
+                const bookingItem = opGetBookingFromSession( debug )
+                opConsoleDebug( debug, 'bookingItem:', bookingItem )
+
+
+               /*  ///// Add Function to Modal Window. 
+                opModuleBasic.opListener( 'click', block.querySelector( '.op-modal .op-button-save' ), function() {
+                    opAddNewParticipantToEventList( debug, eventId )
+                    //opModuleEvent.opAddNewParticipantToEvent( debug, eventId )
+                } ) */
+
+            })
+
+            ///// Create Response.
+            error = false, code = 200, message = `${ blockCount } quantity of the ${ blockName } Block was found!`
         
-    }
+        }
 
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+
+        ///// Throw Error Response in the Console.
+        //console.error( `opEventBlocks()`, opModuleBasic.opReturnResponse( error, code, errorMessage ) )
+
+    } finally {
+
+        ///// Return the Response to the Function.
+        return opModuleBasic.opReturnResponse( error, code, message )
+
+    }
+    
 }
