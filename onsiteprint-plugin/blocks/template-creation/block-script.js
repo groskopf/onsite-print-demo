@@ -1,13 +1,13 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-03-31 - 03:45 (Y:m:d - H:i)
- ?  Info: Added Template Creation (1b).
+ ?  Updated: 2024-03-31 - 05:27 (Y:m:d - H:i)
+ ?  Info: Added Image Approval (Step 3).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
-//import * as opModuleEvent from '../../assets/js/inc/template/template.js'
+import * as opModuleTemplate from '../../assets/js/inc/template/template.js'
 
 /* ------------------------------------------------------------------------
 #  2. Functions of Blocks
@@ -46,11 +46,9 @@ export function opTemplateCreationBlocks( debug ) {
                 opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
 
-               /*  ///// Add Function to Modal Window. 
-                opModuleBasic.opListener( 'click', block.querySelector( '.op-modal .op-button-save' ), function() {
-                    opAddNewParticipantToEventList( debug, eventId )
-                    //opModuleEvent.opAddNewParticipantToEvent( debug, eventId )
-                } ) */
+                ///// Add Function to Image Approval (Step 3). 
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-1` ), () => opModuleTemplate.imageApproval( debug, block, false ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-2` ), () => opModuleTemplate.imageApproval( debug, block, true ) )
 
             })
 
