@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 2
- ?  Updated: 2024-04-02 - 08:09 (Y:m:d - H:i)
- ?  Info: Step (2), changed name attribute.
+ ?  Updated: 2024-04-02 - 09:37 (Y:m:d - H:i)
+ ?  Info: Added JS Line Approval to (Step 2).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -28,7 +28,7 @@ $stepNumber = 2;
             <div class="op-form-radio-lines">
 
                 <div class="op-radio-input op-flex-row">
-                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-1" oninput="opFormInputValidation()" name="lines" value="1" required>
+                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-1" name="lines" value="1" required>
                     <label for="<?= esc_attr($id) ?>-radio-input-1">
                         <div class="op-radio-check" data-icon="circle-check">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
@@ -37,7 +37,7 @@ $stepNumber = 2;
                     </label>
                 </div>
                 <div class="op-radio-input op-flex-row">
-                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-2" oninput="opFormInputValidation()" name="lines" value="2" required>
+                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-2" name="lines" value="2" required>
                     <label for="<?= esc_attr($id) ?>-radio-input-2">
                         <div class="op-radio-check" data-icon="circle-check">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
@@ -46,7 +46,7 @@ $stepNumber = 2;
                     </label>
                 </div>
                 <div class="op-radio-input op-flex-row">
-                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-3" oninput="opFormInputValidation()" name="lines" value="3" required>
+                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-3" name="lines" value="3" required>
                     <label for="<?= esc_attr($id) ?>-radio-input-3">
                         <div class="op-radio-check" data-icon="circle-check">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
@@ -55,7 +55,7 @@ $stepNumber = 2;
                     </label>
                 </div>
                 <div class="op-radio-input">
-                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-4" oninput="opFormInputValidation()" name="lines" value="4" required>
+                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-4" name="lines" value="4" required>
                     <label for="<?= esc_attr($id) ?>-radio-input-4">
                         <div class="op-radio-check" data-icon="circle-check">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
@@ -64,7 +64,7 @@ $stepNumber = 2;
                     </label>
                 </div>
                 <div class="op-radio-input">
-                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-5" oninput="opFormInputValidation()" name="lines" value="5" required>
+                    <input type="radio" id="<?= esc_attr($id) ?>-radio-input-5" name="lines" value="5" required>
                     <label for="<?= esc_attr($id) ?>-radio-input-5">
                         <div class="op-radio-check" data-icon="circle-check">
                             <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>

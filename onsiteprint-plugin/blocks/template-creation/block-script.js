@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-03-31 - 05:27 (Y:m:d - H:i)
- ?  Info: Added Image Approval (Step 3).
+ ?  Updated: 2024-04-02 - 09:37 (Y:m:d - H:i)
+ ?  Info: Added JS Line Approval to (Step 2).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -32,7 +32,7 @@ export function opTemplateCreationBlocks( debug ) {
         else {
             
             ///// Get each Block.
-            blocks.forEach( block => {
+            blocks.forEach( async block => {
                 
                 ///// Count the Blocks. 
                 ++blockCount
@@ -45,6 +45,13 @@ export function opTemplateCreationBlocks( debug ) {
                 const bookingItem = opGetBookingFromSession( debug )
                 opConsoleDebug( debug, 'bookingItem:', bookingItem )
 
+
+                ///// Add Function to Image Approval (Step 2). 
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-1` ), () => opModuleTemplate.lineApproval( debug, block, '1C' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-2` ), () => opModuleTemplate.lineApproval( debug, block, '2C' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-3` ), () => opModuleTemplate.lineApproval( debug, block, '3C' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-4` ), () => opModuleTemplate.lineApproval( debug, block, '4C' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-5` ), () => opModuleTemplate.lineApproval( debug, block, '5C' ) )
 
                 ///// Add Function to Image Approval (Step 3). 
                 opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-1` ), () => opModuleTemplate.imageApproval( debug, block, false ) )
