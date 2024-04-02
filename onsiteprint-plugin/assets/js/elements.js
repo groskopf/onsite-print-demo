@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-03-31 - 01:57 (Y:m:d - H:i)
- ?  Info: opValidateContainerInputs(): Added Validation if an Input Element is Required and Changed the Array with Errors.
+ ?  Updated: 2024-04-02 - 11:33 (Y:m:d - H:i)
+ ?  Info: opCreateTemplate(), changed image option.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1521,56 +1521,51 @@ async function opCreateTemplate( debug, formElement ) {
             ///// Get the Data from the Form Element.
             const formData = new FormData( formElement )
 
-            ///// The URL to the API.
-            const url = `${ opGetFastApiInfo( 'url' ) }images/`
+            ///// Define new data variables.
+            let dateNow = Date.now()
+            let fileInput = formElement[ 'image' ];   
+            let filenameOriginal = fileInput ? fileInput.files[0].name : '';
+            let filenameUploaded = ''
 
-            ///// Fetch from the FastAPI.
-            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+            if ( fileInput ) {
+           
+                ///// The URL to the API.
+                const url = `${ opGetFastApiInfo( 'url' ) }images/`
 
-            ///// Console Log if the Debug parameter is 'true'.
-            opConsoleDebug( debug, `API Data:`, apiData )
+                ///// Fetch from the FastAPI.
+                const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
 
-            ///// Validate the Fetch Response.
-            if ( apiData.error !== false ) throw 'The API Data has an Error!'
-            else {
-                
-                ///// If the Fetch Response has Code 200.
-                if ( apiData.code === 200 ) {
+                ///// Console Log if the Debug parameter is 'true'.
+                opConsoleDebug( debug, `API Data:`, apiData )
 
-                    ///// Get the element for output.
-                    let filenameUploaded = apiData.response.filename.slice(7)                 
-                    
-                    ///// Throw Error Response if the Image is missing.
-                    if ( ! filenameUploaded ) throw `Missing Image Data!`
+                ///// Validate the Fetch Response.
+                if ( apiData.error !== false ) throw 'The API Data has an Error!'
 
-                    ///// Define new data variables.
-                    let dateNow = Date.now()
-                    let fileInput = formElement[ 'image' ];   
-                    let filenameOriginal = fileInput.files[0].name;
-
-                    ///// Define new Template Item variable.
-                    let templateItem = { 
-                        'templateCreationDate' : dateNow, 
-                        'templateName' : formElement[ 'name' ].value, 
-                        'templateFilenameOriginal' : filenameOriginal,
-                        'templateFilenameUploaded' : filenameUploaded,
-                        'templateLayout' : formElement[ 'layout' ].value.slice(3),
-                        'templateLayoutColumns' : formElement[ 'layout' ].value.slice(0, 2)
-                    }
-                    
-                    ///// Push Template Item variable into Template List.
-                    templateList.templateList.push( templateItem )
-                    
-                    ///// Set Template List in Local Storage.
-                    localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
-
-                    ///// Create Approved Response.
-                    error = false, code = 201, message = { message : 'Template was created!', template : templateItem }
-
-                } else throw 'The API Data has an Error!'
+                ///// Get the element for output.
+                filenameUploaded = apiData.response.filename.slice(7)
 
             }
             
+
+            ///// Define new Template Item variable.
+            let templateItem = { 
+                'templateCreationDate' : dateNow, 
+                'templateName' : formElement[ 'name' ].value, 
+                'templateFilenameOriginal' : filenameOriginal,
+                'templateFilenameUploaded' : filenameUploaded,
+                'templateLayout' : formElement[ 'layout' ].value.slice(3),
+                'templateLayoutColumns' : formElement[ 'lines' ].value + 'C'
+            }
+            
+            ///// Push Template Item variable into Template List.
+            templateList.templateList.push( templateItem )
+            
+            ///// Set Template List in Local Storage.
+            localStorage.setItem( 'OP_PLUGIN_DATA_TEMPLATES', JSON.stringify( templateList ) )
+
+            ///// Create Approved Response.
+            error = false, code = 201, message = { message : 'Template was created!', template : templateItem }
+           
         }
 
     } catch( errorMessage ) {
