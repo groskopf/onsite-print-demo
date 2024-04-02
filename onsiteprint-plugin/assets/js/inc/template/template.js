@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template) Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-04-02 - 09:37 (Y:m:d - H:i)
- ?  Info: Added JS Line Approval to (Step 2).
+ ?  Updated: 2024-04-02 - 11:04 (Y:m:d - H:i)
+ ?  Info: Changed variables and Step 4.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -16,14 +16,17 @@
 ------------------------------------------------------------ */
 export function lineApproval( debug, block, line ) {
     
-    let fieldset4LayoutContainer = block.querySelector( '.op-fieldset-step-4 .op-form-layouts' )
-    let radioInputs = fieldset4LayoutContainer.querySelectorAll( '.op-radio-input' )
-    
+    let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
+    let layoutContainer = fieldset4Element.querySelector( '.op-form-layouts' )
+    let radioInputs = layoutContainer.querySelectorAll( '.op-radio-input' )
+
+    opSetApprovalToStepInForm( debug, fieldset4Element, 'remove' )
+
     radioInputs.forEach( radioInput => {
         radioInput.querySelector( 'input[type="radio"]' ).checked = false
     })
 
-    fieldset4LayoutContainer.setAttribute( 'data-layout-lines', line )
+    layoutContainer.setAttribute( 'data-layout-lines', line )
 
     opFormInputValidation()
 
@@ -38,9 +41,12 @@ export function imageApproval( debug, block, approval ) {
     let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
     let step = fieldset3Element.querySelector( '.op-fieldset__inner' )
     let imageInput = step.querySelector( `label[for="${ blockId }-image-file-input"]` )
-    let fieldset4LayoutContainer = block.querySelector( '.op-fieldset-step-4 .op-form-layouts' )
-    let radioInputs = fieldset4LayoutContainer.querySelectorAll( '.op-radio-input' )
+    let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
+    let layoutContainer = fieldset4Element.querySelector( '.op-form-layouts' )
+    let radioInputs = layoutContainer.querySelectorAll( '.op-radio-input' )
     
+    opSetApprovalToStepInForm( debug, fieldset4Element, 'remove' )
+
     radioInputs.forEach( radioInput => {
         radioInput.querySelector( 'input[type="radio"]' ).checked = false
     })
@@ -49,7 +55,7 @@ export function imageApproval( debug, block, approval ) {
         
         if ( imageInput ) imageInput.remove()
 
-        fieldset4LayoutContainer.setAttribute( 'data-layout-image', 0 )
+        layoutContainer.setAttribute( 'data-layout-image', 0 )
     
         opFormInputValidation()
 
@@ -59,7 +65,7 @@ export function imageApproval( debug, block, approval ) {
        
         opSetApprovalToStepInForm( debug, fieldset3Element, 'remove' )
 
-        fieldset4LayoutContainer.setAttribute( 'data-layout-image', 1 )
+        layoutContainer.setAttribute( 'data-layout-image', 1 )
 
         if ( ! imageInput ) step.append( template )       
 

@@ -731,7 +731,7 @@ function opSetApprovalToButtonsInForm( debug, fieldsetElement, type ) {
             let fieldsetValidation = fieldsetElements[i].getAttribute( 'data-fieldset-validation' )
             
             ///// Set flow to true if Fieldset is validated.
-            if ( fieldsetValidation == 1 ) {
+            if ( fieldsetValidation == 1 && flow != false ) {
                 flow = true
             } else {
                 flow = false

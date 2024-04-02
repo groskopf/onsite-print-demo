@@ -10,8 +10,8 @@
  *	@package OnsitePrint
  *	Version: 1.0.0.54
  ?	(Check the Version variable)
- ?	Updated: 2024-03-03 - 01:20 (Y:M:D - H:M)
- ?  Info: Added new token to JS.
+ ?  Updated: 2024-04-02 - 11:04 (Y:m:d - H:i)
+ ?  Info: Added new function (get_dir_path).
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -413,6 +413,19 @@ add_action('acf/init', __NAMESPACE__ . '\onsiteprint_acf_init');
 
     return false;
 
+}
+
+
+/* ---------------------------------------------------------
+ >  4b. Get the URL of the current Path. (Not used)
+------------------------------------------------------------ */
+function get_dir_path( $dirPath ) {
+	$realDocRoot = realpath ( $_SERVER[ 'DOCUMENT_ROOT' ] );
+	$realDirPath = realpath( $dirPath );
+	$suffix = str_replace( $realDocRoot, '', $realDirPath );
+	$prefix = isset( $_SERVER[ 'HTTPS' ] ) ? 'https://' : 'http://';
+	$folderUrl = $prefix . $_SERVER[ 'HTTP_HOST' ] . $suffix;
+	return $folderUrl;
 }
 
 
