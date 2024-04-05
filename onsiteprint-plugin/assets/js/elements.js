@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-02 - 11:33 (Y:m:d - H:i)
- ?  Info: opCreateTemplate(), changed image option.
+ ?  Updated: 2024-04-03 - 20:56 (Y:m:d - H:i)
+ ?  Info: opAddCreatedTemplatesToElement(), changed template text appearance/option.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2917,9 +2917,22 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                 let tapColor = containerElement.getAttribute('data-tap-color')
                 let templateLink = containerElement.getAttribute('date-template-link')
                 let templateLinkTitle = containerElement.getAttribute('date-template-link-title')
+                let templateCol = templateList[i].templateLayoutColumns.slice( 0, -1 )
+                let templateFile = ''
+                let templateDescription = Number( templateCol ) == 1 ? ' kolonne' : ' kolonner'
+                let templateDescriptionImage = ''
 
                 ///// The URL to the Layouts.
                 const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
+
+                if ( templateList[i].templateFilenameOriginal ) {
+                    templateFile = `
+                    <p class="op-text op-flex-col">
+                        <b class="op-text-title">Logo</b>
+                        <span class="op-text-info">${ templateList[i].templateFilenameOriginal }</span>                               
+                    </p>`
+                    templateDescriptionImage = ' + logo'
+                }
 
                 ///// Create new element.
                 newTemplateElement = `
@@ -2945,12 +2958,9 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                                 </p>
                                 <p class="op-text op-flex-col">
                                     <b class="op-text-title">Beskrivelse</b>
-                                    <span class="op-text-info">3 kolonner + logo</span>
+                                    <span class="op-text-info">${ templateCol + templateDescription + templateDescriptionImage }</span>
                                 </p>
-                                <p class="op-text op-flex-col">
-                                    <b class="op-text-title">Logo</b>
-                                    <span class="op-text-info">${ templateList[i].templateFilenameOriginal }</span>                               
-                                </p>
+                                ${ templateFile }
                             </div>
                             <div class="op-image op-flex-col">
                                 <img src="${ svgUrl + templateList[i].templateLayoutColumns + '/' + templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
