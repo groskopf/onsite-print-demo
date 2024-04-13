@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  Template Creation Block Style
- ?  Updated: 2024-04-02 - 09:20 (Y:m:d - H:i)
- ?  Info: Added CSS to Radio Inputs in (Step 4).
+ ?  Updated: 2024-04-13 - 21:25 (Y:m:d - H:i)
+ ?  Info: Changed atr[data-layout-lines].
 --------------------------------------------------------------------------- */
 
 .op-form .op-form-layouts details {
@@ -157,15 +157,15 @@
     display: none;
 }
 
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="1C"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="1C"][data-layout-image="no"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="2C"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="2C"][data-layout-image="no"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="3C"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="3C"][data-layout-image="no"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4C"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="4C"][data-layout-image="no"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5C"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="5C"][data-layout-image="no"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="1C"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="1C"][data-layout-image="yes"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="2C"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="2C"][data-layout-image="yes"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="3C"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="3C"][data-layout-image="yes"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4C"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="4C"][data-layout-image="yes"] ),
-.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5C"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="5C"][data-layout-image="yes"] ) {
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="1L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="1L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="2L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="2L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="3L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="3L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="4L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="5L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="1L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="1L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="2L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="2L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="3L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="3L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="4L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="5L"][data-layout-image="yes"] ) {
     display: flex;
 }

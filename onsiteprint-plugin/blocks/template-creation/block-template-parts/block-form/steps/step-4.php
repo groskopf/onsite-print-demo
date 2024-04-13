@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-04-02 - 11:04 (Y:m:d - H:i)
- ?  Info: Changed variables and Step 4.
+ ?  Updated: 2024-04-13 - 21:25 (Y:m:d - H:i)
+ ?  Info: Changed atr[data-layout-lines].
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -35,15 +35,15 @@ $stepNumber = 4;
                         $fileParts = pathinfo( $file );
                         $fileBasename = $fileParts[ 'basename' ];
                         $fileName = $fileParts[ 'filename' ];
-                        $amountOfLines = substr( $fileName, 0, 2 );
-                        $layoutName = substr( $fileName, 3 );
+                        $amountOfLines = substr( $fileName, 10, 1 );
+                        $layoutName = substr( $fileName, 0, 8 ) . substr( $fileName, 13 );
                         $layoutImage = str_contains( $fileName, 'P') ? 'yes' : 'no';
-                        $filePath = OP_ROOT_URL . 'assets/img/svg/layouts/' . $amountOfLines . '/' . $fileBasename;
+                        $filePath = OP_ROOT_URL . 'assets/img/svg/layouts/' . $layoutName . '/' . $fileBasename;
 
                         ?>
                     
-                        <div class="op-radio-input" data-layout-lines="<?= $amountOfLines ?>" data-layout-image="<?= $layoutImage ?>">
-                            <input type="radio" id="<?= esc_attr( $id ) ?>-<?= $fileName ?>-input" oninput="opFormInputValidation()" name="layout" value="<?= $fileName ?>" required>
+                        <div class="op-radio-input" data-layout-lines="<?= $amountOfLines ?>L" data-layout-image="<?= $layoutImage ?>">
+                            <input type="radio" id="<?= esc_attr( $id ) ?>-<?= $fileName ?>-input" oninput="opFormInputValidation()" name="layout" value="<?= $layoutName ?>" required>
                             <label for="<?= esc_attr( $id ) ?>-<?= $fileName ?>-input">
                                 <div class="op-radio-check" data-icon="circle-check">
                                     <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
