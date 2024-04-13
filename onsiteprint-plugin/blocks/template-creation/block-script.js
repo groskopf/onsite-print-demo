@@ -1,13 +1,12 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-03-04 - 00:47 (Y:m:d - H:i)
- ?  Info: Changed class name.
+ ?  Updated: 2024-13-04 - 20:25 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script + added scripts (block & form).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
-import * as opLocalStorage from '../../assets/js/inc/local-storage/local-storage.js'
 
 /* ------------------------------------------------------------------------
 #  2. Functions of Blocks
@@ -16,19 +15,19 @@ export function opTemplateCreationBlocks( debug ) {
     
     try {
         
-        ///// Set the Parameter If is not defined.
-        ////* true or false
-        if ( debug !== true ) debug = false
-        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = true //false       
+        if ( debug ) console.group( 'opTemplateCreationBlocks()' )
+
         ///// Create Variables.
-        var debugInfo = []
+        let blockName = 'Template Creation'
 
         ///// Get the elements.
-        let blockName = 'Template Creation'
         let blocks = document.querySelectorAll( 'section.op-block__template-creation' )
 
-        ///// Push Debug Details to the Debug.
-        debugInfo.push( { 
+        ///// Debug to the Console Log.
+        opModuleBasic.opConsoleDebug( debug, { 
             message: `${ blocks.length } quantity of the ${ blockName } Block was found!`,
             line: opModuleBasic.errorLine(),
             details: blocks 
@@ -47,49 +46,17 @@ export function opTemplateCreationBlocks( debug ) {
             
             ///// Get each Block.
             blocks.forEach( block => {
-                
+
+
                 ///// Get the Block ID.
                 let blockId = block.getAttribute( 'id' )
 
-                const blockStorageResponse = opLocalStorage.getBlock( debug, blockId )
-
-                ///// Validate the Response from the Shadow Block.
-                if ( blockStorageResponse.code == 200 ) {
-
-                    let shadowBlock = blockStorageResponse.response.details[0]
-                    let shadowTime = shadowBlock.lastUpdated
-                    let shadowForm = shadowBlock.details.form
-                    let snackbar = block.querySelector( '.op-snackbar' )
-
-                    snackbar.querySelector( '.op-snackbar-info b' ).textContent = opModuleBasic.opTimeConverter( shadowTime, 'date-month-year', 'da' )
-
-                    ///// Remove Snackbar if Button is Clicked. 
-                    opModuleBasic.opListener( 'click', snackbar.querySelector( '.op-new-template' ), function () {
-                        snackbar.remove()
-                    } )
-                    
-                    
-                    
-
-                    let buttons = block.querySelectorAll( '.op-form-process__inner button' )
-
-                    if ( shadowForm[0].value !== "" ) {
-                        let nameInput = block.querySelector( `#${ blockId }-name-input` )
-                        nameInput.value = shadowForm[0].value
-                        opFormInputValidation( debug, 'fieldset', nameInput )
-                        opFormGoToStep( 'step-2', buttons[1] )
-                    }
-
-                    
-                }
-                
-                
-                
-                /* ///// Add Function to Modal Window. 
-                opModuleBasic.opListener( 'click', block.querySelector( '.op-modal .op-button-save' ), function() {
-                    opAddNewParticipantToEventList( debug, eventId )
-                    //opModuleEvent.opAddNewParticipantToEvent( debug, eventId )
-                } ) */
+                ///// Push Debug Details to the Debug.
+                opModuleBasic.opConsoleDebug( debug, { 
+                    message: `A Block with ID: ${ blockId }, was found!`,
+                    line: opModuleBasic.errorLine(),
+                    details: blocks
+                } )
 
 
             })
@@ -110,8 +77,8 @@ export function opTemplateCreationBlocks( debug ) {
 
     } finally {
 
-        ///// Log Debug Details in the Console.
-        if ( debug == true ) console.debug( 'opTemplateCreationBlocks:', debugInfo )       
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd();
 
     }
     

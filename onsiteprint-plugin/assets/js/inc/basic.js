@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  >  JS Part Name: Basic
  *  Basic functions to the OnsitePrint Plugin.
- ?  Updated: 2024-03-03 - 04:05 (Y:m:d - H:i)
- ?  Info: Added nr. 11
+ ?  Updated: 2024-13-04 - 20:25 (Y:m:d - H:i)
+ ?  Info: Changed Debug function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -22,8 +22,8 @@
 ---------------------------------------------------------------------------
  #  1. Console Log the Debug if true
 ------------------------------------------------------------ */
-export function opConsoleDebug( debug, name, response ) {
-    if ( debug == true ) console.log( name, response )
+export function opConsoleDebug( debug, response ) {
+    if ( debug ) console.debug( 'DEBUG:', response )
 }
 
 /* ---------------------------------------------------------
