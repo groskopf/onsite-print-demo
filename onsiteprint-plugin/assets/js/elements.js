@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-03 - 20:56 (Y:m:d - H:i)
- ?  Info: opAddCreatedTemplatesToElement(), changed template text appearance/option.
+ ?  Updated: 2024-04-14 - 21:40 (Y:m:d - H:i)
+ ?  Info: Changed layout (svg path & names).
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1341,7 +1341,7 @@ async function opCreateBooking( debug, bookingData ) {
         if ( errorMessage && ! code ) code = 400
         
         ///// Throw Error Response in the Console.
-        console.error( 'opCreateTemplate()', opReturnResponse( error, code, errorMessage ) )
+        console.error( 'opCreateBooking()', opReturnResponse( error, code, errorMessage ) )
         
     } finally {
         
@@ -1553,7 +1553,7 @@ async function opCreateTemplate( debug, formElement ) {
                 'templateName' : formElement[ 'name' ].value, 
                 'templateFilenameOriginal' : filenameOriginal,
                 'templateFilenameUploaded' : filenameUploaded,
-                'templateLayout' : formElement[ 'layout' ].value.slice(3),
+                'templateLayout' : formElement[ 'layout' ].value,
                 'templateLayoutColumns' : formElement[ 'lines' ].value + 'C'
             }
             
@@ -2338,7 +2338,7 @@ function opAddSearchFilter( debug, block, templateId ) {
         const templateLayout = templateItem.response.templateLayout
         opConsoleDebug( debug, 'templateLayout:', templateLayout )
 
-        let numberOfLines = templateLayout.charAt(7)
+        let numberOfLines = templateItem.response.templateLayoutColumns.charAt(0)
         let lineNames = [ 'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5' ]
         let blockId = block.getAttribute( 'id' )
 
@@ -2748,7 +2748,7 @@ function opAddTemplatesToElement( debug, blockId, containerElement, templateList
                                     </p>
                                 </div>
                                 <div class="op-image op-flex-col">
-                                    <img src="${ svgUrl + templateList[i].templateLayoutColumns + '/' + templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                                    <img src="${ svgUrl + templateList[i].templateLayout + '/' + templateList[i].templateLayoutColumns.charAt(0) }L_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
                                 </div>
                             </div>
                             
@@ -2849,7 +2849,7 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                                 </p>
                             </div>
                             <div class="op-image op-flex-col">
-                                <img src="${ svgUrl + templateItem.response.templateLayoutColumns + '/' + templateItem.response.templateLayoutColumns }_${ templateItem.response.templateLayout }.svg" alt="Template: ${ templateItem.response.templateLayout }" width="100%" height="auto">
+                                <img src="${ svgUrl + templateItem.response.templateLayout + '/' + templateItem.response.templateLayoutColumns.charAt(0) }L_${ templateItem.response.templateLayout }.svg" alt="Template: ${ templateItem.response.templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
                                 <a href="${ eventLink }?event=${ eventList[i].eventCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
@@ -2917,7 +2917,7 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                 let tapColor = containerElement.getAttribute('data-tap-color')
                 let templateLink = containerElement.getAttribute('date-template-link')
                 let templateLinkTitle = containerElement.getAttribute('date-template-link-title')
-                let templateCol = templateList[i].templateLayoutColumns.slice( 0, -1 )
+                let templateCol = templateList[i].templateLayoutColumns.charAt(0)
                 let templateFile = ''
                 let templateDescription = Number( templateCol ) == 1 ? ' kolonne' : ' kolonner'
                 let templateDescriptionImage = ''
@@ -2963,7 +2963,7 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                                 ${ templateFile }
                             </div>
                             <div class="op-image op-flex-col">
-                                <img src="${ svgUrl + templateList[i].templateLayoutColumns + '/' + templateList[i].templateLayoutColumns }_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                                <img src="${ svgUrl + templateList[i].templateLayout + '/' + templateList[i].templateLayoutColumns.charAt(0) }L_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
                                 <a href="${ templateLink }?template=${ templateList[i].templateCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
@@ -3836,99 +3836,6 @@ function opEventParticipantListBlocks() {
             ///// Add Function to Modal Window. 
             block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
 
-        })
-    }
-}
-
-/* ---------------------------------------------------------
- >  6c-8. Template Creation
- *  Check if multiple (Template Creation) Blocks is on page
------------------------------------------------------------- */
-function opTemplateCreationBlocks() {
-
-    ///// Debug the function
-    let debug = false // true or false 
-
-    ///// Get the elements.
-    let blockName = 'Template Creation'
-    let blocks = document.querySelectorAll( '.op-template-creation' )
-    opConsoleDebug( debug, 'blocks:', blocks )
-
-    
-    ///// Get each Block.
-    if ( blocks ) {
-        blocks.forEach( async block => {
-            
-            ///// Get the elements.
-            let blockId = block.getAttribute( 'id' )
-            opConsoleDebug( debug, 'blockId:', blockId )
-
-            ///// Get Booking Item.
-            const bookingItem = await opGetBookingFromSession( debug )
-            opConsoleDebug( debug, 'bookingItem:', bookingItem )
-
-            ///// Get Layouts from Booking.
-            const layouts = bookingItem.response.nameTagType.nameTagTypeLayouts
-            if ( layouts.length == 0 ) return opConsoleDebug( true, 'layouts:', 'Could not find any Layouts!' )
-            opConsoleDebug( debug, 'Layouts:', layouts )
-
-            let cols = [ '1C', '2C', '3C', '4C', '5C' ]
-            //let cols = [ '3C', '4C' ]
-
-            ///// The URL to the Layouts.
-            const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
-
-            let container, col
-
-            let checkImageURL = async function( col, imageName ) {
-                //let image = new Image()
-                let url_image = svgUrl + col + '/' + col + '_' + imageName + '.svg'
-                //image.src = url_image
-                return await opFetchDataFromApi( false, url_image, {}, 'blob' )
-            }
-            
-            for( var c = 0; c < cols.length; c++ ) {
-
-                for( var i = 0; i < layouts.length; i++ ) {
-
-                    if ( ( await checkImageURL( cols[c], layouts[i] )).error == false ) {
-
-                        if ( layouts[i].includes( 'P' ) ) {
-
-                            opConsoleDebug( debug, `layout-${i}:`, layouts[i] )
-            
-                            col = cols[c].slice( 0, -1 )
-
-                            layoutElement = `
-                                <div class="op-radio-input" data-layout-col="${ col }">
-                                    <input type="radio" id="${ blockId }-${ cols[c] }_${ layouts[i] }-input" oninput="opFormInputValidation()" name="layout" value="${ cols[c] }_${ layouts[i] }" required>
-                                    <label for="${ blockId }-${ cols[c] }_${ layouts[i] }-input">
-                                        <div class="op-radio-check" data-icon="circle-check">
-                                            <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                                        </div>
-                                        <div class="op-radio-info">
-                                            <div class="op-image op-flex-col">
-                                                <img src="${ svgUrl + cols[c] }/${ cols[c] }_${ layouts[i] }.svg" alt="Columns: ${ col }, Layout: ${ layouts[i] }" width="100%" height="auto">
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-                            `
-
-                            /* <p class="op-radio-info">
-                                <span class="op-text">${ layouts[i] }</span>
-                            </p> */
-
-                            container = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
-
-                            ///// Add element to the container.
-                            container.insertAdjacentHTML( 'beforeEnd', layoutElement )       
-
-                        }
-                    }
-                }
-
-            }
         })
     }
 }
