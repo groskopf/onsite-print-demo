@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-14 - 21:40 (Y:m:d - H:i)
- ?  Info: Changed layout (svg path & names).
+ ?  Updated: 2024-04-16 - 01:10 (Y:m:d - H:i)
+ ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2619,6 +2619,38 @@ function opFormGoToStep( newStep ) {
 }
 
 /* ------------------------------------------
+ >   >  6a-7. Go To Tab in Form 
+--------------------------------------------- */
+function opFormGoToTab( newTab, blockElement ) {
+
+    if ( ! newTab ) newTab = 1
+    if ( ! blockElement ) blockElement = event.target.closest( 'section[id*="op-block"]' )
+    let tabElements = blockElement.querySelectorAll( '.op-block__content .op-block__taps section' )
+    let buttonElements = blockElement.querySelectorAll( '.op-block__content .op-block__buttons button' )
+    
+
+    const currentUrl = window.location.pathname
+
+    blockElement.querySelector( '.op-block__content' ).setAttribute( 'data-tap-active', newTab )
+    blockElement.querySelector( '.op-tab-slider' ).style.gridColumn = newTab
+
+    for( let i = 0; i < tabElements.length; ++i ) {
+        if ( Number( i+1 ) == newTab ) {
+            buttonElements[i].blur()
+
+            tabName = tabElements[i].getAttribute( 'id' )
+            window.history.pushState( tabName, 'Dashboard', `${currentUrl}?tab=${ tabName }` );
+
+            tabElements[i].classList.add( 'op-active' )
+            tabElements[i].focus()
+        } else {
+            tabElements[i].classList.remove( 'op-active' )
+        }
+    }
+
+}
+
+/* ------------------------------------------
  >   >  6a-8. Save New Template from Form 
 --------------------------------------------- */
 async function opSaveNewTemplate( debug ) {
@@ -2818,9 +2850,6 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                 ///// Console Log if the Debug parameter is 'true'.
                 opConsoleDebug( debug, `templateItem`, templateItem )
                 
-                ///// The URL to the Layouts.
-                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
-
                 ///// Create new element.
                 newTemplateElement = `
                     <article id="${ blockId }-${ eventList[i].eventCreationDate }-event">
@@ -2844,12 +2873,9 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                                     <span class="op-text-info">${ eventList[i].eventName }</span>                               
                                 </p>
                                 <p class="op-text op-flex-col">
-                                    <b class="op-text-title">Skabelonnavn</b>
+                                    <b class="op-text-title">Anvendt skabelon</b>
                                     <span class="op-text-info">${ templateItem.response.templateName }</span>
                                 </p>
-                            </div>
-                            <div class="op-image op-flex-col">
-                                <img src="${ svgUrl + templateItem.response.templateLayout + '/' + templateItem.response.templateLayoutColumns.charAt(0) }L_${ templateItem.response.templateLayout }.svg" alt="Template: ${ templateItem.response.templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
                                 <a href="${ eventLink }?event=${ eventList[i].eventCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
@@ -2963,6 +2989,9 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                                 ${ templateFile }
                             </div>
                             <div class="op-image op-flex-col">
+                                <p class="op-text op-flex-col">
+                                    <b class="op-text-title">Layout</b>
+                                </p>
                                 <img src="${ svgUrl + templateList[i].templateLayout + '/' + templateList[i].templateLayoutColumns.charAt(0) }L_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
@@ -4048,13 +4077,26 @@ function opDashboardBlocks( debug ) {
             ///// Get the Block ID.
             let blockId = block.getAttribute( 'id' )
 
-
-
-            ///// Get the Radio Inputs Container.
-            let eventsSectionElement = block.querySelector( `.op-block__taps section.events` )
+            ///// Get the element.
             let eventsContainerElement = block.querySelector( `.op-block__taps section .op-tap__inner .op-tap__events` )
         
-            location.hash = "events";
+            let tabNameURL = opGetUrlParameters().tab
+
+            if ( tabNameURL ) {
+
+                let tabElements = block.querySelectorAll( '.op-block__content .op-block__taps section' )
+
+                for( let i = 0; i < tabElements.length; ++i ) {
+
+                    tabName = tabElements[i].getAttribute( 'id' )
+                    
+                    if ( tabName == tabNameURL ) {
+                        opFormGoToTab( Number( i+1 ), block )                   
+                    }
+                }
+
+            } else opFormGoToTab( Number( 1 ), block )
+
 
             ///// Get the Local Storage of Templates.
             const eventsStorage = opGetLocalStorage( debug, 'Events' )
