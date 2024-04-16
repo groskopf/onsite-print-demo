@@ -8,10 +8,10 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.54
+ *	Version: 1.0.0.55
  ?	(Check the Version variable)
- ?  Updated: 2024-04-02 - 11:04 (Y:m:d - H:i)
- ?  Info: Added new function (get_dir_path).
+ ?  Updated: 2024-04-16 - 15:12 (Y:m:d - H:i)
+ ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -65,7 +65,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.54' );
+define( 'OP_VERSION', '1.0.0.55' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
