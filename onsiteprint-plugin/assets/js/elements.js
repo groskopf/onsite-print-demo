@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-16 - 01:10 (Y:m:d - H:i)
- ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
+ ?  Updated: 2024-04-20 - 22:06 (Y:m:d - H:i)
+ ?  Info: Added new layouts.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2992,7 +2992,7 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                                 <p class="op-text op-flex-col">
                                     <b class="op-text-title">Layout</b>
                                 </p>
-                                <img src="${ svgUrl + templateList[i].templateLayout + '/' + templateList[i].templateLayoutColumns.charAt(0) }L_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                                <img src="${ svgUrl + templateList[i].templateLayout }/${ templateList[i].templateLayout }_${ templateList[i].templateLayoutColumns.charAt(0) }L.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
                             </div>
                             <div class="op-info-button op-flex-col">
                                 <a href="${ templateLink }?template=${ templateList[i].templateCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">

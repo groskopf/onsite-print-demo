@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-04-14 - 21:40 (Y:m:d - H:i)
- ?  Info: Changed layout (svg path & names).
+ ?  Updated: 2024-04-20 - 22:06 (Y:m:d - H:i)
+ ?  Info: Added new layouts.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -35,8 +35,8 @@ $stepNumber = 4;
                         $fileParts = pathinfo( $file );
                         $fileBasename = $fileParts[ 'basename' ];
                         $fileName = $fileParts[ 'filename' ];
-                        $amountOfLines = substr( $fileName, 0, 1 );
-                        $layoutName = substr( $fileName, 3 );
+                        $amountOfLines = substr( $fileName, -2, -1 );
+                        $layoutName = substr( $fileName, 0, -3 );
                         $layoutImage = str_contains( $fileName, 'P') ? 'yes' : 'no';
                         $filePath = OP_ROOT_URL . 'assets/img/svg/layouts/' . $layoutName . '/' . $fileBasename;
 
