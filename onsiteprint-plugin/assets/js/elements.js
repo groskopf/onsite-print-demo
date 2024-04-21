@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-20 - 22:06 (Y:m:d - H:i)
- ?  Info: Added new layouts.
+ ?  Updated: 2024-04-21 - 19:27 (Y:m:d - H:i)
+ ?  Info: The function (opAddTemplatesToElement) is Removed. See the function (opAddCreatedTemplatesToElement).
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2720,101 +2720,6 @@ async function opSaveNewTemplate( debug ) {
 }
 
 /* ------------------------------------------
- >   >  6a-9. Adding one or more Templates to an Element 
---------------------------------------------- */
-function opAddTemplatesToElement( debug, blockId, containerElement, templateList ) {
-
-    ///// Create Variables.
-    let error, code, message
-
-    try {
-
-        ///// If the Elements are missing.
-        if ( ! blockId ) {
-            throw 'Missing Block ID!'
-        } else if ( ! containerElement ) {
-            throw 'Missing Container Element!'
-        } else if ( ! templateList ) {
-            throw 'Missing Template List!'
-        } else { 
-           
-            for( var i = 0; i < templateList.length; i++ ) {
-                
-                ///// Console Log if the Debug parameter is 'true'.
-                opConsoleDebug( debug, `Template(${ templateList[i].templateCreationDate })`, templateList[i] )
-
-                ///// The URL to the Layouts.
-                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
-
-                ///// Create new element.
-                newTemplateElement = `
-                    <div class="op-radio-input">
-                        <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation(), opSetGridCols(false, ${ templateList[i].templateLayoutColumns.charAt(0) })" name="template" value="${ templateList[i].templateCreationDate }" required>
-                        <label for="${ blockId }-${ templateList[i].templateCreationDate }-input">
-                            <div class="op-radio-check" data-icon="circle-check">
-                                <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                            </div>
-                            <div class="op-radio-info">
-                                <div class="op-info op-flex-row">
-                                    <p class="op-text" data-icon="calendar-days">
-                                        <span class="op-icon" role="img" aria-label="Calendar Icon"></span>
-                                        <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'date-month-year', 'da' ) }</span>                               
-                                    </p>
-                                    <p class="op-text" data-icon="clock">
-                                        <span class="op-icon" role="img" aria-label="Clock Icon"></span>
-                                        <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'hour-min' ) }</span>                               
-                                    </p>
-                                </div>
-                                <div class="op-content op-flex-col">
-                                    <p class="op-text op-flex-col">
-                                        <b class="op-text-title">Skabelonnavn</b>
-                                        <span class="op-text-info">${ templateList[i].templateName }</span>                               
-                                    </p>
-                                    <p class="op-text op-flex-col">
-                                        <b class="op-text-title">Beskrivelse</b>
-                                        <span class="op-text-info">3 kolonner + logo</span>
-                                    </p>
-                                    <p class="op-text op-flex-col">
-                                        <b class="op-text-title">Logo</b>
-                                        <span class="op-text-info">${ templateList[i].templateFilenameOriginal }</span>                               
-                                    </p>
-                                </div>
-                                <div class="op-image op-flex-col">
-                                    <img src="${ svgUrl + templateList[i].templateLayout + '/' + templateList[i].templateLayoutColumns.charAt(0) }L_${ templateList[i].templateLayout }.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
-                                </div>
-                            </div>
-                            
-                        </label>
-                    </div>
-                `
-
-                ///// Add element to the container.
-                containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
-
-            }
-
-            ///// Create Response.
-            error = false, code = 200, message = 'New Templates was added!'
-
-        }
-        
-    } catch( errorMessage ) {
-
-        ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
-
-    }
-
-    ///// Console Log if the Debug parameter is 'true'.
-    opConsoleDebug( debug, 'opAddTemplatesToElement():', message )
-
-    ///// Return the Response to the Function.
-    return opReturnResponse( error, code, message )
-
-}
-
-
-/* ------------------------------------------
  >  6a-10. Adding Created Events to an Element
  ?  Updated: 2023-03-21 - 21:39 (Y:m:d - H:i)
 --------------------------------------------- */
@@ -2917,9 +2822,10 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
 
 /* ------------------------------------------
  >  6a-11. Adding Created Templates to an Element
- ?  Updated: 2023-03-21 - 21:39 (Y:m:d - H:i)
+ ?  Updated: 2024-04-21 - 19:30 (Y:m:d - H:i)
+ ?  Info: The function (opAddCreatedTemplatesToElement) is interleaved with the function (opAddTemplatesToElement).
 --------------------------------------------- */
-function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templateList ) {
+function opAddCreatedTemplatesToElement( debug, block, containerElement, templateList ) {
 
     ///// Create Variables.
     let error, code, message
@@ -2927,8 +2833,8 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
     try {
 
         ///// If the Elements are missing.
-        if ( ! blockId ) {
-            throw 'Missing Block ID!'
+        if ( ! block ) {
+            throw 'Missing the Block!'
         } else if ( ! containerElement ) {
             throw 'Missing Container Element!'
         } else if ( ! templateList ) {
@@ -2940,16 +2846,18 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                 ///// Console Log if the Debug parameter is 'true'.
                 opConsoleDebug( debug, `Template(${ templateList[i].templateCreationDate })`, templateList[i] )
 
+                ///// Create variables.
+                let blockId = block.getAttribute( 'id' )
                 let tapColor = containerElement.getAttribute('data-tap-color')
                 let templateLink = containerElement.getAttribute('date-template-link')
                 let templateLinkTitle = containerElement.getAttribute('date-template-link-title')
                 let templateCol = templateList[i].templateLayoutColumns.charAt(0)
-                let templateFile = ''
+                let templateFile = '', templateDescriptionImage = ''
                 let templateDescription = Number( templateCol ) == 1 ? ' kolonne' : ' kolonner'
-                let templateDescriptionImage = ''
+                let newTemplateElement, templateElementInfo, templateElementButton
 
                 ///// The URL to the Layouts.
-                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/`
+                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/${ templateList[i].templateLayout }/${ templateList[i].templateLayout }_${ templateList[i].templateLayoutColumns.charAt(0) }L.svg`
 
                 if ( templateList[i].templateFilenameOriginal ) {
                     templateFile = `
@@ -2960,49 +2868,72 @@ function opAddCreatedTemplatesToElement( debug, blockId, containerElement, templ
                     templateDescriptionImage = ' + logo'
                 }
 
-                ///// Create new element.
-                newTemplateElement = `
-                    <article id="${ blockId }-${ templateList[i].templateCreationDate }-template">
-                        <button class="op-option-button" data-icon="xmark" onclick="opRemoveItemFromStorage( false, 'templates', ${ templateList[i].templateCreationDate } ); return false">
-                            <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                        </button>
-                        <div class="op-information">
-                            <div class="op-info op-flex-row">
-                                <p class="op-text" data-icon="calendar-days">
-                                    <span class="op-icon" role="img" aria-label="Calendar Icon"></span>
-                                    <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'date-month-year', 'da' ) }</span>                               
-                                </p>
-                                <p class="op-text" data-icon="clock">
-                                    <span class="op-icon" role="img" aria-label="Clock Icon"></span>
-                                    <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'hour-min' ) }</span>                               
-                                </p>
-                            </div>
-                            <div class="op-content op-flex-col">
-                                <p class="op-text op-flex-col">
-                                    <b class="op-text-title">Skabelonnavn</b>
-                                    <span class="op-text-info">${ templateList[i].templateName }</span>                               
-                                </p>
-                                <p class="op-text op-flex-col">
-                                    <b class="op-text-title">Beskrivelse</b>
-                                    <span class="op-text-info">${ templateCol + templateDescription + templateDescriptionImage }</span>
-                                </p>
-                                ${ templateFile }
-                            </div>
-                            <div class="op-image op-flex-col">
-                                <p class="op-text op-flex-col">
-                                    <b class="op-text-title">Layout</b>
-                                </p>
-                                <img src="${ svgUrl + templateList[i].templateLayout }/${ templateList[i].templateLayout }_${ templateList[i].templateLayoutColumns.charAt(0) }L.svg" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
-                            </div>
-                            <div class="op-info-button op-flex-col">
-                                <a href="${ templateLink }?template=${ templateList[i].templateCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
-                                    <span class="op-button-title">${ templateLinkTitle }</span>
-                                </a>
-                            </div>
-                        </div>
-                        
-                    </article>
+                ///// Create Template Info.
+                templateElementInfo = `
+                    <div class="op-info op-flex-row">
+                        <p class="op-text" data-icon="calendar-days">
+                            <span class="op-icon" role="img" aria-label="Calendar Icon"></span>
+                            <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'date-month-year', 'da' ) }</span>                               
+                        </p>
+                        <p class="op-text" data-icon="clock">
+                            <span class="op-icon" role="img" aria-label="Clock Icon"></span>
+                            <span class="op-text-info">${ opTimeConverter( templateList[i].templateCreationDate, 'hour-min' ) }</span>                               
+                        </p>
+                    </div>
+                    <div class="op-content op-flex-col">
+                        <p class="op-text op-flex-col">
+                            <b class="op-text-title">Skabelonnavn</b>
+                            <span class="op-text-info">${ templateList[i].templateName }</span>                               
+                        </p>
+                        <p class="op-text op-flex-col">
+                            <b class="op-text-title">Beskrivelse</b>
+                            <span class="op-text-info">${ templateCol + templateDescription + templateDescriptionImage }</span>
+                        </p>
+                        ${ templateFile }
+                    </div>
+                    <div class="op-image op-flex-col">
+                        <p class="op-text op-flex-col">
+                            <b class="op-text-title">Layout</b>
+                        </p>
+                        <img src="${ svgUrl }" alt="Template: ${ templateList[i].templateLayout }" width="100%" height="auto">
+                    </div>
                 `
+                
+                templateElementButton = `
+                    <div class="op-info-button op-flex-col">
+                        <a href="${ templateLink }?template=${ templateList[i].templateCreationDate }" class="op-button op-button-size-small op-button-style-solid" data-color="${ tapColor }">
+                            <span class="op-button-title">${ templateLinkTitle }</span>
+                        </a>
+                    </div>
+                `
+                
+                ///// Create new Template Element.
+                if ( block.classList.contains( 'op-event-creation' ) ) {
+                    newTemplateElement = `
+                        <div class="op-radio-input">
+                            <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation(), opSetGridCols(false, ${ templateList[i].templateLayoutColumns.charAt(0) })" name="template" value="${ templateList[i].templateCreationDate }" required>
+                            <label for="${ blockId }-${ templateList[i].templateCreationDate }-input">
+                                <div class="op-radio-check" data-icon="circle-check">
+                                    <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                                </div>
+                                <div class="op-radio-info">
+                                    ${ templateElementInfo }
+                                </div>
+                            </label>
+                        </div>
+                    `
+                } else {
+                    newTemplateElement = `
+                        <article id="${ blockId }-${ templateList[i].templateCreationDate }-template">
+                            <button class="op-option-button" data-icon="xmark" onclick="opRemoveItemFromStorage( false, 'templates', ${ templateList[i].templateCreationDate } ); return false">
+                                <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                            </button>
+                            <div class="op-information">
+                                ${ templateElementInfo + templateElementButton }
+                            </div>
+                        </article>
+                    `
+                }               
 
                 ///// Add element to the container.
                 containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
@@ -3911,7 +3842,7 @@ function opEventCreationBlocks() {
                 const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
 
                 ///// Add new Templates to the Container Element.
-                const addTemplatesToElement = opAddTemplatesToElement( debug, blockId, containerElement, sortedTemplateList )
+                const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, block, containerElement, sortedTemplateList )
     
                 ///// Validate the Response from the Adding Templates Function.
                 if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
@@ -3977,61 +3908,6 @@ function opSiteLoginBlocks() {
         let blockName = 'Site Login'
         let blocks = document.querySelectorAll( '.op-site-login' )
         opConsoleDebug( debug, 'blocks:', blocks )
-
-        return
-        
-        ///// Get each Block.
-        if ( blocks ) { blocks.forEach( block => {
-
-            ///// Get the Block ID.
-            let blockId = block.getAttribute( 'id' )
-
-            ///// Get the Radio Inputs Container.
-            let containerElement = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
-        
-            ///// Get the Local Storage of Templates.
-            const templatesStorage = opGetLocalStorage( debug, 'Templates' )
-
-            ///// Validate the Response from the Local Storage of Templates.
-            if ( templatesStorage.error !== false ) throw templatesStorage.response
-
-            ///// Get the Template List from the Local Storage of Templates.
-            const templateList = templatesStorage.response.templateList
-
-            ///// Sort the Template List after newest date.
-            const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
-
-            ///// Add new Templates to the Container Element.
-            const addTemplatesToElement = opAddTemplatesToElement( debug, blockId, containerElement, sortedTemplateList )
-
-            ///// Validate the Response from the Adding Templates Function.
-            if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
-            
-            ///// Get the Template ID from the URL Parameter.
-            const templateId = opGetUrlParameters().template
-
-            if ( templateId ) {
-
-                ///// Find Template Item.
-                let templateItem = templateList.filter( template => template.templateCreationDate === Number( templateId ) )
-                opConsoleDebug( debug, `template-${ templateId }:`, templateItem )
-
-                let formElement = radioInput.closest( '.op-form-steps' )
-                opSetGridCols( debug, templateItem[0].templateLayoutColumns.charAt(0), formElement )
-
-                ///// #NG - Need validation from opSetGridCols() before proceeding! 
-
-                let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
-                
-                radioInput.checked = true
-                radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )                   
-
-
-                opFormInputValidation( debug, 'fieldset', radioInput )
-
-            }
-
-        })}
         
     } catch( errorMessage ) {
 
@@ -4131,7 +4007,7 @@ function opDashboardBlocks( debug ) {
             const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
 
             ///// Add new Templates to the Container Element.
-            const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, blockId, templatesContainerElement, sortedTemplateList )
+            const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, block, templatesContainerElement, sortedTemplateList )
 
 
 
