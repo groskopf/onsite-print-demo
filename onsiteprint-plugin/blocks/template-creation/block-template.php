@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-04-02 - 11:04 (Y:m:d - H:i)
- ?  Info: Changed variables and Step 4.
+ ?  Updated: 2024-04-23 - 20:50 (Y:m:d - H:i)
+ ?  Info: Changed variable name (tc) to (path).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -22,65 +22,65 @@ require_once( __DIR__.'/../../private/session.php' );
  #  The Block Data
 --------------------------------------------------------------------------- */
 
-$tc = 'template_creation_';
+$path = 'template_creation_';
 $amountOfSteps = 5;
 
 $acf = array(
-    'style_color'           => get_field( $tc . 'color' ),
+    'style_color'           => get_field( $path . 'color' ),
 
-    'header_title'          => get_field( $tc . 'header_title' ) ?: 'Create a new Template',
-    'header_description'    => get_field( $tc . 'header_description' ) ?: 'Follow the steps below to complete your new template.',
-    'header_step'           => get_field( $tc . 'header_step' ) ?: 'Step',
-	'button_back'           => get_field( $tc . 'buttons_back_text' ) ?: 'Back',
-    'button_next'           => get_field( $tc . 'buttons_next_text' ) ?: 'Next',
-    'button_save'           => get_field( $tc . 'buttons_save_text' ) ?: 'Save Template',
+    'header_title'          => get_field( $path . 'header_title' ) ?: 'Create a new Template',
+    'header_description'    => get_field( $path . 'header_description' ) ?: 'Follow the steps below to complete your new template.',
+    'header_step'           => get_field( $path . 'header_step' ) ?: 'Step',
+	'button_back'           => get_field( $path . 'buttons_back_text' ) ?: 'Back',
+    'button_next'           => get_field( $path . 'buttons_next_text' ) ?: 'Next',
+    'button_save'           => get_field( $path . 'buttons_save_text' ) ?: 'Save Template',
 
-    'step_1_process'        => get_field( $tc . 'steps_step_1_process' ) ?: 'Template Name',
-    'step_1_title'          => get_field( $tc . 'steps_step_1_title' ) ?: 'Let’s start with the Template Name',
-    'step_1_description'    => get_field( $tc . 'steps_step_1_description' ) ?: 'Some text her...',
-    'step_1_field_1_title'  => get_field( $tc . 'steps_step_1_field_1_title' ) ?: 'Template Name',
-    'step_1_field_1_val'    => get_field( $tc . 'steps_step_1_field_1_validation' ) ?: 'The input field is empty!',
+    'step_1_process'        => get_field( $path . 'steps_step_1_process' ) ?: 'Template Name',
+    'step_1_title'          => get_field( $path . 'steps_step_1_title' ) ?: 'Let’s start with the Template Name',
+    'step_1_description'    => get_field( $path . 'steps_step_1_description' ) ?: 'Some text her...',
+    'step_1_field_1_title'  => get_field( $path . 'steps_step_1_field_1_title' ) ?: 'Template Name',
+    'step_1_field_1_val'    => get_field( $path . 'steps_step_1_field_1_validation' ) ?: 'The input field is empty!',
    
-    'step_2_process'        => get_field( $tc . 'steps_step_2_process' ) ?: 'Amount of Lines',
-    'step_2_title'          => get_field( $tc . 'steps_step_2_title' ) ?: 'How many Lines are you looking for?',
-    'step_2_description'    => get_field( $tc . 'steps_step_2_description' ) ?: 'Some text her...',
-    'step_2_field_1_title'  => get_field( $tc . 'steps_step_2_field_1_title' ) ?: 'Choose the Amount of Lines',
-    'step_2_field_1_val'    => get_field( $tc . 'steps_step_2_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
-    'step_2_line_1_title'   => get_field( $tc . 'steps_step_2_line_1_title' ) ?: '1 Line',
-    'step_2_line_2_title'   => get_field( $tc . 'steps_step_2_line_2_title' ) ?: '2 Lines',
-    'step_2_line_3_title'   => get_field( $tc . 'steps_step_2_line_3_title' ) ?: '3 Lines',
-    'step_2_line_4_title'   => get_field( $tc . 'steps_step_2_line_4_title' ) ?: '4 Lines',
-    'step_2_line_5_title'   => get_field( $tc . 'steps_step_2_line_5_title' ) ?: '5 Lines',
+    'step_2_process'        => get_field( $path . 'steps_step_2_process' ) ?: 'Amount of Lines',
+    'step_2_title'          => get_field( $path . 'steps_step_2_title' ) ?: 'How many Lines are you looking for?',
+    'step_2_description'    => get_field( $path . 'steps_step_2_description' ) ?: 'Some text her...',
+    'step_2_field_1_title'  => get_field( $path . 'steps_step_2_field_1_title' ) ?: 'Choose the Amount of Lines',
+    'step_2_field_1_val'    => get_field( $path . 'steps_step_2_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
+    'step_2_line_1_title'   => get_field( $path . 'steps_step_2_line_1_title' ) ?: '1 Line',
+    'step_2_line_2_title'   => get_field( $path . 'steps_step_2_line_2_title' ) ?: '2 Lines',
+    'step_2_line_3_title'   => get_field( $path . 'steps_step_2_line_3_title' ) ?: '3 Lines',
+    'step_2_line_4_title'   => get_field( $path . 'steps_step_2_line_4_title' ) ?: '4 Lines',
+    'step_2_line_5_title'   => get_field( $path . 'steps_step_2_line_5_title' ) ?: '5 Lines',
 
-    'step_3_process'        => get_field( $tc . 'steps_step_3_process' ) ?: 'Select Image',
-    'step_3_title'          => get_field( $tc . 'steps_step_3_title' ) ?: 'Please select your Image/Logo',
-    'step_3_description'    => get_field( $tc . 'steps_step_3_description' ) ?: 'Some text her...',
-    'step_3_field_1_title'  => get_field( $tc . 'steps_step_3_field_1_title' ) ?: 'Logo option',
-    'step_3_field_1_val'    => get_field( $tc . 'steps_step_3_field_1_validation' ) ?: 'An option must be selected!',
-    'step_3_line_1_title'   => get_field( $tc . 'steps_step_3_field_1_value_1' ) ?: 'No I do not need a Logo on my Template.',
-    'step_3_line_2_title'   => get_field( $tc . 'steps_step_3_field_1_value_2' ) ?: 'Yes I want a Logo on my Template.',
-    'step_3_field_2_title'  => get_field( $tc . 'steps_step_3_field_2_title' ) ?: 'Select/upload logo file',
-    'step_3_field_2_val'    => get_field( $tc . 'steps_step_3_field_2_validation' ) ?: 'No file has been selected!',
+    'step_3_process'        => get_field( $path . 'steps_step_3_process' ) ?: 'Select Image',
+    'step_3_title'          => get_field( $path . 'steps_step_3_title' ) ?: 'Please select your Image/Logo',
+    'step_3_description'    => get_field( $path . 'steps_step_3_description' ) ?: 'Some text her...',
+    'step_3_field_1_title'  => get_field( $path . 'steps_step_3_field_1_title' ) ?: 'Logo option',
+    'step_3_field_1_val'    => get_field( $path . 'steps_step_3_field_1_validation' ) ?: 'An option must be selected!',
+    'step_3_line_1_title'   => get_field( $path . 'steps_step_3_field_1_value_1' ) ?: 'No I do not need a Logo on my Template.',
+    'step_3_line_2_title'   => get_field( $path . 'steps_step_3_field_1_value_2' ) ?: 'Yes I want a Logo on my Template.',
+    'step_3_field_2_title'  => get_field( $path . 'steps_step_3_field_2_title' ) ?: 'Select/upload logo file',
+    'step_3_field_2_val'    => get_field( $path . 'steps_step_3_field_2_validation' ) ?: 'No file has been selected!',
     
-    'step_4_process'        => get_field( $tc . 'steps_step_4_process' ) ?: 'Choose Layout',
-    'step_4_title'          => get_field( $tc . 'steps_step_4_title' ) ?: 'What kind of layout are you looking for?',
-    'step_4_description'    => get_field( $tc . 'steps_step_4_description' ) ?: 'Some text her...',
-    'step_4_field_1_title'  => get_field( $tc . 'steps_step_4_field_1_title' ) ?: 'Choose Layout based on Number of Columns',
-    'step_4_field_1_val'    => get_field( $tc . 'steps_step_4_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
+    'step_4_process'        => get_field( $path . 'steps_step_4_process' ) ?: 'Choose Layout',
+    'step_4_title'          => get_field( $path . 'steps_step_4_title' ) ?: 'What kind of layout are you looking for?',
+    'step_4_description'    => get_field( $path . 'steps_step_4_description' ) ?: 'Some text her...',
+    'step_4_field_1_title'  => get_field( $path . 'steps_step_4_field_1_title' ) ?: 'Choose Layout based on Number of Columns',
+    'step_4_field_1_val'    => get_field( $path . 'steps_step_4_field_1_validation' ) ?: 'One of the radio inputs must be checked!',
 
-    'step_5_process'        => get_field( $tc . 'steps_step_5_process' ) ?: 'Save Template',
-    'step_5_title'          => get_field( $tc . 'steps_step_5_title' ) ?: 'Finally, save your new Template',
-    'step_5_description'    => get_field( $tc . 'steps_step_5_description' ) ?: 'Some text her...',
-    'step_5_field_1_title'  => get_field( $tc . 'steps_step_5_field_1_title' ) ?: 'Template Approval',
-    'step_5_field_1_val'    => get_field( $tc . 'steps_step_5_field_1_validation' ) ?: 'The checkbox must be checked!',
-    'step_5_field_1_value'  => get_field( $tc . 'steps_step_5_field_1_value' ) ?: 'I Approve the Template.',
+    'step_5_process'        => get_field( $path . 'steps_step_5_process' ) ?: 'Save Template',
+    'step_5_title'          => get_field( $path . 'steps_step_5_title' ) ?: 'Finally, save your new Template',
+    'step_5_description'    => get_field( $path . 'steps_step_5_description' ) ?: 'Some text her...',
+    'step_5_field_1_title'  => get_field( $path . 'steps_step_5_field_1_title' ) ?: 'Template Approval',
+    'step_5_field_1_val'    => get_field( $path . 'steps_step_5_field_1_validation' ) ?: 'The checkbox must be checked!',
+    'step_5_field_1_value'  => get_field( $path . 'steps_step_5_field_1_value' ) ?: 'I Approve the Template.',
 
-    'modal_title'           => get_field( $tc . 'modal_title' ) ?: 'Template have been Saved!',
-    'modal_description'     => get_field( $tc . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or create a new Event with the new template.',
-    'main_link'             => get_field_object( $tc . 'modal_relocate_main' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'main_title'            => get_field_object( $tc . 'modal_relocate_main' )['value']['title'] ?: 'Front Page',
-    'event_creation_link'   => get_field_object( $tc . 'modal_relocate_event_creation' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'event_creation_title'  => get_field_object( $tc . 'modal_relocate_event_creation' )['value']['title'] ?: 'Create Event'
+    'modal_title'           => get_field( $path . 'modal_title' ) ?: 'Template have been Saved!',
+    'modal_description'     => get_field( $path . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or create a new Event with the new template.',
+    'main_link'             => get_field_object( $path . 'modal_relocate_main' )['value']['url'] ?: 'https://onsiteprint.dk/',
+    'main_title'            => get_field_object( $path . 'modal_relocate_main' )['value']['title'] ?: 'Front Page',
+    'event_creation_link'   => get_field_object( $path . 'modal_relocate_event_creation' )['value']['url'] ?: 'https://onsiteprint.dk/',
+    'event_creation_title'  => get_field_object( $path . 'modal_relocate_event_creation' )['value']['title'] ?: 'Create Event'
 );
 
 $styleColor = substr( $acf['style_color'], 0, strpos( $acf['style_color'], '-' ) );
