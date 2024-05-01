@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  Template Creation Block Style
- ?  Updated: 2024-04-13 - 21:25 (Y:m:d - H:i)
- ?  Info: Changed atr[data-layout-lines].
+ ?  Updated: 2024-05-01 - 15:50 (Y:m:d - H:i)
+ ?  Info: Changed CSS for Img in Input.
 --------------------------------------------------------------------------- */
 
 .op-form .op-form-layouts details {
@@ -168,4 +168,8 @@
 .op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="4L"][data-layout-image="yes"] ),
 .op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="5L"][data-layout-image="yes"] ) {
     display: flex;
+}
+
+.op-block__template-creation.op-form .op-radio-input .op-radio-info .op-image img {
+    padding: 1rem;
 }
