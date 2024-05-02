@@ -113,6 +113,9 @@ function opTimeConverter( timestamp, display, language ){
     let time, year, months, month, monthName, date, hour, min, sec
 
     let currentDate = new Date( timestamp )
+    //#NG
+    //Math.floor(new Date().getTime()/1000.0) The getTime method returns the time in milliseconds.
+
 
     if ( currentDate == 'Invalid Date' ) {
         return ''
@@ -126,12 +129,14 @@ function opTimeConverter( timestamp, display, language ){
 
     year = currentDate.getFullYear()
     monthName = months[ currentDate.getMonth() ]
-    month = months.indexOf( monthName ) + 1
+    month = ( months.indexOf( monthName ) + 1 )
     date = currentDate.getDate()
     hour = currentDate.getHours()
     min = currentDate.getMinutes()
     sec = currentDate.getSeconds()
 
+    if ( month.toString().length == 1 ) month = `0${ month }` 
+    if ( date.toString().length == 1 ) date = `0${ date }`
     if ( min.toString().length == 1 ) min = `0${ min }` 
     if ( hour.toString().length == 1 ) hour = `0${ hour }`
 
@@ -143,6 +148,8 @@ function opTimeConverter( timestamp, display, language ){
         time = `${date}. ${monthName}. ${year} - ${hour}:${min}:${sec}`
     } else if ( display == 'full' ) {
         time = `${year}-${month}-${date} ${hour}:${min}:${sec}`
+    } else if ( display == 'file' ) {
+        time = `${year}-${month}-${date}_${hour}${min}`
     }
 
     return time
@@ -314,6 +321,7 @@ async function opFetchDataFromApi( debug, url, options, output ) {
                 ///// Return the Data as a Blob or JSON.
                 if ( output == 'blob' ) message = await fetchResponse.blob()
                 else if ( output == 'json' ) message = await fetchResponse.json()
+                else if ( output == 'text' ) message = await fetchResponse.text()
                 else throw 'Could not find the Output Type!'
 
             } else if ( code >= 400 && code <= 499 ) throw await fetchResponse.json()
@@ -2209,10 +2217,99 @@ async function opCreatePrintDocument( debug, printWindow, block, eventListId ) {
 
 }
 
+/* ------------------------------------------
+>  6a-13. Create CSV file
+--------------------------------------------- */
+async function opCreateFileCSV( debug, eventListId ) {
+    
+    ///// Create Variables.
+    let error, code, message
+
+    try {
+
+        ///// Set the Parameter If is not defined.
+        ////* true or false
+        if ( ! debug ) debug = false
+
+        ///// Validate the Function Parameters.
+        if ( ! eventListId ) throw 'Missing Event List ID!'
+        else {
+
+            //////////////////// #NG: Needs to be looked at again - Search.
+            ///// Get Event List. 
+            const eventList = opGetEventList( eventListId )
+            if ( eventList.error !== false ) return opConsoleDebug( debug, 'eventList:', eventList.response )
+            
+            ///// Get Event Item. 
+            const eventItem = eventList.response
+            opConsoleDebug( debug, 'eventItem:', eventItem )
+           
+            let currentDate = opTimeConverter( new Date(), 'file')
+            let filename = eventItem.eventName.replace(/ /g,"-")
+            let newFilename = ( filename + '_' + currentDate.toString() )
+            const items = eventItem.eventParticipants
+                        
+            items.forEach( participant => {
+                ///// Epoch Timestamp - https://www.epochconverter.com/
+                let myDate = new Date( Number(participant.time) )
+                let myEpoch = Math.floor( myDate.getTime() / 1000.0 )
+                participant.time = myEpoch
+            })
+
+            ///// Create new Form Element.
+            const formData = new FormData()
+
+            ///// Add Data to the new Form Element
+            formData.append( 'event-list', JSON.stringify( items ) )
+
+            ///// The URL to the API.
+            const url = `${ opGetCurrentScriptPath() }/../api/convert-files/api-convert-json-into-csv.php`
+
+            ///// Fetch from Local PHP file.
+            const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+
+            ///// Console Log if the Debug parameter is 'true'.
+            opConsoleDebug( debug, `API Data:`, apiData.response )
+
+            var blob = new Blob( apiData.response, { type: 'text/csv;charset=utf-8;' } );
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(blob, newFilename);
+            } else {
+                var link = document.createElement("a");
+                if (link.download !== undefined) { // feature detection                
+                    var bloburl = URL.createObjectURL(blob);
+                    link.setAttribute("href", bloburl);
+                    link.setAttribute("download", newFilename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+            
+        }
+
+    } catch( errorMessage ) {
+
+        ///// Throw Error Response.
+        error = true, code = 400, message = errorMessage
+        
+        ///// Throw Error Response in the Console.
+        console.error( `opCreateFileCSV(${ eventListId })`, opReturnResponse( error, code, errorMessage ) )
+        
+    } finally {
+        
+        ///// Return the Response to the Function.
+        return opReturnResponse( error, code, message )
+    
+    }
+
+}
+
 /* ---------------------------------------------------------
  >  5c. Print All Participants (PDF)
 ------------------------------------------------------------ */
-function opPrintEventParticipants( eventListId ) {
+function opDownloadEventParticipants( fileType, eventListId ) {
 
     ///// Debug the function
     let debug = false // true or false 
@@ -2223,18 +2320,30 @@ function opPrintEventParticipants( eventListId ) {
     ///// Get Id's. 
     let blockId = block.getAttribute( 'id' ).substring(9)
 
-    ///// Create Browser Window. 
-    printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }`  )
-    
-    ///// Create Print Document in Window, then open Print Window and close after. 
-    opCreatePrintDocument( debug, printWindow, block, eventListId ).then( response => {
-        opConsoleDebug( debug, 'Response:', response )
-        setInterval( () => {
-            printWindow.print()
-            printWindow.close()
-            window.location.reload()
-        }, 500)
-    })
+    if ( fileType.toLowerCase() !== 'csv' ) {
+        ///// Create Browser Window. 
+        printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }`  )
+        
+        ///// Create Print Document in Window, then open Print Window and close after. 
+        opCreatePrintDocument( debug, printWindow, block, eventListId ).then( response => {
+            opConsoleDebug( debug, 'Response:', response )
+            setInterval( () => {
+                printWindow.print()
+                printWindow.close()
+                window.location.reload()
+            }, 500)
+        })
+    } else {
+       
+        //////////////////// #NG: Needs to be looked at again - Search.
+        ///// Get Event List.
+        const fileCSV = opCreateFileCSV( debug, eventListId )
+        if ( fileCSV.error !== false ) return opConsoleDebug( debug, 'fileCSV:', fileCSV.response )
+        
+        ///// Get Event Item. 
+        const fileCSVItem = fileCSV.response
+        opConsoleDebug( debug, 'fileCSVItem:', fileCSVItem )
+    }
 
 }
 

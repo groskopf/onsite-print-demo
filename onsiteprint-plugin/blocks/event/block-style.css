@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2023-04-13 - 19:57 (Y:m:d - H:i)
+ ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -308,6 +308,24 @@
 .op-block__event .op-participant-col-info p:is( .op-col-icon, .op-col-arrival-time, .op-col-amount-of-prints ) {
     justify-content: center;
     padding: 0;
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button .op-icon {
+    font-size: calc( var(--wp--preset--font-size--small) + ( var(--wp--preset--font-size--small) / 2 ) );
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button:first-child:not( :hover ) {
+    border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button:first-child:hover {
+    z-index: 1;
+    border-radius: 0;
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button:last-child {
+    margin-left: -0.1rem;
+    border-radius: 0 0.4rem 0.4rem 0;
 }
 
 /* ------------------------------------------
