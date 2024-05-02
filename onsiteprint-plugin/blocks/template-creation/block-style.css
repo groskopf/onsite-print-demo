@@ -1,4 +1,175 @@
 /* ------------------------------------------------------------------------
-#  Template Creation Block Style
-?  Updated: 2023-01-07 - 17:39 (Y:m:d - H:i)
+ #  Template Creation Block Style
+ ?  Updated: 2024-05-01 - 15:50 (Y:m:d - H:i)
+ ?  Info: Changed CSS for Img in Input.
 --------------------------------------------------------------------------- */
+
+.op-form .op-form-layouts details {
+    display: flex;
+    flex-direction: column;
+    border-right: 0.1rem solid var(--form-color-light);
+    border-left: 0.1rem solid var(--form-color-light);
+    overflow: hidden;
+}
+
+.op-form .op-form-layouts details:first-child,
+.op-form .op-form-layouts details:first-child summary {
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-form .op-form-layouts details:last-child {
+    border-bottom: 0.1rem solid var(--form-color-light);
+    border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.op-form .op-form-layouts details summary {
+    color: var(--form-color-dark);
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-top: 0.1rem solid var(--form-color-light);
+    cursor: pointer;
+    transition: all 200ms ease-in-out, color 100ms ease-in-out;
+}
+
+.op-form .op-form-layouts details[open] summary {
+    background-color: var(--form-color-light);
+}
+
+.op-form .op-form-layouts details summary:hover {
+    background-color: var(--form-color-medium);
+    color: var(--wp--preset--color--white);
+}
+
+.op-form .op-form-layouts details[open] summary .op-icon {
+    transform: rotate(180deg);
+}
+
+.op-form .op-form-layouts .op-form-radio-inputs {
+    background-color: var(--wp--preset--color--neutral-20);
+    padding: 2rem;
+    border-top: 0.1rem solid var(--form-color-light);
+}
+
+
+.op-form .op-form-radio-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.4rem;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem;
+}
+
+.op-form .op-form-radio-lines .op-radio-input {
+    display: flex;
+}
+
+.op-form .op-form-radio-lines .op-radio-input label {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-form .op-form-radio-lines .op-radio-input input {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px,1px,1px,1px);
+    clip-path: inset(50%);
+}
+
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ),
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label {
+    border-color: var(--form-color-medium);
+}
+
+.op-form .op-form-radio-lines .op-radio-input label .op-radio-check {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-right: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem 0 0 0.4rem;
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
+}
+
+.op-form .op-form-radio-lines .op-radio-input label .op-radio-check .op-icon {
+    background-color: var(--wp--preset--color--white);
+    color: var(--form-color-medium);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 2rem;
+    transition: border-color 200ms ease-in-out;
+}
+
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label .op-radio-check,
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label .op-radio-check .op-icon {
+    border-color: var(--form-color-medium);
+}
+
+.op-form .op-form-radio-lines .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+    background-color: var(--form-color-light);
+}
+
+
+.op-form .op-form-radio-lines .op-radio-input label .op-radio-check .op-icon::before {
+    display: none;
+}
+
+.op-form .op-form-radio-lines .op-radio-input input:checked ~ label .op-radio-check .op-icon::before {
+    display: flex;
+}
+
+.op-form .op-form-radio-lines .op-input-description {
+    font-weight: 500;
+    display: flex;
+    padding: 0.5rem 4.5rem 0.5rem 1.5rem;
+}
+
+
+
+/* ---------------------------------------------------------
+ >  Radio Input (Step 4).
+------------------------------------------------------------ */
+.op-form .op-form-radio-inputs.op-form-layouts .op-radio-input {
+    display: none;
+}
+
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="1L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="1L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="2L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="2L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="3L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="3L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="4L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5L"][data-layout-image="0"] ) .op-radio-input:is( [data-layout-lines="5L"][data-layout-image="no"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="1L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="1L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="2L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="2L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="3L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="3L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="4L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="4L"][data-layout-image="yes"] ),
+.op-form .op-form-radio-inputs.op-form-layouts:is( [data-layout-lines="5L"][data-layout-image="1"] ) .op-radio-input:is( [data-layout-lines="5L"][data-layout-image="yes"] ) {
+    display: flex;
+}
+
+.op-block__template-creation.op-form .op-radio-input .op-radio-info .op-image img {
+    padding: 1rem;
+}

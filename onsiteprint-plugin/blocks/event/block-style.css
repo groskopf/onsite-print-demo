@@ -704,10 +704,26 @@
 
     .op-block__event .op-col-lines {
         display: grid;
-        grid-template-columns: repeat(3, calc(100% / 3));
+        grid-template-columns: 1fr;
         padding: 0;
     }
-
+  
+    .op-block__event[ data-column-count="2" ] .op-col-lines {
+        grid-template-columns: repeat(2, calc(100% / 2));
+    }
+    
+    .op-block__event[ data-column-count="3" ] .op-col-lines {
+        grid-template-columns: repeat(3, calc(100% / 3));
+    }
+    
+    .op-block__event[ data-column-count="4" ] .op-col-lines {
+        grid-template-columns: repeat(4, calc(100% / 4));
+    }
+    
+    .op-block__event[ data-column-count="5" ] .op-col-lines {
+        grid-template-columns: repeat(5, calc(100% / 5));
+    }
+    
     .op-block__event .op-col-print-info .op-button {
         min-width: 16rem;
         border-radius: 0 0.4rem 0.4rem 0;

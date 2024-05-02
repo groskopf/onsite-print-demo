@@ -1,6 +1,7 @@
 /* ------------------------------------------------------------------------
 #  Dashboard Block Style
-?  Updated: 2023-03-21 - 21:46 (Y:m:d - H:i)
+ ?  Updated: 2024-04-16 - 01:10 (Y:m:d - H:i)
+ ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
 --------------------------------------------------------------------------- */
 
 .op-dashboard {
@@ -43,9 +44,21 @@
 .op-dashboard .op-block__buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    padding: 2rem;
+    column-gap: 2rem;
+    row-gap: 0.4rem;
+    padding: 2rem 2rem 1.3rem;
     border-bottom: 0.1rem solid var(--wp--preset--color--neutral-30);
+}
+
+.op-dashboard .op-block__buttons .op-tab-slider {
+    background-color: var(--tap-color);
+    content: "";
+    display: flex;
+    margin: auto;
+    width: 4rem;
+    height: 0.3rem;
+    border-radius: 1rem;
+    grid-column: 1;
 }
 
 .op-dashboard .op-block__taps {
@@ -54,16 +67,18 @@
 }
 
 .op-dashboard .op-block__taps section {
+    display: none;
     flex-wrap: nowrap;
     height: 100%;
     padding: 2rem;
     position: absolute;
     top: 0;
     left: 0;
+    overflow-y: auto;
 }
 
-.op-dashboard .op-block__taps section:not( :target ) { 
-    display: none;
+.op-dashboard .op-block__taps section.op-active { 
+    display: flex;
 }
 
 .op-dashboard .op-block__taps .op-tap-title {
@@ -77,6 +92,10 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     height: 100%;
+}
+
+.op-dashboard .op-block__taps .op-tap__inner > .op-tap__events {
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .op-dashboard .op-block__taps .op-tap__inner .op-new-button {
@@ -178,12 +197,14 @@
     padding-top: 1rem;
 }
 
-.op-dashboard .op-block__taps .op-tap__inner article .op-content .op-text {
+.op-dashboard .op-block__taps .op-tap__inner article .op-content .op-text,
+.op-dashboard .op-block__taps .op-tap__inner article .op-image .op-text {
     line-height: var(--wp--custom--typography--line-height--small);
     padding: 0.5rem 2rem;
 }
 
-.op-dashboard .op-block__taps .op-tap__inner article .op-content .op-text .op-text-title {
+.op-dashboard .op-block__taps .op-tap__inner article .op-content .op-text .op-text-title,
+.op-dashboard .op-block__taps .op-tap__inner article .op-image .op-text .op-text-title {
     color: var(--tap-color);
     font-size: var(--wp--preset--font-size--x-small);
     font-weight: 600;
@@ -193,9 +214,13 @@
 .op-dashboard .op-block__taps .op-tap__inner article .op-image {
     justify-content: flex-end;
     flex: 1;
-    padding: 1rem;
+}
+
+.op-dashboard .op-block__taps .op-tap__inner article .op-image img {
+    padding: 0 1rem;
 }
 
 .op-dashboard .op-block__taps .op-tap__inner article .op-info-button {
-    padding: 0 1rem 1rem;
+    margin-top: auto;
+    padding: 1rem;
 }

@@ -65,21 +65,7 @@ export function opEventBlocks( debug ) {
                 ///// Get Event Participants. 
                 let participants = eventItems[0].eventParticipants
                 opConsoleDebug( debug, 'participants:', participants )
-            
-                participantListElement.innerHTML = ''
 
-                //----------- function
-                ///// For each Participant create Participant Element.
-                for( let i = 0; i < participants.length; ++i ) {
-
-                    opAddEventParticipant( debug, block, participants[i] ).then( response => {
-                        opConsoleDebug( debug, 'Response:', response )
-                        participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
-                    })
-
-                }
-
-                
                 //----------- function
                 // #NG (2023-02-26) - New Code
                 ///// Get Template Item.
@@ -89,6 +75,20 @@ export function opEventBlocks( debug ) {
 
                 ///// Get the Amount of Columns.
                 let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+
+                participantListElement.innerHTML = ''
+
+                //----------- function
+                ///// For each Participant create Participant Element.
+                for( let i = 0; i < participants.length; ++i ) {
+
+                    opAddEventParticipant( debug, block, participants[i], columnAmount ).then( response => {
+                        opConsoleDebug( debug, 'Response:', response )
+                        participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
+                    })
+
+                }
+
 
                 block.setAttribute( 'data-column-count', columnAmount )
 

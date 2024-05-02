@@ -4,8 +4,9 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
-
+ ?  Updated: 2024-04-21 - 19:50 (Y:m:d - H:i)
+ ?  Info: Changes in CSS from line 2305.
+ 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -1896,6 +1897,7 @@ html {
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: 2rem;
     padding: 3rem;
 }
 
@@ -2309,12 +2311,14 @@ html {
     padding-top: 1rem;
 }
 
-.op-form .op-radio-input .op-radio-info .op-content .op-text {
+.op-form .op-radio-input .op-radio-info .op-content .op-text,
+.op-form .op-radio-input .op-radio-info .op-image .op-text {
     line-height: var(--wp--custom--typography--line-height--small);
     padding: 0.5rem 2rem;
 }
 
-.op-form .op-radio-input .op-radio-info .op-content .op-text .op-text-title {
+.op-form .op-radio-input .op-radio-info .op-content .op-text .op-text-title,
+.op-form .op-radio-input .op-radio-info .op-image .op-text .op-text-title {
     color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     font-weight: 600;
@@ -2324,7 +2328,10 @@ html {
 .op-form .op-radio-input .op-radio-info .op-image {
     justify-content: flex-end;
     flex: 1;
-    padding: 1rem;
+}
+
+.op-form .op-radio-input .op-radio-info .op-image img {
+    padding: 0 1rem 1rem;
 }
 
 .op-input-validation {

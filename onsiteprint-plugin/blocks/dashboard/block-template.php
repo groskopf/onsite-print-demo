@@ -9,7 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-05 - 18:00 (Y:m:d - H:i)
+ ?  Updated: 2024-04-16 - 01:10 (Y:m:d - H:i)
+ ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -105,12 +106,13 @@ if ( ! empty( $block['align'] ) ) {
 
                 for ( $i = 0; $i < count( $dashboard_taps ); $i++ ) { ?>
 
-                    <a href="#<?= esc_attr( $taps[$i]['id'] ) ?>" class="op-button op-button-size-medium op-button-style-outline" data-color="<?= esc_attr( $options['style_color'] ) ?>">
+                    <button onclick="opFormGoToTab(<?= $i+1 ?>)" class="op-button op-button-size-medium op-button-style-outline" data-color="<?= esc_attr( $options['style_color'] ) ?>">
                         <span class="op-button-title"><?= esc_attr( $taps[$i]['name'] ) ?></span>
-                    </a>
+                    </button>
 
                 <?php } ?>
 
+                <span class="op-tab-slider"></span>
             </div>
             
             <div class="op-block__taps op-flex-col">

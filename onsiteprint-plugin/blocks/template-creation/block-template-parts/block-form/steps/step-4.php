@@ -1,36 +1,65 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2023-02-06 - 20:00 (Y:m:d - H:i)
+ ?  Updated: 2024-04-20 - 22:06 (Y:m:d - H:i)
+ ?  Info: Added new layouts.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
+
+$stepNumber = 4;
+
 ?>
 
-<fieldset class="op-fieldset-step-4">
+<fieldset class="op-fieldset-step-<?= esc_attr( $stepNumber ) ?>">
     <header class="op-fieldset-header">
-        <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number">4/4</span></p>
-        <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_4_title'] ) ?></h3>
-        <p class="op-fieldset-description"><?= esc_attr( $acf['step_4_description'] ) ?></p>
+        <p class="op-fieldset-steps"><?= esc_attr( $acf['header_step'] ) ?> <span class="op-fieldset-step-number"><?= esc_attr( $stepNumber ) ?>/<?= esc_attr( $amountOfSteps ) ?></span></p>
+        <h3 class="op-fieldset-title"><?= esc_attr( $acf['step_'.$stepNumber.'_title'] ) ?></h3>
+        <p class="op-fieldset-description"><?= esc_attr( $acf['step_'.$stepNumber.'_description'] ) ?></p>
     </header>
     <div class="op-fieldset__inner">
-
-        <label for="<?= esc_attr($id) ?>-form-approval-input" class="op-input-wrapper op-form-approval-input" data-validation="0">
-            <p class="op-label-title"><?= esc_attr( $acf['step_4_field_1_title'] ) ?></p>
-            <div class="op-input-field">
-                <div class="op-input-validation" data-icon="circle-exclamation">
-                    <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
-                    <span class="op-message"><?= esc_attr( $acf['step_4_field_1_val'] ) ?></span>
-                </div>
-                <div class="op-input-checkbox op-input-border">
-                    <input id="<?= esc_attr($id) ?>-form-approval-input" oninput="opFormInputValidationToSubmit()" name="approval" type="checkbox" required>
-                    <div class="op-radio-check" data-icon="circle-check">
-                        <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
-                    </div>
-                    <p class="op-input-description"><?= esc_attr( $acf['step_4_field_1_value'] ) ?></p>
-                </div>
+ 
+       <div id="<?= esc_attr($id) ?>-radio-inputs" class="op-input-wrapper" data-validation="0">
+            <p class="op-label-title"><?= esc_attr( $acf['step_'.$stepNumber.'_field_1_title'] ) ?></p>
+            <div class="op-input-validation" data-icon="circle-exclamation">
+                <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
+                <span class="op-message"><?= esc_attr( $acf['step_'.$stepNumber.'_field_1_val'] ) ?></span>
             </div>
-        </label>
+            <div class="op-form-layouts op-form-radio-inputs" data-layout-lines="0" data-layout-image="0">
+
+                <?php 
+
+                    foreach ( glob( OP_ROOT_PATH . 'assets/img/svg/layouts/*/*.svg' ) as $file ) { 
+                        
+                        //$folderName = basename( dirname( $filePath ) );
+                        $fileParts = pathinfo( $file );
+                        $fileBasename = $fileParts[ 'basename' ];
+                        $fileName = $fileParts[ 'filename' ];
+                        $amountOfLines = substr( $fileName, -2, -1 );
+                        $layoutName = substr( $fileName, 0, -3 );
+                        $layoutImage = str_contains( $fileName, 'P') ? 'yes' : 'no';
+                        $filePath = OP_ROOT_URL . 'assets/img/svg/layouts/' . $layoutName . '/' . $fileBasename;
+
+                        ?>
+                    
+                        <div class="op-radio-input" data-layout-lines="<?= $amountOfLines ?>L" data-layout-image="<?= $layoutImage ?>">
+                            <input type="radio" id="<?= esc_attr( $id ) ?>-<?= $fileName ?>-input" oninput="opFormInputValidation()" name="layout" value="<?= $layoutName ?>" required>
+                            <label for="<?= esc_attr( $id ) ?>-<?= $fileName ?>-input">
+                                <div class="op-radio-check" data-icon="circle-check">
+                                    <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
+                                </div>
+                                <div class="op-radio-info">
+                                    <div class="op-image op-flex-col">
+                                        <img src="<?= esc_attr( $filePath ) ?>" alt="Amount of Lines: <?= $amountOfLines ?>, Layout: <?= $layoutName ?>, Image: <?= $layoutImage ?>" width="100%" height="auto">
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                <?php } ?>
+
+            </div>
+        </div>
 
     </div>
 </fieldset>

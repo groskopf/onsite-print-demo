@@ -1,5 +1,5 @@
 
-console.log('It works with scripts in block.json!')
+console.log('It works with scripts in block.json!', 'site-loginout-button')
 
 /* ------------------------------------------------------------------------
 #  Template Creation Block Script
