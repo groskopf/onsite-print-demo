@@ -2200,6 +2200,10 @@ html {
     border-color: var(--form-color-medium);
 }
 
+.op-form .op-form-radio-inputs .op-radio-input input:checked ~ label {
+    background-image: linear-gradient(to bottom,var(--wp--preset--color--white) 0%,var(--form-color-light) 150%);
+}
+
 .op-form .op-form-radio-inputs .op-radio-input label .op-radio-check {
     background-color: var(--wp--preset--color--white);
     display: flex;
