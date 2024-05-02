@@ -2902,7 +2902,7 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                 `
 
                 ///// Add element to the container.
-                containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
+                containerElement.querySelector( '.op-new-button' ).insertAdjacentHTML( 'beforebegin', newTemplateElement )
 
             }
 
@@ -3045,7 +3045,7 @@ function opAddCreatedTemplatesToElement( debug, block, containerElement, templat
                 }               
 
                 ///// Add element to the container.
-                containerElement.insertAdjacentHTML( 'beforeEnd', newTemplateElement )
+                containerElement.querySelector( '.op-new-button' ).insertAdjacentHTML( 'beforebegin', newTemplateElement )
 
             }
 
