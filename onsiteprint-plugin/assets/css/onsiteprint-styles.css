@@ -4,7 +4,7 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-26 - 23:47 (Y:m:d - H:i)
+ ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -109,6 +109,8 @@ html {
     --fa-icon-house: "\f015";
     --fa-icon-table-cells: "\f00a";
     --fa-icon-money-check: "\f53c";
+    --fa-icon-file-csv: "\f6dd";
+    --fa-icon-file-pdf: "\f1c1";
 
 }
 
@@ -259,6 +261,13 @@ html {
     transform: scaleY(1.4);
 }
 
+[data-icon="file-csv"] .op-icon::before {
+	content: var(--fa-icon-file-csv);
+}
+
+[data-icon="file-pdf"] .op-icon::before {
+	content: var(--fa-icon-file-pdf);
+}
 
 .op-flex-row {
     display: flex;
