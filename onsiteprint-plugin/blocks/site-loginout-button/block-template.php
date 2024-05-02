@@ -9,23 +9,23 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-02-26 - 20:59 (Y:m:d - H:i)
+ ?  Updated: 2024-05-02 - 21:42 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  The Block Data
 --------------------------------------------------------------------------- */
 
-$tc = 'site_loginout_button_';
+$tc = 'button_';
 
 ///// #NG(2023/02/19) - Missing Fields in WP.
 $acf = array(
     'style_color'               => get_field( $tc . 'color' ) ?: 'primary-90',
 
     'login_link_url'           => get_field_object( $tc . 'login_relocate' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'login_link_title'          => get_field_object( $tc . 'login_relocate' )['value']['title'] ?: 'Log ind',//'Login',
+    'login_link_title'          => get_field_object( $tc . 'login_text' )['value'] ?: 'Log in',
 
     'logout_link_url'          => get_field_object( $tc . 'logout_relocate' )['value']['url'] ?: 'https://onsiteprint.dk/',
-    'logout_link_title'         => get_field_object( $tc . 'logout_relocate' )['value']['title'] ?: 'Log ud',//'Logout',
+    'logout_link_title'         => get_field_object( $tc . 'logout_text' )['value'] ?: 'Log out',
 );
 
 $id = 'op-' . $block['id'];
