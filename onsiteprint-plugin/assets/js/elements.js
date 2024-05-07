@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-21 - 19:27 (Y:m:d - H:i)
- ?  Info: The function (opAddTemplatesToElement) is Removed. See the function (opAddCreatedTemplatesToElement).
+ ?  Updated: 2024-05-07 - 04:55 (Y:m:d - H:i)
+ ?  Info:  Changes in JS (opCreatePrintDocument & opDownloadEventParticipants) & Print CSS.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2140,7 +2140,6 @@ async function opPrintParticipant( participantId ) {
 ------------------------------------------------------------ */
 async function opCreatePrintDocument( debug, printWindow, block, eventListId ) {
 
-
     //////////////////// #NG: Needs to be looked at again - Search.
     ///// Get Event List. 
     const eventList = opGetEventList( eventListId )
@@ -2153,7 +2152,6 @@ async function opCreatePrintDocument( debug, printWindow, block, eventListId ) {
     ///// Get Event Name. 
     let eventName = eventItem.eventName
 
-
     ///// Get Template Item.
     const templateItem = opGetTemplate( eventItem.eventTemplate )
     if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
@@ -2162,54 +2160,38 @@ async function opCreatePrintDocument( debug, printWindow, block, eventListId ) {
     ///// Get the Amount of Columns.
     let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
 
-
-    let pageTitle = `Event_${ eventName.replace(/ /g, '-') }`
-
-    //let request = await fetch( 'http://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css' )
-
-    //let response = await request.text()
+    let pageTitle = `Event: ${ eventName }`
 
     let htmlHead = document.querySelector( 'head' ).innerHTML
-
-    //printWindow.document.write( `<html><head><title>${ pageTitle }</title><style>${response}</style></head>` )
     
-    printWindow.document.write( `<html><head><title>OnsitePrint.dk | ${ pageTitle }</title>${ htmlHead }<link rel="stylesheet" id="onsiteprint-plugin-styles-print-css" href="https://onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css?ver=1.0.0.56" media="all"></head>` )
+    printWindow.document.write( `<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OnsitePrint.dk | ${ pageTitle }</title>${ htmlHead }<link rel="stylesheet" id="onsiteprint-plugin-styles-print-css" href="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/css/onsiteprint-styles-print.css?ver=1.0.0.58" media="all"></head>` )
 
-    printWindow.document.write( '<body onafterprint="self.close()"><h2>OnsitePrint.dk</h2>' )
 
-    let header = `<h3><b>Event:</b> ${ eventName }</h3><p class="op-page-number"></p>`
+    let header = `<h3><span><b>Event:</b> ${ eventName }</span><span class="op-time">${ opTimeConverter( Date.now(), 'full', 'da' ) }</span></h3>`
 
     let colInfo = block.querySelector( '.op-participant-col-info' ).outerHTML
-    let rowList = block.querySelectorAll( '.op-participant-rows article' )
+    let participantList = block.querySelectorAll( '.op-participant-rows article' )
 
     ///// Add element to the container.
     printWindow.document.write( `
         <div class="op-event-participant-list op-block__event" data-column-count="${ columnAmount }"><table class="op-pdf-container">
             <thead class="op-pdf-header">
-                <tr><th class="op-pdf-header-cell"></th><th class="op-pdf-header-info">
+                <tr><th class="op-pdf-header-info">
                     <div class="op-header-info">${ header + colInfo }</div>
                 </th></tr>
             </thead>
             <tbody class="op-pdf-content">
         `
     )
-
-    for(let i = 0; i< rowList.length; i++){
-        printWindow.document.write( `<tr class="op-pdf-row"><td class="op-participant-number">${i+1}</td><td class="op-participant-cell">${rowList[i].outerHTML}</td></tr>` )
-    }
+    
+    participantList.forEach( participant => {
+        printWindow.document.write( `<tr class="op-pdf-row"><td class="op-participant-cell">${participant.outerHTML}</td></tr>` )        
+    })
     
     printWindow.document.write( `
             </tbody>
         </table></div></body></html>
     ` )
-
-    /*
-    <tfoot class="op-pdf-footer">
-        <tr><td class="op-pdf-footer-cell"></td><td class="op-pdf-footer-info">
-            <div class="op-participant-col-info">${ colInfo }</div>
-        </td></tr>
-    </tfoot>
-    */
 
     return new Promise( resolve => {
         resolve( { document: 'Document loaded' } )
@@ -2328,6 +2310,12 @@ function opDownloadEventParticipants( fileType, eventListId ) {
         opCreatePrintDocument( debug, printWindow, block, eventListId ).then( response => {
             opConsoleDebug( debug, 'Response:', response )
             setInterval( () => {
+
+                printWindow.document.querySelector('.op-button.op-button-add').remove()
+                printWindow.document.querySelector('.op-participant-col-info').insertAdjacentHTML( 'afterbegin', `<p class="op-col-icon" data-icon="user"><span class="op-icon" role="img" aria-label="User Icon"></span></p>`)
+
+                printWindow.history.replaceState( null, document.title, document.location.origin )
+            
                 printWindow.print()
                 printWindow.close()
                 window.location.reload()

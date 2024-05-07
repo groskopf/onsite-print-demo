@@ -8,10 +8,10 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.57
+ *	Version: 1.0.0.58
  ?	(Check the Version variable)
- ?  Updated: 2024-04-21 - 19:50 (Y:m:d - H:i)
- ?  Info: Changes in CSS from line 2305.
+ ?  Updated: 2024-05-07 - 04:55 (Y:m:d - H:i)
+ ?  Info:  Changes in JS (opCreatePrintDocument & opDownloadEventParticipants) & Print CSS.
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -65,7 +65,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.57' );
+define( 'OP_VERSION', '1.0.0.58' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
