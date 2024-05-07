@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-05-07 - 04:55 (Y:m:d - H:i)
- ?  Info:  Changes in JS (opCreatePrintDocument & opDownloadEventParticipants) & Print CSS.
+ ?  Updated: 2024-05-07 - 05:14 (Y:m:d - H:i)
+ ?  Info:  Changes in some styles in Print CSS.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -186,7 +186,7 @@ tfoot.op-pdf-footer {
     grid-template-columns: auto 1fr calc( 5ch + 4rem ) auto;
     gap: 0;
     padding: 0;
-    border: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border: 0.1rem solid var(--wp--preset--color--neutral-20) !important;
     border-top: none;
     box-shadow: none;
     border-radius: 0;
@@ -197,9 +197,9 @@ tfoot.op-pdf-footer {
 }
 
 .op-event-participant-list article header .op-col-icon .op-icon {
-    background: none;
+    background: none !important;
     border: none;
-    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20) !important;
     border-radius: 0;
 }
 
