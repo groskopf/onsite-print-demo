@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-04-21 - 19:50 (Y:m:d - H:i)
- ?  Info: Changes in CSS from line 2305.
+ ?  Updated: 2024-05-12 - 21:05 (Y:m:d - H:i)
+ ?  Info: (CSS) Changes the .op-radio-input-checked place in form.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2166,7 +2166,7 @@ html {
 
 .op-form .op-form-radio-inputs .op-radio-input.op-radio-input-checked {
     grid-row: 1;
-    grid-column: 2;
+    grid-column: 1;
 }
 
 .op-form .op-form-radio-inputs .op-radio-input label {
