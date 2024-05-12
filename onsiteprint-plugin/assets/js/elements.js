@@ -2406,7 +2406,7 @@ function opAddEventParticipant( debug, block, participant, columnAmount ) {
         </article>
     `
 
-    opConsoleDebug( true, 'participantElement:', participantElement )
+    opConsoleDebug( debug, 'participantElement:', participantElement )
 
     return new Promise( resolve => {
         resolve( { element: participantElement } )

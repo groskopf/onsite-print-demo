@@ -1,6 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
+ ?  Updated: 2024-05-12 - 21:35 (Y:m:d - H:i)
+ ?  Info: (CSS) Added hover on text lines in Event.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -761,6 +762,16 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    .op-block__event .op-col-lines p:hover .op-text {
+        overflow: visible;
+        width: auto;
+        background: white;
+        padding: 0.8rem 1rem 0.8rem 0;
+        z-index: 1;
+        border-radius: 0 0.4rem 0.4rem 0;
+        box-shadow: 0.4rem 0 0.4rem lightgray;
     }
 
     .op-block__event header .op-col-arrival-time::before {
