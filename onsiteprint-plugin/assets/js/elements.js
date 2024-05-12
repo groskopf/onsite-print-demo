@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-05-07 - 04:55 (Y:m:d - H:i)
- ?  Info:  Changes in JS (opCreatePrintDocument & opDownloadEventParticipants) & Print CSS.
+ ?  Updated: 2024-05-12 - 00:15 (Y:m:d - H:i)
+ ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2844,10 +2844,14 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                 let tapColor = containerElement.getAttribute('data-tap-color')
                 let eventLink = containerElement.getAttribute('date-event-link')
                 let eventLinkTitle = containerElement.getAttribute('date-event-link-title')
+                let usedTemplate
                 
                 ///// Get Template Item.
                 const templateItem = opGetTemplate( eventList[i].eventTemplate )
-                if ( templateItem.error !== false ) return opConsoleDebug( debug, 'templateItem:', templateItem.response )
+                if ( templateItem.error !== false ) {
+                    opConsoleDebug( debug, 'templateItem:', templateItem.response )
+                    usedTemplate = 'Slettet - Bruger (Standard)'
+                } else usedTemplate = templateItem.response.templateName
                 
                 ///// Console Log if the Debug parameter is 'true'.
                 opConsoleDebug( debug, `templateItem`, templateItem )
@@ -2876,7 +2880,7 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
                                 </p>
                                 <p class="op-text op-flex-col">
                                     <b class="op-text-title">Anvendt skabelon</b>
-                                    <span class="op-text-info">${ templateItem.response.templateName }</span>
+                                    <span class="op-text-info">${ usedTemplate }</span>
                                 </p>
                             </div>
                             <div class="op-info-button op-flex-col">
@@ -3485,7 +3489,7 @@ async function opAddNewParticipantToEventList( debug, eventId ) {
 function opRemoveItemFromStorage( debug, storageName, itemId ) {
 
     ///// Create Variables.
-    let error, code, message, storageResponse
+    let error, code, message, storageResponse, eventItems = false
 
     try {
 
@@ -3505,9 +3509,32 @@ function opRemoveItemFromStorage( debug, storageName, itemId ) {
             
         } else if ( storageName.toUpperCase() === 'TEMPLATES' ) {
             
-            ///// Get the Response from the Local Storage of Templates.
-            storageResponse = opDeleteTemplate( debug, itemId )
-            
+            //// #NG (2024-05-13) - Must be looked at again. 
+
+            ///// Get the Local Storage of Events.
+            const eventsStorage = opGetLocalStorage( debug, 'Events' )
+
+            ///// Get the Event List from the Local Storage of Events.
+            const eventList = eventsStorage.response.eventList
+            opConsoleDebug( debug, 'eventList:', eventList )
+
+            ///// Validate Event List.
+            if ( eventList.length !== 0 ) {
+
+                ///// Check if the Event Items contains the Template. 
+                eventItems = eventList.some( event => Number( event.eventTemplate ) === Number( itemId ) )
+                opConsoleDebug( debug, 'eventItems:', eventItems )
+
+            }
+
+            ///// Delete the Template if no Events was found.
+            if ( ! eventItems ) storageResponse = opDeleteTemplate( debug, itemId )
+            else {
+                let blockElement = event.target.closest( 'section[id*="op-block"]' )
+                blockElement.querySelector( '.op-modal' ).classList.add( 'op-active' )
+                storageResponse = opReturnResponse( true, 403, 'There are Events associated with this Template.' )
+            }
+
         } else throw 'Could not find the Local Storage!'
         
         ///// Validate the Local Storage Response.
@@ -4081,7 +4108,7 @@ function opDashboardBlocks( debug ) {
             const eventList = eventsStorage.response.eventList
 
             ///// Sort the Template List after newest date.
-            const sortedEventList = eventList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
+            const sortedEventList = eventList.sort( (a, b) => a.eventCreationDate - b.eventCreationDate ).reverse()
 
             ///// Add new Templates to the Container Element.
             const addEventsToElement = opAddCreatedEventsToElement( debug, blockId, eventsContainerElement, sortedEventList )

@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-04-16 - 01:10 (Y:m:d - H:i)
- ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
+ ?  Updated: 2024-05-12 - 00:15 (Y:m:d - H:i)
+ ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -31,6 +31,12 @@ $options = array(
 $header = array(
     'title'             => get_field( $path . 'header_title' ) ?: 'Dashboard',
     'description'       => get_field( $path . 'header_description' ) ?: 'You can see below your Events and Templates.',
+);
+
+$modal = array(
+    'title'             => get_field( $path . 'modal_title' ) ?: 'The Template cannot be deleted!',
+    'description'       => get_field( $path . 'modal_description' ) ?: 'There are Events associated with this Template, delete them first and then delete the Template.',
+    'cancel_button'     => get_field( $path . 'modal_cancel_button' ) ?: 'Cancel',
 );
 
 $taps = array(  
@@ -97,6 +103,8 @@ if ( ! empty( $block['align'] ) ) {
             <h2 class="op-block-title"><?= esc_attr( $header['title'] ) ?></h2>
             <p class="op-block-description"><?= esc_attr( $header['description'] ) ?></p>
         </header>
+
+        <?php require( __DIR__ . '/block-template-parts/modal.php' ); ?>
 
         <div class="op-block__content op-flex-col" data-tap-active="1">
 

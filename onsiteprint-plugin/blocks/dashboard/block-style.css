@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
-#  Dashboard Block Style
- ?  Updated: 2024-04-16 - 01:10 (Y:m:d - H:i)
- ?  Info: Added JS function (opFormGoToTab) + CSS in Dashboard.
+ #  Dashboard Block Style
+ ?  Updated: 2024-05-12 - 00:15 (Y:m:d - H:i)
+ ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
 --------------------------------------------------------------------------- */
 
 .op-dashboard {
@@ -223,4 +223,30 @@
 .op-dashboard .op-block__taps .op-tap__inner article .op-info-button {
     margin-top: auto;
     padding: 1rem;
+}
+
+/* ------------------------------------------
+ >  Delete Template - Modal Window
+--------------------------------------------- */
+.op-dashboard .op-modal .op-modal__inner .op-flex-col {
+    text-align: left;
+}
+
+.op-dashboard .op-modal .op-modal-header {
+    padding: 0.5rem 6rem 0 0;
+    position: relative;
+}
+
+.op-dashboard .op-modal .op-modal-header .op-modal-description {
+    line-height: var(--wp--custom--typography--line-height--normal);
+}
+
+.op-dashboard .op-modal .op-modal-header .op-button-cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.op-dashboard .op-modal .op-modal-header .op-button-cancel:is( .op-button-size-small ) .op-icon::before {
+    font-size: 2rem;
 }
