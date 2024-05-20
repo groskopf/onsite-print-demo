@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-04-13 - 21:25 (Y:m:d - H:i)
- ?  Info: Changed atr[data-layout-lines].
+ ?  Updated: 2024-20-05 - 03:51 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -10,41 +10,49 @@ import * as opModuleBasic from '../../assets/js/inc/basic.js'
 import * as opModuleTemplate from '../../assets/js/inc/template/template.js'
 
 /* ------------------------------------------------------------------------
-#  2. Functions of Blocks
+ #  2. The Function of Template Creation Blocks
 --------------------------------------------------------------------------- */
 export function opTemplateCreationBlocks( debug ) {
-
-    ///// Create Variables.
-    let error, code, message, blockCount = 0
-
+    
     try {
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = true //false       
+        if ( debug ) console.group( 'opTemplateCreationBlocks()' )
 
-        ///// Set the Parameter If is not defined.
-        ////* true or false
-        if ( ! debug ) debug = false
+        ///// Create Variables.
+        let blockName = 'Template Creation'
 
         ///// Get the elements.
-        let blockName = 'Template Creation'
         let blocks = document.querySelectorAll( 'section.op-block__template-creation' )
 
-        ///// Throw an Error if no Block was found.
-        if ( ! blocks || blocks.length === 0 ) throw `Could not find any ${ blockName } Blocks!` 
-        else {
+        ///// Debug to the Console Log.
+        opModuleBasic.opConsoleDebug( debug, { 
+            message: `${ blocks.length } quantity of the ${ blockName } Block was found!`,
+            line: opModuleBasic.errorLine(),
+            details: blocks 
+        } )
+
+        ///// Check if some Blocks were found.
+        if ( ! blocks || blocks.length === 0 ) {
+            
+            ///// Return the Response.
+            return opModuleBasic.opReturnResponse( false, 404, { 
+                message: `Could not find any ${ blockName } Blocks!`, 
+                line: opModuleBasic.errorLine()
+            } )
+
+        } else {
             
             ///// Get each Block.
-            blocks.forEach( async block => {
-                
-                ///// Count the Blocks. 
-                ++blockCount
+            blocks.forEach( block => {
 
-                ///// Get the elements.
+                ///// Get the Block ID.
                 let blockId = block.getAttribute( 'id' )
-                opConsoleDebug( debug, 'blockId:', blockId )
 
-                ///// Get Booking Item.
-                const bookingItem = opGetBookingFromSession( debug )
-                opConsoleDebug( debug, 'bookingItem:', bookingItem )
-
+                ///// Push Debug Details to the Debug.
+                if ( debug ) console.group( `Block with ID: ${ blockId }` )
 
                 ///// Add Function to Image Approval (Step 2). 
                 opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-1` ), () => opModuleTemplate.lineApproval( debug, block, '1L' ) )
@@ -57,25 +65,39 @@ export function opTemplateCreationBlocks( debug ) {
                 opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-1` ), () => opModuleTemplate.imageApproval( debug, block, false ) )
                 opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-2` ), () => opModuleTemplate.imageApproval( debug, block, true ) )
 
-            })
+                ///// Debug to the Console Log.
+                opModuleBasic.opConsoleDebug( debug, { 
+                    message: `No errors were found in the Block!`,
+                    line: opModuleBasic.errorLine(),
+                    details: block 
+                } )
 
-            ///// Create Response.
-            error = false, code = 200, message = `${ blockCount } quantity of the ${ blockName } Block was found!`
+                ///// End the Console Log Group.
+                if ( debug ) console.groupEnd();
+
+            })
         
         }
 
-    } catch( errorMessage ) {
+    } catch( errorDetails ) {
 
-        ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
-
-        ///// Throw Error Response in the Console.
-        //console.error( `opEventBlocks()`, opModuleBasic.opReturnResponse( error, code, errorMessage ) )
+        ///// Log Error Details in the Console.
+        console.error( 'ERROR:', { 
+            message: errorDetails.message,
+            line: opModuleBasic.errorLine()
+        } )
+        
+        ///// Return the Error Response.
+        return opModuleBasic.opReturnResponse( true, 400, { 
+            function: 'opTemplateCreationBlocks', 
+            line: opModuleBasic.errorLine(), 
+            details: errorDetails.message 
+        } )
 
     } finally {
 
-        ///// Return the Response to the Function.
-        return opModuleBasic.opReturnResponse( error, code, message )
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd();
 
     }
     
