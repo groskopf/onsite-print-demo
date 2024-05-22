@@ -1,13 +1,13 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-20-05 - 03:51 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script.
+ ?  Updated: 2024-05-22 - 21:37 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script + added new files, comments and validation.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
-import * as opModuleTemplate from '../../assets/js/inc/template/template.js'
+import * as opModuleBlockForm from './block-script-parts/block-form/block-form.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Template Creation Blocks
@@ -18,7 +18,7 @@ export function opTemplateCreationBlocks( debug ) {
         
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
-        if ( debug !== true ) debug = true //false       
+        if ( debug !== true ) debug = false       
         if ( debug ) console.group( 'opTemplateCreationBlocks()' )
 
         ///// Create Variables.
@@ -54,16 +54,17 @@ export function opTemplateCreationBlocks( debug ) {
                 ///// Push Debug Details to the Debug.
                 if ( debug ) console.group( `Block with ID: ${ blockId }` )
 
-                ///// Add Function to Image Approval (Step 2). 
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-1` ), () => opModuleTemplate.lineApproval( debug, block, '1L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-2` ), () => opModuleTemplate.lineApproval( debug, block, '2L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-3` ), () => opModuleTemplate.lineApproval( debug, block, '3L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-4` ), () => opModuleTemplate.lineApproval( debug, block, '4L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-5` ), () => opModuleTemplate.lineApproval( debug, block, '5L' ) )
+                ///// Run the Step 2 Function.
+                const step2 = opModuleBlockForm.opStep2( debug, block )
 
-                ///// Add Function to Image Approval (Step 3). 
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-1` ), () => opModuleTemplate.imageApproval( debug, block, false ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-2` ), () => opModuleTemplate.imageApproval( debug, block, true ) )
+                ///// Validate the Response from the Approval.
+                if ( step2.error !== false ) throw step2.response
+
+                ///// Run the Step 3 Function.
+                const step3 = opModuleBlockForm.opStep3( debug, block )
+
+                ///// Validate the Response from the Approval.
+                if ( step3.error !== false ) throw step3.response
 
                 ///// Debug to the Console Log.
                 opModuleBasic.opConsoleDebug( debug, { 
@@ -73,11 +74,17 @@ export function opTemplateCreationBlocks( debug ) {
                 } )
 
                 ///// End the Console Log Group.
-                if ( debug ) console.groupEnd();
+                if ( debug ) console.groupEnd()
 
             })
-        
+
         }
+
+        ///// Return the Response.
+        return opModuleBasic.opReturnResponse( false, 200, { 
+            message: `No errors were found in the Template Creation Function!`, 
+            line: opModuleBasic.errorLine()
+        } )        
 
     } catch( errorDetails ) {
 
@@ -97,7 +104,7 @@ export function opTemplateCreationBlocks( debug ) {
     } finally {
 
         ///// End the Console Log Group.
-        if ( debug ) console.groupEnd();
+        if ( debug ) console.groupEnd()
 
     }
     
