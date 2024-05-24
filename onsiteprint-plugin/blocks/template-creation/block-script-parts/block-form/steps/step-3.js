@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Template Creation).
- ?  Updated: 2024-05-22 - 21:37 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script + added new files, comments and validation.
+ ?  Updated: 2024-05-24 - 05:36 (Y:m:d - H:i)
+ ?  Info: Changed Error Return.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -129,15 +129,15 @@ export function opStep3( debug, block ) {
         ///// Log Error Details in the Console.
         console.error( 'ERROR:', { 
             function: 'opStep3',
-            line: opModuleBasic.errorLine(),
-            details: errorDetails.message
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
         } )
-        
+
         ///// Return the Error Response.
         return opModuleBasic.opReturnResponse( true, 400, { 
-            function: 'opStep3', 
-            line: opModuleBasic.errorLine(), 
-            details: errorDetails.message 
+            function: 'opStep3',
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
         } )
 
     } finally {

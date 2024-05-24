@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-05-22 - 21:37 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script + added new files, comments and validation.
+ ?  Updated: 2024-05-24 - 05:36 (Y:m:d - H:i)
+ ?  Info: Changed Error Return.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -90,15 +90,16 @@ export function opTemplateCreationBlocks( debug ) {
 
         ///// Log Error Details in the Console.
         console.error( 'ERROR:', { 
-            message: errorDetails.message,
-            line: opModuleBasic.errorLine()
+            function: 'opTemplateCreationBlocks',
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
         } )
-        
+
         ///// Return the Error Response.
         return opModuleBasic.opReturnResponse( true, 400, { 
-            function: 'opTemplateCreationBlocks', 
-            line: opModuleBasic.errorLine(), 
-            details: errorDetails.message 
+            function: 'opTemplateCreationBlocks',
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
         } )
 
     } finally {
