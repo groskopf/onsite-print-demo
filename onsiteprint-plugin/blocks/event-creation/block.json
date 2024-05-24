@@ -7,7 +7,6 @@
     "icon": "admin-appearance",
     "keywords": [ "onsiteprint", "event", "create", "new" ],
     "editorScript": "file:./block-script.js",
-    "script": "file:./block-script.js",
     "editorStyle": "file:./block-style.css",
     "style": "file:./block-style.css",
     "acf": {

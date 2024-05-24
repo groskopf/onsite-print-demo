@@ -9,7 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-04-17 - 19:37 (Y:m:d - H:i)
+ ?  Updated: 2024-05-24 - 04:17 (Y:m:d - H:i)
+ ?  Info: Changed class.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -82,7 +83,7 @@ if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-event-creation op-form op-flex-col';
+$className = 'op-block__event-creation op-form op-flex-col';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];

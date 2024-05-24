@@ -3009,7 +3009,7 @@ function opAddCreatedTemplatesToElement( debug, block, containerElement, templat
                 `
                 
                 ///// Create new Template Element.
-                if ( block.classList.contains( 'op-event-creation' ) ) {
+                if ( block.classList.contains( 'op-block__event-creation' ) ) {
                     newTemplateElement = `
                         <div class="op-radio-input">
                             <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation(), opSetGridCols(false, ${ templateList[i].templateLayoutColumns.charAt(0) })" name="template" value="${ templateList[i].templateCreationDate }" required>
@@ -3935,7 +3935,7 @@ function opEventCreationBlocks() {
 
     ///// Get the elements.
     let blockName = 'Event Creation'
-    let blocks = document.querySelectorAll( '.op-event-creation' )
+    let blocks = document.querySelectorAll( '.op-block__event-creation' )
     opConsoleDebug( debug, 'blocks:', blocks )
 
     ///// Get each Block.
