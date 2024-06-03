@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-05-12 - 00:15 (Y:m:d - H:i)
- ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
+ ?  Updated: 2024-06-04 - 00:48 (Y:m:d - H:i)
+ ?  Info: Relocated the Template Storage to the function opAddCreatedTemplatesToElement.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2923,10 +2923,10 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
 
 /* ------------------------------------------
  >  6a-11. Adding Created Templates to an Element
- ?  Updated: 2024-04-21 - 19:30 (Y:m:d - H:i)
- ?  Info: The function (opAddCreatedTemplatesToElement) is interleaved with the function (opAddTemplatesToElement).
+ ?  Updated: 2024-06-04 - 00:48 (Y:m:d - H:i)
+ ?  Info: Added the Template Storage to the function.
 --------------------------------------------- */
-function opAddCreatedTemplatesToElement( debug, block, containerElement, templateList ) {
+function opAddCreatedTemplatesToElement( debug, block, containerElement ) {
 
     ///// Create Variables.
     let error, code, message
@@ -2938,9 +2938,19 @@ function opAddCreatedTemplatesToElement( debug, block, containerElement, templat
             throw 'Missing the Block!'
         } else if ( ! containerElement ) {
             throw 'Missing Container Element!'
-        } else if ( ! templateList ) {
-            throw 'Missing Template List!'
-        } else { 
+        } else {
+
+            ///// Get the Local Storage of Templates.
+            const templatesStorage = opGetLocalStorage( debug, 'Templates' )
+
+            ///// Validate the Response from the Local Storage of Templates.
+            if ( templatesStorage.error !== false ) throw templatesStorage.response
+
+            ///// Get the Template List from the Local Storage of Templates.
+            const templatesStorageResponse = templatesStorage.response.templateList
+
+            ///// Sort the Template List after newest date.
+            const templateList = templatesStorageResponse.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
            
             for( var i = 0; i < templateList.length; i++ ) {
                 
@@ -4054,6 +4064,8 @@ function opSiteLoginBlocks() {
 /* ---------------------------------------------------------
  >  6c-11. Dashboard
  *  Check if multiple (Dashboard) Blocks is on page
+ ?  Updated: 2024-06-04 - 00:48 (Y:m:d - H:i)
+ ?  Info: Relocated the Template Storage to the function opAddCreatedTemplatesToElement.
 ------------------------------------------------------------ */
 function opDashboardBlocks( debug ) {
      
@@ -4117,18 +4129,6 @@ function opDashboardBlocks( debug ) {
 
             ///// Get the Radio Inputs Container.
             let templatesContainerElement = block.querySelector( `.op-block__taps section .op-tap__inner .op-tap__templates` )
-        
-            ///// Get the Local Storage of Templates.
-            const templatesStorage = opGetLocalStorage( debug, 'Templates' )
-
-            ///// Validate the Response from the Local Storage of Templates.
-            if ( templatesStorage.error !== false ) throw templatesStorage.response
-
-            ///// Get the Template List from the Local Storage of Templates.
-            const templateList = templatesStorage.response.templateList
-
-            ///// Sort the Template List after newest date.
-            const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
 
             ///// Add new Templates to the Container Element.
             const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, block, templatesContainerElement, sortedTemplateList )
@@ -4199,7 +4199,6 @@ function opDocumentReady() {
             'opEventInformationBlocks',
             'opEventTemplateInformationBlocks',
             'opEventParticipantListBlocks',
-            'opEventCreationBlocks',
             'opDashboardBlocks',
             'opEventListBlocks'
         ]
