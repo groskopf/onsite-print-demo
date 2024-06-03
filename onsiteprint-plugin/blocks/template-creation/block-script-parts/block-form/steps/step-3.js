@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Template Creation).
- ?  Updated: 2024-05-24 - 05:36 (Y:m:d - H:i)
- ?  Info: Changed Error Return.
+ ?  Updated: 2024-06-03 - 03:12 (Y:m:d - H:i)
+ ?  Info: Added extra validation.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -15,10 +15,13 @@ export function opStep3( debug, block ) {
 
     try {
         
+        ///// Get Function Name.
+        var functionName = opStep3.name
+        
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
-        if ( debug ) console.group( 'opStep3()' )
+        if ( debug ) console.group( functionName+'()' )
 
         ///// Check if the Block is defined.
         if ( ! block ) {
@@ -26,7 +29,8 @@ export function opStep3( debug, block ) {
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 404, { 
                 message: `Missing the Block Element!`, 
-                line: opModuleBasic.errorLine()
+                line: opModuleBasic.errorLine(),
+                function: functionName
             } )
 
         } else {
@@ -38,16 +42,31 @@ export function opStep3( debug, block ) {
             let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
             let fieldset3Inner = fieldset3Element.querySelector( '.op-fieldset__inner' )
             let radioLinesInputs = fieldset3Element.querySelectorAll( `.op-form-radio-lines input` )
+            
+            ///// Throw Error if Radio Inputs is missing.
+            if ( radioLinesInputs.length === 0 ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing Radio Inputs in Step 3!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
 
             ///// Get the elements in Step 4.
             let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
             let layoutContainer = fieldset4Element.querySelector( '.op-form-layouts' )
             let radioInputs = layoutContainer.querySelectorAll( '.op-radio-input' )
 
+            ///// Throw Error if Radio Inputs is missing.
+            if ( radioInputs.length === 0 ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing Radio Inputs in Step 4!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+            
             ///// Throw Error if Fieldset 3 or 4 is missing.
             if ( ! fieldset3Element || ! fieldset4Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing one or more Fieldset Elements!`,
-                line: opModuleBasic.errorLine()
+                line: opModuleBasic.errorLine(),
+                function: functionName
             } )
 
             ///// Set Event Listener for all Radio Inputs in Step 3.
@@ -100,7 +119,8 @@ export function opStep3( debug, block ) {
                         ///// Throw Error if the Template Element is missing.
                         if ( ! template ) throw opModuleBasic.opReturnResponse( true, 404, { 
                             message: `Missing the Template Element!`, 
-                            line: opModuleBasic.errorLine()
+                            line: opModuleBasic.errorLine(),
+                            function: functionName
                         } )
 
                         ///// Add the Image Input Element if it's not Found.
@@ -112,33 +132,27 @@ export function opStep3( debug, block ) {
             }            
         }
 
-        ///// Debug to the Console Log.
-        opModuleBasic.opConsoleDebug( debug, {
-            message: `No errors were found in Step 3!`,
-            line: opModuleBasic.errorLine()
-        } )
-
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `No errors were found in Step 3!`, 
-            line: opModuleBasic.errorLine()
-        } )
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        }, debug )
 
-    } catch( errorDetails ) {
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Log Error Details in the Console.
-        console.error( 'ERROR:', { 
-            function: 'opStep3',
-            message: `Something went wrong in the function!`, 
-            details: errorDetails
-        } )
+        if ( debug ) console.error( 'ERROR:', errorDetails )
 
         ///// Return the Error Response.
-        return opModuleBasic.opReturnResponse( true, 400, { 
-            function: 'opStep3',
-            message: `Something went wrong in the function!`, 
-            details: errorDetails
-        } )
+        return errorDetails
 
     } finally {
 

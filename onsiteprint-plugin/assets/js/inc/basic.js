@@ -1,7 +1,8 @@
 /* ------------------------------------------------------------------------
  >  JS Part Name: Basic
  *  Basic functions to the OnsitePrint Plugin.
- ?  Updated: 2023-04-10 - 18:04 (Y:m:d - H:i)
+ ?  Updated: 2024-06-03 - 03:12 (Y:m:d - H:i)
+ ?  Info: Added extra validation.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -13,21 +14,24 @@
     5. 	Universal Search in Array / JSON / Object
     6. 	Toggle Active Class
     7.  Fetch Data from API (Async function)
-    8. Retrieve GET parameters URL
-    9. Get Current Script
+    8.  Retrieve GET parameters URL
+    9.  Get Current Script
     10. Get Current Script Path
+    11. Get Error Line in file
 
 ---------------------------------------------------------------------------
  #  1. Console Log the Debug if true
 ------------------------------------------------------------ */
-export function opConsoleDebug( debug, name, response ) {
-    if ( debug == true ) console.log( name, response )
+export function opConsoleDebug( debug, response ) {
+    if ( debug ) console.debug( 'DEBUG:', response )
 }
 
 /* ---------------------------------------------------------
  #  2. Return Response as JSON
 ------------------------------------------------------------ */
-export function opReturnResponse( error, code, response ) {
+export function opReturnResponse( error, code, response, debug ) {
+    ///// Debug to the Console Log.
+    if ( debug ) console.debug( 'DEBUG:', response )
     return {
         error : error,
         code : code,
@@ -261,3 +265,27 @@ export function opGetCurrentScriptPath() {
     var path = script.substring(0, script.lastIndexOf('/'))
     return path
 }
+
+/* ---------------------------------------------------------
+ #  11. Get Error Line in file
+------------------------------------------------------------ */
+export function errorLine() {
+    var e = new Error();
+    if (!e.stack) try {
+        // IE requires the Error to actually be throw or else the Error's 'stack'
+        // property is undefined.
+        throw e;
+    } catch (e) {
+        if (!e.stack) {
+            return 0; // IE < 10, likely
+        }
+    }
+    var stack = e.stack.toString().split(/\r\n|\n/);
+    // We want our caller's frame. It's index into |stack| depends on the
+    // browser and browser version, so we need to search for the second frame:
+    var frameRE = /:(\d+):(?:\d+)[^\d]*$/;
+    do {
+        var frame = stack.shift();
+    } while (!frameRE.exec(frame) && stack.length);
+    return frameRE.exec(stack.shift())[1];
+  }
