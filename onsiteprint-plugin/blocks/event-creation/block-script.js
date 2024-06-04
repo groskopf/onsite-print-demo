@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Script 
  *  Check if multiple Blocks of the Event Creation is on page.
- ?  Updated: 2024-05-24 - 00:00 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script + added new files, comments and validation.
+ ?  Updated: 2024-06-04 - 05:33 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script (Event Creation Block) + added new files, comments and validation.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -13,13 +13,16 @@ import * as opModuleBlockForm from './block-script-parts/block-form/block-form.j
  #  2. The Function of Event Creation Blocks
 --------------------------------------------------------------------------- */
 export function opEventCreationBlocks( debug ) {
-    
+
     try {
         
+        ///// Get Function Name.
+        var functionName = opEventCreationBlocks.name
+    
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = true       
-        if ( debug ) console.group( 'opEventCreationBlocks()' )
+        if ( debug ) console.group( `${ functionName }()` )
 
         ///// Create Variables.
         let blockName = 'Event Creation'
@@ -40,7 +43,8 @@ export function opEventCreationBlocks( debug ) {
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 404, { 
                 message: `Could not find any ${ blockName } Blocks!`, 
-                line: opModuleBasic.errorLine()
+                line: opModuleBasic.errorLine(),
+                function: functionName
             } )
 
         } else {
@@ -48,11 +52,8 @@ export function opEventCreationBlocks( debug ) {
             ///// Get each Block.
             blocks.forEach( block => {
 
-                ///// Get the Block ID.
-                let blockId = block.getAttribute( 'id' )
-
-                ///// Push Debug Details to the Debug.
-                if ( debug ) console.group( `Block with ID: ${ blockId }` )
+                ///// Start the Console Log Group.
+                if ( debug ) console.group( `Block with ID: ${ block.getAttribute( 'id' ) }` )
 
                 ///// Run the Step 1 Function.
                 const step1 = opModuleBlockForm.opStep1( debug, block )
@@ -82,22 +83,29 @@ export function opEventCreationBlocks( debug ) {
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
-            message: `No errors were found in the Event Creation Function!`, 
+            message: `No errors were found in the ${ blockName } Function!`, 
             line: opModuleBasic.errorLine()
-        } )        
+        }, debug )        
 
-    } catch( errorDetails ) {
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Log Error Details in the Console.
-        console.error( 'ERROR:', { 
-            function: 'opEventCreationBlocks',
+        if ( debug ) console.error( 'ERROR:', { 
+            function: functionName,
             message: `Something went wrong in the function!`, 
             details: errorDetails
         } )
 
         ///// Return the Error Response.
         return opModuleBasic.opReturnResponse( true, 400, { 
-            function: 'opEventCreationBlocks',
+            function: functionName,
             message: `Something went wrong in the function!`, 
             details: errorDetails
         } )

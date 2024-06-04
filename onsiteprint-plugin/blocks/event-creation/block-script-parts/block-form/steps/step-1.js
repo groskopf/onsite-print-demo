@@ -1,12 +1,13 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-05-24 - 00:07 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script + added new files, comments and validation.
+ ?  Updated: 2024-06-04 - 05:32 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script (Event Creation Block) + added new files, comments and validation.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../../assets/js/inc/basic.js'
+import * as opModuleAdditions from './steps-additions.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Step 1
@@ -14,132 +15,155 @@ import * as opModuleBasic from '../../../../../assets/js/inc/basic.js'
 export function opStep1( debug, block ) {
     
     try {
+
+        ///// Get Function Name.
+        var functionName = opStep1.name
         
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
-        if ( debug ) console.group( 'opStep1()' )
-
+        if ( debug ) console.group( `${ functionName }()` )
+            
         ///// Check if the Block is defined.
         if ( ! block ) {
             
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 404, { 
                 message: `Missing the Block Element!`, 
-                line: opModuleBasic.errorLine()
+                line: opModuleBasic.errorLine(),
+                function: functionName
             } )
 
         } else {
             
-            ///// Get the elements in Step 1.
+            ///// Get the elements in Step 1 and Step 3.
             let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
-            let radioLinesInputs = fieldset1Element.querySelectorAll( `.op-form-radio-lines input` )
+            let templatesContainer = fieldset1Element.querySelector( `.op-form-radio-inputs` )
+            let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
 
-            console.log(radioLinesInputs)
-            ///// Throw Error if Fieldset 1 or 4 is missing.
-            if ( radioLinesInputs.length === 0 ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing All!`,
-                line: opModuleBasic.errorLine()
-            } )
-
-            ///// Get the elements in Step 4.
-            let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
-            let layoutContainer = fieldset4Element.querySelector( '.op-form-layouts' )
-            let radioInputs = layoutContainer.querySelectorAll( '.op-radio-input' )
-
-            ///// Throw Error if Fieldset 1 or 4 is missing.
-            if ( ! fieldset1Element || ! fieldset4Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            ///// Throw Error if Fieldset 1 or 3 is missing.
+            if ( ! fieldset1Element || ! fieldset3Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing one or more Fieldset Elements!`,
-                line: opModuleBasic.errorLine()
+                line: opModuleBasic.errorLine(),
+                function: functionName
             } )
 
-            ///// Set Event Listener for all Radio Inputs in Step 1.
-            for( let i = 0; i < radioLinesInputs.length; ++i ) {
-                opModuleBasic.opListener( 'click', radioLinesInputs[i], async () => {
+            ///// Add new Templates to the Container Element.
+            const addTemplatesToElement = opAddCreatedTemplatesToElement( false, block, templatesContainer )
 
-                    ///// Remove Approval for Step 4.
-                    const removeApproval = opSetApprovalToStepInForm( debug, fieldset4Element, 'remove' )
+            ///// Validate the Response from the Adding Templates Function.
+            if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement
+            else {
 
-                    ///// Validate the Response from the Approval.
-                    if ( removeApproval.error !== false ) throw removeApproval.response
+                ///// Get the Radio Inputs of the added Templates.
+                let radioInputs = templatesContainer.querySelectorAll( '.op-radio-input' )
 
-                    ///// Uncheck all Inputs in Step 4.
-                    radioInputs.forEach( radioInput => {
-                        radioInput.querySelector( 'input[type="radio"]' ).checked = false
-                    })
+                ///// Throw Error if Radio Inputs is missing.
+                if ( radioInputs.length === 0 ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                    message: `Missing Radio Inputs in Step 1!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
 
-                    ///// Set the Amount of Selected Lines in Step 4.
-                    layoutContainer.setAttribute( 'data-layout-lines', `${ i+1 }L` )
+                ///// Debug to the Console Log.
+                opModuleBasic.opConsoleDebug( debug, { 
+                    message: `${ radioInputs.length } quantity of the Templates was found!`,
+                    line: opModuleBasic.errorLine(),
+                    details: radioInputs 
+                } )
 
-                    ///// Validate the Form.
-                    const formValidation = await opFormInputValidation( debug, 'fieldset', radioLinesInputs[i] )
+                ///// Get the Template ID from the URL Parameter.
+                const templateId = opGetUrlParameters().template
 
-                    ///// Validate the Response from Form.
-                    if ( formValidation.error !== false ) throw formValidation.response
+                ///// Set the Template ID Error to True.
+                var templateIdError = true
+
+                /////  Run through all Radio Inputs.
+                radioInputs.forEach( async radioInput => {
+
+                    ///// Get the Input Element of the Template.
+                    let inputElement = radioInput.querySelector( 'input' )
+                    
+                    ///// Check if the Input Element matches the Template ID.
+                    if ( inputElement.value == templateId ) {
+                        
+                        ///// Set the Template ID Error to False.
+                        templateIdError = false
+
+                        ///// Add Checked to the Template.
+                        inputElement.checked = true
+                        radioInput.classList.add( 'op-radio-input-checked' )
+
+                        ///// Set the Number of Columns in Step 3.
+                        const columnValidation = opModuleAdditions.opSetColumnNumber( debug, inputElement.value, fieldset3Element )
+
+                        ///// Validate the Response from the Column Validation.
+                        if ( columnValidation.error !== false ) console.warn( 'WARNING:', columnValidation )
+                        else {
+                     
+                            ///// Validate the Form.
+                            const formValidation = await opFormInputValidation( debug, 'fieldset', fieldset1Element )
+
+                            ///// Validate the Response from the Form.
+                            if ( formValidation.error !== false ) console.warn( 'WARNING:', columnValidation )
+
+                        }
+
+                    }
+                    
+                    ///// Set Event Listener for the Input Element.
+                    opModuleBasic.opListener( 'click', inputElement, async () => {
+
+                        ///// Start the Console Log Group.
+                        if ( debug ) console.group( `Event Listener (Click): Input Element - Event Creation Block, ${ functionName }()` )
+                        
+                        ///// Set the Number of Columns in Step 3.
+                        const columnValidation = opModuleAdditions.opSetColumnNumber( debug, inputElement.value, fieldset3Element )
+
+                        ///// Validate the Response from Column Validation.
+                        if ( columnValidation.error !== false ) throw columnValidation
+
+                        ///// Validate the Form.
+                        const eventFormValidation = await opFormInputValidation( debug, 'fieldset', fieldset1Element )
+
+                        ///// Validate the Response from the Form.
+                        if ( eventFormValidation.error !== false ) throw eventFormValidation
+
+                        ///// End the Console Log Group.
+                        if ( debug ) console.groupEnd()
+
+                    } )
 
                 } )
+
+                ///// Warn if something is wrong with the Template ID.
+                if ( templateId && templateIdError == true ) console.warn( 'WARNING:', 'Something is wrong with the Template ID!' )
+
             }
+
         }
-
-
-/* 
-
-        ///// Set the Parameter If is not defined.
-        ////* true or false
-        if ( ! debug ) debug = false
-        if ( ! number ) throw `Missing the Number of Grid Columns in the Function Parameters!`
-        if ( ! formElement ) formElement = event.target.closest( '.op-form-steps' )
-
-        ///// Get the Elements.
-        let gridContainer = formElement.querySelector( '.op-grid-wrapper' )
-
-        ///// Set the Number of Grid Columns to the Grid Container Element.
-        gridContainer.setAttribute( 'data-grid-cols', number )
-
-        ///// Create/throw Response.
-        error = false, code = 200, message = 'The Number of Grid Columns was added to the Grid Element!'
-
-
-
- */
-
-
-
-
-
-
-
-
-
-
-        
-        ///// Debug to the Console Log.
-        opModuleBasic.opConsoleDebug( debug, {
-            message: `No errors were found in Step 1!`,
-            line: opModuleBasic.errorLine()
-        } )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `No errors were found in Step 1!`, 
-            line: opModuleBasic.errorLine()
-        } )
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        }, debug )
 
-    } catch( errorDetails ) {
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Log Error Details in the Console.
-        console.error( 'ERROR:', { 
-            function: 'opStep1',
-            message: `Something went wrong in the function!`, 
-            details: errorDetails
-        } )
+        if ( debug ) console.error( 'ERROR:', errorDetails )
 
         ///// Return the Error Response.
-        return opModuleBasic.opReturnResponse( true, 400, { 
-            function: 'opStep1',
-            message: `Something went wrong in the function!`, 
-            details: errorDetails
-        } )
+        return errorDetails
 
     } finally {
 

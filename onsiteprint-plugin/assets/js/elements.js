@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-06-04 - 00:48 (Y:m:d - H:i)
- ?  Info: Relocated the Template Storage to the function opAddCreatedTemplatesToElement.
+ ?  Updated: 2024-06-04 - 05:33 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script (Event Creation Block) + added new files, comments and validation.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -67,8 +67,6 @@
             4. 	Print Information
             5. 	Event Information
             6. 	Event Template Information
-            7. 	Event Participant List
-            8. 	Template Creation
 
     7. 	Document is Ready Function
 
@@ -842,48 +840,6 @@ function opSetApprovalToStepInForm( debug, fieldsetElement, type ) {
         ///// Return the Response to the Function.
         return opReturnResponse( error, code, message )
 
-    }
-
-}
-
-/* ---------------------------------------------------------
- >  1m. Add Grid Columns to the Grid Element
------------------------------------------------------------- */
-function opSetGridCols( debug, number, formElement ) {
-
-    ///// Create Variables.
-    let error, code, message
-
-    try {
-
-        ///// Set the Parameter If is not defined.
-        ////* true or false
-        if ( ! debug ) debug = false
-        if ( ! number ) throw `Missing the Number of Grid Columns in the Function Parameters!`
-        if ( ! formElement ) formElement = event.target.closest( '.op-form-steps' )
-
-        ///// Get the Elements.
-        let gridContainer = formElement.querySelector( '.op-grid-wrapper' )
-
-        ///// Set the Number of Grid Columns to the Grid Container Element.
-        gridContainer.setAttribute( 'data-grid-cols', number )
-
-        ///// Create/throw Response.
-        error = false, code = 200, message = 'The Number of Grid Columns was added to the Grid Element!'
-
-    } catch( errorMessage ) {
-
-        ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
-
-    } finally {
-
-        ///// Console Log if the Debug parameter is 'true'.
-        opConsoleDebug( debug, `opSetGridCols( ${number} ):`, message )
-        
-        ///// Return the Response to the Function.
-        return opReturnResponse( error, code, message )
-    
     }
 
 }
@@ -3022,7 +2978,7 @@ function opAddCreatedTemplatesToElement( debug, block, containerElement ) {
                 if ( block.classList.contains( 'op-block__event-creation' ) ) {
                     newTemplateElement = `
                         <div class="op-radio-input">
-                            <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" oninput="opFormInputValidation(), opSetGridCols(false, ${ templateList[i].templateLayoutColumns.charAt(0) })" name="template" value="${ templateList[i].templateCreationDate }" required>
+                            <input type="radio" id="${ blockId }-${ templateList[i].templateCreationDate }-input" name="template" value="${ templateList[i].templateCreationDate }" required>
                             <label for="${ blockId }-${ templateList[i].templateCreationDate }-input">
                                 <div class="op-radio-check" data-icon="circle-check">
                                     <span class="op-icon" role="img" aria-label="Check Mark Icon"></span>
@@ -3829,201 +3785,6 @@ function opEventTemplateInformationBlocks() {
 }
 
 /* ---------------------------------------------------------
- >  6c-7. Event Participant List
- *  Check if multiple (Event Participant List) Blocks is on page
- ?  Updated: 2023-02-21 - 19:10 (Y:m:d - H:i)
------------------------------------------------------------- */
-function opEventParticipantListBlocks() {
-
-    /* -----------------------------------
-        OLD BLOCK - NOT USED
-    --------------------------------------*/
-
-    ///// Debug the function
-    let debug = false // true or false 
-
-    ///// Get the elements.
-    let blockName = 'Event Participant List'
-    let blocks = document.querySelectorAll( '.op-event-participant-list' )
-    opConsoleDebug( debug, 'blocks:', blocks )
-
-    ///// Get each Block.
-    if ( blocks ) {
-        blocks.forEach( block => {
-                       
-            ///// Get Event Id. 
-            let eventListId = block.getAttribute( 'data-event-id' )
-
-            ///// Get the elements.
-            let participantListElement = block.querySelector( '.op-participant-rows' )
-        
-
-            //////////////////// #NG: Missing login validation
-
-
-            ///// Validate Local Storage of Events.
-            const eventsStorage = opGetLocalStorage( debug, 'Events' )
-
-            ///// Get Event List. 
-            const eventList = eventsStorage.response.eventList
-            opConsoleDebug( debug, 'eventList:', eventList )
-
-            ///// Validate Event List.
-            if ( ! eventList || ! eventList[0] ) return opValidateBlock( block, blockName, 'No Events have been created yet!' )
-            
-            ///// Filter Event Items.
-            let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventListId ) )
-            opConsoleDebug( debug, `event-${eventListId}:`, eventItems )
-            
-            ///// Validate Event Item. 
-            if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
-            
-            ///// Add Search Filter to the Event Participants List block. 
-            const searchFilter = opAddSearchFilter( debug, block, eventItems[0].eventTemplate )
-            opConsoleDebug( debug, 'searchFilter:', searchFilter )
-
-            ///// Get Event Participants. 
-            let participants = eventItems[0].eventParticipants
-            opConsoleDebug( debug, 'participants:', participants )
-           
-            participantListElement.innerHTML = ''
-
-            ///// For each Participant create Participant Element.
-            for( let i = 0; i < participants.length; ++i ) {
-
-                opAddEventParticipant( debug, block, participants[i] ).then( response => {
-                    opConsoleDebug( debug, 'Response:', response )
-                    participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
-                })
-
-            }
-
-            
-            // #NG (2023-02-26) - New Code
-            ///// Get Template Item.
-            const templateItem = opGetTemplate( eventItems[0].eventTemplate )
-            if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
-            opConsoleDebug( true, 'templateItem:', templateItem )
-
-            
-            ///// Get the Amount of Columns.
-            let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
-            
-            ///// Get All Column Elements.
-            let columnElements = block.querySelectorAll( '.op-modal .op-fieldset__inner .op-input-wrapper input' )
-            
-            if ( columnAmount !== columnElements.length ) {
-                opConsoleDebug( debug, 'columnElements:', 'There are too many Column Elements in relation to the Number of Columns in the Event!' )
-                
-                ///// Delete the Column Element if the Column Number is above the Amount of Columns.
-                for( let i = 0; i < columnElements.length; ++i ) {                   
-                    if ( columnAmount < Number( i + 1 ) ) {
-                        columnElements[i].closest( '.op-input-wrapper' ).remove()
-                        opConsoleDebug( debug, `columnElement-${ Number( i + 1 ) }:`, 'The Column Element is deleted!' )
-                    }
-                }
-            } else opConsoleDebug( debug, 'columnElements:', 'The Number of Column Elements is Correct!' )
-
-            ///// Add Function to Modal Window. 
-            block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
-
-            ///// Add Function to Modal Window. 
-            block.querySelector( '.op-modal .op-button-save' ).setAttribute( 'onclick', `opAddNewParticipantToEventList( false, ${ eventListId } )` )
-
-        })
-    }
-}
-
-/* ---------------------------------------------------------
- >  6c-9. Event Creation
- *  Check if multiple (Event Creation) Blocks is on page
------------------------------------------------------------- */
-function opEventCreationBlocks() {
-
-    ///// Debug the function
-    let debug = false // true or false 
-
-    ///// Get the elements.
-    let blockName = 'Event Creation'
-    let blocks = document.querySelectorAll( '.op-block__event-creation' )
-    opConsoleDebug( debug, 'blocks:', blocks )
-
-    ///// Get each Block.
-    if ( blocks ) {
-        blocks.forEach( async block => {
-            
-            ///// Create Variables.
-            let error, code, message
-
-            try {            
-
-                ///// Get the Block ID.
-                let blockId = block.getAttribute( 'id' )
-
-                ///// Get the Radio Inputs Container.
-                let containerElement = block.querySelector( `#${ blockId }-radio-inputs .op-form-radio-inputs` )
-               
-                ///// Get the Local Storage of Templates.
-                const templatesStorage = opGetLocalStorage( debug, 'Templates' )
-    
-                ///// Validate the Response from the Local Storage of Templates.
-                if ( templatesStorage.error !== false ) throw templatesStorage.response
-    
-                ///// Get the Template List from the Local Storage of Templates.
-                const templateList = templatesStorage.response.templateList
-
-                ///// Sort the Template List after newest date.
-                const sortedTemplateList = templateList.sort( (a, b) => a.templateCreationDate - b.templateCreationDate ).reverse()
-
-                ///// Add new Templates to the Container Element.
-                const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, block, containerElement, sortedTemplateList )
-    
-                ///// Validate the Response from the Adding Templates Function.
-                if ( addTemplatesToElement.error !== false ) throw addTemplatesToElement.response
-                
-                ///// Get the Template ID from the URL Parameter.
-                const templateId = await opGetUrlParameters().template
-
-                if ( templateId !== '' ) {
-
-                    ///// Get Template Item.
-                    const templateItem = opGetTemplate( templateId )
-                    if ( templateItem.error !== false ) opConsoleDebug( debug, 'templateItem:', 'Could not find the Template!' )
-
-                    ///// Get the Amount of Columns.
-                    let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
-
-                    let radioInput = block.querySelector( `#${ blockId }-${ templateId }-input` )
-                    
-                    let formElement = radioInput.closest( '.op-form-steps' )
-                    opSetGridCols( debug, columnAmount, formElement )
-                    
-                    // #NG3
-                    ///// #NG - Need validation from opSetGridCols() before proceeding! 
-
-                    radioInput.checked = true
-                    radioInput.closest( '.op-radio-input' ).classList.add( 'op-radio-input-checked' )                   
-
-
-                    opFormInputValidation( debug, 'fieldset', radioInput )
-
-                }
-
-            } catch( errorMessage ) {
-    
-                ///// Throw Error Response.
-                error = true, code = 400, message = errorMessage
-
-            }
-
-            ///// Console Log if the Error parameter is 'true'.
-            if ( error !== false ) opConsoleDebug( debug, `opEventCreationBlocks:`, message )
-
-        })
-    }
-}
-
-/* ---------------------------------------------------------
  >  6c-10. Site Login
  *  Check if multiple (Site Login) Blocks is on page
 ------------------------------------------------------------ */
@@ -4131,7 +3892,7 @@ function opDashboardBlocks( debug ) {
             let templatesContainerElement = block.querySelector( `.op-block__taps section .op-tap__inner .op-tap__templates` )
 
             ///// Add new Templates to the Container Element.
-            const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, block, templatesContainerElement, sortedTemplateList )
+            const addTemplatesToElement = opAddCreatedTemplatesToElement( debug, block, templatesContainerElement )
 
 
 
@@ -4170,7 +3931,7 @@ function opDashboardBlocks( debug ) {
         error = true, code = 400, message = errorMessage
         
         ///// Throw Error Response in the Console.
-        console.error( `opSiteLoginBlocks()`, opReturnResponse( error, code, errorMessage ) )
+        console.error( `opDashboardBlocks()`, opReturnResponse( error, code, errorMessage ) )
         
     } finally {
         
@@ -4198,9 +3959,7 @@ function opDocumentReady() {
             'opPrinterInformationBlocks',
             'opEventInformationBlocks',
             'opEventTemplateInformationBlocks',
-            'opEventParticipantListBlocks',
             'opDashboardBlocks',
-            'opEventListBlocks'
         ]
 
         ///// Check if the Functions exist and execute
