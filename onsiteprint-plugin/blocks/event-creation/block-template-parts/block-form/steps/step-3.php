@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2023-04-15 - 18:21 (Y:m:d - H:i)
+ ?  Updated: 2024-06-12 - 21:25 (Y:m:d - H:i)
+ ?  Info: Removed Input Function to Step 3 Script (Event Creation).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -25,7 +26,7 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( false, 'grid' )" name="csv-file" type="file" accept=".csv" required>
+                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" name="csv-file" type="file" accept=".csv" required>
             </div>
         </label>
 

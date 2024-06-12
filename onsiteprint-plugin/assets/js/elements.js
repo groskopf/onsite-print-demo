@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-06-04 - 05:33 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script (Event Creation Block) + added new files, comments and validation.
+ ?  Updated: 2024-06-12 - 21:11 (Y:m:d - H:i)
+ ?  Info: Changed the function opFormInputValidation.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -949,6 +949,8 @@ async function opSetGridContainer( debug, inputElement, type ) {
 
 /* ---------------------------------------------------------
  >  2f. Validation of Inputs in Form
+ ?  Updated: 2024-06-12 - 21:11 (Y:m:d - H:i)
+ ?  Info: Added Response to the Clear Type.
 ------------------------------------------------------------ */
 async function opFormInputValidation( debug, type, inputElement ) {
     
@@ -974,6 +976,10 @@ async function opFormInputValidation( debug, type, inputElement ) {
 
             ///// Clear the Validation.
             inputWrapperElement.setAttribute( 'data-validation', '0' )
+
+            ///// Create Response.
+            error = false, code = 200, message = `The Validation of the Input was Cleared!`
+
 
         } else if ( type == 'input' ) {
 

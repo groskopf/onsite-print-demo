@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-04 - 05:32 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script (Event Creation Block) + added new files, comments and validation.
+ ?  Updated: 2024-06-12 - 21:25 (Y:m:d - H:i)
+ ?  Info: Changed extra code, comments and validation (Event Creation).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -73,7 +73,7 @@ export function opStep1( debug, block ) {
                 } )
 
                 ///// Get the Template ID from the URL Parameter.
-                const templateId = opGetUrlParameters().template
+                const templateId = opModuleBasic.opGetUrlParameters().template
 
                 ///// Set the Template ID Error to True.
                 var templateIdError = true
@@ -99,15 +99,12 @@ export function opStep1( debug, block ) {
 
                         ///// Validate the Response from the Column Validation.
                         if ( columnValidation.error !== false ) console.warn( 'WARNING:', columnValidation )
-                        else {
                      
-                            ///// Validate the Form.
-                            const formValidation = await opFormInputValidation( debug, 'fieldset', fieldset1Element )
+                        ///// Get the Validation from the Form.
+                        const formValidation = await opFormInputValidation( debug, 'fieldset', fieldset1Element )
 
-                            ///// Validate the Response from the Form.
-                            if ( formValidation.error !== false ) console.warn( 'WARNING:', columnValidation )
-
-                        }
+                        ///// Validate the Response from the Form Validation.
+                        if ( formValidation.error !== false ) console.warn( 'WARNING:', formValidation )
 
                     }
                     
@@ -121,13 +118,49 @@ export function opStep1( debug, block ) {
                         const columnValidation = opModuleAdditions.opSetColumnNumber( debug, inputElement.value, fieldset3Element )
 
                         ///// Validate the Response from Column Validation.
-                        if ( columnValidation.error !== false ) throw columnValidation
+                        if ( columnValidation.error !== false ) console.warn( 'WARNING:', columnValidation )
 
-                        ///// Validate the Form.
-                        const eventFormValidation = await opFormInputValidation( debug, 'fieldset', fieldset1Element )
+                        ///// Get the Validation from the Form.
+                        const formValidation = await opFormInputValidation( debug, 'fieldset', fieldset1Element )
 
-                        ///// Validate the Response from the Form.
-                        if ( eventFormValidation.error !== false ) throw eventFormValidation
+                        ///// Validate the Response from the Form Validation.
+                        if ( formValidation.error !== false ) console.warn( 'WARNING:', formValidation )
+
+                        ///// Get the File Input Element from Step 3.
+                        let gridInput = fieldset3Element.querySelector( '.op-input-grid input' )
+
+                        ///// Check if the CSV file is Uploaded in thw Input Field.
+                        if ( gridInput.value ) {
+
+                            ///// Get the elements in Step 3.
+                            let gridContainer = fieldset3Element.querySelector( '.op-grid-wrapper' )
+                            let gridElement = gridContainer.querySelector( '[id*="-form-grid"]' )
+
+                            ///// Remove the Grid Element in Step 3.
+                            gridInput.value = ''
+                            gridContainer.classList.remove( 'op-grid-active' )
+                            gridElement.innerHTML = ''
+
+                            ///// Get the Validation from the Form.
+                            const fieldset3Validation = await opFormInputValidation( debug, 'fieldset', fieldset3Element )
+
+                            ///// Validate the Response from the Form Validation.
+                            if ( fieldset3Validation.error !== false ) console.warn( 'WARNING:', fieldset3Validation )
+
+                            ///// Get the Validation from the Input.
+                            const inputValidation = await opFormInputValidation( debug, 'clear', gridInput )
+
+                            ///// Validate the Response from the Input Validation.
+                            if ( inputValidation.error !== false ) console.warn( 'WARNING:', inputValidation )
+
+                            ///// Debug to the Console Log.
+                            opModuleBasic.opConsoleDebug( debug, { 
+                                message: `The Validation of the Grid Input was Cleared!`,
+                                line: opModuleBasic.errorLine(),
+                                details: eventGridElement 
+                            } )
+
+                        }
 
                         ///// End the Console Log Group.
                         if ( debug ) console.groupEnd()
