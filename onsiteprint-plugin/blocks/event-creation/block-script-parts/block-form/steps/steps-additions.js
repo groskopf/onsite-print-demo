@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-13 - 21:34 (Y:m:d - H:i)
- ?  Info: Added a new empty Column/Pair (key: value). Function (opAddGridToElement).
+ ?  Updated: 2024-06-13 - 21:44 (Y:m:d - H:i)
+ ?  Info: Changed permissions in the Grid. Function (opAddGridToElement).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -149,6 +149,8 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
                 data: jsonList,
                 allowFreezeRows: false,
                 allowFreezeCols: false,
+                allowHideRows: false,
+                allowHideCols: false,
                 colHeaderHeight: 60,
                 rowHeaderWidth: 44,
                 colWidth: ( colWidth > 100 ) ? colWidth : 100,
