@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-12 - 21:25 (Y:m:d - H:i)
- ?  Info: Changed extra code, comments and validation (Event Creation).
+ ?  Updated: 2024-06-13 - 21:34 (Y:m:d - H:i)
+ ?  Info: Added a new empty Column/Pair (key: value). Function (opAddGridToElement).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -92,6 +92,7 @@ export function opSetColumnNumber( debug, templateId, fieldset ) {
 /* ------------------------------------------------------------------------
  #  3. Function: Add Grid to Element
  *  Adding the Grid from the CSV file to an Element.
+ *  Link: https://www.datagridxl.com/docs
 --------------------------------------------------------------------------- */
 export function opAddGridToElement( debug, gridContainer, jsonList ) {
 
@@ -129,6 +130,19 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
             let gridNoCol = gridContainer.getAttribute( 'data-grid-no-col' )
             let gridNewCol = gridContainer.getAttribute( 'data-grid-new-col' )
             let colWidth = ( Number( gridWidth ) / ( Number( gridCols ) + 2 ) )
+
+            ///// Run through the Items in the JSON List.
+            jsonList.map( item => { 
+                
+                ///// Check if the Template Column Number is greater than the Items Pair (key: value).
+                for( let i = Object.keys( item ).length; i < Number ( gridCols ); ++i ) {
+
+                    ///// Add a new empty Column/Pair (key: value) to the Item.
+                    item[`${ gridNewCol } ${ i+1 }`] = ''
+                
+                }
+
+            } )
 
             ///// Create and Add the new Grid to the Element.
             let eventGridElement = new DataGridXL( gridElementId, {
