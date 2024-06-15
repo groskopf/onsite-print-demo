@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-06-12 - 21:11 (Y:m:d - H:i)
- ?  Info: Changed the function opFormInputValidation.
+ ?  Updated: 2024-06-15 - 15:31 (Y:m:d - H:i)
+ ?  Info: Change opCreateEvent() & Replaced opSaveNewEvent() to step-additions.js in the Event Creation Block. 
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1648,8 +1648,10 @@ function opGetEventList( eventListId ) {
 
 /* ------------------------------------------
  >  4c-2. Create Event
+ ?  Updated: 2024-06-15 - 15:27 (Y:m:d - H:i)
+ ?  Info: Added (jsonFormGrid) parameter instead of getting the Grid Variable. Function: opCreateEvent().
 --------------------------------------------- */
-async function opCreateEvent( debug, formElement ) {   
+async function opCreateEvent( debug, formElement, jsonFormGrid ) {   
         
     ///// Create Variables.
     let error, code, message
@@ -1674,9 +1676,6 @@ async function opCreateEvent( debug, formElement ) {
         let dateNow = Date.now()
         let inputName = formElement[ 'name' ].value
         let inputTemplate = formElement[ 'template' ].value  
-               
-        ///// Get the Grid data.
-        const jsonFormGrid = JSON.stringify( eventGridElement.getData() )
 
         ///// Get data from the form element.
         let formData = new FormData()
@@ -1816,7 +1815,7 @@ async function opUpdateEvent( debug, eventId, formElement ) {
         if ( errorMessage && ! code ) code = 400
         
         ///// Throw Error Response in the Console.
-        console.error( 'opCreateEvent()', opReturnResponse( error, code, errorMessage ) )
+        console.error( 'opUpdateEvent()', opReturnResponse( error, code, errorMessage ) )
         
     } finally {
         
@@ -3036,71 +3035,8 @@ function opAddCreatedTemplatesToElement( debug, block, containerElement ) {
 
 }
 
-
 /* ------------------------------------------
- >   >  6a-12. Save New Event from Form 
---------------------------------------------- */
-async function opSaveNewEvent( debug ) {
-
-    ///// Create Variables.
-    let error, code, message
-
-    try {
-
-        ///// Set the Parameter If is not defined.
-        ////* true or false
-        if ( ! debug ) debug = false
-
-        ///// Get the Elements.
-        let blockElement = event.target.closest( 'section[id*="op-block"]' )
-        let formElement = blockElement.querySelector( '.op-form-steps' )
-        let saveButton = formElement.querySelector( '.op-button-save')
-        let modalElement = blockElement.querySelector( '.op-modal')
-
-        ///// Disable the Save button.
-        saveButton.disabled = true
-
-        ///// Set Approval to the Buttons in the Form Element.
-        const createEventResponse = await opCreateEvent( debug, formElement )
-
-        ///// Create/throw Response.
-        if ( createEventResponse.error !== false ) throw createEventResponse.response
-        else error = false, code = 200, message = `The Event could not be Created!`
-       
-        ///// Get Event Data.
-        const eventData = createEventResponse.response
-        let eventId = eventData.eventCreationDate
-
-        ///// Activate the Modal Window.
-        modalElement.classList.add( 'op-active' )
-        
-        ///// Set URL in the Modal Window.
-        let eventUrl = modalElement.getAttribute( 'data-relocation-event' )
-        modalElement.querySelector( '.op-button-event' ).setAttribute( 'href', `${ eventUrl }?event=${ eventId }` )
-
-        ///// Create/throw Response.
-        error = false, code = 200, message = 'The Number of Grid Columns was added to the Grid Element!'
-
-    } catch( errorMessage ) {
-
-        ///// Throw Error Response.
-        error = true, message = errorMessage
-        if ( errorMessage && ! code ) code = 400
-        
-        ///// Throw Error Response in the Console.
-        console.error( 'opSaveNewEvent()', opReturnResponse( error, code, errorMessage ) )
-        
-    } finally {
-        
-        ///// Return the Response to the Function.
-        return opReturnResponse( error, code, message )
-    
-    }
-
-}
-
-/* ------------------------------------------
->  6a-13. Get Booking from FastAPI
+>  6a-12. Get Booking from FastAPI
 --------------------------------------------- */
 async function opGetBookingFromFastAPI( debug, bookingCode ) {
     
@@ -3160,7 +3096,7 @@ async function opGetBookingFromFastAPI( debug, bookingCode ) {
 
 
 /* ------------------------------------------
->  6a-14. Login Button
+>  6a-13. Login Button
 --------------------------------------------- */
 function opLoginButton( debug, inputElement ) {
 
@@ -3217,7 +3153,7 @@ function opLoginButton( debug, inputElement ) {
 }
 
 /* ------------------------------------------
->  6a-15. Logout Button
+>  6a-14. Logout Button
 --------------------------------------------- */
 async function opLogoutButton( debug, url, inputElement ) {
 
@@ -3281,7 +3217,7 @@ async function opLogoutButton( debug, url, inputElement ) {
 }
 
 /* ------------------------------------------
->  6a-16. Validate the Booking Form
+>  6a-15. Validate the Booking Form
 --------------------------------------------- */
 async function opBookingFormValidation( debug, url ) {
     
@@ -3358,7 +3294,7 @@ async function opBookingFormValidation( debug, url ) {
 }
 
 /* ------------------------------------------
- >  6a-17. Add new Participant to the Event List
+ >  6a-16. Add new Participant to the Event List
  ?  Updated: 2023-02-26 - 20:45 (Y:m:d - H:i)
 --------------------------------------------- */
 async function opAddNewParticipantToEventList( debug, eventId ) {
@@ -3455,7 +3391,7 @@ async function opAddNewParticipantToEventList( debug, eventId ) {
 }
 
 /* ------------------------------------------
- >  6a-18. Remove Event or Template from Local Storage
+ >  6a-17. Remove Event or Template from Local Storage
  ?  Updated: 2023-03-21 - 18:47 (Y:m:d - H:i)
 --------------------------------------------- */
 function opRemoveItemFromStorage( debug, storageName, itemId ) {

@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-13 - 21:44 (Y:m:d - H:i)
- ?  Info: Changed permissions in the Grid. Function (opAddGridToElement).
+ ?  Updated: 2024-06-15 - 15:23 (Y:m:d - H:i)
+ ?  Info: Added Step 4 & opSaveNewEvent() to Steps Additions (Event Creation).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -17,6 +17,9 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../../assets/js/inc/basic.js'
+
+
+var eventGridElement
 
 /* ------------------------------------------------------------------------
  #  2. Function: Set Column Number
@@ -145,7 +148,7 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
             } )
 
             ///// Create and Add the new Grid to the Element.
-            let eventGridElement = new DataGridXL( gridElementId, {
+            eventGridElement = new DataGridXL( gridElementId, {
                 data: jsonList,
                 allowFreezeRows: false,
                 allowFreezeCols: false,
@@ -178,6 +181,81 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
                 line: opModuleBasic.errorLine(),
                 function: functionName
             }, debug )
+
+        }
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+        ///// Return the Error Response.
+        return errorDetails
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  3. Function: Save New Event from Form
+--------------------------------------------------------------------------- */
+export async function opSaveNewEvent( debug, formElement ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = opSaveNewEvent.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Throw Error if the Variable is missing.
+        if ( ! formElement ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Form Element!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+        else {
+
+            ///// Get the Grid data.
+            const jsonFormGrid = JSON.stringify( eventGridElement.getData() )
+            
+            ///// Set Approval to the Buttons in the Form Element.
+            const createEventResponse = await opCreateEvent( debug, formElement, jsonFormGrid )
+
+            console.log('createEventResponse:', createEventResponse)
+
+
+            ///// Validate the Response from the Create Event Function.
+            if ( createEventResponse.error !== false ) throw createEventResponse
+            else {
+
+                ///// Get Event Data.
+                const eventData = createEventResponse.response
+
+                ///// Return the Response.
+                return opModuleBasic.opReturnResponse( false, 200, { 
+                    message: `The Event was Created!`, 
+                    line: opModuleBasic.errorLine(),
+                    function: functionName,
+                    details: eventData.eventCreationDate 
+                }, debug )
+
+            }
 
         }
 
