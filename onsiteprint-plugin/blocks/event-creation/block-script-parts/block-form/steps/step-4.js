@@ -51,7 +51,7 @@ export function opStep4( debug, block ) {
             opModuleBasic.opListener( 'click', saveButton, async () => {
 
                 ///// Start the Console Log Group.
-                if ( debug ) console.group( `Event Listener (Input): Input Element - Event Creation Block, ${ functionName }()` )
+                if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
 
                 ///// Disable the Save button.
                 saveButton.disabled = true
@@ -88,7 +88,7 @@ export function opStep4( debug, block ) {
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
-            message: `No errors were found in Step 3!`, 
+            message: `No errors were found in Step 4!`, 
             line: opModuleBasic.errorLine(),
             function: functionName
         }, debug )

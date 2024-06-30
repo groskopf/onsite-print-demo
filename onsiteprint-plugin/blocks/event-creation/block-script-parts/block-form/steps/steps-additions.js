@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-15 - 15:23 (Y:m:d - H:i)
- ?  Info: Added Step 4 & opSaveNewEvent() to Steps Additions (Event Creation).
+ ?  Updated: 2024-06-30 - 21:59 (Y:m:d - H:i)
+ ?  Info: Added New JS (fastapi.js) and changed Event Creation Block.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -13,11 +13,13 @@
 
     3. 	Function: Add Grid to Element
 
+    4.  Function: Save New Event from Form
+
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../../assets/js/inc/basic.js'
-
+import * as opModuleFastAPI from '../../../../../assets/js/inc/fastapi/fastapi.js'
 
 var eventGridElement
 
@@ -174,12 +176,13 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
                 line: opModuleBasic.errorLine(),
                 details: eventGridElement 
             } )
-
+            
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 200, { 
                 message: `The Grid was Added to the Element!`, 
                 line: opModuleBasic.errorLine(),
-                function: functionName
+                function: functionName,
+                details: eventGridElement.getData()
             }, debug )
 
         }
@@ -209,7 +212,7 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
 }
 
 /* ------------------------------------------------------------------------
- #  3. Function: Save New Event from Form
+ #  4. Function: Save New Event from Form
 --------------------------------------------------------------------------- */
 export async function opSaveNewEvent( debug, formElement ) {
 
@@ -257,6 +260,97 @@ export async function opSaveNewEvent( debug, formElement ) {
 
             }
 
+        }
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+        ///// Return the Error Response.
+        return errorDetails
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  5. Function: Create Print Example
+--------------------------------------------------------------------------- */
+export async function createPrintExample( debug, templateId, participant ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = createPrintExample.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Throw Error if the Variables is missing.
+        if (  ! templateId || ! participant) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Template ID or the Participant!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+        else {
+
+            ///// Get Template Item.
+            const templateItem = opGetTemplate( templateId )
+
+            ///// Validate the Response from the Get Template Function.
+            if ( templateItem.error !== false ) throw templateItem
+
+            ///// Create Variables.
+            let layout = templateItem.response.templateLayout
+            let imageFilename = templateItem.response.templateFilenameUploaded
+            let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+            let lines = Object.values( participant )
+
+            ///// The Body Input to Request Options.
+            let bodyInput = JSON.stringify(
+                {
+                "line_1": ( 1 <= columnAmount ) ? lines[0] : "",
+                "line_2": ( 2 <= columnAmount ) ? lines[1] : "",
+                "line_3": ( 3 <= columnAmount ) ? lines[2] : "",
+                "line_4": ( 4 <= columnAmount ) ? lines[3] : "",
+                "line_5": ( 5 <= columnAmount ) ? lines[4] : "",
+                "image_name": imageFilename,
+                "qr_code": ""
+                }
+            )
+
+            ///// The URL to the API.
+            let  url = `https://api.printerboks.dk/api/v1/name_tags/MFAWMYXW5NC23K7?layout=${ layout }`
+
+            ///// Get Template Item.
+            const printExample = await opModuleFastAPI.opGetApiData( debug, 'POST', bodyInput, url, 'json' )
+
+            ///// Validate the Response from the Get Template Function.
+            if ( printExample.error !== false ) throw printExample
+                       
+            ///// Return the Response.
+            return opModuleBasic.opReturnResponse( false, 200, { 
+                message: `The Example was Created!`, 
+                line: opModuleBasic.errorLine(),
+                function: functionName,
+                details: printExample.response.details
+            }, debug )
+        
         }
 
     } catch( errorResponse ) {

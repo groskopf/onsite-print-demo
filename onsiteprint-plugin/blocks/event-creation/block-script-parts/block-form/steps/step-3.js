@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-12 - 21:25 (Y:m:d - H:i)
- ?  Info: Changed extra code, comments and validation (Event Creation).
+ ?  Updated: 2024-06-30 - 21:59 (Y:m:d - H:i)
+ ?  Info: Added New JS (fastapi.js) and changed Event Creation Block.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -89,6 +89,56 @@ export function opStep3( debug, block ) {
                         function: functionName
                     } )
                     else {
+
+                        ///// Get the Block ID.
+                        let blockId = block.getAttribute( 'id' )
+
+                        ///// Get the Template Elements.
+                        let template = gridContainer.querySelector(`#${ blockId }-button-example-template`).content.cloneNode(true)
+                        let templateContainer = gridContainer.querySelector(`.dgxl-exampleButton`)
+
+                        ///// Check if the Button Element it's Found.
+                        if ( ! template ) console.error( 'ERROR:', { 
+                            message: `The Button Element was not found!`,
+                            line: opModuleBasic.errorLine(),
+                            function: functionName
+                        } )
+                        else if ( ! templateContainer ) console.error( 'ERROR:', { 
+                            message: `The Template Container was not found!`,
+                            line: opModuleBasic.errorLine(),
+                            function: functionName
+                        } )
+                        else {
+                            
+                            ///// Add the Button Element to the Template Container.
+                            templateContainer.append( template )
+                          
+                            ///// Get the elements in Step 1.
+                            let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
+                            let templateId = fieldset1Element.querySelector( `.op-form-radio-inputs .op-radio-input-checked input` ).value
+                            
+                            if ( ! templateId ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                                message: `Missing the Template Id!`,
+                                line: opModuleBasic.errorLine(),
+                                function: functionName
+                            } )
+
+                            ///// Get first Row (Participant) from the Grid.
+                            let participant = gridValidation.response.details[0]
+                            
+                            ///// Set Event Listener for the Input Element.
+                            opModuleBasic.opListener( 'click', templateContainer.querySelector('button'), async () => {
+
+                                ///// Start the Console Log Group.
+                                if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
+
+                                opModuleAdditions.createPrintExample( debug, templateId, participant )
+
+                                ///// End the Console Log Group.
+                                if ( debug ) console.groupEnd()
+
+                            })
+                        }
 
                         ///// Show the Grid Element in Step 3.
                         gridContainer.classList.add( 'op-grid-active' )

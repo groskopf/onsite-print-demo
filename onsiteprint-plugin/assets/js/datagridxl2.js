@@ -6087,19 +6087,13 @@ var DataGridXL = function () {
                     }
                 }
             },
-            layoutButton: { // #NG - New Element
-                name: "layoutButton",
+            exampleButton: {
+                name: "exampleButton",
                 node: function () {
-                    var t = `<button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="money-check" data-icon-position="left" data-title-visibility="1"><span class="op-icon" role="img" aria-label="Layout Icon"></span><span class="op-button-title">See chosen Template</span></button>`;
+                    // #NG - Added to store a Button.
                     return {
                         tag: "div",
-                        name: "layoutButton",
-                        html: t,
-                    }
-                },
-                listeners: {
-                    "layoutButton.click": function (t) {
-                        //this.toggleFullscreen()
+                        name: "exampleButton",
                     }
                 }
             },
@@ -6641,8 +6635,7 @@ var DataGridXL = function () {
                 }
             }
         },
-        Qr = ["searchBar", "fullscreenButton"], // #NG - ["searchBar"],
-        //Qr = ["layoutButton", "searchBar", "fullscreenButton"], // #NG - ["searchBar"],
+        Qr = ["searchBar", "fullscreenButton", "exampleButton"], // #NG - ["searchBar"],
         Jr = [] // #NG - ["fullscreenButton", "inputBar", "credits"];
 
     function tl(t, e, i, o) {

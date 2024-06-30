@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-06-15 - 15:24 (Y:m:d - H:i)
- ?  Info: Removed opSaveNewEvent() from the Save Event Button & Added Event Listener to Step 4 (Event Creation).
+ ?  Updated: 2024-06-15 - 18:24 (Y:m:d - H:i)
+ ?  Info: Added Button (See Print Example) to Step 3 (Event Creation).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -59,6 +59,7 @@ $acf = array(
     'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
     'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
     'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
+    'step_3_example_button'  => get_field( $ec . 'steps_step_3_example_button' ) ?: 'See Print Example',
 
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
     'step_4_title'          => get_field( $ec . 'steps_step_4_title' ) ?: 'Finally, save your new Event',

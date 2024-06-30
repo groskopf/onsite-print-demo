@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2024-06-12 - 21:25 (Y:m:d - H:i)
- ?  Info: Removed Input Function to Step 3 Script (Event Creation).
+ ?  Updated: 2024-06-15 - 18:24 (Y:m:d - H:i)
+ ?  Info: Added Button (See Print Example) to Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -34,6 +34,13 @@
 
             <p class="op-label-title"><?= esc_attr( $acf['step_3_grid_title'] ) ?></p>
             <div id="<?= esc_attr($id) ?>-form-grid"></div>
+
+            <template id="<?= esc_attr($id) ?>-button-example-template">
+                <button type="button" class="op-button-example op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="money-check" data-icon-position="left">
+                    <span class="op-icon" role="img" aria-label="Layout Icon"></span>
+                    <span class="op-button-title"><?= esc_attr( $acf['step_3_example_button'] ) ?></span>
+                </button>
+            </template>
 
         </div>
 
