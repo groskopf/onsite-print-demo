@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-30 - 21:59 (Y:m:d - H:i)
- ?  Info: Added New JS (fastapi.js) and changed Event Creation Block.
+ ?  Updated: 2024-07-01 - 22:02 (Y:m:d - H:i)
+ ?  Info: PDF Print Example working i Step 3 (Event Creation Block).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -14,6 +14,10 @@
     3. 	Function: Add Grid to Element
 
     4.  Function: Save New Event from Form
+
+    5.  Function: Create Print Example
+
+    6.  Function: Get Print Example
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -289,7 +293,7 @@ export async function opSaveNewEvent( debug, formElement ) {
 /* ------------------------------------------------------------------------
  #  5. Function: Create Print Example
 --------------------------------------------------------------------------- */
-export async function createPrintExample( debug, templateId, participant ) {
+export async function createPrintExample( debug, templateId ) {
 
     try {
         
@@ -301,9 +305,9 @@ export async function createPrintExample( debug, templateId, participant ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
-        ///// Throw Error if the Variables is missing.
-        if (  ! templateId || ! participant) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing the Template ID or the Participant!`,
+        ///// Throw Error if the Variable is missing.
+        if (  ! templateId ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Template ID!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName
             } )
@@ -319,6 +323,9 @@ export async function createPrintExample( debug, templateId, participant ) {
             let layout = templateItem.response.templateLayout
             let imageFilename = templateItem.response.templateFilenameUploaded
             let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+           
+            ///// Get the Participant from the Grid.
+            const participant = eventGridElement.getData()[0]
             let lines = Object.values( participant )
 
             ///// The Body Input to Request Options.
@@ -337,18 +344,84 @@ export async function createPrintExample( debug, templateId, participant ) {
             ///// The URL to the API.
             let  url = `https://api.printerboks.dk/api/v1/name_tags/MFAWMYXW5NC23K7?layout=${ layout }`
 
-            ///// Get Template Item.
-            const printExample = await opModuleFastAPI.opGetApiData( debug, 'POST', bodyInput, url, 'json' )
+            ///// Get Print Example Filename.
+            const filenameResponse = await opModuleFastAPI.opGetApiData( debug, 'POST', bodyInput, url, 'json' )
 
-            ///// Validate the Response from the Get Template Function.
-            if ( printExample.error !== false ) throw printExample
-                       
+            ///// Validate the Filename Response.
+            if ( filenameResponse.error !== false ) throw filenameResponse
+
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 200, { 
                 message: `The Example was Created!`, 
                 line: opModuleBasic.errorLine(),
                 function: functionName,
-                details: printExample.response.details
+                details: filenameResponse.response.details
+            }, debug )
+        
+        }
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+        ///// Return the Error Response.
+        return errorDetails
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  6. Function: Get Print Example
+--------------------------------------------------------------------------- */
+export async function getPrintExample( debug, filename ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = getPrintExample.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Throw Error if the Variables is missing.
+        if (  ! filename ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Filename!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+        else {
+
+            ///// The URL to the API.
+            let  url = `https://api.printerboks.dk/api/v1/${ filename }`
+
+            ///// Get Print Example Filename.
+            const pdfFileResponse = await opModuleFastAPI.opGetApiData( debug, 'GET', '', url, 'blob' )
+
+            ///// Validate the Filename Response.
+            if ( pdfFileResponse.error !== false ) throw pdfFileResponse
+
+            ///// Return the Response.
+            return opModuleBasic.opReturnResponse( false, 200, { 
+                message: `The PDF Example was Found!`, 
+                line: opModuleBasic.errorLine(),
+                function: functionName,
+                details: pdfFileResponse.response.details
             }, debug )
         
         }

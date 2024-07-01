@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-30 - 21:59 (Y:m:d - H:i)
- ?  Info: Added New JS (fastapi.js) and changed Event Creation Block.
+ ?  Updated: 2024-07-01 - 22:02 (Y:m:d - H:i)
+ ?  Info: PDF Print Example working i Step 3 (Event Creation Block).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -122,9 +122,6 @@ export function opStep3( debug, block ) {
                                 line: opModuleBasic.errorLine(),
                                 function: functionName
                             } )
-
-                            ///// Get first Row (Participant) from the Grid.
-                            let participant = gridValidation.response.details[0]
                             
                             ///// Set Event Listener for the Input Element.
                             opModuleBasic.opListener( 'click', templateContainer.querySelector('button'), async () => {
@@ -132,7 +129,23 @@ export function opStep3( debug, block ) {
                                 ///// Start the Console Log Group.
                                 if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
 
-                                opModuleAdditions.createPrintExample( debug, templateId, participant )
+                                ///// Create Print Example and get the Filename.
+                                const filenameResponse = await opModuleAdditions.createPrintExample( debug, templateId )
+
+                                ///// Validate the Filename Response.
+                                if ( filenameResponse.error !== false ) throw filenameResponse
+                                else {
+
+                                    let filename = filenameResponse.response.details.filename
+
+                                    ///// Get Print Example Filename.
+                                    const pdfFileResponse = await opModuleAdditions.getPrintExample( debug, filename )
+
+                                    let url = URL.createObjectURL( pdfFileResponse.response.details )
+
+                                    //document.querySelector('aside.wp-block-template-part').insertAdjacentHTML( 'beforeEnd',`<iframe title="pdf" src=${ url } style="height: '100%'; width: '100%'"></iframe>`);
+
+                                }
 
                                 ///// End the Console Log Group.
                                 if ( debug ) console.groupEnd()
