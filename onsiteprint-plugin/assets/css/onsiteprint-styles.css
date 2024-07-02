@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-06-12 - 20:28 (Y:m:d - H:i)
- ?  Info: (CSS) Changes the .op-grid-wrapper placed in form.
+ ?  Updated: 2024-07-02 - 21:22 (Y:m:d - H:i)
+ ?  Info: (CSS) Changes the (data-title-visibility) in Buttons.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -412,6 +412,10 @@ html {
     padding-left: 1.8rem;
 }
 
+.op-button:is( .op-button-size-small )[data-title-visibility="1"] {
+    min-width: 4rem;
+}
+
 .op-button:is( .op-button-size-small )[data-title-visibility="1"] .op-icon {
     padding: 0.9rem;
 }
@@ -464,6 +468,10 @@ html {
     padding-left: 2.4rem;
 }
 
+.op-button:is( .op-button-size-medium )[data-title-visibility="1"] {
+    min-width: 5rem;
+}
+
 .op-button:is( .op-button-size-medium )[data-title-visibility="1"] .op-icon {
     padding: 1.2rem;
 }
@@ -514,6 +522,10 @@ html {
 .op-button:is( .op-button-size-large ):not( [data-icon-position="left"], [data-icon-position="right"] ) .op-button-title {
     padding-right: 3rem;
     padding-left: 3rem;
+}
+
+.op-button:is( .op-button-size-large )[data-title-visibility="1"] {
+    min-width: 6rem;
 }
 
 .op-button:is( .op-button-size-large )[data-title-visibility="1"] .op-icon {
