@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-01 - 22:02 (Y:m:d - H:i)
- ?  Info: PDF Print Example working i Step 3 (Event Creation Block).
+ ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
+ ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -15,10 +15,10 @@ import * as opModuleAdditions from './steps-additions.js'
 export function opStep3( debug, block ) {
 
     try {
-        
+
         ///// Get Function Name.
         var functionName = opStep3.name
-        
+
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
@@ -26,7 +26,7 @@ export function opStep3( debug, block ) {
 
         ///// Check if the Block is defined.
         if ( ! block ) {
-            
+
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 404, { 
                 message: `Missing the Block Element!`, 
@@ -103,20 +103,20 @@ export function opStep3( debug, block ) {
                             line: opModuleBasic.errorLine(),
                             function: functionName
                         } )
-                        else if ( ! templateContainer ) console.error( 'ERROR:', { 
+                        else if ( ! templateContainer ) console.error( 'ERROR:', {
                             message: `The Template Container was not found!`,
                             line: opModuleBasic.errorLine(),
                             function: functionName
                         } )
                         else {
-                            
+
                             ///// Add the Button Element to the Template Container.
                             templateContainer.append( template )
-                          
+
                             ///// Get the elements in Step 1.
                             let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
-                            let templateId = fieldset1Element.querySelector( `.op-form-radio-inputs .op-radio-input-checked input` ).value
-                            
+                            let templateId = fieldset1Element.querySelector( `.op-form-radio-inputs .op-radio-input input:checked` ).value
+
                             if ( ! templateId ) throw opModuleBasic.opReturnResponse( true, 400, { 
                                 message: `Missing the Template Id!`,
                                 line: opModuleBasic.errorLine(),
@@ -136,15 +136,43 @@ export function opStep3( debug, block ) {
                                 if ( filenameResponse.error !== false ) throw filenameResponse
                                 else {
 
+                                    ///// Get Print Example Filename.
                                     let filename = filenameResponse.response.details.filename
 
-                                    ///// Get Print Example Filename.
+                                    ///// Get Print Example PDF.
                                     const pdfFileResponse = await opModuleAdditions.getPrintExample( debug, filename )
-
+                                    
+                                    ///// Get Print Example URL.
                                     let url = URL.createObjectURL( pdfFileResponse.response.details )
 
-                                    //document.querySelector('aside.wp-block-template-part').insertAdjacentHTML( 'beforeEnd',`<iframe title="pdf" src=${ url } style="height: '100%'; width: '100%'"></iframe>`);
+                                    ///// Get the Template Elements.
+                                    let templateElement = gridContainer.querySelector(`#${ blockId }-modal-example-template`)
+                                    let modalTemplate = templateElement.content.cloneNode(true)
 
+                                    ///// Check if the Modal Element it's Found.
+                                    if ( ! modalTemplate ) console.error( 'ERROR:', { 
+                                        message: `The Modal Element was not found!`,
+                                        line: opModuleBasic.errorLine(),
+                                        function: functionName
+                                    } )
+                                    else {
+
+                                        ///// Get the Modal Elements.
+                                        let modalElement = block.querySelector( '.op-modal')
+                                        let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                                        
+                                        ///// Clear the Modal Window.
+                                        modalInnerElement.innerHTML = ""
+
+                                        ///// Add the Template to the Modal Window.
+                                        modalInnerElement.append( modalTemplate )
+
+                                        modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
+
+                                        ///// Activate the Modal Window.
+                                        modalElement.classList.add( 'op-active' )
+
+                                    }
                                 }
 
                                 ///// End the Console Log Group.

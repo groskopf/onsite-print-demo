@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 4 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-15 - 15:23 (Y:m:d - H:i)
- ?  Info: Added Step 4 & opSaveNewEvent() to Steps Additions (Event Creation).
+ ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
+ ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -67,15 +67,39 @@ export function opStep4( debug, block ) {
                 } )
                 else {
 
-                    ///// Get the Elements.
-                    let modalElement = block.querySelector( '.op-modal')
+                    ///// Get the Block ID.
+                    let blockId = block.getAttribute( 'id' )
 
-                    ///// Activate the Modal Window.
-                    modalElement.classList.add( 'op-active' )
-                    
-                    ///// Set URL in the Modal Window.
-                    let eventUrl = modalElement.getAttribute( 'data-relocation-event' )
-                    modalElement.querySelector( '.op-button-event' ).setAttribute( 'href', `${ eventUrl }?event=${ saveEventValidation.response.details }` )
+                    ///// Get the Template Elements.
+                    let templateElement = block.querySelector(`.op-fieldset-step-4 #${ blockId }-modal-save-template`)
+                    let template = templateElement.content.cloneNode(true)
+
+                    ///// Check if the Modal Element it's Found.
+                    if ( ! template ) console.error( 'ERROR:', { 
+                        message: `The Modal Element was not found!`,
+                        line: opModuleBasic.errorLine(),
+                        function: functionName
+                    } )
+                    else {
+
+                        ///// Get the Modal Elements.
+                        let modalElement = block.querySelector( '.op-modal')
+                        let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                        
+                        ///// Clear the Modal Window.
+                        modalInnerElement.innerHTML = ""
+
+                        ///// Add the Template to the Modal Window.
+                        modalInnerElement.append( template )
+
+                        ///// Set URL in the Relocation Button.
+                        let eventUrl = templateElement.getAttribute( 'data-relocation-event' )
+                        modalElement.querySelector( '.op-button-event' ).setAttribute( 'href', `${ eventUrl }?event=${ saveEventValidation.response.details }` )
+
+                        ///// Activate the Modal Window.
+                        modalElement.classList.add( 'op-active' )
+
+                    }
 
                 }
 

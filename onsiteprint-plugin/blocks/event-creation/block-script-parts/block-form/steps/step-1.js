@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-12 - 21:25 (Y:m:d - H:i)
- ?  Info: Changed extra code, comments and validation (Event Creation).
+ ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
+ ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -90,9 +90,8 @@ export function opStep1( debug, block ) {
                         ///// Set the Template ID Error to False.
                         templateIdError = false
 
-                        ///// Add Checked to the Template.
+                        ///// Add Checked to the Template Input.
                         inputElement.checked = true
-                        radioInput.classList.add( 'op-radio-input-checked' )
 
                         ///// Set the Number of Columns in Step 3.
                         const columnValidation = opModuleAdditions.opSetColumnNumber( debug, inputElement.value, fieldset3Element )

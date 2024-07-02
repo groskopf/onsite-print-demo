@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-01 - 22:02 (Y:m:d - H:i)
- ?  Info: PDF Print Example working i Step 3 (Event Creation Block).
+ ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
+ ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -43,7 +43,7 @@ export function opSetColumnNumber( debug, templateId, fieldset ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Throw Error if the Variables is missing.
-        if (  ! templateId || ! fieldset) throw opModuleBasic.opReturnResponse( true, 404, { 
+        if ( ! templateId || ! fieldset) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing the Template ID or the Fieldset Element!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName
@@ -244,9 +244,6 @@ export async function opSaveNewEvent( debug, formElement ) {
             ///// Set Approval to the Buttons in the Form Element.
             const createEventResponse = await opCreateEvent( debug, formElement, jsonFormGrid )
 
-            console.log('createEventResponse:', createEventResponse)
-
-
             ///// Validate the Response from the Create Event Function.
             if ( createEventResponse.error !== false ) throw createEventResponse
             else {
@@ -306,7 +303,7 @@ export async function createPrintExample( debug, templateId ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Throw Error if the Variable is missing.
-        if (  ! templateId ) throw opModuleBasic.opReturnResponse( true, 404, { 
+        if ( ! templateId ) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing the Template ID!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName
@@ -400,7 +397,7 @@ export async function getPrintExample( debug, filename ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Throw Error if the Variables is missing.
-        if (  ! filename ) throw opModuleBasic.opReturnResponse( true, 404, { 
+        if ( ! filename ) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing the Filename!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName

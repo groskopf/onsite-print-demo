@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2023-02-06 - 20:00 (Y:m:d - H:i)
+ ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
+ ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -31,6 +32,23 @@
                 </div>
             </div>
         </label>
+
+        <template id="<?= esc_attr($id) ?>-modal-save-template" data-relocation-event="<?= esc_attr( $acf['event_link'] ) ?>">
+            <div class="op-modal-header">
+                <h3 class="op-modal-title"><?= esc_attr( $acf['modal_title'] ) ?></h3>
+                <p class="op-modal-description"><?= esc_attr( $acf['modal_description'] ) ?></p>
+            </div>
+            <div class="op-flex-row">
+                <a href="<?= esc_attr( $acf['main_link'] ) ?>" class="op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-left" data-icon-position="left">
+                    <span class="op-icon" role="img" aria-label="Arrow Left Icon"></span>
+                    <span class="op-button-title"><?= esc_attr( $acf['main_title'] ) ?></span>
+                </a>
+                <a class="op-button-event op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-right" data-icon-position="right">
+                    <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
+                    <span class="op-button-title"><?= esc_attr( $acf['event_title'] ) ?></span>
+                </a>
+            </div>
+        </template>
 
     </div>
 </fieldset>

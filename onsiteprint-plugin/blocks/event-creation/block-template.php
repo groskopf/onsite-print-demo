@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-06-15 - 18:24 (Y:m:d - H:i)
- ?  Info: Added Button (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
+ ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -59,7 +59,9 @@ $acf = array(
     'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
     'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
     'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
-    'step_3_example_button'  => get_field( $ec . 'steps_step_3_example_button' ) ?: 'See Print Example',
+    'step_3_example_button' => get_field( $ec . 'steps_step_3_example_button' ) ?: 'See Print Example',
+    'step_3_modal_title'    => get_field( $ec . 'steps_step_3_modal_title' ) ?: 'Print Example',
+    'step_3_modal_button'   => get_field( $ec . 'steps_step_3_modal_button' ) ?: 'Close',
 
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
     'step_4_title'          => get_field( $ec . 'steps_step_4_title' ) ?: 'Finally, save your new Event',
@@ -163,24 +165,9 @@ if ( ! empty( $block['align'] ) ) {
             </div><!-- .op-form__inner -->
         </form><!-- .op-form-steps -->
 
-        <div class="op-modal" data-relocation-event="<?= esc_attr( $acf['event_link'] ) ?>">
-            <div class="op-modal__inner">
-                <div class="op-flex-col">
-                    <h3 class="op-modal-title"><?= esc_attr( $acf['modal_title'] ) ?></h3>
-                    <p class="op-modal-description"><?= esc_attr( $acf['modal_description'] ) ?></p>
-                </div>
-                <div class="op-flex-row">
-                    <a href="<?= esc_attr( $acf['main_link'] ) ?>" class="op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-left" data-icon-position="left">
-                        <span class="op-icon" role="img" aria-label="Arrow Left Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['main_title'] ) ?></span>
-                    </a>
-                    <a class="op-button-event op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-right" data-icon-position="right">
-                        <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['event_title'] ) ?></span>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div class="op-modal">
+            <div class="op-modal__inner"></div>
+        </div><!-- .op-modal -->
         
     </div><!-- .op-block__inner -->
 </section><!-- #<?= esc_attr($id) ?> -->
