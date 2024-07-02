@@ -1,19 +1,22 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
  ?  Updated: 2024-07-02 - 20:58 (Y:m:d - H:i)
+ ?  Info: Added Modal Window (CSS).
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
- >  Add Participant Modal Window
+ >  Modal Window
 --------------------------------------------- */
-.op-block__event-creation .op-modal .op-modal-header {
-    padding: 0.5rem 6rem 1rem 0;
-    position: relative;
+.op-block__event-creation .op-modal .op-modal__inner {
+    gap: 2rem;
 }
 
-.op-block__event-creation .op-modal .op-modal-header .op-button-cancel {
-    position: absolute;
-    top: 0;
-    right: 0;
+.op-block__event-creation .op-modal .op-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.op-block__event-creation .op-modal .op-modal-header .op-modal-title {
+    padding: 0.5rem 0 0;
 }
 
 .op-block__event-creation .op-modal .op-modal-header .op-button-cancel:is( .op-button-size-small ) .op-icon::before {

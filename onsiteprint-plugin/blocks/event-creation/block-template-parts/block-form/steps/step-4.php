@@ -34,7 +34,7 @@
         </label>
 
         <template id="<?= esc_attr($id) ?>-modal-save-template" data-relocation-event="<?= esc_attr( $acf['event_link'] ) ?>">
-            <div class="op-modal-header">
+            <div class="op-modal-header op-flex-row">
                 <h3 class="op-modal-title"><?= esc_attr( $acf['modal_title'] ) ?></h3>
                 <p class="op-modal-description"><?= esc_attr( $acf['modal_description'] ) ?></p>
             </div>
