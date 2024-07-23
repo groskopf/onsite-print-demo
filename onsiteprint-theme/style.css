@@ -8,8 +8,9 @@
  *	Tested up to: 6.0
  *	Requires PHP: 5.6
  *	Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments
- *  Version: 1.0.0.05
- ?  Updated: 2022-11-07 - 11:44 (Y:m:d - H:i)
+ *  Version: 1.0.1
+ ?  Updated: 2024-07-23 - 18:22 (Y:m:d - H:i)
+ ?  Info: Changed (body) to (:root :where(body)).
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -71,7 +72,7 @@ html {
     font-size: 62.5%;
 }
 
-body {
+:root :where(body) {
     overflow: hidden;
     height: 100vh;
 	padding-top: var(--size-nav-height);
@@ -440,7 +441,7 @@ body.admin-bar .wp-block-navigation__responsive-container {
 	 #  2. CSS Reset
 	--------------------------------------------------------------------------- */
 
-	body {
+	:root :where(body) {
 		padding-top: 0;
 		padding-left: var(--size-nav-width);
 	}
