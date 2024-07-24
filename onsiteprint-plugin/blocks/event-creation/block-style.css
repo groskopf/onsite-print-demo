@@ -1,8 +1,61 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2024-07-02 - 20:58 (Y:m:d - H:i)
- ?  Info: Added Modal Window (CSS).
+ ?  Updated: 2024-07-24 - 22:18 (Y:m:d - H:i)
+ ?  Info: Added Approval Display in Step 4.
 --------------------------------------------------------------------------- */
+/* ------------------------------------------
+ >  Approval Display
+--------------------------------------------- */
+.op-block__event-creation .op-event-approval-display {
+    background-color: var(--wp--preset--color--white);
+    width: 100%;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem;
+}
+
+.op-block__event-creation .op-content {
+    flex: 1 1 60%;
+    padding-top: 1rem;
+}
+
+.op-block__event-creation .op-image {
+    flex: 1 1 40%;
+    padding-top: 1rem;
+    border-left: 0.1rem solid var(--form-color-light);
+}
+
+.op-block__event-creation .op-approval-field-print-button {
+    margin-top: auto;
+    padding: 1rem;
+}
+
+.op-block__event-creation [ class*="op-approval-field" ] {
+    line-height: var(--wp--custom--typography--line-height--small);
+}
+
+.op-block__event-creation [ class*="op-approval-field" ] h4 {
+    padding: 0.5rem 2rem 0.2rem;
+}
+
+.op-block__event-creation [ class*="op-approval-field" ] p {
+    padding: 0 2rem 0.5rem;
+}
+
+.op-block__event-creation [ class*="op-approval-field" ] .op-text-title {
+    color: var(--form-color-dark);
+    font-size: var(--wp--preset--font-size--x-small);
+    line-height: var(--wp--custom--typography--line-height--small);
+    font-weight: 600;
+    padding-bottom: 0.2rem;
+}
+
+.op-block__event-creation .op-image [ class*="op-approval-field" ] .op-text-title {
+    padding-bottom: 0.7rem;
+}
+.op-block__event-creation .op-image [ class*="op-approval-field" ] img {
+    padding: 0 1rem 1rem;
+}
+
 /* ------------------------------------------
  >  Modal Window
 --------------------------------------------- */

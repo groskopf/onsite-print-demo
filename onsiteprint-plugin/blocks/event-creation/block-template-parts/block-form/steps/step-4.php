@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-07-24 - 22:18 (Y:m:d - H:i)
+ ?  Info: Added Approval Display in Step 4.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -15,6 +15,31 @@
         <p class="op-fieldset-description"><?= esc_attr( $acf['step_4_description'] ) ?></p>
     </header>
     <div class="op-fieldset__inner">
+
+        <section class="op-event-approval-display op-flex-row">
+            <div class="op-content op-flex-col">
+                <div class="op-approval-field-eventname op-flex-col">
+                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_1'] ) ?></h4>
+                    <p class="op-text-info">Loading...</p>
+                </div>
+                <div class="op-approval-field-templatename op-flex-col">
+                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_2'] ) ?></h4>
+                    <p class="op-text-info">Loading...</p>
+                </div>
+                <div class="op-approval-field-print-button op-flex-col">
+                    <button type="button" class="op-button-example op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="money-check" data-icon-position="left">
+                        <span class="op-icon" role="img" aria-label="Layout Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_example_button'] ) ?></span>
+                    </button>
+                </div>
+            </div>
+            <div class="op-image op-flex-col">
+                <div class="op-approval-field-layout op-flex-col">
+                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_3'] ) ?></h4>
+                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
+                </div>
+            </div>
+        </section>
 
         <label for="<?= esc_attr($id) ?>-form-approval-input" class="op-input-wrapper op-form-approval-input" data-validation="0">
             <p class="op-label-title"><?= esc_attr( $acf['step_4_field_1_title'] ) ?></p>

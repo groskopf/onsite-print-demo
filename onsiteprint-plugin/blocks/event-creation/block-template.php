@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-07-24 - 21:00 (Y:m:d - H:i)
+ ?  Info: Added Approval Display in Step 4.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -69,6 +69,9 @@ $acf = array(
     'step_4_field_1_title'  => get_field( $ec . 'steps_step_4_field_1_title' ) ?: 'Event Approval',
     'step_4_field_1_val'    => get_field( $ec . 'steps_step_4_field_1_validation' ) ?: 'The checkbox must be checked!',
     'step_4_field_1_value'  => get_field( $ec . 'steps_step_4_field_1_value' ) ?: 'I Approve the new Event.',
+    'step_4_approval_1'     => get_field( $ec . 'steps_step_4_approval_1' ) ?: 'Eventname',
+    'step_4_approval_2'     => get_field( $ec . 'steps_step_4_approval_2' ) ?: 'Template Used',
+    'step_4_approval_3'     => get_field( $ec . 'steps_step_4_approval_3' ) ?: 'Template Layout',
 
     'modal_title'           => get_field( $ec . 'modal_title' ) ?: 'Event have been Saved!',
     'modal_description'     => get_field( $ec . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or the new Event your just finished.',
