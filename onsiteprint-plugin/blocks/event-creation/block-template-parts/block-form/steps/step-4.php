@@ -17,13 +17,23 @@
     <div class="op-fieldset__inner">
 
         <section class="op-event-approval-display op-flex-row">
+            <div class="op-template op-flex-col">
+                <div class="op-approval-field-templatename op-flex-col">
+                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_2'] ) ?></h4>
+                    <p class="op-text-info">Loading...</p>
+                </div>
+                <div class="op-approval-field-layout op-flex-col">
+                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_4'] ) ?></h4>
+                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
+                </div>
+            </div>
             <div class="op-content op-flex-col">
                 <div class="op-approval-field-eventname op-flex-col">
                     <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_1'] ) ?></h4>
                     <p class="op-text-info">Loading...</p>
                 </div>
-                <div class="op-approval-field-templatename op-flex-col">
-                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_2'] ) ?></h4>
+                <div class="op-approval-field-filename op-flex-col">
+                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_3'] ) ?></h4>
                     <p class="op-text-info">Loading...</p>
                 </div>
                 <div class="op-approval-field-print-button op-flex-col">
@@ -31,12 +41,6 @@
                         <span class="op-icon" role="img" aria-label="Layout Icon"></span>
                         <span class="op-button-title"><?= esc_attr( $acf['step_3_example_button'] ) ?></span>
                     </button>
-                </div>
-            </div>
-            <div class="op-image op-flex-col">
-                <div class="op-approval-field-layout op-flex-col">
-                    <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_3'] ) ?></h4>
-                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
                 </div>
             </div>
         </section>

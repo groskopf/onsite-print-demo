@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-07-29 - 20:14 (Y:m:d - H:i)
+ ?  Info: Added Field Update to the Approval Display in Step 4.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -41,8 +41,12 @@ export function opStep3( debug, block ) {
             let gridContainer = fieldset3Element.querySelector( '.op-grid-wrapper' )
             let gridElement = gridContainer.querySelector( '[id*="-form-grid"]' )
 
-            ///// Throw Error if Fieldset 3 is missing.
-            if ( ! fieldset3Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            ///// Get the elements in Step 4.
+            let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
+            let filenameField = fieldset4Element.querySelector( '.op-approval-field-filename p' )
+            
+            ///// Throw Error if Fieldset 3 or 4 is missing.
+            if ( ! fieldset3Element || ! fieldset4Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing one or more Fieldset Elements!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName
@@ -60,6 +64,9 @@ export function opStep3( debug, block ) {
                 ///// Check if the CSV file is Uploaded in thw Input Field.
                 if ( gridInput.value ) {
 
+                    ///// Update Field in Step 4.
+                    filenameField.innerHTML = gridInput.files[0].name
+                    
                     ///// Get the the Form Element.
                     let formElement = fieldset3Element.closest( '.op-form-steps' )
 
@@ -191,6 +198,9 @@ export function opStep3( debug, block ) {
                     ///// Remove the Grid Element in Step 3.
                     gridContainer.classList.remove( 'op-grid-active' )
                     gridElement.innerHTML = ''
+
+                    ///// Update Field in Step 4.
+                    filenameField.innerHTML = "Loading..."
 
                 }
 

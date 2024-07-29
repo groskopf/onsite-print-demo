@@ -71,7 +71,8 @@ $acf = array(
     'step_4_field_1_value'  => get_field( $ec . 'steps_step_4_field_1_value' ) ?: 'I Approve the new Event.',
     'step_4_approval_1'     => get_field( $ec . 'steps_step_4_approval_1' ) ?: 'Eventname',
     'step_4_approval_2'     => get_field( $ec . 'steps_step_4_approval_2' ) ?: 'Template Used',
-    'step_4_approval_3'     => get_field( $ec . 'steps_step_4_approval_3' ) ?: 'Template Layout',
+    'step_4_approval_3'     => get_field( $ec . 'steps_step_4_approval_3' ) ?: 'CSV-file Used',
+    'step_4_approval_4'     => get_field( $ec . 'steps_step_4_approval_4' ) ?: 'Template Layout',
 
     'modal_title'           => get_field( $ec . 'modal_title' ) ?: 'Event have been Saved!',
     'modal_description'     => get_field( $ec . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or the new Event your just finished.',

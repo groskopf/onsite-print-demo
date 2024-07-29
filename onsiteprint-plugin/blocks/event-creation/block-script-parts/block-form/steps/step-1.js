@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-07-29 - 21:00 (Y:m:d - H:i)
+ ?  Info: Added Field Update to the Approval Display in Step 4.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -41,8 +41,13 @@ export function opStep1( debug, block ) {
             let templatesContainer = fieldset1Element.querySelector( `.op-form-radio-inputs` )
             let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
 
-            ///// Throw Error if Fieldset 1 or 3 is missing.
-            if ( ! fieldset1Element || ! fieldset3Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            ///// Get the elements in Step 4.
+            let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
+            let templatenameField = fieldset4Element.querySelector( '.op-approval-field-templatename p' )
+            let layoutField = fieldset4Element.querySelector( '.op-approval-field-layout img' )
+            
+            ///// Throw Error if Fieldset 1, 3 or 4 is missing.
+            if ( ! fieldset1Element || ! fieldset3Element || ! fieldset4Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
                 message: `Missing one or more Fieldset Elements!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName
@@ -84,6 +89,25 @@ export function opStep1( debug, block ) {
                     ///// Get the Input Element of the Template.
                     let inputElement = radioInput.querySelector( 'input' )
                     
+                    ///// Update Fields in Step 4.
+                    function updateFields( templateId ) {
+
+                        ///// Get Template from Local Storage.
+                        const templateResponse = opGetTemplate( templateId )
+
+                        ///// Validate the Response from the Get Template Function.
+                        if ( templateResponse.error !== false ) throw templateResponse
+                        else {
+
+                            ///// Update Fields in Step 4.
+                            templatenameField.innerHTML = templateResponse.response.templateName
+                            let layoutImageElement = inputElement.closest( '.op-radio-input' ).querySelector( '.op-image img' )
+                            let layoutURL = layoutImageElement.getAttribute( 'src' )
+                            layoutField.setAttribute( 'src', layoutURL )
+
+                        }
+                    }
+
                     ///// Check if the Input Element matches the Template ID.
                     if ( inputElement.value == templateId ) {
                         
@@ -105,6 +129,9 @@ export function opStep1( debug, block ) {
                         ///// Validate the Response from the Form Validation.
                         if ( formValidation.error !== false ) console.warn( 'WARNING:', formValidation )
 
+                        ///// Update Fields in Step 4.
+                        updateFields( inputElement.value )
+
                     }
                     
                     ///// Set Event Listener for the Input Element.
@@ -113,6 +140,9 @@ export function opStep1( debug, block ) {
                         ///// Start the Console Log Group.
                         if ( debug ) console.group( `Event Listener (Click): Input Element - Event Creation Block, ${ functionName }()` )
                         
+                        ///// Update Fields in Step 4.
+                        updateFields( inputElement.value )
+
                         ///// Set the Number of Columns in Step 3.
                         const columnValidation = opModuleAdditions.opSetColumnNumber( debug, inputElement.value, fieldset3Element )
 
