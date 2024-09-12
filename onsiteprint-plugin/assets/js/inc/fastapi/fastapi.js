@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Set Column Number Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-06-30 - 21:59 (Y:m:d - H:i)
- ?  Info: Added New JS (fastapi.js) and changed Event Creation Block.
+ ?  Updated: 2024-09-12 - 12:38 (Y:m:d - H:i)
+ ?  Info: Changed (Create Error Details) from false to true at (opReturnResponse).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ export async function opGetApiData( debug, method, bodyInput, url, output, conte
     } catch( errorResponse ) {
 
         ///// Create Error Details.
-        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( true, 400, { 
             message: errorResponse.message,
             line: opModuleBasic.errorLine(),
             function: functionName
