@@ -54,6 +54,7 @@
     padding-bottom: 0.7rem;
 }
 .op-block__event-creation .op-event-approval-display .op-template [ class*="op-approval-field" ] img {
+    max-width: 30rem;
     padding: 0 1rem 1rem;
 }
 

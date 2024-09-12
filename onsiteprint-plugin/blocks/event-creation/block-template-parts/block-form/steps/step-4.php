@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-09-12 - 14:15 (Y:m:d - H:i)
+ ?  Updated: 2024-09-12 - 14:28 (Y:m:d - H:i)
  ?  Info: Changed flex classes.
 ---------------------------------------------------------------------------
  #  The Block Part Content
@@ -17,7 +17,7 @@
     <div class="op-fieldset__inner">
 
         <section class="op-event-approval-display op-flex-col op-flex-nowrap">
-            <div class="op-template op-flex-col">
+            <div class="op-template op-flex-col op-flex-nowrap">
                 <div class="op-approval-field-templatename op-flex-col">
                     <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_2'] ) ?></h4>
                     <p class="op-text-info">Loading...</p>
@@ -27,7 +27,7 @@
                     <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
                 </div>
             </div>
-            <div class="op-content op-flex-col">
+            <div class="op-content op-flex-col op-flex-nowrap">
                 <div class="op-approval-field-eventname op-flex-col">
                     <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_1'] ) ?></h4>
                     <p class="op-text-info">Loading...</p>
