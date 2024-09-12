@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Script 
  *  Check if multiple Blocks of the Event Creation is on page.
- ?  Updated: 2024-06-15 - 15:23 (Y:m:d - H:i)
- ?  Info: Added Step 4 & opSaveNewEvent() to Steps Additions (Event Creation).
+ ?  Updated: 2024-09-12 - 13:34 (Y:m:d - H:i)
+ ?  Info: Added Step 2.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -60,6 +60,12 @@ export function opEventCreationBlocks( debug ) {
 
                 ///// Validate the Response from the Approval.
                 if ( step1.error !== false ) throw step1
+
+                ///// Run the Step 2 Function.
+                const step2 = opModuleBlockForm.opStep2( debug, block )
+
+                ///// Validate the Response from the Approval.
+                if ( step2.error !== false ) throw step2
 
                 ///// Run the Step 3 Function.
                 const step3 = opModuleBlockForm.opStep3( debug, block )

@@ -1,16 +1,17 @@
 /* ------------------------------------------------------------------------
- #  JS Part Name: (Template Creation) Block Form Script
+ #  JS Part Name: (Event Creation) Block Form Script
  *  Block functions included in the Template Creation Block Script.
- ?  Updated: 2024-06-15 - 15:23 (Y:m:d - H:i)
- ?  Info: Added Step 4 & opSaveNewEvent() to Steps Additions (Event Creation).
+ ?  Updated: 2024-09-12 - 13:34 (Y:m:d - H:i)
+ ?  Info: Added Step 2.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
     1. 	Steps in Form
         a.  Step 1
-        b.  Step 3
-        c.  Step 4
+        b.  Step 2
+        c.  Step 3
+        d.  Step 4
 
 ---------------------------------------------------------------------------
  #  1. Steps in Form
@@ -23,13 +24,19 @@ import { opStep1 } from './steps/step-1.js'
 export { opStep1 }
 
 /* ---------------------------------------------------------
- >  1b. Step 3
+ >  1b. Step 2
+------------------------------------------------------------ */
+import { opStep2 } from './steps/step-2.js'
+export { opStep2 }
+
+/* ---------------------------------------------------------
+ >  1c. Step 3
 ------------------------------------------------------------ */
 import { opStep3 } from './steps/step-3.js'
 export { opStep3 }
 
 /* ---------------------------------------------------------
- >  1c. Step 4
+ >  1d. Step 4
 ------------------------------------------------------------ */
 import { opStep4 } from './steps/step-4.js'
 export { opStep4 }
