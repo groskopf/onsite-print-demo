@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2024-07-24 - 22:18 (Y:m:d - H:i)
- ?  Info: Added Approval Display in Step 4.
+ ?  Updated: 2024-09-12 - 14:15 (Y:m:d - H:i)
+ ?  Info: Added @media screen width (1300px).
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
  >  Approval Display
@@ -21,7 +21,7 @@
 .op-block__event-creation .op-event-approval-display .op-template {
     flex: 1 1 40%;
     padding-top: 1rem;
-    border-right: 0.1rem solid var(--form-color-light);
+    border-bottom: 0.1rem solid var(--form-color-light);
 }
 
 .op-block__event-creation .op-event-approval-display .op-approval-field-print-button {
@@ -31,6 +31,7 @@
 
 .op-block__event-creation .op-event-approval-display [ class*="op-approval-field" ] {
     line-height: var(--wp--custom--typography--line-height--small);
+    flex-wrap: nowrap;
 }
 
 .op-block__event-creation .op-event-approval-display [ class*="op-approval-field" ] h4 {
@@ -78,4 +79,23 @@
 
 .op-block__event-creation .op-modal .op-modal__inner .op-flex-row {
     padding-top: 0;
+}
+
+/* ------------------------------------------
+ >  Screen Width (1300px)
+--------------------------------------------- */
+@media screen and ( min-width: 1300px ) {
+
+    /* ------------------------------------------
+    >  Approval Display
+    --------------------------------------------- */
+    .op-block__event-creation .op-event-approval-display {
+        flex-direction: row;
+    }
+
+    .op-block__event-creation .op-event-approval-display .op-template {
+        border-bottom: none;
+        border-right: 0.1rem solid var(--form-color-light);
+    }
+
 }

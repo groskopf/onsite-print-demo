@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-07-24 - 22:18 (Y:m:d - H:i)
- ?  Info: Added Approval Display in Step 4.
+ ?  Updated: 2024-09-12 - 14:15 (Y:m:d - H:i)
+ ?  Info: Changed flex classes.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -16,7 +16,7 @@
     </header>
     <div class="op-fieldset__inner">
 
-        <section class="op-event-approval-display op-flex-row">
+        <section class="op-event-approval-display op-flex-col op-flex-nowrap">
             <div class="op-template op-flex-col">
                 <div class="op-approval-field-templatename op-flex-col">
                     <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_2'] ) ?></h4>
