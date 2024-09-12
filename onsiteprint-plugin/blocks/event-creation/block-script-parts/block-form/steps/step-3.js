@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-29 - 20:14 (Y:m:d - H:i)
- ?  Info: Added Field Update to the Approval Display in Step 4.
+ ?  Updated: 2024-09-12 - 12:52 (Y:m:d - H:i)
+ ?  Info: Changed (Create Print Example) Validation from a (throw) to a (Warning) in the Button - Event Listener.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -140,7 +140,7 @@ export function opStep3( debug, block ) {
                                 const filenameResponse = await opModuleAdditions.createPrintExample( debug, templateId )
 
                                 ///// Validate the Filename Response.
-                                if ( filenameResponse.error !== false ) throw filenameResponse
+                                if ( filenameResponse.error !== false ) console.warn( 'WARNING:', 'Could not Create Print Example!' )
                                 else {
 
                                     ///// Get Print Example Filename.
