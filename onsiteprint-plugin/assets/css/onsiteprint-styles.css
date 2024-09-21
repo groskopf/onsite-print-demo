@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-09-21 - 03:32 (Y:m:d - H:i)
- ?  Info: (CSS) Moved everything related to the (Grid) in the (Event Creation) Block Form.
+ ?  Updated: 2024-09-21 - 05:33 (Y:m:d - H:i)
+ ?  Info: (CSS) removed (Focus) on Buttons.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -337,15 +337,15 @@ html {
     border-radius: 0.4rem;
 }
 
-.op-button:is( :hover, :focus ) {
+.op-button:is( :hover ) {
     background-color: var(--wp--preset--color--accent-60);
     color: var(--wp--preset--color--white);
     border: 0.1rem solid var(--wp--preset--color--accent-60);
     transition: all 200ms ease-in-out, color 100ms ease-in-out;
 }
 
-.op-button:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ),
-:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover, :focus ) {
+.op-button:is( [data-color*="accent"] ):is( :hover ):not( :disabled ),
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover ) {
     background-color: var(--wp--preset--color--primary-90);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
 }
@@ -642,15 +642,15 @@ html {
     overflow: hidden;
 }
 
-.op-button[data-title-visibility="1"]:where( :hover, :focus ) {
+.op-button[data-title-visibility="1"]:where( :hover ) {
     overflow: visible;
 }
 
-.op-button[data-title-visibility="1"]:where( :hover, :focus ) {
+.op-button[data-title-visibility="1"]:where( :hover ) {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover, :focus ) {
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover ) {
 	border-radius: 0 0.4rem 0.4rem 0;
 }
 
@@ -675,17 +675,17 @@ html {
     left: auto;
 }
 
-.op-button[data-title-visibility="1"]:where( :hover, :focus ) .op-button-title {
+.op-button[data-title-visibility="1"]:where( :hover ) .op-button-title {
     opacity: 1;
     transition: all 0.2s ease-in-out;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover, :focus ) .op-button-title {
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover ) .op-button-title {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ) .op-button-title,
-:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover, :focus ):not( :disabled ) .op-button-title {
+.op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover ):not( :disabled ) .op-button-title,
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover ):not( :disabled ) .op-button-title {
     background-color: var(--wp--preset--color--primary-100);
     border-color: var(--wp--preset--color--primary-100);
 }
@@ -800,7 +800,7 @@ html {
 	transition: all 0.2s ease-in-out;
 }
 
-.op-button-loginout button:where( :hover, :focus ) .button-icon {
+.op-button-loginout button:where( :hover ) .button-icon {
 	background-color: var(--wp--preset--color--accent-60);
 	text-decoration: none;
 	border-radius: 0.4rem 0 0 0.4rem;
@@ -1233,7 +1233,7 @@ html {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-search-label .op-icon:is( :hover, :focus )::before {
+.op-event-participant-list .op-search-label .op-icon:is( :hover )::before {
     background: var(--wp--preset--color--accent-60);
     color: var(--wp--preset--color--white);
     display: flex;
@@ -1271,7 +1271,7 @@ html {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-search-cancel:is( :hover, :focus ) .op-icon::before {
+.op-event-participant-list .op-search-cancel:is( :hover ) .op-icon::before {
     background: var(--wp--preset--color--accent-60);
     color: var(--wp--preset--color--white);
     display: flex;
@@ -1355,7 +1355,7 @@ html {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-filter-input-label:is( :hover, :focus ) {
+.op-event-participant-list .op-filter-input-label:is( :hover ) {
     background-color: var(--wp--preset--color--primary-10);
     color: var(--wp--preset--color--primary-100);
     border-color: var(--wp--preset--color--primary-100);
@@ -1991,8 +1991,8 @@ html {
     transition: all 200ms ease-in-out;
 }
 
-.op-input-field input[type="file"]:where( :hover, :focus )::-webkit-file-upload-button,
-.op-input-field input[type="file"]:where( :hover, :focus )::file-selector-button {
+.op-input-field input[type="file"]:where( :hover )::-webkit-file-upload-button,
+.op-input-field input[type="file"]:where( :hover )::file-selector-button {
     background-color: var(--form-color-medium);
     color: var(--wp--preset--color--white);
     border-color: var(--form-color-medium);
@@ -2059,13 +2059,13 @@ html {
     display: flex;
 }
 
-.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check {
+.op-input-field .op-input-border:where( :hover ) .op-radio-check {
     background-color: var(--form-color-light);
 }
 
-.op-input-field .op-input-border:is( :hover, :focus ),
-.op-input-field .op-input-border:is( :hover, :focus ) .op-radio-check,
-.op-input-field .op-input-border:is( :hover, :focus ) .op-radio-check .op-icon,
+.op-input-field .op-input-border:is( :hover ),
+.op-input-field .op-input-border:is( :hover ) .op-radio-check,
+.op-input-field .op-input-border:is( :hover ) .op-radio-check .op-icon,
 .op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check
 .op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check .op-icon
 .op-input-field .op-input-approved:hover ~ .op-input-border,
@@ -2078,8 +2078,8 @@ html {
     border-color: var(--wp--preset--color--error-40);
 }
 
-.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ),
-.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ) .op-radio-check,
+.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover ),
+.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover ) .op-radio-check,
 .op-input-wrapper[data-validation="2"] .op-input-validation:hover ~ .op-input-border {
     border-color: var(--wp--preset--color--error-100);
 }
@@ -2134,7 +2134,7 @@ html {
     clip-path: inset(50%);
 }
 
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ),
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label {
     border-color: var(--form-color-medium);
 }
@@ -2173,14 +2173,14 @@ html {
     transition: border-color 200ms ease-in-out;
 }
 
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ) .op-radio-check,
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check,
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ) .op-radio-check .op-icon,
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon {
     border-color: var(--form-color-medium);
 }
 
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ) .op-radio-check {
     background-color: var(--form-color-light);
 }
 
@@ -2226,7 +2226,7 @@ html {
     transition: opacity 200ms ease-in-out;
 }
 
-.op-form .op-radio-input label:where( :hover, :focus ) .op-radio-info .op-info::after,
+.op-form .op-radio-input label:where( :hover ) .op-radio-info .op-info::after,
 .op-form .op-radio-input input:checked ~ label .op-radio-info .op-info::after {
     opacity: 1;
 }
@@ -2609,7 +2609,7 @@ fieldset {
 		overflow: hidden;
 	}
 
-	.op-button-loginout button:where( :hover, :focus ) {
+	.op-button-loginout button:where( :hover ) {
 		overflow: visible;
 	}
 
