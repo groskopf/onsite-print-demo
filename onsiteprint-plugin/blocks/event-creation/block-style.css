@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2024-09-12 - 14:15 (Y:m:d - H:i)
- ?  Info: Added @media screen width (1300px).
+ ?  Updated: 2024-09-21 - 05:45 (Y:m:d - H:i)
+ ?  Info: Added a Dropdown Menu to the Grid in Step 3 (Event Creation).
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
  >  Approval Display
@@ -83,6 +83,82 @@
 }
 
 /* ------------------------------------------
+ >  Grid
+--------------------------------------------- */
+.op-block__event-creation .op-grid-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    visibility: hidden;
+}
+
+.op-block__event-creation .op-grid-wrapper.op-grid-active {
+    visibility: visible;
+}
+
+.op-block__event-creation [ id*="-form-grid" ] {
+    flex: 1;
+    min-height: 22rem;
+    padding: 0.4rem;
+    border: 0.1rem solid var(--form-color-light);
+    border-radius: 0.4rem;
+}
+
+.op-block__event-creation [ id*="-form-grid" ] > div {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-display {
+    border: 1px solid gray;
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-part-layoutButton {
+    z-index: 1;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-colHeaderBackground {
+    background: var(--wp--preset--color--neutral-20) !important;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span {
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    width: calc( 100% + 1px);
+    height: 30px;
+    padding: 4px 6px;
+    box-sizing: border-box;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col {
+    background: var(--form-color-light);
+    color: var(--wp--preset--color--black);
+    border: 1px solid var(--form-color-dark);
+    border-top: none;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col-no {
+    background: var(--wp--preset--color--neutral-40);
+    color: var(--wp--preset--color--black);
+    border: 1px solid var(--wp--preset--color--neutral-40);
+    border-top: none;
+}
+
+/* ------------------------------------------
  >  Screen Width (1300px)
 --------------------------------------------- */
 @media screen and ( min-width: 1300px ) {
@@ -99,4 +175,83 @@
         border-right: 0.1rem solid var(--form-color-light);
     }
 
+}
+
+
+
+
+/* ------------------------------------------
+ >  Dropdown
+--------------------------------------------- */
+.op-dropdown {
+    position: relative;
+}
+
+.op-dropdown .op-button-dropdown {
+    position: relative;
+    z-index: 1;
+}
+
+.op-dropdown .op-button-dropdown.op-button:where( [data-icon-position="left"] ) .op-icon {
+    padding-right: 0.3rem;
+}
+
+.op-dropdown .op-button-dropdown.op-button:where( [data-icon-position="left"] ) .op-icon-menu {
+    padding-left: 0.3rem;
+    padding-right: 1.4rem;
+}
+
+.op-dropdown .op-button-dropdown.op-button:where( [data-icon-position="right"] ) .op-icon {
+    padding-left: 0.3rem;
+}
+
+.op-dropdown .op-button-dropdown.op-button:where( [data-icon-position="right"] ) .op-icon-menu {
+    padding-right: 0.3rem;
+    padding-left: 1.4rem;
+}
+
+.op-dropdown .op-button-dropdown .op-icon-menu::before {
+	content: var(--fa-icon-angle-down);
+}
+
+.op-dropdown.op-active .op-button-dropdown .op-icon-menu::before {
+	content: var(--fa-icon-angle-up);
+}
+
+.op-dropdown .op-button-dropdown:is( :hover ) ~ div {
+    background: var(--wp--preset--color--accent-60);
+}
+
+.op-dropdown .op-button-dropdown:is( [data-color*="accent"] ):is( :hover ) ~ div {
+    background: var(--wp--preset--color--primary-90);
+}
+
+.op-menu-dropdown {
+    background: var(--form-color-medium);
+    flex-direction: column;
+    gap: 0.4rem;
+    display: none;
+    margin-top: -0.4rem;
+    padding: 0.4rem;
+    position: absolute;
+    z-index: 0;
+    border-radius: 0 0.4rem 0.4rem 0.4rem;
+    transition: all 200ms ease-in-out;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.op-dropdown.op-active .op-menu-dropdown {
+    display: flex;
+}
+
+.op-dropdown:where( [data-menu-position="right"] ) .op-menu-dropdown {
+    right: 0;
+    border-radius: 0.4rem 0 0.4rem 0.4rem;
+}
+
+.op-menu-dropdown > button {
+    min-width: max-content;
+    justify-content: flex-start;
+    background: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--white);
 }

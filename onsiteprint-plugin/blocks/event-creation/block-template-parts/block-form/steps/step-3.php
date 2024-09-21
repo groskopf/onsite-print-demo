@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-09-21 - 02:37 (Y:m:d - H:i)
+ ?  Info: Added a Dropdown Menu to the Grid in Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -36,10 +36,22 @@
             <div id="<?= esc_attr($id) ?>-form-grid"></div>
 
             <template id="<?= esc_attr($id) ?>-button-example-template">
-                <button type="button" class="op-button-example op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="money-check" data-icon-position="left">
-                    <span class="op-icon" role="img" aria-label="Layout Icon"></span>
-                    <span class="op-button-title"><?= esc_attr( $acf['step_3_example_button'] ) ?></span>
-                </button>
+                <div class="op-dropdown" data-menu-position="right">
+                    <button type="button" class="op-button-dropdown op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="money-check" data-icon-position="left" onclick="opToggleActive( 'class', 'op-dropdown' )">
+                        <span class="op-icon" role="img" aria-label="Layout Icon"></span>
+                        <span class="op-icon op-icon-menu" role="img" aria-label="Arrow Down Icon"></span>
+                    </button>
+                    <div class="op-menu-dropdown">
+                        <button type="button" class="op-button-layout op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="eye" data-icon-position="left">
+                            <span class="op-icon" role="img" aria-label="Eye Icon"></span>
+                            <span class="op-button-title"><?= esc_attr( $acf['step_3_layout_button'] ) ?></span>
+                        </button>
+                        <button type="button" class="op-button-example op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="eye" data-icon-position="left">
+                            <span class="op-icon" role="img" aria-label="Eye Icon"></span>
+                            <span class="op-button-title"><?= esc_attr( $acf['step_3_example_button'] ) ?></span>
+                        </button>
+                    </div>
+                </div>
             </template>
 
             <template id="<?= esc_attr($id) ?>-modal-example-template">

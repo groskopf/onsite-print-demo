@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-07-24 - 21:00 (Y:m:d - H:i)
- ?  Info: Added Approval Display in Step 4.
+ ?  Updated: 2024-09-21 - 05:45 (Y:m:d - H:i)
+ ?  Info: Added a Dropdown Menu to the Grid in Step 3 (Event Creation).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -59,6 +59,7 @@ $acf = array(
     'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
     'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
     'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
+    'step_3_layout_button'  => get_field( $ec . 'steps_step_3_layout_button' ) ?: 'See Chosen Layout',
     'step_3_example_button' => get_field( $ec . 'steps_step_3_example_button' ) ?: 'See Print Example',
     'step_3_modal_title'    => get_field( $ec . 'steps_step_3_modal_title' ) ?: 'Print Example',
     'step_3_modal_button'   => get_field( $ec . 'steps_step_3_modal_button' ) ?: 'Close',
