@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-29 - 21:00 (Y:m:d - H:i)
- ?  Info: Added Field Update to the Approval Display in Step 4.
+ ?  Updated: 2024-10-17 - 05:05 (Y:m:d - H:i)
+ ?  Info: Added Module Element to the Layout Button.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -39,7 +39,12 @@ export function opStep1( debug, block ) {
             ///// Get the elements in Step 1 and Step 3.
             let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
             let templatesContainer = fieldset1Element.querySelector( `.op-form-radio-inputs` )
+
+            ///// Get the elements in Step 3.
             let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
+            let moduleTemplate = fieldset3Element.querySelector( 'template[id*="layout-template"]' ).content
+            let moduleTemplatename = moduleTemplate.querySelector( 'h3' )
+            let moduleLayout = moduleTemplate.querySelector( 'img' )
 
             ///// Get the elements in Step 4.
             let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
@@ -99,10 +104,16 @@ export function opStep1( debug, block ) {
                         if ( templateResponse.error !== false ) throw templateResponse
                         else {
 
-                            ///// Update Fields in Step 4.
-                            templatenameField.innerHTML = templateResponse.response.templateName
+                            ///// Get Layout Information.
                             let layoutImageElement = inputElement.closest( '.op-radio-input' ).querySelector( '.op-image img' )
                             let layoutURL = layoutImageElement.getAttribute( 'src' )
+
+                            ///// Update Fields in Step 3.
+                            moduleTemplatename.innerHTML = templateResponse.response.templateName
+                            moduleLayout.setAttribute( 'src', layoutURL )
+
+                            ///// Update Fields in Step 4.
+                            templatenameField.innerHTML = templateResponse.response.templateName
                             layoutField.setAttribute( 'src', layoutURL )
 
                         }

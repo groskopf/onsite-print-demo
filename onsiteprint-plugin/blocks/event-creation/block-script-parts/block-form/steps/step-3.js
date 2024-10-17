@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-09-12 - 12:52 (Y:m:d - H:i)
- ?  Info: Changed (Create Print Example) Validation from a (throw) to a (Warning) in the Button - Event Listener.
+ ?  Updated: 2024-10-17 - 05:05 (Y:m:d - H:i)
+ ?  Info: Added Module Element to the Layout Button.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -101,12 +101,12 @@ export function opStep3( debug, block ) {
                         let blockId = block.getAttribute( 'id' )
 
                         ///// Get the Template Elements.
-                        let template = gridContainer.querySelector(`#${ blockId }-button-example-template`).content.cloneNode(true)
+                        let template = gridContainer.querySelector(`#${ blockId }-button-dropdown-template`).content.cloneNode(true)
                         let templateContainer = gridContainer.querySelector(`.dgxl-exampleButton`)
 
-                        ///// Check if the Button Element it's Found.
+                        ///// Check if the Button Dropdown Element it's Found.
                         if ( ! template ) console.error( 'ERROR:', { 
-                            message: `The Button Element was not found!`,
+                            message: `The Button Dropdown Element was not found!`,
                             line: opModuleBasic.errorLine(),
                             function: functionName
                         } )
@@ -130,8 +130,53 @@ export function opStep3( debug, block ) {
                                 function: functionName
                             } )
                             
-                            ///// Set Event Listener for the Input Element.
-                            opModuleBasic.opListener( 'click', templateContainer.querySelector('button'), async () => {
+                            ///// Set Event Listener for the Button Layout Element.
+                            opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-layout'), async () => {
+
+                                ///// Start the Console Log Group.
+                                if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
+
+                                ///// Get the Template Elements.
+                                let templateElement = gridContainer.querySelector(`#${ blockId }-modal-layout-template`)
+                                let modalTemplate = templateElement.content.cloneNode(true)
+
+                                ///// Check if the Modal Element it's Found.
+                                if ( ! modalTemplate ) console.error( 'ERROR:', { 
+                                    message: `The Modal Element was not found!`,
+                                    line: opModuleBasic.errorLine(),
+                                    function: functionName
+                                } )
+                                else {
+
+                                    ///// Get the Modal Elements.
+                                    let modalElement = block.querySelector( '.op-modal')
+                                    let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                                    
+                                    ///// Clear the Modal Window.
+                                    modalInnerElement.innerHTML = ""
+
+                                    ///// Add the Template to the Modal Window.
+                                    modalInnerElement.append( modalTemplate )
+
+                                    ///// Activate the Modal Window.
+                                    modalElement.classList.add( 'op-active' )
+
+                                    ///// Console Log Success if Debug.
+                                    if ( debug ) console.log( 'SUCCESS:', { 
+                                        message: `The Modal Element is Active!`,
+                                        line: opModuleBasic.errorLine(),
+                                        function: functionName
+                                    })
+
+                                }
+
+                                ///// End the Console Log Group.
+                                if ( debug ) console.groupEnd()
+
+                            })
+
+                            ///// Set Event Listener for the Button Example Element.
+                            opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-example'), async () => {
 
                                 ///// Start the Console Log Group.
                                 if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
@@ -178,6 +223,13 @@ export function opStep3( debug, block ) {
 
                                         ///// Activate the Modal Window.
                                         modalElement.classList.add( 'op-active' )
+                                        
+                                        ///// Console Log Success if Debug.
+                                        if ( debug ) console.log( 'SUCCESS:', { 
+                                            message: `The Modal Element is Active!`,
+                                            line: opModuleBasic.errorLine(),
+                                            function: functionName
+                                        })    
 
                                     }
                                 }
