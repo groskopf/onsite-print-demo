@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
- #  JS Part Name: Set Column Number Script
+ #  JS Part Name: Step Additions Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-10-19 - 05:13 (Y:m:d - H:i)
+ ?  Info: Changed JS Part Name in Step Additions Script (Event Creation).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
