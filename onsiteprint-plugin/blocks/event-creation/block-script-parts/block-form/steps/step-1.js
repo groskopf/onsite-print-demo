@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-10-17 - 05:05 (Y:m:d - H:i)
- ?  Info: Added Module Element to the Layout Button.
+ ?  Updated: 2024-10-19 - 04:50 (Y:m:d - H:i)
+ ?  Info: Removed Template Name from Modal.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -42,9 +42,8 @@ export function opStep1( debug, block ) {
 
             ///// Get the elements in Step 3.
             let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
-            let moduleTemplate = fieldset3Element.querySelector( 'template[id*="layout-template"]' ).content
-            let moduleTemplatename = moduleTemplate.querySelector( 'h3' )
-            let moduleLayout = moduleTemplate.querySelector( 'img' )
+            let modalTemplate = fieldset3Element.querySelector( 'template[id*="layout-template"]' ).content
+            let modalLayout = modalTemplate.querySelector( 'img' )
 
             ///// Get the elements in Step 4.
             let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
@@ -108,9 +107,8 @@ export function opStep1( debug, block ) {
                             let layoutImageElement = inputElement.closest( '.op-radio-input' ).querySelector( '.op-image img' )
                             let layoutURL = layoutImageElement.getAttribute( 'src' )
 
-                            ///// Update Fields in Step 3.
-                            moduleTemplatename.innerHTML = templateResponse.response.templateName
-                            moduleLayout.setAttribute( 'src', layoutURL )
+                            ///// Update Layout Modal in Step 3.
+                            modalLayout.setAttribute( 'src', layoutURL )
 
                             ///// Update Fields in Step 4.
                             templatenameField.innerHTML = templateResponse.response.templateName

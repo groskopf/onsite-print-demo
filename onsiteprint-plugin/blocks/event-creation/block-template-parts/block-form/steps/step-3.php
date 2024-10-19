@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2024-10-17 - 05:05 (Y:m:d - H:i)
- ?  Info: Added Module Element to the Layout Button.
+ ?  Updated: 2024-10-19 - 04:50 (Y:m:d - H:i)
+ ?  Info: Added new Variable Names to Dropdown in Step 3.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -56,10 +56,10 @@
 
             <template id="<?= esc_attr($id) ?>-modal-layout-template">
                 <div class="op-modal-header">
-                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_modal_title'] ) ?></h3>
+                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_layout_title'] ) ?></h3>
                     <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
                         <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['step_3_modal_button'] ) ?></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
                     </button>
                 </div>
                 <div class="op-flex-row">
@@ -69,10 +69,10 @@
 
             <template id="<?= esc_attr($id) ?>-modal-example-template">
                 <div class="op-modal-header">
-                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_modal_title'] ) ?></h3>
+                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_example_title'] ) ?></h3>
                     <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
                         <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['step_3_modal_button'] ) ?></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
                     </button>
                 </div>
                 <div class="op-flex-row">
