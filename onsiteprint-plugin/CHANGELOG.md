@@ -6,3 +6,6 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ### Changed Variable | Step 1
     * Changed wrong variable in the Debug Console Log Details. Event Creation Block - Step 1 (JS).
+
+### Moved Function | Step 3
+    * Moved the Event Listener Function (Grid Input Element) from Step 3 (JS) to a new file - Step Listeners (JS). Event Creation Block.
