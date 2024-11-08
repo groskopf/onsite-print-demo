@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
- *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-10-19 - 05:13 (Y:m:d - H:i)
- ?  Info: Changed JS Part Name in Step Additions Script (Event Creation).
+ *  Functions Used in Step Scripts (Event Creation).
+ ?  Updated: 2024-11-08 - 05:26 (Y:m:d - H:i)
+ ?  Info: Changed Description | Step Additions.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------

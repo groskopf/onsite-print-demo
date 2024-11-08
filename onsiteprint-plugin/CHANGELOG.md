@@ -9,3 +9,6 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ### Moved Function | Step 3
     * Moved the Event Listener Function (Grid Input Element) from Step 3 (JS) to a new file - Step Listeners (JS). Event Creation Block.
+
+### Changed Description | Step Additions
+    * Changed the Description in Step Additions (JS). Event Creation Block.
