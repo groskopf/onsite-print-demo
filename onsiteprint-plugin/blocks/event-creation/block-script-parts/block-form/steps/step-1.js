@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 1 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-10-19 - 04:50 (Y:m:d - H:i)
- ?  Info: Removed Template Name from Modal.
+ ?  Updated: 2024-11-08 - 05:11 (Y:m:d - H:i)
+ ?  Info: Changed Variable | Step 1.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -195,7 +195,7 @@ export function opStep1( debug, block ) {
                             opModuleBasic.opConsoleDebug( debug, { 
                                 message: `The Validation of the Grid Input was Cleared!`,
                                 line: opModuleBasic.errorLine(),
-                                details: eventGridElement 
+                                details: inputValidation
                             } )
 
                         }
