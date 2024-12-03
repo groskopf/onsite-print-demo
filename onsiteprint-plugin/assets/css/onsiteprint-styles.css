@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-05-12 - 21:05 (Y:m:d - H:i)
- ?  Info: (CSS) Changes the .op-radio-input-checked place in form.
+ ?  Updated: 2024-12-03 - 03:33 (Y:m:d - H:i)
+ ?  Info: Changes (Flex) in the Modal Window.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2434,6 +2434,8 @@ fieldset {
     left: 0;
     z-index: 110;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 [id*="op-block"] .op-modal {
@@ -2456,11 +2458,9 @@ fieldset {
     max-width: 450px;
     height: auto;
     max-height: 100%;
-    margin: auto;
     padding: 4rem;
     border-radius: 0.4rem;
     overflow-y: auto;
-
 }
 
 [id*="op-block"] .op-modal__inner .op-flex-col {
