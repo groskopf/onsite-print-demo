@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-11-08 - 05:24 (Y:m:d - H:i)
- ?  Info: Moved Function | Step 3.
+ ?  Updated: 2024-12-04 - 06:00 (Y:m:d - H:i)
+ ?  Info: Moved Event Listener (opGridInputListener) to this file from Step 3.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -20,7 +20,100 @@ import * as opModuleAdditions from './steps-additions.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Grid Input Listener
 --------------------------------------------------------------------------- */
-export async function opGridInputListener( debug, block, fieldset3Element, gridInput ) {
+export function opGridInputListener( debug, block ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = opGridInputListener.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Get the Fieldset Element in Step 3.
+        let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
+        
+        ///// Throw Error if Fieldset is Missing in Step 3.
+        if ( ! fieldset3Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            message: `Missing Fieldset Element in Step 3!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Get the Grid Input Element.
+        let gridInput = fieldset3Element.querySelector( '.op-input-grid input' )
+
+        ///// Set Event Listener to the Grid Input Element.
+        opModuleBasic.opListener( 'input', gridInput, async () => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `${ functionName }()` )
+
+
+
+            //// #NG: needToBeChanged() should be built in here instead of a function! 
+
+            ///// Update Field in Step 4.
+            let gridInputResponse = await needToBeChanged( debug, block, fieldset3Element, gridInput )
+
+            ///// Console Log Group Value.
+            if ( debug ) console.debug( 'DEBUG:', { 'Input Value': gridInputResponse } )
+
+            //// #2024-12-04 --------------------------
+
+                
+
+            ///// Get the Validation from the Form.
+            const formValidation = await opFormInputValidation( false, 'fieldset', fieldset3Element )
+
+            ///// Validate the Response from the Form Validation.
+            if ( formValidation.error !== false ) console.warn( 'WARNING:', formValidation )
+            else {
+                ///// Log Success in the Console when Debugging.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `No errors were found in the Grid Input Listener!`,
+                    line: opModuleBasic.errorLine(),
+                    details: gridInput
+                })
+            }
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+            
+        })
+
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Event Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        })
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+
+export async function needToBeChanged( debug, block, fieldset3Element, gridInput ) {
 
     try {
         
@@ -244,19 +337,6 @@ export async function opGridInputListener( debug, block, fieldset3Element, gridI
 
         }
 
-        ///// Get the Validation from the Form.
-        const formValidation = await opFormInputValidation( false, 'fieldset', fieldset3Element )
-
-        ///// Validate the Response from the Form Validation.
-        if ( formValidation.error !== false ) console.warn( 'WARNING:', formValidation )
-        else {
-            ///// Log Success in the Console when Debugging.
-            if ( debug ) console.log( 'SUCCESS:', { 
-                message: `No errors were found in the Grid Input Listener!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            })
-        }
 
     } catch( errorResponse ) {
 

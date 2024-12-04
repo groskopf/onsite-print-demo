@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 3 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-11-08 - 05:24 (Y:m:d - H:i)
- ?  Info: Moved Function | Step 3.
+ ?  Updated: 2024-12-04 - 06:00 (Y:m:d - H:i)
+ ?  Info: Moved Event Listener (opGridInputListener) to Step Listeners.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -36,36 +36,8 @@ export function opStep3( debug, block ) {
 
         } else {
            
-            ///// Get the Fieldset Element in Step 3.
-            let fieldset3Element = block.querySelector( '.op-fieldset-step-3' )
-            
-            ///// Throw Error if Fieldset is Missing in Step 3.
-            if ( ! fieldset3Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing Fieldset Element in Step 3!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
-
-            ///// Get the Grid Input Element.
-            let gridInput = fieldset3Element.querySelector( '.op-input-grid input' )
-
             ///// Set Event Listener to the Grid Input Element.
-            opModuleBasic.opListener( 'input', gridInput, async () => {
-
-                ///// Start the Console Log Group.
-                if ( debug ) console.group( `Event Listener (Input): Grid Input Element - Event Creation Block, ${ functionName }()` )
-
-                ///// Update Field in Step 4.
-                let gridInputResponse = await opModuleListeners.opGridInputListener( debug, block, fieldset3Element, gridInput )
-
-                ///// Console Log Group Value.
-                if ( debug ) console.debug( 'DEBUG:', { 'Input Value': gridInputResponse } )
-
-                ///// End the Console Log Group.
-                if ( debug ) console.groupEnd()
-                    
-            } )
-
+            opModuleListeners.opGridInputListener( debug, block )
 
         }
 

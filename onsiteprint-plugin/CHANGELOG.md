@@ -2,13 +2,23 @@
 
 This document includes the change log notes for the OnsitePrint Plugin - [GitHub](https://github.com/groskopf/onsite-print-demo)
 
+
 ## 2024-11-08
 
-### Changed Variable | Step 1
-    * Changed wrong variable in the Debug Console Log Details. Event Creation Block - Step 1 (JS).
+### [Step 1 (JS) - step-1.js](blocks/event-creation/block-script-parts/block-form/steps/step-1.js)
+- Changed wrong variable in the Debug Console Log Details.
+    ---
 
-### Moved Function | Step 3
-    * Moved the Event Listener Function (Grid Input Element) from Step 3 (JS) to a new file - Step Listeners (JS). Event Creation Block.
+### [Step 3 (JS) - step-3.js](blocks/event-creation/block-script-parts/block-form/steps/step-3.js)
+- Moved the Event Listener Function (Grid Input Element) from Step 3 (JS) to a new file - Step Listeners (JS).
+    ---
 
-### Changed Description | Step Additions
-    * Changed the Description in Step Additions (JS). Event Creation Block.
+### [Step Additions (JS) - steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
+- Changed the Description in Step Additions (JS).
+    ---
+
+## 2024-12-04
+
+### [Step 3 (JS) - step-3.js](blocks/event-creation/block-script-parts/block-form/steps/step-3.js)
+- Moved Event Listener (opGridInputListener) to [Step Additions (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js).
+    ---
