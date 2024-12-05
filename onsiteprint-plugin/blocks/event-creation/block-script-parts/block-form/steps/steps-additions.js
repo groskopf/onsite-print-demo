@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-11-08 - 05:26 (Y:m:d - H:i)
- ?  Info: Changed Description | Step Additions.
+ ?  Updated: 2024-12-05 - 04:40 (Y:m:d - H:i)
+ ?  Info: Added New Function (opGetCSVDataAsJSON).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -18,6 +18,8 @@
     5.  Function: Create Print Example
 
     6.  Function: Get Print Example
+   
+    7.  Function: Get CSV Data as JSON
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -419,6 +421,79 @@ export async function getPrintExample( debug, filename ) {
                 line: opModuleBasic.errorLine(),
                 function: functionName,
                 details: pdfFileResponse.response.details
+            }, debug )
+        
+        }
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+        ///// Return the Error Response.
+        return errorDetails
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  7. Function: Get CSV Data as JSON
+--------------------------------------------------------------------------- */
+export async function opGetCSVDataAsJSON( debug, formElement ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = opGetCSVDataAsJSON.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Throw Error if the Variables is missing.
+        if ( ! formElement ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Form Element!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+        else {
+
+            ///// Get the Data from the Form Element.
+            const formData = new FormData( formElement )
+
+            ///// The URL to the API.
+            const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
+
+            ///// Get JSON from CSV file.
+            const jsonResponse = await opModuleFastAPI.opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+
+            ///// Validate the JSON Response.
+            if ( jsonResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                message: `Something went wrong when Converting the CSV file into JSON format!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+
+            ///// Return the Response.
+            return opModuleBasic.opReturnResponse( false, 200, { 
+                message: `The CSV file was Converted into JSON format!!`, 
+                line: opModuleBasic.errorLine(),
+                function: functionName,
+                details: jsonResponse.response.details
             }, debug )
         
         }

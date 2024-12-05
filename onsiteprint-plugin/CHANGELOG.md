@@ -20,5 +20,11 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 ## 2024-12-04
 
 ### [Step 3 (JS) - step-3.js](blocks/event-creation/block-script-parts/block-form/steps/step-3.js)
-- Moved Event Listener (opGridInputListener) to [Step Additions (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js).
+- Moved Event Listener (opGridInputListener) to [Step Listeners (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js).
+    ---
+
+## 2024-12-05
+
+### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+- Moved Lines to New Function (opGetCSVDataAsJSON) in [Step Additions (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js).
     ---
