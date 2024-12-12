@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-12-05 - 04:40 (Y:m:d - H:i)
- ?  Info: Added New Function (opGetCSVDataAsJSON).
+ ?  Updated: 2024-12-12 - 05:25 (Y:m:d - H:i)
+ ?  Info: Moved the line containing opGetCSVDataAsJSON() to opAddGridToElement() from steps-listeners.js.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ export function opSetColumnNumber( debug, templateId, fieldset ) {
  *  Adding the Grid from the CSV file to an Element.
  *  Link: https://www.datagridxl.com/docs
 --------------------------------------------------------------------------- */
-export function opAddGridToElement( debug, gridContainer, jsonList ) {
+export async function opAddGridToElement( debug, gridContainer ) {
 
     try {
         
@@ -123,17 +123,19 @@ export function opAddGridToElement( debug, gridContainer, jsonList ) {
                 line: opModuleBasic.errorLine(),
                 function: functionName
             } )
-        else if ( ! jsonList ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing the JSON List!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
         else {
+
+            ///// Get CSV Data as JSON.
+            const jsonResponse = await opGetCSVDataAsJSON( debug, gridContainer )
+
+            ///// Validate the JSON Response.
+            if ( jsonResponse.error !== false ) throw jsonResponse
 
             ///// Get the Grid Elements.
             let gridElement = gridContainer.querySelector( '[id*="-form-grid"]' )
 
             ///// Set Grid Variables.
+            let jsonList = jsonResponse.response.details
             let gridWidth = gridContainer.clientWidth
             let gridCols = gridContainer.getAttribute( 'data-grid-cols' )
             let gridElementId = gridElement.getAttribute( 'id' )
@@ -452,7 +454,7 @@ export async function getPrintExample( debug, filename ) {
 /* ------------------------------------------------------------------------
  #  7. Function: Get CSV Data as JSON
 --------------------------------------------------------------------------- */
-export async function opGetCSVDataAsJSON( debug, formElement ) {
+export async function opGetCSVDataAsJSON( debug, gridContainer ) {
 
     try {
         
@@ -465,15 +467,25 @@ export async function opGetCSVDataAsJSON( debug, formElement ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Throw Error if the Variables is missing.
-        if ( ! formElement ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing the Form Element!`,
+        if ( ! gridContainer ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Grid Container Element!`,
                 line: opModuleBasic.errorLine(),
                 function: functionName
             } )
         else {
 
+            ///// Get the the Form Element.
+            let formElement = gridContainer.closest( '.op-form-steps' )
+
+            ///// Throw Error if the Variables are missing.
+            if ( ! formElement ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Form Element!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+            
             ///// Get the Data from the Form Element.
-            const formData = new FormData( formElement )
+            const formData = new FormData( gridContainer.closest( '.op-form-steps' ) )
 
             ///// The URL to the API.
             const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
