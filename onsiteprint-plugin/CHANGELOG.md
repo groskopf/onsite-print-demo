@@ -45,6 +45,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 ## 2024-12-13
 
 #### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
-- Moved the line containing the Dropdown Template Element to opGridInputListener() from needToBeChanged().
+- Moved Lines containing the Dropdown Template Element to opGridInputListener() from needToBeChanged().
+- Created a New Function (opLayoutButtonListener).
 
     ---
