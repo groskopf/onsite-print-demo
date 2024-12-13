@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-12-12 - 05:25 (Y:m:d - H:i)
- ?  Info: Moved the line containing opGetCSVDataAsJSON() to opAddGridToElement() in steps-additions.js.
+ ?  Updated: 2024-12-13 - 03:51 (Y:m:d - H:i)
+ ?  Info: Moved the line containing the Dropdown Template Element to opGridInputListener() from needToBeChanged().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -83,19 +83,44 @@ export function opGridInputListener( debug, block ) {
                     function: functionName
                 } )
 
+                ///// Get the Block ID.
+                let blockId = block.getAttribute( 'id' )
 
-                //// #NG: needToBeChanged() should be built in here instead of a function! 
+                ///// Get the Dropdown Template Element.
+                let template = gridContainer.querySelector(`#${ blockId }-button-dropdown-template`).content.cloneNode(true)
 
-                ///// Update Field in Step 4.
-                let gridInputResponse = await needToBeChanged( debug, block, gridContainer )
-                
-                //// #NG: Snackbar message here if Error!
+                ///// Check if the Dropdown Template Element it's Found.
+                if ( ! template ) console.error( 'ERROR:', { 
+                    message: `The Button Dropdown Element was not found!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+                else {
 
-                ///// Console Log Group Value.
-                if ( debug ) console.debug( 'DEBUG:', { 'Input Value': gridInputResponse } )
+                    ///// Get the Template Container Element.
+                    let templateContainer = gridContainer.querySelector(`.dgxl-exampleButton`)
 
-                //// #2024-12-04 --------------------------
+                    ///// Add the Dropdown Template Element to the Template Container.
+                    templateContainer.append( template )
 
+
+                    //// #NG: needToBeChanged() should be built in here instead of a function! 
+
+                    ///// Update Field in Step 4.
+                    let gridInputResponse = await needToBeChanged( debug, block, gridContainer, templateContainer )
+                    
+                    //// #NG: Snackbar message here if Error!
+
+                    ///// Console Log Group Value.
+                    if ( debug ) console.debug( 'DEBUG:', { 'Input Value': gridInputResponse } )
+
+                    //// #2024-12-04 --------------------------
+
+
+                }
+
+                ///// Show the Grid Element in Step 3.
+                gridContainer.classList.add( 'op-grid-active' )
 
                 ///// Update Field in Step 4.
                 filenameField.innerHTML = gridInput.files[0].name
@@ -159,7 +184,7 @@ export function opGridInputListener( debug, block ) {
 }
 
 
-export async function needToBeChanged( debug, block, gridContainer ) {
+export async function needToBeChanged( debug, block, gridContainer, templateContainer ) {
 
     try {
         
@@ -171,29 +196,59 @@ export async function needToBeChanged( debug, block, gridContainer ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `Event Listener (Input): Grid Input Element - Event Creation Block, ${ functionName }()` )
 
-
         ///// Get the Block ID.
         let blockId = block.getAttribute( 'id' )
+            
+        ///// Set Event Listener for the Button Layout Element.
+        opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-layout'), async () => {
 
-        ///// Get the Template Elements.
-        let template = gridContainer.querySelector(`#${ blockId }-button-dropdown-template`).content.cloneNode(true)
-        let templateContainer = gridContainer.querySelector(`.dgxl-exampleButton`)
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
 
-        ///// Check if the Button Dropdown Element it's Found.
-        if ( ! template ) console.error( 'ERROR:', { 
-            message: `The Button Dropdown Element was not found!`,
-            line: opModuleBasic.errorLine(),
-            function: functionName
-        } )
-        else if ( ! templateContainer ) console.error( 'ERROR:', {
-            message: `The Template Container was not found!`,
-            line: opModuleBasic.errorLine(),
-            function: functionName
-        } )
-        else {
+            ///// Get the Template Elements.
+            let templateElement = gridContainer.querySelector(`#${ blockId }-modal-layout-template`)
+            let modalTemplate = templateElement.content.cloneNode(true)
 
-            ///// Add the Button Element to the Template Container.
-            templateContainer.append( template )
+            ///// Check if the Modal Element it's Found.
+            if ( ! modalTemplate ) console.error( 'ERROR:', { 
+                message: `The Modal Element was not found!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+            else {
+
+                ///// Get the Modal Elements.
+                let modalElement = block.querySelector( '.op-modal')
+                let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                
+                ///// Clear the Modal Window.
+                modalInnerElement.innerHTML = ""
+
+                ///// Add the Template to the Modal Window.
+                modalInnerElement.append( modalTemplate )
+
+                ///// Activate the Modal Window.
+                modalElement.classList.add( 'op-active' )
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `The Modal Element is Active!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                })
+
+            }
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+
+        })
+
+        ///// Set Event Listener for the Button Example Element.
+        opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-example'), async () => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
 
             ///// Get the elements in Step 1.
             let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
@@ -204,15 +259,25 @@ export async function needToBeChanged( debug, block, gridContainer ) {
                 line: opModuleBasic.errorLine(),
                 function: functionName
             } )
-            
-            ///// Set Event Listener for the Button Layout Element.
-            opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-layout'), async () => {
 
-                ///// Start the Console Log Group.
-                if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
+            ///// Create Print Example and get the Filename.
+            const filenameResponse = await opModuleAdditions.createPrintExample( debug, templateId )
+
+            ///// Validate the Filename Response.
+            if ( filenameResponse.error !== false ) console.warn( 'WARNING:', 'Could not Create Print Example!' )
+            else {
+
+                ///// Get Print Example Filename.
+                let filename = filenameResponse.response.details.filename
+
+                ///// Get Print Example PDF.
+                const pdfFileResponse = await opModuleAdditions.getPrintExample( debug, filename )
+                
+                ///// Get Print Example URL.
+                let url = URL.createObjectURL( pdfFileResponse.response.details )
 
                 ///// Get the Template Elements.
-                let templateElement = gridContainer.querySelector(`#${ blockId }-modal-layout-template`)
+                let templateElement = gridContainer.querySelector(`#${ blockId }-modal-example-template`)
                 let modalTemplate = templateElement.content.cloneNode(true)
 
                 ///// Check if the Modal Element it's Found.
@@ -233,91 +298,25 @@ export async function needToBeChanged( debug, block, gridContainer ) {
                     ///// Add the Template to the Modal Window.
                     modalInnerElement.append( modalTemplate )
 
+                    modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
+
                     ///// Activate the Modal Window.
                     modalElement.classList.add( 'op-active' )
-
+                    
                     ///// Console Log Success if Debug.
                     if ( debug ) console.log( 'SUCCESS:', { 
                         message: `The Modal Element is Active!`,
                         line: opModuleBasic.errorLine(),
                         function: functionName
-                    })
+                    })    
 
                 }
+            }
 
-                ///// End the Console Log Group.
-                if ( debug ) console.groupEnd()
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
 
-            })
-
-            ///// Set Event Listener for the Button Example Element.
-            opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-example'), async () => {
-
-                ///// Start the Console Log Group.
-                if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
-
-                ///// Create Print Example and get the Filename.
-                const filenameResponse = await opModuleAdditions.createPrintExample( debug, templateId )
-
-                ///// Validate the Filename Response.
-                if ( filenameResponse.error !== false ) console.warn( 'WARNING:', 'Could not Create Print Example!' )
-                else {
-
-                    ///// Get Print Example Filename.
-                    let filename = filenameResponse.response.details.filename
-
-                    ///// Get Print Example PDF.
-                    const pdfFileResponse = await opModuleAdditions.getPrintExample( debug, filename )
-                    
-                    ///// Get Print Example URL.
-                    let url = URL.createObjectURL( pdfFileResponse.response.details )
-
-                    ///// Get the Template Elements.
-                    let templateElement = gridContainer.querySelector(`#${ blockId }-modal-example-template`)
-                    let modalTemplate = templateElement.content.cloneNode(true)
-
-                    ///// Check if the Modal Element it's Found.
-                    if ( ! modalTemplate ) console.error( 'ERROR:', { 
-                        message: `The Modal Element was not found!`,
-                        line: opModuleBasic.errorLine(),
-                        function: functionName
-                    } )
-                    else {
-
-                        ///// Get the Modal Elements.
-                        let modalElement = block.querySelector( '.op-modal')
-                        let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
-                        
-                        ///// Clear the Modal Window.
-                        modalInnerElement.innerHTML = ""
-
-                        ///// Add the Template to the Modal Window.
-                        modalInnerElement.append( modalTemplate )
-
-                        modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
-
-                        ///// Activate the Modal Window.
-                        modalElement.classList.add( 'op-active' )
-                        
-                        ///// Console Log Success if Debug.
-                        if ( debug ) console.log( 'SUCCESS:', { 
-                            message: `The Modal Element is Active!`,
-                            line: opModuleBasic.errorLine(),
-                            function: functionName
-                        })    
-
-                    }
-                }
-
-                ///// End the Console Log Group.
-                if ( debug ) console.groupEnd()
-
-            })
-        }
-
-        ///// Show the Grid Element in Step 3.
-        gridContainer.classList.add( 'op-grid-active' )
-
+        })
 
 
     } catch( errorResponse ) {

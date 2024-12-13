@@ -37,8 +37,14 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 ## 2024-12-12
 
 #### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
-
 - Moved Lines containing opAddGridToElement() to opGridInputListener().
 - Moved Lines containing opGetCSVDataAsJSON() to opAddGridToElement() in [Step Additions (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js).
+
+    ---
+
+## 2024-12-13
+
+#### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+- Moved the line containing the Dropdown Template Element to opGridInputListener() from needToBeChanged().
 
     ---
