@@ -49,3 +49,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Created a New Function (opLayoutButtonListener).
 
     ---
+
+## 2024-12-18
+
+#### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+- Created a New Function (opExampleButtonListener).
+
+    ---

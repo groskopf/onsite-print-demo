@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-12-13 - 05:51 (Y:m:d - H:i)
- ?  Info: Created a new Function opLayoutButtonListener().
+ ?  Updated: 2024-12-18 - 13:23 (Y:m:d - H:i)
+ ?  Info: Created a new Function opExampleButtonListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -12,6 +12,8 @@
     2. 	Function: Grid Input Listener
 
     3. 	Function: Layout Button Listener
+    
+    4. 	Function: Example Button Listener
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -106,19 +108,8 @@ export function opGridInputListener( debug, block ) {
                     ///// Set Event Listener to the Layout Button Element.
                     opLayoutButtonListener( debug, block )
 
-                    
-                    //// #NG: needToBeChanged() should be built in here instead of a function! 
-
-                    ///// Update Field in Step 4.
-                    let gridInputResponse = await needToBeChanged( debug, block, gridContainer, templateContainer )
-                    
-                    //// #NG: Snackbar message here if Error!
-
-                    ///// Console Log Group Value.
-                    if ( debug ) console.debug( 'DEBUG:', { 'Input Value': gridInputResponse } )
-
-                    //// #2024-12-04 --------------------------
-
+                    ///// Set Event Listener to the Example Button Element.
+                    opExampleButtonListener( debug, block )
 
                 }
 
@@ -278,28 +269,26 @@ export function opLayoutButtonListener( debug, block ) {
 
 }
 
-
-export async function needToBeChanged( debug, block, gridContainer, templateContainer ) {
+/* ------------------------------------------------------------------------
+ #  4. Function: Example Button Listener
+--------------------------------------------------------------------------- */
+export function opExampleButtonListener( debug, block ) {
 
     try {
         
         ///// Get Function Name.
-        var functionName = opGridInputListener.name
+        var functionName = opExampleButtonListener.name
         
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
-        if ( debug ) console.group( `Event Listener (Input): Grid Input Element - Event Creation Block, ${ functionName }()` )
+        if ( debug ) console.group( `${ functionName }()` )
 
-        ///// Get the Block ID.
-        let blockId = block.getAttribute( 'id' )
-            
-
-        ///// Set Event Listener for the Button Example Element.
-        opModuleBasic.opListener( 'click', templateContainer.querySelector('.op-button-example'), async () => {
+        ///// Set Event Listener to the Example Button Element.
+        opModuleBasic.opListener( 'click', block.querySelector('.op-button-example'), async () => {
 
             ///// Start the Console Log Group.
-            if ( debug ) console.group( `Event Listener (Click): Button Element - Event Creation Block, ${ functionName }()` )
+            if ( debug ) console.group( `${ functionName }()` )
 
             ///// Get the elements in Step 1.
             let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
@@ -327,12 +316,12 @@ export async function needToBeChanged( debug, block, gridContainer, templateCont
                 ///// Get Print Example URL.
                 let url = URL.createObjectURL( pdfFileResponse.response.details )
 
-                ///// Get the Template Elements.
-                let templateElement = gridContainer.querySelector(`#${ blockId }-modal-example-template`)
-                let modalTemplate = templateElement.content.cloneNode(true)
+                ///// Get the Modal Template Element.
+                let templateElement = block.querySelector(`[id$="-modal-example-template"]`)
+                let modalTemplateElement = templateElement.content.cloneNode(true)
 
                 ///// Check if the Modal Element it's Found.
-                if ( ! modalTemplate ) console.error( 'ERROR:', { 
+                if ( ! modalTemplateElement ) console.error( 'ERROR:', { 
                     message: `The Modal Element was not found!`,
                     line: opModuleBasic.errorLine(),
                     function: functionName
@@ -347,30 +336,39 @@ export async function needToBeChanged( debug, block, gridContainer, templateCont
                     modalInnerElement.innerHTML = ""
 
                     ///// Add the Template to the Modal Window.
-                    modalInnerElement.append( modalTemplate )
-
+                    modalInnerElement.append( modalTemplateElement )
+                    
+                    ///// Change the URL for the PDF in the Modal Window.
                     modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
 
                     ///// Activate the Modal Window.
                     modalElement.classList.add( 'op-active' )
-                    
+
                     ///// Console Log Success if Debug.
                     if ( debug ) console.log( 'SUCCESS:', { 
-                        message: `The Modal Element is Active!`,
+                        message: `No errors were found in the Layout Button Listener!`,
                         line: opModuleBasic.errorLine(),
                         function: functionName
-                    })    
+                    })
 
                 }
             }
 
             ///// End the Console Log Group.
             if ( debug ) console.groupEnd()
-
+            
         })
 
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Event Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        })
 
     } catch( errorResponse ) {
+
+        //// #NG: Snackbar message here if Error!
 
         ///// Create Error Details.
         let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
@@ -381,9 +379,6 @@ export async function needToBeChanged( debug, block, gridContainer, templateCont
 
         ///// Log Error Details in the Console.
         if ( debug ) console.error( 'ERROR:', errorDetails )
-
-        ///// Return the Error Response.
-        return errorDetails
 
     } finally {
 
