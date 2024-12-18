@@ -1,13 +1,14 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 4 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-07-02 - 21:45 (Y:m:d - H:i)
- ?  Info: Added Modal (See Print Example) to Step 3 (Event Creation).
+ ?  Updated: 2024-12-18 - 15:22 (Y:m:d - H:i)
+ ?  Info: Added Event Listener opExampleButtonListener() to Step 4.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../../assets/js/inc/basic.js'
 import * as opModuleAdditions from './steps-additions.js'
+import * as opModuleListeners from './steps-listeners.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Step 4
@@ -35,6 +36,19 @@ export function opStep4( debug, block ) {
             } )
 
         } else {
+
+            ///// Get the Fieldset Element in Step 4.
+            let fieldset4Element = block.querySelector( '.op-fieldset-step-4' )
+            
+            ///// Throw Error if Fieldset is Missing in Step 4.
+            if ( ! fieldset4Element ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing Fieldset Element in Step 4!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+    
+            ///// Set Event Listener to the Example Button Element.
+            opModuleListeners.opExampleButtonListener( debug, block, fieldset4Element.querySelector('.op-button-example') )
 
             ///// Get the the Elements.
             let formElement = block.querySelector( '.op-form-steps' )

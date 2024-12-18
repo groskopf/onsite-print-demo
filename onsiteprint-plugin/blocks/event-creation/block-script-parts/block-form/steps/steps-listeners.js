@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-12-18 - 13:23 (Y:m:d - H:i)
- ?  Info: Created a new Function opExampleButtonListener().
+ ?  Updated: 2024-12-18 - 15:22 (Y:m:d - H:i)
+ ?  Info: Changed opExampleButtonListener() so it contains the Element in the Parameter.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ export function opGridInputListener( debug, block ) {
                     opLayoutButtonListener( debug, block )
 
                     ///// Set Event Listener to the Example Button Element.
-                    opExampleButtonListener( debug, block )
+                    opExampleButtonListener( debug, block, fieldset3Element.querySelector('.op-button-example') )
 
                 }
 
@@ -272,7 +272,7 @@ export function opLayoutButtonListener( debug, block ) {
 /* ------------------------------------------------------------------------
  #  4. Function: Example Button Listener
 --------------------------------------------------------------------------- */
-export function opExampleButtonListener( debug, block ) {
+export function opExampleButtonListener( debug, block, eventElement ) {
 
     try {
         
@@ -285,7 +285,7 @@ export function opExampleButtonListener( debug, block ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Set Event Listener to the Example Button Element.
-        opModuleBasic.opListener( 'click', block.querySelector('.op-button-example'), async () => {
+        opModuleBasic.opListener( 'click', eventElement, async () => {
 
             ///// Start the Console Log Group.
             if ( debug ) console.group( `${ functionName }()` )

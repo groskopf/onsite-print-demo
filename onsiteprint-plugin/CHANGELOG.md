@@ -54,5 +54,11 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 #### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
 - Created a New Function (opExampleButtonListener).
+- Changed opExampleButtonListener() so it contains the Element in the Parameter.
+
+    ---
+
+#### [Step 4 (JS) - step-4.js](blocks/event-creation/block-script-parts/block-form/steps/step-4.js)
+- Added Event Listener opExampleButtonListener() from [Step Listeners (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js) to Step 4.
 
     ---
