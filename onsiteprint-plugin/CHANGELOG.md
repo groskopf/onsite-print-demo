@@ -62,3 +62,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added Event Listener opExampleButtonListener() from [Step Listeners (JS)](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js) to Step 4.
 
     ---
+    
+## 2024-12-31
+
+#### [Data Grid XL (JS) - datagridxl.js](assets/js/datagridxl2.js)
+- Removed the Fullscreen Button, there was in Step 3 (Grid Input Table) in the Creation Event Block.
+
+    ---

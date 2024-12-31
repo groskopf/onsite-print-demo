@@ -3,7 +3,8 @@
  *  v2.22.12.02
  *  (c) Vanilla Components
  *  https://datagridxl.com/buy
- ?	Updated: 2023-04-17 - 20:23 (Y:M:D - H:M) - Niels Gerdes (#NG)
+ ?	Updated: 2024-12-31 - 05:17 (Y:M:D - H:M) - Niels Gerdes (#NG)
+ ?  Info: Removed the "fullscreenButton".
 --------------------------------------------------------------------------- */
 
 var DataGridXL = function () {
@@ -6635,8 +6636,8 @@ var DataGridXL = function () {
                 }
             }
         },
-        Qr = ["searchBar", "fullscreenButton", "exampleButton"], // #NG - ["searchBar"],
-        Jr = [] // #NG - ["fullscreenButton", "inputBar", "credits"];
+        Qr = ["searchBar", "exampleButton"], // #NG - ["searchBar"]
+        Jr = [] // #NG - ["fullscreenButton", "inputBar", "credits"]
 
     function tl(t, e, i, o) {
         return i.title ? i.title || "" : this.colHeaderLabelType in o ? (this.colHeaderLabelPrefix || "") + o[this.colHeaderLabelType] + (this.colHeaderLabelSuffix || "") : (this.colHeaderLabelPrefix || "") + (this.colHeaderLabelSuffix || "")
