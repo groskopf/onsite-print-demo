@@ -82,7 +82,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-#### [Step 3 (JS) - step-3.js](blocks/event-creation/block-script-parts/block-form/steps/step-3.js)
+#### [Step 3 (PHP) - step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
 - Added new Title Text Tag and Changed Icon in the Dropdown Menu Button.
 
     ---
