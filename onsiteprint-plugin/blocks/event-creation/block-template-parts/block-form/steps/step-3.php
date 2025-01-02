@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2024-10-19 - 04:50 (Y:m:d - H:i)
- ?  Info: Added new Variable Names to Dropdown in Step 3.
+ ?  Updated: 2025-01-02 - 02:52 (Y:m:d - H:i)
+ ?  Info: Added new Title Text to the Dropdown Menu Button in Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -37,8 +37,9 @@
 
             <template id="<?= esc_attr($id) ?>-button-dropdown-template">
                 <div class="op-dropdown" data-menu-position="right">
-                    <button type="button" class="op-button-dropdown op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="money-check" data-icon-position="left" onclick="opToggleActive( 'class', 'op-dropdown' )">
-                        <span class="op-icon" role="img" aria-label="Layout Icon"></span>
+                    <button type="button" class="op-button-dropdown op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="eye" data-icon-position="left" onclick="opToggleActive( 'class', 'op-dropdown' )">
+                        <span class="op-icon" role="img" aria-label="Eye Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_dropdown_button'] ) ?></span>
                         <span class="op-icon op-icon-menu" role="img" aria-label="Arrow Down Icon"></span>
                     </button>
                     <div class="op-menu-dropdown">

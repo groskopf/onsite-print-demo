@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-10-19 - 04:50 (Y:m:d - H:i)
- ?  Info: Added new Variable Names to Dropdown in Step 3.
+ ?  Updated: 2025-01-02 - 02:58 (Y:m:d - H:i)
+ ?  Info: Added new Title Text to the Dropdown Menu Button, located in Step 3 (Event Creation).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -59,6 +59,7 @@ $acf = array(
     'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
     'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
     'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
+    'step_3_dropdown_button' => get_field( $ec . 'steps_step_3_dropdown_buttons_menu' ) ?: 'Previews',
     'step_3_layout_button'  => get_field( $ec . 'steps_step_3_dropdown_buttons_layout' ) ?: 'See Chosen Layout',
     'step_3_example_button' => get_field( $ec . 'steps_step_3_dropdown_buttons_example' ) ?: 'See Print Example',
     'step_3_layout_title'   => get_field( $ec . 'steps_step_3_dropdown_modals_layout' ) ?: 'Chosen Layout',

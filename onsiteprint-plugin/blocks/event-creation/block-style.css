@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2024-09-21 - 05:45 (Y:m:d - H:i)
- ?  Info: Added a Dropdown Menu to the Grid in Step 3 (Event Creation).
+ ?  Updated: 2025-01-02 - 02:56 (Y:m:d - H:i)
+ ?  Info: Changed the Appearance of the Dropdown Menu, located in Step 3 (Event Creation).
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
  >  Approval Display
@@ -159,28 +159,6 @@
 }
 
 /* ------------------------------------------
- >  Screen Width (1300px)
---------------------------------------------- */
-@media screen and ( min-width: 1300px ) {
-
-    /* ------------------------------------------
-    >  Approval Display
-    --------------------------------------------- */
-    .op-block__event-creation .op-event-approval-display {
-        flex-direction: row;
-    }
-
-    .op-block__event-creation .op-event-approval-display .op-template {
-        border-bottom: none;
-        border-right: 0.1rem solid var(--form-color-light);
-    }
-
-}
-
-
-
-
-/* ------------------------------------------
  >  Dropdown
 --------------------------------------------- */
 .op-dropdown {
@@ -191,13 +169,13 @@
     position: relative;
     z-index: 1;
 }
-
-.op-dropdown .op-button-dropdown.op-button:where( [data-icon-position="left"] ) .op-icon {
-    padding-right: 0.3rem;
+.op-dropdown .op-button-dropdown.op-button .op-button-title {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .op-dropdown .op-button-dropdown.op-button:where( [data-icon-position="left"] ) .op-icon-menu {
-    padding-left: 0.3rem;
+    padding-left: 1.2rem;
     padding-right: 1.4rem;
 }
 
@@ -254,4 +232,23 @@
     justify-content: flex-start;
     background: var(--wp--preset--color--white);
     border-color: var(--wp--preset--color--white);
+}
+
+/* ------------------------------------------
+ >  Screen Width (1300px)
+--------------------------------------------- */
+@media screen and ( min-width: 1300px ) {
+
+    /* ------------------------------------------
+    >  Approval Display
+    --------------------------------------------- */
+    .op-block__event-creation .op-event-approval-display {
+        flex-direction: row;
+    }
+
+    .op-block__event-creation .op-event-approval-display .op-template {
+        border-bottom: none;
+        border-right: 0.1rem solid var(--form-color-light);
+    }
+
 }

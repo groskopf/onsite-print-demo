@@ -69,3 +69,20 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Removed the Fullscreen Button, there was in Step 3 (Grid Input Table) in the Creation Event Block.
 
     ---
+
+## 2025-01-02
+
+#### [Block Style (CSS) - block-style.js](blocks/event-creation/block-style.css)
+- Changed the Appearance (CSS) of the Dropdown Menu, located in Step 3 (Event Creation).
+
+    ---
+
+#### [Block Template (PHP) - block-template.js](blocks/event-creation/block-template.php)
+- Added new Title Text to the Dropdown Menu Button, located in Step 3 (Event Creation).
+
+    ---
+
+#### [Step 3 (JS) - step-3.js](blocks/event-creation/block-script-parts/block-form/steps/step-3.js)
+- Added new Title Text Tag and Changed Icon in the Dropdown Menu Button.
+
+    ---
