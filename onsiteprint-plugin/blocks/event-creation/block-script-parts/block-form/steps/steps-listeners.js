@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-12-18 - 15:22 (Y:m:d - H:i)
- ?  Info: Changed opExampleButtonListener() so it contains the Element in the Parameter.
+ ?  Updated: 2025-01-03 - 06:14 (Y:m:d - H:i)
+ ?  Info: Changed opExampleButtonListener() with several Code.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -287,31 +287,37 @@ export function opExampleButtonListener( debug, block, eventElement ) {
         ///// Set Event Listener to the Example Button Element.
         opModuleBasic.opListener( 'click', eventElement, async () => {
 
-            ///// Start the Console Log Group.
-            if ( debug ) console.group( `${ functionName }()` )
+            try {
 
-            ///// Get the elements in Step 1.
-            let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
-            let templateId = fieldset1Element.querySelector( `.op-form-radio-inputs .op-radio-input input:checked` ).value
+                ///// Start the Console Log Group.
+                if ( debug ) console.group( `${ functionName }()` )
 
-            if ( ! templateId ) throw opModuleBasic.opReturnResponse( true, 400, { 
-                message: `Missing the Template Id!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
+                ///// Get the elements in Step 1.
+                let fieldset1Element = block.querySelector( '.op-fieldset-step-1' )
+                let templateId = fieldset1Element.querySelector( `.op-form-radio-inputs .op-radio-input input:checked` ).value
 
-            ///// Create Print Example and get the Filename.
-            const filenameResponse = await opModuleAdditions.createPrintExample( debug, templateId )
+                ///// Create Print Example and get the Filename.
+                const filenameResponse = await opModuleAdditions.createPrintExample( debug, templateId )
 
-            ///// Validate the Filename Response.
-            if ( filenameResponse.error !== false ) console.warn( 'WARNING:', 'Could not Create Print Example!' )
-            else {
+                ///// Validate the Filename Response.
+                if ( filenameResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Could not Create the Print Example!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
 
                 ///// Get Print Example Filename.
                 let filename = filenameResponse.response.details.filename
 
                 ///// Get Print Example PDF.
                 const pdfFileResponse = await opModuleAdditions.getPrintExample( debug, filename )
+                
+                ///// Validate the Print Example Response.
+                if ( pdfFileResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Could not Get the Print Example!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
                 
                 ///// Get Print Example URL.
                 let url = URL.createObjectURL( pdfFileResponse.response.details )
@@ -320,43 +326,47 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                 let templateElement = block.querySelector(`[id$="-modal-example-template"]`)
                 let modalTemplateElement = templateElement.content.cloneNode(true)
 
-                ///// Check if the Modal Element it's Found.
-                if ( ! modalTemplateElement ) console.error( 'ERROR:', { 
-                    message: `The Modal Element was not found!`,
+                ///// Get the Modal Elements.
+                let modalElement = block.querySelector( '.op-modal')
+                let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                
+                ///// Clear the Modal Window.
+                modalInnerElement.innerHTML = ""
+
+                ///// Add the Template to the Modal Window.
+                modalInnerElement.append( modalTemplateElement )
+                
+                ///// Change the URL for the PDF in the Modal Window.
+                modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
+
+                ///// Activate the Modal Window.
+                modalElement.classList.add( 'op-active' )
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `No errors were found in the Example Button Listener!`,
                     line: opModuleBasic.errorLine(),
                     function: functionName
-                } )
-                else {
+                })
 
-                    ///// Get the Modal Elements.
-                    let modalElement = block.querySelector( '.op-modal')
-                    let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                ///// End the Console Log Group.
+                if ( debug ) console.groupEnd()
                     
-                    ///// Clear the Modal Window.
-                    modalInnerElement.innerHTML = ""
+            } catch( listenerError ) {
 
-                    ///// Add the Template to the Modal Window.
-                    modalInnerElement.append( modalTemplateElement )
-                    
-                    ///// Change the URL for the PDF in the Modal Window.
-                    modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
+                //// #NG: Snackbar message here if Error!
 
-                    ///// Activate the Modal Window.
-                    modalElement.classList.add( 'op-active' )
+                ///// Log Error Details in the Console.
+                if ( debug ) console.error( 'ERROR:', { 
+                    message: `Something went wrong in the Example Button Listener!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName,
+                    details: listenerError
 
-                    ///// Console Log Success if Debug.
-                    if ( debug ) console.log( 'SUCCESS:', { 
-                        message: `No errors were found in the Layout Button Listener!`,
-                        line: opModuleBasic.errorLine(),
-                        function: functionName
-                    })
-
-                }
+                })
+        
             }
 
-            ///// End the Console Log Group.
-            if ( debug ) console.groupEnd()
-            
         })
 
         ///// Console Log Success if Debug.
@@ -367,8 +377,6 @@ export function opExampleButtonListener( debug, block, eventElement ) {
         })
 
     } catch( errorResponse ) {
-
-        //// #NG: Snackbar message here if Error!
 
         ///// Create Error Details.
         let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 

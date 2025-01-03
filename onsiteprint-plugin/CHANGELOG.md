@@ -93,3 +93,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the Buttons Style, so it fits the GIT Branch (layout_preview).
 
     ---
+
+#### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+- Changed the Error Response in the Example Button Listener Function.
+- Added Try/Catch in the Example Button Listener.
+- Removed some Validation in the Example Button Listener.
+
+    ---
