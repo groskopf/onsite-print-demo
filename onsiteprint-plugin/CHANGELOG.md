@@ -86,3 +86,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Title Text Tag and Changed Icon in the Dropdown Menu Button.
 
     ---
+
+## 2025-01-03
+
+#### [Onsiteprint Styles (CSS) - onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
+- Changed the Buttons Style, so it fits the GIT Branch (layout_preview).
+
+    ---
