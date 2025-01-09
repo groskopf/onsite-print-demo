@@ -100,3 +100,20 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Removed some Validation in the Example Button Listener.
 
     ---
+
+## 2025-01-09
+
+#### [Step Listeners (JS) - steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+- Added Error Modal to opExampleButtonListener().
+
+    ---
+
+#### [Step 3 (PHP) - step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
+- Added new Error Modal Template in Step 3.
+
+    ---
+
+#### [Block Template (PHP) - block-template.js](blocks/event-creation/block-template.php)
+- Added new Title and Description Text to the Error Modal, located in Step 3.
+
+    ---

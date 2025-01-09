@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-01-03 - 06:14 (Y:m:d - H:i)
- ?  Info: Changed opExampleButtonListener() with several Code.
+ ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
+ ?  Info: Added Error Modal to opExampleButtonListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -158,8 +158,6 @@ export function opGridInputListener( debug, block ) {
 
     } catch( errorResponse ) {
 
-        //// #NG: Snackbar message here if Error!
-
         ///// Create Error Details.
         let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
             message: errorResponse.message,
@@ -248,8 +246,6 @@ export function opLayoutButtonListener( debug, block ) {
 
     } catch( errorResponse ) {
 
-        //// #NG: Snackbar message here if Error!
-
         ///// Create Error Details.
         let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
             message: errorResponse.message,
@@ -322,7 +318,7 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                 ///// Get Print Example URL.
                 let url = URL.createObjectURL( pdfFileResponse.response.details )
 
-                ///// Get the Modal Template Element.
+                ///// Get the Example Modal Template Element.
                 let templateElement = block.querySelector(`[id$="-modal-example-template"]`)
                 let modalTemplateElement = templateElement.content.cloneNode(true)
 
@@ -354,7 +350,22 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                     
             } catch( listenerError ) {
 
-                //// #NG: Snackbar message here if Error!
+                ///// Get the Error Modal Template Element.
+                let templateElement = block.querySelector(`[id$="-modal-error-template"]`)
+                let modalTemplateElement = templateElement.content.cloneNode(true)
+
+                ///// Get the Modal Elements.
+                let modalElement = block.querySelector( '.op-modal')
+                let modalInnerElement = modalElement.querySelector( '.op-modal__inner')
+                
+                ///// Clear the Modal Window.
+                modalInnerElement.innerHTML = ""
+
+                ///// Add the Template to the Modal Window.
+                modalInnerElement.append( modalTemplateElement )
+
+                ///// Activate the Modal Window.
+                modalElement.classList.add( 'op-active' )
 
                 ///// Log Error Details in the Console.
                 if ( debug ) console.error( 'ERROR:', { 

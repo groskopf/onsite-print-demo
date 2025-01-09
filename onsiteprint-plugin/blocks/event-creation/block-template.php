@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-01-02 - 02:58 (Y:m:d - H:i)
- ?  Info: Added new Title Text to the Dropdown Menu Button, located in Step 3 (Event Creation).
+ ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
+ ?  Info: Added new Title and Description Text to the Error Modal, located in Step 3 (Event Creation).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -64,6 +64,8 @@ $acf = array(
     'step_3_example_button' => get_field( $ec . 'steps_step_3_dropdown_buttons_example' ) ?: 'See Print Example',
     'step_3_layout_title'   => get_field( $ec . 'steps_step_3_dropdown_modals_layout' ) ?: 'Chosen Layout',
     'step_3_example_title'  => get_field( $ec . 'steps_step_3_dropdown_modals_example' ) ?: 'Print Example',
+    'step_3_error_title'  => get_field( $ec . 'steps_step_3_dropdown_modals_error_title' ) ?: 'Something went wrong',
+    'step_3_error_description'  => get_field( $ec . 'steps_step_3_dropdown_modals_error_description' ) ?: 'Please try again and contact us if the error continues to persist.',
     'step_3_cancel_button'  => get_field( $ec . 'steps_step_3_dropdown_modals_cancel' ) ?: 'Close',
 
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
