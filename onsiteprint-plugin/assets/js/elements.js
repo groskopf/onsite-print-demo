@@ -1464,6 +1464,8 @@ function opGetTemplate( templateId ) {
 
 /* ------------------------------------------
  >  4b-2. Create Template
+ ?  Updated: 2025-01-21 - 03:03 (Y:m:d - H:i)
+ ?  Info: Added new Template Layout Type to JSON.
 --------------------------------------------- */
 async function opCreateTemplate( debug, formElement ) {   
 
@@ -1515,7 +1517,6 @@ async function opCreateTemplate( debug, formElement ) {
                 filenameUploaded = apiData.response.filename.slice(7)
 
             }
-            
 
             ///// Define new Template Item variable.
             let templateItem = { 
@@ -1524,7 +1525,8 @@ async function opCreateTemplate( debug, formElement ) {
                 'templateFilenameOriginal' : filenameOriginal,
                 'templateFilenameUploaded' : filenameUploaded,
                 'templateLayout' : formElement[ 'layout' ].value,
-                'templateLayoutColumns' : formElement[ 'lines' ].value + 'C'
+                'templateLayoutColumns' : formElement[ 'lines' ].value + 'C',
+                'templateLayoutType' : formElement[ 'layout-type' ].value
             }
             
             ///// Push Template Item variable into Template List.
@@ -2884,8 +2886,8 @@ function opAddCreatedEventsToElement( debug, blockId, containerElement, eventLis
 
 /* ------------------------------------------
  >  6a-11. Adding Created Templates to an Element
- ?  Updated: 2024-06-04 - 00:48 (Y:m:d - H:i)
- ?  Info: Added the Template Storage to the function.
+ ?  Updated: 2025-01-21 - 03:34 (Y:m:d - H:i)
+ ?  Info: Added new Template Layout Type to the Image URL.
 --------------------------------------------- */
 function opAddCreatedTemplatesToElement( debug, block, containerElement ) {
 
@@ -2926,10 +2928,14 @@ function opAddCreatedTemplatesToElement( debug, block, containerElement ) {
                 let templateCol = templateList[i].templateLayoutColumns.charAt(0)
                 let templateFile = '', templateDescriptionImage = ''
                 let templateDescription = Number( templateCol ) == 1 ? ' kolonne' : ' kolonner'
+                let templateLayoutType = templateList[i].templateLayoutType
                 let newTemplateElement, templateElementInfo, templateElementButton
+                
+                ///// Set the Layout Type If it is not defined.
+                if ( ! templateLayoutType ) templateLayoutType = '4786103'       
 
                 ///// The URL to the Layouts.
-                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/${ templateList[i].templateLayout }/${ templateList[i].templateLayout }_${ templateList[i].templateLayoutColumns.charAt(0) }L.svg`
+                const svgUrl = `${ opGetCurrentScriptPath().slice( 0, -3 ) }/img/svg/layouts/${ templateLayoutType }/${ templateList[i].templateLayout }/${ templateList[i].templateLayout }_${ templateList[i].templateLayoutColumns.charAt(0) }L.svg`
 
                 if ( templateList[i].templateFilenameOriginal ) {
                     templateFile = `

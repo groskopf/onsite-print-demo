@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-04-20 - 22:06 (Y:m:d - H:i)
- ?  Info: Added new layouts.
+ ?  Updated: 2025-01-21 - 02:33 (Y:m:d - H:i)
+ ?  Info: Added new Layout Type from Booking.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -29,16 +29,17 @@ $stepNumber = 4;
 
                 <?php 
 
-                    foreach ( glob( OP_ROOT_PATH . 'assets/img/svg/layouts/*/*.svg' ) as $file ) { 
+                    $layoutType = json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['nameTagType']['nameTagTypeId'];
+
+                    foreach ( glob( OP_ROOT_PATH . 'assets/img/svg/layouts/' . $layoutType . '/*/*.svg' ) as $file ) {
                         
-                        //$folderName = basename( dirname( $filePath ) );
                         $fileParts = pathinfo( $file );
                         $fileBasename = $fileParts[ 'basename' ];
                         $fileName = $fileParts[ 'filename' ];
                         $amountOfLines = substr( $fileName, -2, -1 );
                         $layoutName = substr( $fileName, 0, -3 );
                         $layoutImage = str_contains( $fileName, 'P') ? 'yes' : 'no';
-                        $filePath = OP_ROOT_URL . 'assets/img/svg/layouts/' . $layoutName . '/' . $fileBasename;
+                        $filePath = OP_ROOT_URL . 'assets/img/svg/layouts/' . $layoutType . '/' . $layoutName . '/' . $fileBasename;
 
                         ?>
                     
@@ -60,6 +61,8 @@ $stepNumber = 4;
 
             </div>
         </div>
+
+        <input id="<?= esc_attr($id) ?>-layout-type-input" name="layout-type" type="hidden" value="<?= $layoutType ?>" required>
 
     </div>
 </fieldset>

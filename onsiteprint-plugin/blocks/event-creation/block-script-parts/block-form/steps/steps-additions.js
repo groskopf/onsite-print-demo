@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2024-12-12 - 05:25 (Y:m:d - H:i)
- ?  Info: Moved the line containing opGetCSVDataAsJSON() to opAddGridToElement() from steps-listeners.js.
+ ?  Updated: 2025-01-21 - 03:26 (Y:m:d - H:i)
+ ?  Info: Added new Template Layout Type in createPrintExample().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -321,9 +321,11 @@ export async function createPrintExample( debug, templateId ) {
             if ( templateItem.error !== false ) throw templateItem
 
             ///// Create Variables.
-            let layout = templateItem.response.templateLayout
-            let imageFilename = templateItem.response.templateFilenameUploaded
-            let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
+            let layoutResponse = templateItem.response
+            let layout = layoutResponse.templateLayout
+            let imageFilename = layoutResponse.templateFilenameUploaded
+            let columnAmount = layoutResponse.templateLayoutColumns.charAt(0)
+            let templateLayoutType = layoutResponse.templateLayoutType
            
             ///// Get the Participant from the Grid.
             const participant = eventGridElement.getData()[0]
@@ -342,8 +344,14 @@ export async function createPrintExample( debug, templateId ) {
                 }
             )
 
+            ///// Set the Layout Type If it is not defined.
+            if ( ! templateLayoutType ) templateLayoutType = '4786103'       
+
+            ///// Set Printer Booking.
+            let printerBooking = ( templateLayoutType == '4786103' ) ? 'MFAWMYXW5NC23K7' : 'LAD28E9ED03DCAP'
+
             ///// The URL to the API.
-            let  url = `https://api.printerboks.dk/api/v1/name_tags/MFAWMYXW5NC23K7?layout=${ layout }`
+            let  url = `https://api.printerboks.dk/api/v1/name_tags/${ printerBooking }?layout=${ layout }`
 
             ///// Get Print Example Filename.
             const filenameResponse = await opModuleFastAPI.opGetApiData( debug, 'POST', bodyInput, url, 'json' )

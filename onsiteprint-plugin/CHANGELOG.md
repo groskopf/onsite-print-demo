@@ -117,3 +117,31 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Title and Description Text to the Error Modal, located in Step 3.
 
     ---
+    
+## 2025-01-21
+
+#### [Step 4 (PHP) - step-4.php](blocks/template-creation/block-template-parts/block-form/steps/step-4.php)
+- Added new Layout Type from Booking in Step 4 (Template Creation).
+
+    ---
+
+#### [Layout Type (Folder) - 4786103](assets/img/svg/layouts/4786103/)
+- Added new Layout Type Folder (4786103) in the SVG Image Folder and Moved all Layout into the new Folder.
+
+    ---
+
+#### [Layout Type (Folder) - 4760100](assets/img/svg/layouts/4760100/)
+- Added new Layout Type Folder (4760100) in the SVG Image Folder and Added new Layout into the new Folder.
+
+    ---
+
+#### [Elements (JS) - elements.js](assets/js/elements.js)
+- Added new Template Layout Type to JSON in opCreateTemplate().
+- Added new Template Layout Type to the Image URL in opAddCreatedTemplatesToElement().
+
+    ---
+
+#### [Step Additions (JS) - steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
+- Added new Template Layout Type in createPrintExample() - (Event Creation).
+
+    ---    
