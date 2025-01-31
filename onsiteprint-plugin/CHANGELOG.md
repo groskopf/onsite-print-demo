@@ -144,4 +144,21 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 #### [Step Additions (JS) - steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
 - Added new Template Layout Type in createPrintExample() - (Event Creation).
 
-    ---    
+    ---
+ 
+## 2025-01-31
+
+#### [Event Creation Block (JSON) - block.json](blocks/event-creation/block.json)
+- New Version Number of the Event Creation Block.
+
+    ---
+
+#### [Template Creation Block (JSON) - block.json](blocks/template-creation/block.json)
+- New Version Number of the Template Creation Block.
+
+    ---
+
+#### [Plugin File (PHP) - onsiteprint-plugin.php](onsiteprint-plugin.php)
+- New Version Number of the Plugin File.
+
+    ---
