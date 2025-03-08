@@ -169,3 +169,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed all SVG Layouts in the Layout Type Folder (4760100).
 
     ---
+
+## 2025-03-08
+
+#### [.gitignore (File)](../.gitignore)
+- Changed the ".gitignore" File.
+
+    ---
