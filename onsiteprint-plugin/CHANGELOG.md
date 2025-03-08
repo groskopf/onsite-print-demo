@@ -162,3 +162,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - New Version Number of the Plugin File.
 
     ---
+
+## 2025-02-19
+
+#### [Layout Type (Folder) - 4760100](assets/img/svg/layouts/4760100/)
+- Changed all SVG Layouts in the Layout Type Folder (4760100).
+
+    ---
