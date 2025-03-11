@@ -1,66 +1,104 @@
 /* ------------------------------------------------------------------------
-#  Template Creation Block Script
-?  Updated: 2022-12-26 - 16:43 (Y:m:d - H:i)
+ #  The OnsitePrint (Template Creation) Block Script 
+ *  Check if multiple Blocks of the Template Creation is on page.
+ ?  Updated: 2024-20-05 - 03:51 (Y:m:d - H:i)
+ ?  Info: Changed structure in JS block script.
+---------------------------------------------------------------------------
+ #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
+import * as opModuleBasic from '../../assets/js/inc/basic.js'
+import * as opModuleTemplate from '../../assets/js/inc/template/template.js'
 
-/* ------------------------------------------
- >   >  6a-7. Go To Step in Form 
---------------------------------------------- */
-function opFormGoToStep( newStep ) {
-
-    ///// Get the elements.
-    let block = event.target.closest( 'section[id*="op-block"]' )
-    let form = block.querySelector( '.op-form-steps' )
-    let allSteps = form.getAttribute( 'data-form-steps' )
-    let currentStep = form.getAttribute( 'data-form-step' ) 
-
-    if ( newStep.includes( 'step-') ) {
-        newStep = newStep.slice(5)
-    } else if ( newStep == 'next' ) {
-        newStep = ++currentStep
-    } else if ( newStep == 'back' ) {
-        newStep = currentStep-1
-    }
-
-    if ( newStep >= 1 && newStep <= allSteps ) {
-
-        let slide = newStep - 1
+/* ------------------------------------------------------------------------
+ #  2. The Function of Template Creation Blocks
+--------------------------------------------------------------------------- */
+export function opTemplateCreationBlocks( debug ) {
     
-        let fieldset = form.querySelectorAll( 'fieldset' )
-        let processButtons = form.querySelectorAll( '.op-form-process__inner button' )
+    try {
         
-        for( let i = 0; i < processButtons.length; ++i ) {
-            processButtons[i].blur()
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = true //false       
+        if ( debug ) console.group( 'opTemplateCreationBlocks()' )
 
-            if ( i !== slide ) {
-                processButtons[i].setAttribute( 'data-color', 'secondary-20' )                
-            } else {
-                processButtons[i].setAttribute( 'data-color', 'secondary-60' )
-            }        
-        }
+        ///// Create Variables.
+        let blockName = 'Template Creation'
 
-        for( let i = 0; i < fieldset.length; ++i ) {
-            fieldset[i].style.opacity = '0'
+        ///// Get the elements.
+        let blocks = document.querySelectorAll( 'section.op-block__template-creation' )
+
+        ///// Debug to the Console Log.
+        opModuleBasic.opConsoleDebug( debug, { 
+            message: `${ blocks.length } quantity of the ${ blockName } Block was found!`,
+            line: opModuleBasic.errorLine(),
+            details: blocks 
+        } )
+
+        ///// Check if some Blocks were found.
+        if ( ! blocks || blocks.length === 0 ) {
             
-            if ( i == slide ) {
-                fieldset[i].style.left = `${ 0 }%`
-                fieldset[i].style.opacity = '1'
-                fieldset[i].focus()
-            } else if ( i <= slide ) {
-                fieldset[i].style.left = `${ -100 }%`
-            } else if ( i >= slide ) {
-                fieldset[i].style.left = `${ 100 }%`
-            }           
-        }
+            ///// Return the Response.
+            return opModuleBasic.opReturnResponse( false, 404, { 
+                message: `Could not find any ${ blockName } Blocks!`, 
+                line: opModuleBasic.errorLine()
+            } )
 
-        form.setAttribute( 'data-form-step', newStep )
-    
-        if ( newStep == allSteps ) {
-            form.setAttribute( 'data-form-step-last', true )
         } else {
-            form.setAttribute( 'data-form-step-last', false )
-        }
-        
-    }
+            
+            ///// Get each Block.
+            blocks.forEach( block => {
 
+                ///// Get the Block ID.
+                let blockId = block.getAttribute( 'id' )
+
+                ///// Push Debug Details to the Debug.
+                if ( debug ) console.group( `Block with ID: ${ blockId }` )
+
+                ///// Add Function to Image Approval (Step 2). 
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-1` ), () => opModuleTemplate.lineApproval( debug, block, '1L' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-2` ), () => opModuleTemplate.lineApproval( debug, block, '2L' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-3` ), () => opModuleTemplate.lineApproval( debug, block, '3L' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-4` ), () => opModuleTemplate.lineApproval( debug, block, '4L' ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-5` ), () => opModuleTemplate.lineApproval( debug, block, '5L' ) )
+
+                ///// Add Function to Image Approval (Step 3). 
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-1` ), () => opModuleTemplate.imageApproval( debug, block, false ) )
+                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-2` ), () => opModuleTemplate.imageApproval( debug, block, true ) )
+
+                ///// Debug to the Console Log.
+                opModuleBasic.opConsoleDebug( debug, { 
+                    message: `No errors were found in the Block!`,
+                    line: opModuleBasic.errorLine(),
+                    details: block 
+                } )
+
+                ///// End the Console Log Group.
+                if ( debug ) console.groupEnd();
+
+            })
+        
+        }
+
+    } catch( errorDetails ) {
+
+        ///// Log Error Details in the Console.
+        console.error( 'ERROR:', { 
+            message: errorDetails.message,
+            line: opModuleBasic.errorLine()
+        } )
+        
+        ///// Return the Error Response.
+        return opModuleBasic.opReturnResponse( true, 400, { 
+            function: 'opTemplateCreationBlocks', 
+            line: opModuleBasic.errorLine(), 
+            details: errorDetails.message 
+        } )
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd();
+
+    }
+    
 }

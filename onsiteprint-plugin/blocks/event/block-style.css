@@ -1,6 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2023-04-13 - 19:57 (Y:m:d - H:i)
+ ?  Updated: 2024-05-12 - 21:35 (Y:m:d - H:i)
+ ?  Info: (CSS) Added hover on text lines in Event.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -176,6 +177,7 @@
     position: absolute;
     top: calc(100% - 0.6rem);
     right: 0.5rem;
+    z-index: 1;
     border: 0.1rem solid var(--wp--preset--color--primary-100);
     border-radius: 0.4rem 0 0.4rem 0.4rem;
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
@@ -307,6 +309,24 @@
 .op-block__event .op-participant-col-info p:is( .op-col-icon, .op-col-arrival-time, .op-col-amount-of-prints ) {
     justify-content: center;
     padding: 0;
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button .op-icon {
+    font-size: calc( var(--wp--preset--font-size--small) + ( var(--wp--preset--font-size--small) / 2 ) );
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button:first-child:not( :hover ) {
+    border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button:first-child:hover {
+    z-index: 1;
+    border-radius: 0;
+}
+
+.op-block__event .op-participant-col-info .op-download-menu .op-button:last-child {
+    margin-left: -0.1rem;
+    border-radius: 0 0.4rem 0.4rem 0;
 }
 
 /* ------------------------------------------
@@ -685,10 +705,26 @@
 
     .op-block__event .op-col-lines {
         display: grid;
-        grid-template-columns: repeat(3, calc(100% / 3));
+        grid-template-columns: 1fr;
         padding: 0;
     }
-
+  
+    .op-block__event[ data-column-count="2" ] .op-col-lines {
+        grid-template-columns: repeat(2, calc(100% / 2));
+    }
+    
+    .op-block__event[ data-column-count="3" ] .op-col-lines {
+        grid-template-columns: repeat(3, calc(100% / 3));
+    }
+    
+    .op-block__event[ data-column-count="4" ] .op-col-lines {
+        grid-template-columns: repeat(4, calc(100% / 4));
+    }
+    
+    .op-block__event[ data-column-count="5" ] .op-col-lines {
+        grid-template-columns: repeat(5, calc(100% / 5));
+    }
+    
     .op-block__event .op-col-print-info .op-button {
         min-width: 16rem;
         border-radius: 0 0.4rem 0.4rem 0;
@@ -726,6 +762,16 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    .op-block__event .op-col-lines p:hover .op-text {
+        overflow: visible;
+        width: auto;
+        background: white;
+        padding: 0.8rem 1rem 0.8rem 0;
+        z-index: 1;
+        border-radius: 0 0.4rem 0.4rem 0;
+        box-shadow: 0.4rem 0 0.4rem lightgray;
     }
 
     .op-block__event header .op-col-arrival-time::before {

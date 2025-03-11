@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-04-23 - 20:47 (Y:m:d - H:i)
- ?  Last edit by: Niels
+ ?  Updated: 2024-05-07 - 05:14 (Y:m:d - H:i)
+ ?  Info:  Changes in some styles in Print CSS.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -18,12 +18,26 @@
  #  1. Site Setup
 --------------------------------------------------------------------------- */
 
+@page { 
+    size: auto;   /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 7mm 5mm 8.5mm;
+} 
+
+* {
+    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari 6 – 15.3, Edge */
+    color-adjust: exact !important;                 /* Firefox 48 – 96 */
+    print-color-adjust: exact !important;           /* Firefox 97+, Safari 15.4+ */
+}
+
 html {
     font-size: 31.25%;
 }
 
 body {
     overflow: visible;
+    background: none;
 }
 
 html, body {
@@ -34,6 +48,7 @@ html, body {
 .op-pdf-container {
     width: 100%;
     font-size: inherit;
+    border-spacing: 0;
 }
 
 table .row-list-info,
@@ -63,33 +78,35 @@ tfoot.op-pdf-footer {
     display: table-footer-group;
 }
 
-/* .op-page-number::before {
-    counter-increment: page;
-    content:"Page " counter(page);
-    left: 0; 
-    top: 100%;
-    white-space: nowrap; 
-    z-index: 20;
-    -moz-border-radius: 5px; 
-    -moz-box-shadow: 0px 0px 4px #222;  
-    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);  
+.op-pdf-header-info {
+    padding: 0;
 }
- */    
-/*.number::before {
-    counter-increment: page;
-    font-size: 5rem;
-    content:counter(page);
+
+.op-header-info h3 {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 2rem 1rem;
 }
-.pdf-header {
-    display: table-footer-group;
-}*/
 
-/*.number::before {
-    counter-increment: page;
-    content: counter(page) " of " counter(pages);
-    font-size: 3rem;
-}*/
+.op-pdf-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
 
+.op-pdf-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.op-pdf-row:nth-child(even) article header {
+    background: var(--wp--preset--color--neutral-10);
+}
+
+.op-participant-cell {
+    padding: 0;
+}
 
 /* ------------------------------------------------------------------------
  #  2. ACF Custom Blocks
@@ -97,7 +114,11 @@ tfoot.op-pdf-footer {
  >  2c-8. Event Participant List
 ------------------------------------------------------------ */
 
-.op-event-participant-list .op-button {
+.op-event-participant-list {
+    padding: 0;
+}
+
+.op-event-participant-list .op-button:not(.op-button-add) {
     display: none;
 }
 
@@ -106,8 +127,11 @@ tfoot.op-pdf-footer {
 --------------------------------------------- */
 
 .op-event-participant-list.op-block__event .op-participant-col-info {
+    background: var(--wp--preset--color--neutral-10);
     display: grid;
-    padding: 0 1rem 1rem 1.4rem;
+    padding: 0;
+    border: 0.1rem solid var(--wp--preset--color--neutral-40);
+    border-radius: 0;
 }
 
 .op-event-participant-list.op-block__event[ data-column-count="1" ] .op-participant-col-info {
@@ -130,12 +154,17 @@ tfoot.op-pdf-footer {
     grid-template-columns: 5rem repeat(5, 1fr) calc( 5ch + 4rem ) 5rem;
 }
 
+.op-event-participant-list .op-participant-col-info p:not( .op-col-amount-of-prints ) {
+    height: 5rem;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-40);
+}
+
 .op-event-participant-list .op-button.op-button-add {
     background: none;
     color: var(--wp--preset--color--neutral-60);
     display: flex;
     border: none;
-    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-40);
     border-radius: 0;
     cursor: unset;
 }
@@ -156,17 +185,44 @@ tfoot.op-pdf-footer {
 .op-event-participant-list article header {
     grid-template-columns: auto 1fr calc( 5ch + 4rem ) auto;
     gap: 0;
-
- }
+    padding: 0;
+    border: 0.1rem solid var(--wp--preset--color--neutral-20) !important;
+    border-top: none;
+    box-shadow: none;
+    border-radius: 0;
+}
 
 .op-event-participant-list article header :is( .op-col-icon, .op-col-arrival-time, .op-button .op-button-title ) {
     display: flex;
 }
 
-.op-event-participant-list .op-col-lines {
+.op-event-participant-list article header .op-col-icon .op-icon {
+    background: none !important;
+    border: none;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20) !important;
+    border-radius: 0;
+}
+
+.op-block__event .op-col-lines {
     display: grid;
-    grid-template-columns: repeat(3, calc(100% / 3));
+    grid-template-columns: 1fr;
     padding: 0;
+}
+
+.op-block__event[ data-column-count="2" ] .op-col-lines {
+    grid-template-columns: repeat(2, calc(100% / 2));
+}
+
+.op-block__event[ data-column-count="3" ] .op-col-lines {
+    grid-template-columns: repeat(3, calc(100% / 3));
+}
+
+.op-block__event[ data-column-count="4" ] .op-col-lines {
+    grid-template-columns: repeat(4, calc(100% / 4));
+}
+
+.op-block__event[ data-column-count="5" ] .op-col-lines {
+    grid-template-columns: repeat(5, calc(100% / 5));
 }
 
 .op-event-participant-list .op-col-print-info .op-button {
@@ -218,8 +274,9 @@ tfoot.op-pdf-footer {
 
 .op-event-participant-list .op-col-print-info .op-col-amount-of-prints {
     width: 5rem;
-    border: 0.1rem solid #eee;
-    border-radius: 0.4rem;
+    border: none;
+    border-left: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-radius: 0;
 }
 
 .op-event-participant-list article footer {

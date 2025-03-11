@@ -9,7 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-05 - 18:00 (Y:m:d - H:i)
+ ?  Updated: 2024-05-12 - 00:15 (Y:m:d - H:i)
+ ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -30,6 +31,12 @@ $options = array(
 $header = array(
     'title'             => get_field( $path . 'header_title' ) ?: 'Dashboard',
     'description'       => get_field( $path . 'header_description' ) ?: 'You can see below your Events and Templates.',
+);
+
+$modal = array(
+    'title'             => get_field( $path . 'modal_title' ) ?: 'The Template cannot be deleted!',
+    'description'       => get_field( $path . 'modal_description' ) ?: 'There are Events associated with this Template, delete them first and then delete the Template.',
+    'cancel_button'     => get_field( $path . 'modal_cancel_button' ) ?: 'Cancel',
 );
 
 $taps = array(  
@@ -97,6 +104,8 @@ if ( ! empty( $block['align'] ) ) {
             <p class="op-block-description"><?= esc_attr( $header['description'] ) ?></p>
         </header>
 
+        <?php require( __DIR__ . '/block-template-parts/modal.php' ); ?>
+
         <div class="op-block__content op-flex-col" data-tap-active="1">
 
             <div class="op-block__buttons">
@@ -105,12 +114,13 @@ if ( ! empty( $block['align'] ) ) {
 
                 for ( $i = 0; $i < count( $dashboard_taps ); $i++ ) { ?>
 
-                    <a href="#<?= esc_attr( $taps[$i]['id'] ) ?>" class="op-button op-button-size-medium op-button-style-outline" data-color="<?= esc_attr( $options['style_color'] ) ?>">
+                    <button onclick="opFormGoToTab(<?= $i+1 ?>)" class="op-button op-button-size-medium op-button-style-outline" data-color="<?= esc_attr( $options['style_color'] ) ?>">
                         <span class="op-button-title"><?= esc_attr( $taps[$i]['name'] ) ?></span>
-                    </a>
+                    </button>
 
                 <?php } ?>
 
+                <span class="op-tab-slider"></span>
             </div>
             
             <div class="op-block__taps op-flex-col">

@@ -9,7 +9,7 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-04-13 - 19:26 (Y:m:d - H:i)
+ ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -32,7 +32,8 @@ $header = array(
     'search_message'    => get_field( $path . 'header_search_message' ) ?: 'Search for Participants here...',
     'search_filter'     => get_field( $path . 'header_search_filter' ) ?: 'All Columns',
     'column'            => get_field( $path . 'header_columns_col' ) ?: 'Column',
-    'print_all'         => get_field( $path . 'header_columns_print_all' ) ?: 'Print All',
+    'download_csv'      => get_field( $path . 'header_columns_download_csv' ) ?: 'Download CSV',
+    'download_pdf'      => get_field( $path . 'header_columns_download_pdf' ) ?: 'Download PDF',
     'add_participant'   => get_field( $path . 'header_columns_add_participant' ) ?: 'Add new Participant',
 );
 

@@ -4,8 +4,9 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-02-26 - 23:47 (Y:m:d - H:i)
-
+ ?  Updated: 2024-05-12 - 21:05 (Y:m:d - H:i)
+ ?  Info: (CSS) Changes the .op-radio-input-checked place in form.
+ 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -109,6 +110,8 @@ html {
     --fa-icon-house: "\f015";
     --fa-icon-table-cells: "\f00a";
     --fa-icon-money-check: "\f53c";
+    --fa-icon-file-csv: "\f6dd";
+    --fa-icon-file-pdf: "\f1c1";
 
 }
 
@@ -259,6 +262,13 @@ html {
     transform: scaleY(1.4);
 }
 
+[data-icon="file-csv"] .op-icon::before {
+	content: var(--fa-icon-file-csv);
+}
+
+[data-icon="file-pdf"] .op-icon::before {
+	content: var(--fa-icon-file-pdf);
+}
 
 .op-flex-row {
     display: flex;
@@ -1887,6 +1897,7 @@ html {
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: 2rem;
     padding: 3rem;
 }
 
@@ -2155,7 +2166,7 @@ html {
 
 .op-form .op-form-radio-inputs .op-radio-input.op-radio-input-checked {
     grid-row: 1;
-    grid-column: 2;
+    grid-column: 1;
 }
 
 .op-form .op-form-radio-inputs .op-radio-input label {
@@ -2187,6 +2198,10 @@ html {
 .op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label {
     border-color: var(--form-color-medium);
+}
+
+.op-form .op-form-radio-inputs .op-radio-input input:checked ~ label {
+    background-image: linear-gradient(to bottom,var(--wp--preset--color--white) 0%,var(--form-color-light) 150%);
 }
 
 .op-form .op-form-radio-inputs .op-radio-input label .op-radio-check {
@@ -2300,12 +2315,14 @@ html {
     padding-top: 1rem;
 }
 
-.op-form .op-radio-input .op-radio-info .op-content .op-text {
+.op-form .op-radio-input .op-radio-info .op-content .op-text,
+.op-form .op-radio-input .op-radio-info .op-image .op-text {
     line-height: var(--wp--custom--typography--line-height--small);
     padding: 0.5rem 2rem;
 }
 
-.op-form .op-radio-input .op-radio-info .op-content .op-text .op-text-title {
+.op-form .op-radio-input .op-radio-info .op-content .op-text .op-text-title,
+.op-form .op-radio-input .op-radio-info .op-image .op-text .op-text-title {
     color: var(--form-color-dark);
     font-size: var(--wp--preset--font-size--x-small);
     font-weight: 600;
@@ -2315,7 +2332,10 @@ html {
 .op-form .op-radio-input .op-radio-info .op-image {
     justify-content: flex-end;
     flex: 1;
-    padding: 1rem;
+}
+
+.op-form .op-radio-input .op-radio-info .op-image img {
+    padding: 0 1rem 1rem;
 }
 
 .op-input-validation {

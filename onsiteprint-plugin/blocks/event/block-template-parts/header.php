@@ -1,7 +1,7 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2023-04-11 - 17:30 (Y:m:d - H:i)
+ ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -80,7 +80,16 @@
         <p class="op-col-amount-of-prints" data-icon="print">
             <span class="op-icon" role="img" aria-label="Printer Icon"></span>
         </p>
-        <button class="op-button op-button-size-medium op-button-style-outline"  data-color="primary-90" onclick="opPrintEventParticipants(<?= esc_attr( $options['event_id'] ) ?>)"><span class="op-button-title"><?= esc_attr( $header['print_all'] ) ?></span></button>
+        <div class="op-download-menu op-flex-row">
+            <button class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-csv" data-icon-position="right" data-title-visibility="1" onclick="opDownloadEventParticipants('csv', <?= esc_attr( $options['event_id'] ) ?>)">
+                <span class="op-icon" role="img" aria-label="CSV File Icon"></span>
+                <span class="op-button-title"><?= esc_attr( $header['download_csv'] ) ?></span>
+            </button>
+            <button class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-pdf" data-icon-position="right" data-title-visibility="1" onclick="opDownloadEventParticipants('pdf', <?= esc_attr( $options['event_id'] ) ?>)">
+                <span class="op-icon" role="img" aria-label="PDF File Icon"></span>
+                <span class="op-button-title"><?= esc_attr( $header['download_pdf'] ) ?></span>
+            </button>
+        </div>
     </div>
 
 </header>

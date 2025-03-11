@@ -8,9 +8,10 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.53
+ *	Version: 1.0.0.59
  ?	(Check the Version variable)
- ?	Updated: 2023-04-18 - 18:35 (Y:M:D - H:M)
+ ?  Updated: 2024-05-12 - 00:39 (Y:m:d - H:i)
+ ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -64,7 +65,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.53' );
+define( 'OP_VERSION', '1.0.0.59' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
@@ -412,6 +413,19 @@ add_action('acf/init', __NAMESPACE__ . '\onsiteprint_acf_init');
 
     return false;
 
+}
+
+
+/* ---------------------------------------------------------
+ >  4b. Get the URL of the current Path. (Not used)
+------------------------------------------------------------ */
+function get_dir_path( $dirPath ) {
+	$realDocRoot = realpath ( $_SERVER[ 'DOCUMENT_ROOT' ] );
+	$realDirPath = realpath( $dirPath );
+	$suffix = str_replace( $realDocRoot, '', $realDirPath );
+	$prefix = isset( $_SERVER[ 'HTTPS' ] ) ? 'https://' : 'http://';
+	$folderUrl = $prefix . $_SERVER[ 'HTTP_HOST' ] . $suffix;
+	return $folderUrl;
 }
 
 
