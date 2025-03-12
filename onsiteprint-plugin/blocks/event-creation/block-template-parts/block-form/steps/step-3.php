@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2023-04-15 - 18:21 (Y:m:d - H:i)
+ ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
+ ?  Info: Added new Error Modal Template in Step 3 (Event Creation).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -25,7 +26,7 @@
                 <div class="op-input-approved" data-icon="circle-check">
                     <span class="op-icon" role="img" aria-label="Approved Icon"></span>
                 </div>
-                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" oninput="opFormInputValidation( false, 'grid' )" name="csv-file" type="file" accept=".csv" required>
+                <input id="<?= esc_attr($id) ?>-csv-file-input" class="op-input-border" name="csv-file" type="file" accept=".csv" required>
             </div>
         </label>
 
@@ -33,6 +34,65 @@
 
             <p class="op-label-title"><?= esc_attr( $acf['step_3_grid_title'] ) ?></p>
             <div id="<?= esc_attr($id) ?>-form-grid"></div>
+
+            <template id="<?= esc_attr($id) ?>-button-dropdown-template">
+                <div class="op-dropdown" data-menu-position="right">
+                    <button type="button" class="op-button-dropdown op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="eye" data-icon-position="left" onclick="opToggleActive( 'class', 'op-dropdown' )">
+                        <span class="op-icon" role="img" aria-label="Eye Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_dropdown_button'] ) ?></span>
+                        <span class="op-icon op-icon-menu" role="img" aria-label="Arrow Down Icon"></span>
+                    </button>
+                    <div class="op-menu-dropdown">
+                        <button type="button" class="op-button-layout op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="eye" data-icon-position="left">
+                            <span class="op-icon" role="img" aria-label="Eye Icon"></span>
+                            <span class="op-button-title"><?= esc_attr( $acf['step_3_layout_button'] ) ?></span>
+                        </button>
+                        <button type="button" class="op-button-example op-button op-button-size-small op-button-style-outline" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="eye" data-icon-position="left">
+                            <span class="op-icon" role="img" aria-label="Eye Icon"></span>
+                            <span class="op-button-title"><?= esc_attr( $acf['step_3_example_button'] ) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </template>
+
+            <template id="<?= esc_attr($id) ?>-modal-layout-template">
+                <div class="op-modal-header">
+                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_layout_title'] ) ?></h3>
+                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                        <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
+                    </button>
+                </div>
+                <div class="op-flex-row">
+                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
+                </div>
+            </template>
+
+            <template id="<?= esc_attr($id) ?>-modal-example-template">
+                <div class="op-modal-header">
+                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_example_title'] ) ?></h3>
+                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                        <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
+                    </button>
+                </div>
+                <div class="op-flex-row">
+                    <iframe title="pdf" src="" style="min-height: 40rem; width: 100%"></iframe>
+                </div>
+            </template>
+            
+            <template id="<?= esc_attr($id) ?>-modal-error-template">
+                <div class="op-modal-header">
+                    <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_error_title'] ) ?></h3>
+                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                        <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
+                    </button>
+                </div>
+                <div class="op-flex-row">
+                    <p class="op-modal-description"><?= esc_attr( $acf['step_3_error_description'] ) ?></p>
+                </div>
+            </template>
 
         </div>
 

@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-05-12 - 21:05 (Y:m:d - H:i)
- ?  Info: (CSS) Changes the .op-radio-input-checked place in form.
+ ?  Updated: 2025-01-03 - 03:08 (Y:m:d - H:i)
+ ?  Info: (CSS) changed Buttons.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -14,8 +14,9 @@
 	0. 	List of upcoming tasks 
 	1. 	Plugin Setup
 	 	a. Buttons
-            1. 	Sizes
-            2. 	Colors/Styles
+            1. 	Colors
+            2. 	Sizes
+            3. 	Styles
 	2. 	ACF Custom Blocks
 		a. 	Block Styles
 		b. 	Block Validation
@@ -112,6 +113,7 @@ html {
     --fa-icon-money-check: "\f53c";
     --fa-icon-file-csv: "\f6dd";
     --fa-icon-file-pdf: "\f1c1";
+    --fa-icon-trash: "\f1f8";
 
 }
 
@@ -270,6 +272,10 @@ html {
 	content: var(--fa-icon-file-pdf);
 }
 
+[data-icon="trash"] .op-icon::before {
+	content: var(--fa-icon-trash);
+}
+
 .op-flex-row {
     display: flex;
     flex-direction: row;
@@ -309,13 +315,139 @@ html {
 
 /* ---------------------------------------------------------
  >  1a. Buttons
------------------------------------------------------------- */
+------------------------------------------------------------
+ >  1a-1. Button Colors
+--------------------------------------------- */
 
 .op-button {
     --solid-background-color: var(--wp--preset--color--white);
     --solid-color: var(--wp--preset--color--black);
     --outline-color: var(--wp--preset--color--black);
     --outline-border-color: var(--wp--preset--color--black);
+}
+
+.op-button:is( :hover ) {
+    --hover-background-color: var(--wp--preset--color--accent-60);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+/* ---------------------------
+>  Button Colors - White
+------------------------------ */
+
+.op-button:where( [data-color="white"] ) {
+    --solid-background-color: var(--wp--preset--color--white);
+    --solid-color: var(--wp--preset--color--primary-90);
+}
+
+/* ---------------------------
+>  Button Colors - Black
+------------------------------ */
+
+.op-button:where( [data-color="black"] ) {
+    --solid-background-color: var(--wp--preset--color--black);
+    --solid-color: var(--wp--preset--color--white);
+}
+
+/* ---------------------------
+>  Button Colors - Primary
+------------------------------ */
+
+.op-button:where( [data-color="primary-100"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-100);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-100);
+    --outline-border-color: var(--wp--preset--color--primary-100);
+}
+
+.op-button:where( [data-color="primary-90"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-90);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-90);
+    --outline-border-color: var(--wp--preset--color--primary-90);
+}
+
+.op-button:where( [data-color="primary-60"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--primary-60);
+    --outline-border-color: var(--wp--preset--color--primary-60);
+}
+
+.op-button:where( [data-color="primary-20"] ) {
+    --solid-background-color: var(--wp--preset--color--primary-20);
+    --solid-color: var(--wp--preset--color--primary-100);
+    --outline-color: var(--wp--preset--color--primary-10);
+    --outline-border-color: var(--wp--preset--color--primary-20);
+}
+
+/* ---------------------------
+>  Button Colors - Secondary
+------------------------------ */
+
+.op-button:where( [data-color="secondary-60"] ) {
+    --solid-background-color: var(--wp--preset--color--secondary-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--secondary-60);
+    --outline-border-color: var(--wp--preset--color--secondary-60);
+}
+
+.op-button:where( [data-color="secondary-20"] ) {
+    --solid-background-color: var(--wp--preset--color--secondary-20);
+    --solid-color: var(--wp--preset--color--secondary-100);
+    --outline-color: var(--wp--preset--color--secondary-10);
+    --outline-border-color: var(--wp--preset--color--secondary-20);
+}
+
+/* ---------------------------
+>  Button Colors - Accent
+------------------------------ */
+
+.op-button:where( [data-color="accent-60"] ) {
+    --solid-background-color: var(--wp--preset--color--accent-60);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--accent-80);
+    --outline-border-color: var(--wp--preset--color--accent-60);
+}
+
+.op-button:where( [data-color-hover="accent-60"] ):is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--accent-60);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+.op-button:where( [data-color="accent-20"] ) {
+    --solid-background-color: var(--wp--preset--color--accent-20);
+    --solid-color: var(--wp--preset--color--accent-100);
+    --outline-color: var(--wp--preset--color--accent-10);
+    --outline-border-color: var(--wp--preset--color--accent-20);
+}
+
+/* ---------------------------
+>  Button Colors - Error
+------------------------------ */
+
+.op-button:where( [data-color="error-100"] ) {
+    --solid-background-color: var(--wp--preset--color--error-100);
+    --solid-color: var(--wp--preset--color--white);
+    --outline-color: var(--wp--preset--color--error-100);
+    --outline-border-color: var(--wp--preset--color--error-100);
+}
+
+.op-button:where( [data-color-hover="error-100"] ):is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--error-100);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+.op-button:where( [data-color-hover="error-100"] ):is( :hover, :focus ) {
+    --hover-background-color: var(--wp--preset--color--error-100);
+    --hover-color: var(--wp--preset--color--white);
+}
+
+/* ------------------------------------------
+ >  1a-2. Button Default CSS 
+--------------------------------------------- */
+
+.op-button {
     font-family: var(--wp--preset--font-family--montserrat);
     font-weight: 500;
     text-align: center;
@@ -337,15 +469,15 @@ html {
     border-radius: 0.4rem;
 }
 
-.op-button:is( :hover, :focus ) {
-    background-color: var(--wp--preset--color--accent-60);
-    color: var(--wp--preset--color--white);
-    border: 0.1rem solid var(--wp--preset--color--accent-60);
+.op-button:is( :hover ) {
+    background-color: var(--hover-background-color);
+    color: var(--hover-color);
+    border: 0.1rem solid var(--hover-background-color);
     transition: all 200ms ease-in-out, color 100ms ease-in-out;
 }
 
-.op-button:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ),
-:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover, :focus ) {
+.op-button:is( :hover ):is( [data-color*="accent"] ):not( :disabled, [data-color-hover] ),
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button:is( :hover ) {
     background-color: var(--wp--preset--color--primary-90);
     border: 0.1rem solid var(--wp--preset--color--primary-90);
 }
@@ -368,7 +500,7 @@ html {
 }
 
 /* ------------------------------------------
- >  1a-1. Button Sizes
+ >  1a-2. Button Sizes
 ---------------------------------------------
  >  Button Size - Small
 ------------------------------ */
@@ -410,6 +542,10 @@ html {
 .op-button:is( .op-button-size-small ):not( [data-icon-position="left"], [data-icon-position="right"] ) .op-button-title {
     padding-right: 1.8rem;
     padding-left: 1.8rem;
+}
+
+.op-button:is( .op-button-size-small )[data-title-visibility="1"] {
+    min-width: 4rem;
 }
 
 .op-button:is( .op-button-size-small )[data-title-visibility="1"] .op-icon {
@@ -464,6 +600,10 @@ html {
     padding-left: 2.4rem;
 }
 
+.op-button:is( .op-button-size-medium )[data-title-visibility="1"] {
+    min-width: 5rem;
+}
+
 .op-button:is( .op-button-size-medium )[data-title-visibility="1"] .op-icon {
     padding: 1.2rem;
 }
@@ -516,6 +656,10 @@ html {
     padding-left: 3rem;
 }
 
+.op-button:is( .op-button-size-large )[data-title-visibility="1"] {
+    min-width: 6rem;
+}
+
 .op-button:is( .op-button-size-large )[data-title-visibility="1"] .op-icon {
     padding: 1.4rem;
 }
@@ -527,79 +671,9 @@ html {
 
 
 /* ------------------------------------------
- >  1a-2. Button Colors/Styles
+ >  1a-3. Button Styles
 ---------------------------------------------
- >  Button Colors
------------------------------- */
-
-.op-button:where( [data-color="white"] ) {
-    --solid-background-color: var(--wp--preset--color--white);
-    --solid-color: var(--wp--preset--color--primary-90);
-}
-
-.op-button:where( [data-color="black"] ) {
-    --solid-background-color: var(--wp--preset--color--black);
-    --solid-color: var(--wp--preset--color--white);
-}
-
-.op-button:where( [data-color="primary-100"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-100);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--primary-100);
-    --outline-border-color: var(--wp--preset--color--primary-100);
-}
-
-.op-button:where( [data-color="primary-90"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-90);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--primary-90);
-    --outline-border-color: var(--wp--preset--color--primary-90);
-}
-
-.op-button:where( [data-color="primary-60"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-60);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--primary-60);
-    --outline-border-color: var(--wp--preset--color--primary-60);
-}
-
-.op-button:where( [data-color="primary-20"] ) {
-    --solid-background-color: var(--wp--preset--color--primary-20);
-    --solid-color: var(--wp--preset--color--primary-100);
-    --outline-color: var(--wp--preset--color--primary-10);
-    --outline-border-color: var(--wp--preset--color--primary-20);
-}
-
-.op-button:where( [data-color="secondary-60"] ) {
-    --solid-background-color: var(--wp--preset--color--secondary-60);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--secondary-60);
-    --outline-border-color: var(--wp--preset--color--secondary-60);
-}
-
-.op-button:where( [data-color="secondary-20"] ) {
-    --solid-background-color: var(--wp--preset--color--secondary-20);
-    --solid-color: var(--wp--preset--color--secondary-100);
-    --outline-color: var(--wp--preset--color--secondary-10);
-    --outline-border-color: var(--wp--preset--color--secondary-20);
-}
-
-.op-button:where( [data-color="accent-60"] ) {
-    --solid-background-color: var(--wp--preset--color--accent-60);
-    --solid-color: var(--wp--preset--color--white);
-    --outline-color: var(--wp--preset--color--accent-80);
-    --outline-border-color: var(--wp--preset--color--accent-60);
-}
-
-.op-button:where( [data-color="accent-20"] ) {
-    --solid-background-color: var(--wp--preset--color--accent-20);
-    --solid-color: var(--wp--preset--color--accent-100);
-    --outline-color: var(--wp--preset--color--accent-10);
-    --outline-border-color: var(--wp--preset--color--accent-20);
-}
-
-/* ---------------------------
->  Button Style - Solid
+ >  Button Style - Solid
 ------------------------------ */
 
 .op-button:where( .op-button-style-solid ) {
@@ -630,27 +704,27 @@ html {
     overflow: hidden;
 }
 
-.op-button[data-title-visibility="1"]:where( :hover, :focus ) {
+.op-button[data-title-visibility="1"]:where( :hover ) {
     overflow: visible;
 }
 
-.op-button[data-title-visibility="1"]:where( :hover, :focus ) {
+.op-button[data-title-visibility="1"]:where( :hover ) {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover, :focus ) {
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover ) {
 	border-radius: 0 0.4rem 0.4rem 0;
 }
 
 .op-button[data-title-visibility="1"] .op-button-title {
     background-color: var(--wp--preset--color--accent-70);
     color: var(--wp--preset--color--white);
+    min-height: inherit;
     width: max-content;
     max-width: 24rem;
     padding-right: 0;
 	padding-left: 0;
     position: absolute;
-    top: -0.1rem;
     left: 100%;
     z-index: 0;
     opacity: 0;
@@ -663,17 +737,17 @@ html {
     left: auto;
 }
 
-.op-button[data-title-visibility="1"]:where( :hover, :focus ) .op-button-title {
+.op-button[data-title-visibility="1"]:where( :hover ) .op-button-title {
     opacity: 1;
     transition: all 0.2s ease-in-out;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover, :focus ) .op-button-title {
+.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover ) .op-button-title {
 	border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover, :focus ):not( :disabled ) .op-button-title,
-:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover, :focus ):not( :disabled ) .op-button-title {
+.op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover ):not( :disabled ) .op-button-title,
+:is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover ):not( :disabled ) .op-button-title {
     background-color: var(--wp--preset--color--primary-100);
     border-color: var(--wp--preset--color--primary-100);
 }
@@ -788,7 +862,7 @@ html {
 	transition: all 0.2s ease-in-out;
 }
 
-.op-button-loginout button:where( :hover, :focus ) .button-icon {
+.op-button-loginout button:where( :hover ) .button-icon {
 	background-color: var(--wp--preset--color--accent-60);
 	text-decoration: none;
 	border-radius: 0.4rem 0 0 0.4rem;
@@ -1221,7 +1295,7 @@ html {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-search-label .op-icon:is( :hover, :focus )::before {
+.op-event-participant-list .op-search-label .op-icon:is( :hover )::before {
     background: var(--wp--preset--color--accent-60);
     color: var(--wp--preset--color--white);
     display: flex;
@@ -1259,7 +1333,7 @@ html {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-search-cancel:is( :hover, :focus ) .op-icon::before {
+.op-event-participant-list .op-search-cancel:is( :hover ) .op-icon::before {
     background: var(--wp--preset--color--accent-60);
     color: var(--wp--preset--color--white);
     display: flex;
@@ -1343,7 +1417,7 @@ html {
     cursor: pointer;
 }
 
-.op-event-participant-list .op-filter-input-label:is( :hover, :focus ) {
+.op-event-participant-list .op-filter-input-label:is( :hover ) {
     background-color: var(--wp--preset--color--primary-10);
     color: var(--wp--preset--color--primary-100);
     border-color: var(--wp--preset--color--primary-100);
@@ -1901,79 +1975,6 @@ html {
     padding: 3rem;
 }
 
-.op-form .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    flex: 1;
-    padding-top: 2rem;
-    visibility: hidden;
-}
-
-.op-form .op-form-content fieldset .op-fieldset__inner .op-grid-wrapper.op-grid-active {
-    visibility: visible;
-}
-
-.op-form .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] {
-    flex: 1;
-    min-height: 30rem;
-    padding: 0.4rem;
-    border: 0.1rem solid var(--form-color-light);
-    border-radius: 0.4rem;
-}
-
-.op-form .op-form-content fieldset .op-fieldset__inner [ id*="-form-grid" ] > div {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.op-form [id*="-form-grid"] .dgxl-display {
-    border: 1px solid gray;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.op-form [id*="-form-grid"] .dgxl-part-layoutButton {
-    z-index: 1;
-}
-
-.op-form [id*="-form-grid"] .dgxl-colHeaderBackground {
-    background: var(--wp--preset--color--neutral-20) !important;
-}
-
-.op-form [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    left: 0 !important;
-    right: 0 !important;
-}
-
-.op-form [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span {
-    line-height: 30px;
-    display: flex;
-    align-items: center;
-    width: calc( 100% + 1px);
-    height: 30px;
-    padding: 4px 6px;
-    box-sizing: border-box;
-}
-
-.op-form [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col {
-    background: var(--form-color-light);
-    color: var(--wp--preset--color--black);
-    border: 1px solid var(--form-color-dark);
-    border-top: none;
-}
-
-.op-form [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col-no {
-    background: var(--wp--preset--color--neutral-40);
-    color: var(--wp--preset--color--black);
-    border: 1px solid var(--wp--preset--color--neutral-40);
-    border-top: none;
-}
-
 .op-form .op-form-directions .op-button-save,
 .op-form [data-form-step="1"] .op-form-directions .op-button-back,
 .op-form [data-form-step-last="true"] .op-form-directions .op-button-next {
@@ -2052,8 +2053,8 @@ html {
     transition: all 200ms ease-in-out;
 }
 
-.op-input-field input[type="file"]:where( :hover, :focus )::-webkit-file-upload-button,
-.op-input-field input[type="file"]:where( :hover, :focus )::file-selector-button {
+.op-input-field input[type="file"]:where( :hover )::-webkit-file-upload-button,
+.op-input-field input[type="file"]:where( :hover )::file-selector-button {
     background-color: var(--form-color-medium);
     color: var(--wp--preset--color--white);
     border-color: var(--form-color-medium);
@@ -2120,13 +2121,13 @@ html {
     display: flex;
 }
 
-.op-input-field .op-input-border:where( :hover, :focus ) .op-radio-check {
+.op-input-field .op-input-border:where( :hover ) .op-radio-check {
     background-color: var(--form-color-light);
 }
 
-.op-input-field .op-input-border:is( :hover, :focus ),
-.op-input-field .op-input-border:is( :hover, :focus ) .op-radio-check,
-.op-input-field .op-input-border:is( :hover, :focus ) .op-radio-check .op-icon,
+.op-input-field .op-input-border:is( :hover ),
+.op-input-field .op-input-border:is( :hover ) .op-radio-check,
+.op-input-field .op-input-border:is( :hover ) .op-radio-check .op-icon,
 .op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check
 .op-input-field .op-input-checkbox [type="checkbox"]:checked ~ .op-radio-check .op-icon
 .op-input-field .op-input-approved:hover ~ .op-input-border,
@@ -2139,8 +2140,8 @@ html {
     border-color: var(--wp--preset--color--error-40);
 }
 
-.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ),
-.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover, :focus ) .op-radio-check,
+.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover ),
+.op-input-wrapper[data-validation="2"] .op-input-border:where( :hover ) .op-radio-check,
 .op-input-wrapper[data-validation="2"] .op-input-validation:hover ~ .op-input-border {
     border-color: var(--wp--preset--color--error-100);
 }
@@ -2195,7 +2196,7 @@ html {
     clip-path: inset(50%);
 }
 
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ),
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ),
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label {
     border-color: var(--form-color-medium);
 }
@@ -2234,14 +2235,14 @@ html {
     transition: border-color 200ms ease-in-out;
 }
 
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check,
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ) .op-radio-check,
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check,
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check .op-icon,
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ) .op-radio-check .op-icon,
 .op-form .op-form-radio-inputs .op-radio-input input:checked ~ label .op-radio-check .op-icon {
     border-color: var(--form-color-medium);
 }
 
-.op-form .op-form-radio-inputs .op-radio-input label:where( :hover, :focus ) .op-radio-check {
+.op-form .op-form-radio-inputs .op-radio-input label:where( :hover ) .op-radio-check {
     background-color: var(--form-color-light);
 }
 
@@ -2287,7 +2288,7 @@ html {
     transition: opacity 200ms ease-in-out;
 }
 
-.op-form .op-radio-input label:where( :hover, :focus ) .op-radio-info .op-info::after,
+.op-form .op-radio-input label:where( :hover ) .op-radio-info .op-info::after,
 .op-form .op-radio-input input:checked ~ label .op-radio-info .op-info::after {
     opacity: 1;
 }
@@ -2670,7 +2671,7 @@ fieldset {
 		overflow: hidden;
 	}
 
-	.op-button-loginout button:where( :hover, :focus ) {
+	.op-button-loginout button:where( :hover ) {
 		overflow: visible;
 	}
 

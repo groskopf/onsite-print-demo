@@ -1,13 +1,13 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Template Creation) Block Script 
  *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-20-05 - 03:51 (Y:m:d - H:i)
- ?  Info: Changed structure in JS block script.
+ ?  Updated: 2024-06-03 - 03:12 (Y:m:d - H:i)
+ ?  Info: Added extra validation.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
-import * as opModuleTemplate from '../../assets/js/inc/template/template.js'
+import * as opModuleBlockForm from './block-script-parts/block-form/block-form.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Template Creation Blocks
@@ -15,11 +15,14 @@ import * as opModuleTemplate from '../../assets/js/inc/template/template.js'
 export function opTemplateCreationBlocks( debug ) {
     
     try {
-        
+
+        ///// Get Function Name.
+        var functionName = opTemplateCreationBlocks.name
+
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
-        if ( debug !== true ) debug = true //false       
-        if ( debug ) console.group( 'opTemplateCreationBlocks()' )
+        if ( debug !== true ) debug = false       
+        if ( debug ) console.group( functionName+'()' )
 
         ///// Create Variables.
         let blockName = 'Template Creation'
@@ -40,7 +43,8 @@ export function opTemplateCreationBlocks( debug ) {
             ///// Return the Response.
             return opModuleBasic.opReturnResponse( false, 404, { 
                 message: `Could not find any ${ blockName } Blocks!`, 
-                line: opModuleBasic.errorLine()
+                line: opModuleBasic.errorLine(),
+                function: functionName
             } )
 
         } else {
@@ -48,22 +52,20 @@ export function opTemplateCreationBlocks( debug ) {
             ///// Get each Block.
             blocks.forEach( block => {
 
-                ///// Get the Block ID.
-                let blockId = block.getAttribute( 'id' )
+                ///// Start the Console Log Group.
+                if ( debug ) console.group( `Block with ID: ${ block.getAttribute( 'id' ) }` )
 
-                ///// Push Debug Details to the Debug.
-                if ( debug ) console.group( `Block with ID: ${ blockId }` )
+                ///// Run the Step 2 Function.
+                const step2 = opModuleBlockForm.opStep2( debug, block )
 
-                ///// Add Function to Image Approval (Step 2). 
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-1` ), () => opModuleTemplate.lineApproval( debug, block, '1L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-2` ), () => opModuleTemplate.lineApproval( debug, block, '2L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-3` ), () => opModuleTemplate.lineApproval( debug, block, '3L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-4` ), () => opModuleTemplate.lineApproval( debug, block, '4L' ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-2 #${ blockId }-radio-input-5` ), () => opModuleTemplate.lineApproval( debug, block, '5L' ) )
+                ///// Validate the Response from the Approval.
+                if ( step2.error !== false ) throw step2
 
-                ///// Add Function to Image Approval (Step 3). 
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-1` ), () => opModuleTemplate.imageApproval( debug, block, false ) )
-                opModuleBasic.opListener( 'click', block.querySelector( `.op-fieldset-step-3 #${ blockId }-radio-image-2` ), () => opModuleTemplate.imageApproval( debug, block, true ) )
+                ///// Run the Step 3 Function.
+                const step3 = opModuleBlockForm.opStep3( debug, block )
+
+                ///// Validate the Response from the Approval.
+                if ( step3.error !== false ) throw step3
 
                 ///// Debug to the Console Log.
                 opModuleBasic.opConsoleDebug( debug, { 
@@ -73,31 +75,45 @@ export function opTemplateCreationBlocks( debug ) {
                 } )
 
                 ///// End the Console Log Group.
-                if ( debug ) console.groupEnd();
+                if ( debug ) console.groupEnd()
 
             })
-        
+
         }
 
-    } catch( errorDetails ) {
+        ///// Return the Response.
+        return opModuleBasic.opReturnResponse( false, 200, { 
+            message: `No errors were found in the ${ blockName } Function!`, 
+            line: opModuleBasic.errorLine()
+        }, debug )        
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Log Error Details in the Console.
-        console.error( 'ERROR:', { 
-            message: errorDetails.message,
-            line: opModuleBasic.errorLine()
+        if ( debug ) console.error( 'ERROR:', { 
+            function: functionName,
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
         } )
-        
+
         ///// Return the Error Response.
         return opModuleBasic.opReturnResponse( true, 400, { 
-            function: 'opTemplateCreationBlocks', 
-            line: opModuleBasic.errorLine(), 
-            details: errorDetails.message 
+            function: functionName,
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
         } )
 
     } finally {
 
         ///// End the Console Log Group.
-        if ( debug ) console.groupEnd();
+        if ( debug ) console.groupEnd()
 
     }
     

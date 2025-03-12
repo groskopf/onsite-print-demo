@@ -8,9 +8,9 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.0.0.59
+ *	Version: 1.0.0.60
  ?	(Check the Version variable)
- ?  Updated: 2024-05-12 - 00:39 (Y:m:d - H:i)
+ ?  Updated: 2025-01-31 - 20:36 (Y:m:d - H:i)
  ?  Info: (CSS, PHP & JS) Added Modal Window i Dashboard block.
 
 ---------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace GerdesGroup\op;
 /* ---------------------------------------------------------
  >  1b. Definition of variables
 ------------------------------------------------------------ */
-define( 'OP_VERSION', '1.0.0.59' );
+define( 'OP_VERSION', '1.0.0.60' );
 define( 'OP_ROOT_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'OP_ROOT_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 

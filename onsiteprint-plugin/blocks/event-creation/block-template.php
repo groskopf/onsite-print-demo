@@ -9,7 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-04-17 - 19:37 (Y:m:d - H:i)
+ ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
+ ?  Info: Added new Title and Description Text to the Error Modal, located in Step 3 (Event Creation).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -58,6 +59,14 @@ $acf = array(
     'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
     'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
     'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
+    'step_3_dropdown_button' => get_field( $ec . 'steps_step_3_dropdown_buttons_menu' ) ?: 'Previews',
+    'step_3_layout_button'  => get_field( $ec . 'steps_step_3_dropdown_buttons_layout' ) ?: 'See Chosen Layout',
+    'step_3_example_button' => get_field( $ec . 'steps_step_3_dropdown_buttons_example' ) ?: 'See Print Example',
+    'step_3_layout_title'   => get_field( $ec . 'steps_step_3_dropdown_modals_layout' ) ?: 'Chosen Layout',
+    'step_3_example_title'  => get_field( $ec . 'steps_step_3_dropdown_modals_example' ) ?: 'Print Example',
+    'step_3_error_title'  => get_field( $ec . 'steps_step_3_dropdown_modals_error_title' ) ?: 'Something went wrong',
+    'step_3_error_description'  => get_field( $ec . 'steps_step_3_dropdown_modals_error_description' ) ?: 'Please try again and contact us if the error continues to persist.',
+    'step_3_cancel_button'  => get_field( $ec . 'steps_step_3_dropdown_modals_cancel' ) ?: 'Close',
 
     'step_4_process'        => get_field( $ec . 'steps_step_4_process' ) ?: 'Save Event',
     'step_4_title'          => get_field( $ec . 'steps_step_4_title' ) ?: 'Finally, save your new Event',
@@ -65,6 +74,10 @@ $acf = array(
     'step_4_field_1_title'  => get_field( $ec . 'steps_step_4_field_1_title' ) ?: 'Event Approval',
     'step_4_field_1_val'    => get_field( $ec . 'steps_step_4_field_1_validation' ) ?: 'The checkbox must be checked!',
     'step_4_field_1_value'  => get_field( $ec . 'steps_step_4_field_1_value' ) ?: 'I Approve the new Event.',
+    'step_4_approval_1'     => get_field( $ec . 'steps_step_4_approval_1' ) ?: 'Eventname',
+    'step_4_approval_2'     => get_field( $ec . 'steps_step_4_approval_2' ) ?: 'Template Used',
+    'step_4_approval_3'     => get_field( $ec . 'steps_step_4_approval_3' ) ?: 'CSV-file Used',
+    'step_4_approval_4'     => get_field( $ec . 'steps_step_4_approval_4' ) ?: 'Template Layout',
 
     'modal_title'           => get_field( $ec . 'modal_title' ) ?: 'Event have been Saved!',
     'modal_description'     => get_field( $ec . 'modal_description' ) ?: 'Choose whether you want to go to the Dashboard or the new Event your just finished.',
@@ -82,7 +95,7 @@ if( ! empty( $block['anchor'] ) ) {
 	$id = $block['anchor'];
 }
 
-$className = 'op-event-creation op-form op-flex-col';
+$className = 'op-block__event-creation op-form op-flex-col';
 
 if ( ! empty( $block['className'] ) ) {
     $className .= ' ' . $block['className'];
@@ -151,7 +164,7 @@ if ( ! empty( $block['align'] ) ) {
                             <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_next'] ) ?></span>
                         </button>
-                        <button type="button" onclick="opSaveNewEvent(); return false" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="floppy-disk" data-icon-position="left" disabled>
+                        <button type="button" class="op-button-save op-button op-button-size-small op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="floppy-disk" data-icon-position="left" disabled>
                             <span class="op-icon" role="img" aria-label="Floppy Disk Icon"></span>
                             <span class="op-button-title"><?= esc_attr( $acf['button_save'] ) ?></span>
                         </button>
@@ -161,24 +174,9 @@ if ( ! empty( $block['align'] ) ) {
             </div><!-- .op-form__inner -->
         </form><!-- .op-form-steps -->
 
-        <div class="op-modal" data-relocation-event="<?= esc_attr( $acf['event_link'] ) ?>">
-            <div class="op-modal__inner">
-                <div class="op-flex-col">
-                    <h3 class="op-modal-title"><?= esc_attr( $acf['modal_title'] ) ?></h3>
-                    <p class="op-modal-description"><?= esc_attr( $acf['modal_description'] ) ?></p>
-                </div>
-                <div class="op-flex-row">
-                    <a href="<?= esc_attr( $acf['main_link'] ) ?>" class="op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-left" data-icon-position="left">
-                        <span class="op-icon" role="img" aria-label="Arrow Left Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['main_title'] ) ?></span>
-                    </a>
-                    <a class="op-button-event op-button op-button-size-small op-button-style-outline" data-color="primary-100" data-icon="arrow-right" data-icon-position="right">
-                        <span class="op-icon" role="img" aria-label="Arrow Right Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $acf['event_title'] ) ?></span>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div class="op-modal">
+            <div class="op-modal__inner"></div>
+        </div><!-- .op-modal -->
         
     </div><!-- .op-block__inner -->
 </section><!-- #<?= esc_attr($id) ?> -->

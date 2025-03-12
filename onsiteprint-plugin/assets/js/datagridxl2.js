@@ -3,7 +3,8 @@
  *  v2.22.12.02
  *  (c) Vanilla Components
  *  https://datagridxl.com/buy
- ?	Updated: 2023-04-17 - 20:23 (Y:M:D - H:M) - Niels Gerdes (#NG)
+ ?	Updated: 2024-12-31 - 05:17 (Y:M:D - H:M) - Niels Gerdes (#NG)
+ ?  Info: Removed the "fullscreenButton".
 --------------------------------------------------------------------------- */
 
 var DataGridXL = function () {
@@ -6087,19 +6088,13 @@ var DataGridXL = function () {
                     }
                 }
             },
-            layoutButton: { // #NG - New Element
-                name: "layoutButton",
+            exampleButton: {
+                name: "exampleButton",
                 node: function () {
-                    var t = `<button type="button" onclick="opFormGoToStep( 'next' ); return false" class="op-button-next op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="money-check" data-icon-position="left" data-title-visibility="1"><span class="op-icon" role="img" aria-label="Layout Icon"></span><span class="op-button-title">See chosen Template</span></button>`;
+                    // #NG - Added to store a Button.
                     return {
                         tag: "div",
-                        name: "layoutButton",
-                        html: t,
-                    }
-                },
-                listeners: {
-                    "layoutButton.click": function (t) {
-                        //this.toggleFullscreen()
+                        name: "exampleButton",
                     }
                 }
             },
@@ -6641,9 +6636,8 @@ var DataGridXL = function () {
                 }
             }
         },
-        Qr = ["searchBar", "fullscreenButton"], // #NG - ["searchBar"],
-        //Qr = ["layoutButton", "searchBar", "fullscreenButton"], // #NG - ["searchBar"],
-        Jr = [] // #NG - ["fullscreenButton", "inputBar", "credits"];
+        Qr = ["searchBar", "exampleButton"], // #NG - ["searchBar"]
+        Jr = [] // #NG - ["fullscreenButton", "inputBar", "credits"]
 
     function tl(t, e, i, o) {
         return i.title ? i.title || "" : this.colHeaderLabelType in o ? (this.colHeaderLabelPrefix || "") + o[this.colHeaderLabelType] + (this.colHeaderLabelSuffix || "") : (this.colHeaderLabelPrefix || "") + (this.colHeaderLabelSuffix || "")
