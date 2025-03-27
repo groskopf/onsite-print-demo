@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2023-04-11 - 17:30 (Y:m:d - H:i)
+ ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
+ ?  Info: (PHP) Added new Textarea to Modal (note).
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -63,13 +64,20 @@
                                     <input id="<?= esc_attr($id) ?>-column-5-input" class="op-input-border" name="column-5" type="text">
                                 </div>
                             </label>
-                            
+
+                            <label for="<?= esc_attr($id) ?>-note-input" class="op-input-wrapper">
+                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal['note'] ) ?></span></p>
+                                <div class="op-input-field">
+                                    <textarea id="<?= esc_attr($id) ?>-note-input" class="op-input-border" name="note" rows="3"></textarea>
+                                </div>
+                            </label>
+
                             <div class="op-form-validation" data-icon="circle-exclamation">
                                 <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
                                 <span class="op-message"><?= esc_attr( $modal['messages_error'] ) ?></span>
                             </div>
 
-                        </div>                               
+                        </div>
 
                     </fieldset>
                     
