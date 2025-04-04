@@ -24,3 +24,15 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added Textarea to Modal, used in /modal.php (Event Block).
 
     ---
+
+## 2025-03-27
+
+#### [Elements (JS) - elements.js](assets/js/elements.js)
+- Added new Line with Extra Notes.
+
+    ---
+
+#### [API Convert JSON to CSV (PHP) - api-convert-json-into-csv.php](assets/api/convert-files/api-convert-json-into-csv.php)
+- Added new Line with Extra Notes and changed Parameters in Participant Variable.
+
+    ---
