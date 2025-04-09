@@ -43,3 +43,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the Path to the Layout SVG in the Event Creation Block - Step 3.
 
     ---
+
+#### [Step 4 (PHP) - step-4.php](blocks/event-creation/block-template-parts/block-form/steps/step-4.php)
+- Changed the Path to the Layout SVG in the Event Creation Block - Step 4.
+
+    ---
