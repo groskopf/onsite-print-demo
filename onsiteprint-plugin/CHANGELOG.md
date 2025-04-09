@@ -36,3 +36,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Line with Extra Notes and changed Parameters in Participant Variable.
 
     ---
+
+## 2025-04-09
+
+#### [Step 3 (PHP) - step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
+- Changed the Path to the Layout SVG in the Event Creation Block - Step 3.
+
+    ---
