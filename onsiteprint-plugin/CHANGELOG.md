@@ -48,3 +48,20 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the Path to the Layout SVG in the Event Creation Block - Step 4.
 
     ---
+
+## 2025-04-13
+
+#### [Block Script New (JS) - block-script-new.js](blocks/event/block-script-new.js)
+- Added new Event Block Script. NB: The function is under construction.
+
+    ---
+
+#### [Parts (JS) - parts.js](blocks/event/block-script-parts/parts.js)
+- Added new Parts Script.
+
+    ---
+
+#### [Parts (JS) - parts.js](blocks/event/block-script-parts/parts.js)
+- Added new Setup List Script. NB: The function is under construction.
+
+    ---
