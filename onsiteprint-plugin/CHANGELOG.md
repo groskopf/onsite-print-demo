@@ -61,7 +61,29 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-#### [Parts (JS) - parts.js](blocks/event/block-script-parts/parts.js)
+#### [Setup List (JS) - setup-list.js](blocks/event/block-script-parts/setup-list.js)
 - Added new Setup List Script. NB: The function is under construction.
+
+    ---
+
+## 2025-04-14
+
+#### [Block Script (JS) - block-script.js](blocks/event-creation/block-script.js)
+- Changed the Debug to False in the Event Creation Block.
+
+    ---
+
+#### [Parts (JS) - parts.js](blocks/event/block-script-parts/parts.js)
+- Added new Function (opAddParticipant).
+
+    ---
+
+#### [Setup List (JS) - setup-list.js](blocks/event/block-script-parts/setup-list.js)
+- Added new Lines in the Function (opSetupList).
+
+    ---
+
+#### [Add Participant (JS) - add-participant.js](blocks/event/block-script-parts/add-participant.js)
+- Added new Add Participant Script.
 
     ---

@@ -14,12 +14,12 @@ import * as opEvent from './block-script-parts/parts.js'
  #  2. The Function of Event Creation Blocks
  ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
-export function opEventCreationBlocks( debug ) {
+export function opEventBlocks( debug ) {
 
     try {
         
         ///// Get Function Name.
-        var functionName = opEventCreationBlocks.name
+        var functionName = opEventBlocks.name
     
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
@@ -62,8 +62,7 @@ export function opEventCreationBlocks( debug ) {
 
                 ///// Validate the Response from the Approval.
                 if ( setupEvent.error !== false ) throw setupEvent
-
-
+                
 
 
 
