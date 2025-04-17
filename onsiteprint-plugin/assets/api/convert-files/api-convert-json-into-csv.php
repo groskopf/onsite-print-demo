@@ -31,10 +31,14 @@
 
             function findDate( $value ) {
                 if ( $value ) {
+
                     $timestamp = (int)$value;
                     $dateTimeFormat = 'd/m/Y - H:i';
                     $dateTime = new DateTime( "@$timestamp" );
+                    $dateTime->setTimeZone( new DateTimeZone( "Europe/Copenhagen" ) );
+
                     return $dateTime->format( $dateTimeFormat );
+
                 } else {
                     return "\040";
                 }

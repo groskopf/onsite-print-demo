@@ -10,7 +10,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-#### [Step 3 (PHP) - step-3.php](blocks/event/block-template-parts/modal.php)
+#### [Modal (PHP) - modal.php](blocks/event/block-template-parts/modal.php)
 - Added new Textarea to Modal (note).
 
     ---
@@ -85,5 +85,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 #### [Add Participant (JS) - add-participant.js](blocks/event/block-script-parts/add-participant.js)
 - Added new Add Participant Script.
+
+    ---
+
+## 2025-04-17
+
+#### [API Convert JSON to CSV (PHP) - api-convert-json-into-csv.php](assets/api/convert-files/api-convert-json-into-csv.php)
+- Added Time Zone "Europe/Copenhagen" in the API Convert JSON into CSV.
 
     ---
