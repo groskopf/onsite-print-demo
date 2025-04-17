@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
- ?  Info: (PHP) Added new Textarea to Modal (note).
+ ?  Updated: 2025-04-17 - 14:32 (Y:m:d - H:i)
+ ?  Info: Added Max Length to Inputs and Textarea in Modal.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -33,42 +33,42 @@
                             <label for="<?= esc_attr($id) ?>-column-1-input" class="op-input-wrapper">
                                 <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">1</span></p>
                                 <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-1-input" class="op-input-border" name="column-1" type="text">
+                                    <input id="<?= esc_attr($id) ?>-column-1-input" class="op-input-border" name="column-1" type="text" maxlength="60">
                                 </div>
                             </label>
 
                             <label for="<?= esc_attr($id) ?>-column-2-input" class="op-input-wrapper">
                                 <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">2</span></p>
                                 <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-2-input" class="op-input-border" name="column-2" type="text">
+                                    <input id="<?= esc_attr($id) ?>-column-2-input" class="op-input-border" name="column-2" type="text" maxlength="60">
                                 </div>
                             </label>
 
                             <label for="<?= esc_attr($id) ?>-column-3-input" class="op-input-wrapper">
                                 <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">3</span></p>
                                 <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-3-input" class="op-input-border" name="column-3" type="text">
+                                    <input id="<?= esc_attr($id) ?>-column-3-input" class="op-input-border" name="column-3" type="text" maxlength="60">
                                 </div>
                             </label>
 
                             <label for="<?= esc_attr($id) ?>-column-4-input" class="op-input-wrapper">
                                 <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">4</span></p>
                                 <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-4-input" class="op-input-border" name="column-4" type="text">
+                                    <input id="<?= esc_attr($id) ?>-column-4-input" class="op-input-border" name="column-4" type="text" maxlength="60">
                                 </div>
                             </label>
 
                             <label for="<?= esc_attr($id) ?>-column-5-input" class="op-input-wrapper">
                                 <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">5</span></p>
                                 <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-5-input" class="op-input-border" name="column-5" type="text">
+                                    <input id="<?= esc_attr($id) ?>-column-5-input" class="op-input-border" name="column-5" type="text" maxlength="60">
                                 </div>
                             </label>
 
                             <label for="<?= esc_attr($id) ?>-note-input" class="op-input-wrapper">
                                 <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal['note'] ) ?></span></p>
                                 <div class="op-input-field">
-                                    <textarea id="<?= esc_attr($id) ?>-note-input" class="op-input-border" name="note" rows="3"></textarea>
+                                    <textarea id="<?= esc_attr($id) ?>-note-input" class="op-input-border" name="note" rows="3" maxlength="250"></textarea>
                                 </div>
                             </label>
 

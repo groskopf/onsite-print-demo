@@ -94,3 +94,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added Time Zone "Europe/Copenhagen" in the API Convert JSON into CSV.
 
     ---
+
+#### [Modal (PHP) - modal.php](blocks/event/block-template-parts/modal.php)
+- Added Max Length to Inputs and Textarea in Modal.
+
+    ---
