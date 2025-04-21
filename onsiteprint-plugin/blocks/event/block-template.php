@@ -9,7 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
+ ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
+ ?  Info: (PHP) Added New variable to Modal (note), used in /modal.php (Event).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -43,6 +44,7 @@ $modal = array(
     'messages_error'    => get_field( $path . 'modal_messages_error' ) ?: 'One or more columns must be filled!',
     'cancel_button'     => get_field( $path . 'modal_cancel_button' ) ?: 'Cancel',
     'add_button'        => get_field( $path . 'modal_add_button' ) ?: 'Add new Participant',
+    'note'              => get_field( $path . 'modal_note' ) ?: 'Extra Notes',
 );
 
 $list = array(  

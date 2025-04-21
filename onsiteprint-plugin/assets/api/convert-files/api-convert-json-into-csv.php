@@ -1,6 +1,6 @@
 <?php
     ////////////////////////////////////////
-    /////// Get List from CSV with Semicolon
+    /////// Create CSV from JSON
     ////////////////////////////////////////
     try {
         
@@ -21,7 +21,7 @@
                
             function findValue( $value ) {
                 if ( $value ) {
-                    return $value;
+                    return '"' . str_replace( '"', '""', $value ) . '"';
                 } elseif ( is_numeric( $value ) ) {
                     return "0\040";
                 } else {
@@ -31,10 +31,14 @@
 
             function findDate( $value ) {
                 if ( $value ) {
+
                     $timestamp = (int)$value;
                     $dateTimeFormat = 'd/m/Y - H:i';
                     $dateTime = new DateTime( "@$timestamp" );
+                    $dateTime->setTimeZone( new DateTimeZone( "Europe/Copenhagen" ) );
+
                     return $dateTime->format( $dateTimeFormat );
+
                 } else {
                     return "\040";
                 }
@@ -44,21 +48,22 @@
 
                 if ( empty( $header ) ) {
                     $header = array_keys( $line );                   
-                    $headerLine = [ $header[1], $header[2], $header[3], $header[4], $header[5], 'Last Arrived', 'Amount of Prints' ];
+                    $headerLine = [ $header[1], $header[2], $header[3], $header[4], $header[5], 'Extra Notes', 'Last Arrived', 'Amount of Prints' ];
                     array_push( $csvArray, implode(',', array_filter( array_values( $headerLine) ) ) . "\n" );
                 }
     
-                $participant = array_values( $line );
+                $participant = $line;
 
-                $line_1 = findValue( $participant[1] );
-                $line_2 = findValue( $participant[2] );
-                $line_3 = findValue( $participant[3] );
-                $line_4 = findValue( $participant[4] );
-                $line_5 = findValue( $participant[5] );
-                $line_time = findDate( $participant[6] );
-                $prints = findValue( $participant[8] );
+                $line_1     = findValue( $participant['line1'] );
+                $line_2     = findValue( $participant['line2'] );
+                $line_3     = findValue( $participant['line3'] );
+                $line_4     = findValue( $participant['line4'] );
+                $line_5     = findValue( $participant['line5'] );
+                $note       = findValue( $participant['note'] );
+                $line_time  = findDate( $participant['time'] );
+                $prints     = findValue( $participant['prints'] );
                 
-                $participantLine = [ $line_1, $line_2, $line_3, $line_4, $line_5, $line_time, $prints ];
+                $participantLine = [ $line_1, $line_2, $line_3, $line_4, $line_5, $note, $line_time, $prints ];
 
                 array_push( $csvArray, implode(',', array_filter( array_values( $participantLine) ) ) . "\n" );
             }

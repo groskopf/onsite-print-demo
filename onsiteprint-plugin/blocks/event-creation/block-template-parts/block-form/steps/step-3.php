@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
- ?  Info: Added new Error Modal Template in Step 3 (Event Creation).
+ ?  Updated: 2025-04-09 - 11:31 (Y:m:d - H:i)
+ ?  Info: Changed the Path to the Layout SVG.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -64,7 +64,7 @@
                     </button>
                 </div>
                 <div class="op-flex-row">
-                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
+                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/4786103/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
                 </div>
             </template>
 

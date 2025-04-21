@@ -1783,6 +1783,9 @@ async function opUpdateEvent( debug, eventId, formElement ) {
                 if ( ! formElement[ 'column-5' ] ) column5 = ''
                 else column5 = formElement[ 'column-5' ].value
 
+                if ( ! formElement[ 'note' ] ) note = ''
+                else note = formElement[ 'note' ].value
+
                 ///// Define new Participant Item variable.
                 let participantItem = {
                     id : `${ dateNow }`,
@@ -1791,6 +1794,7 @@ async function opUpdateEvent( debug, eventId, formElement ) {
                     line3 : column3,
                     line4 : column4,
                     line5 : column5,
+                    note : note,
                     time : '',
                     active : 0,
                     prints : 0

@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2024-05-12 - 21:35 (Y:m:d - H:i)
- ?  Info: (CSS) Added hover on text lines in Event.
+ ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
+ ?  Info: (CSS) Added Textarea to Modal.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -606,6 +606,12 @@
 
 .op-block__event .op-modal .op-fieldset__inner {
     gap: 2rem;
+}
+
+.op-block__event .op-modal .op-fieldset__inner input[type="text"],
+.op-block__event .op-modal .op-fieldset__inner textarea {
+    padding: 1rem 2rem;
+    resize: none;
 }
 
 .op-block__event .op-modal .op-fieldset__inner .op-form-validation {
