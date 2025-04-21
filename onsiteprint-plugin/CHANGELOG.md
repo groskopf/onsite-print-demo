@@ -49,42 +49,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-## 2025-04-13
-
-#### [Block Script New (JS) - block-script-new.js](blocks/event/block-script-new.js)
-- Added new Event Block Script. NB: The function is under construction.
-
-    ---
-
-#### [Parts (JS) - parts.js](blocks/event/block-script-parts/parts.js)
-- Added new Parts Script.
-
-    ---
-
-#### [Setup List (JS) - setup-list.js](blocks/event/block-script-parts/setup-list.js)
-- Added new Setup List Script. NB: The function is under construction.
-
-    ---
-
 ## 2025-04-14
 
 #### [Block Script (JS) - block-script.js](blocks/event-creation/block-script.js)
 - Changed the Debug to False in the Event Creation Block.
-
-    ---
-
-#### [Parts (JS) - parts.js](blocks/event/block-script-parts/parts.js)
-- Added new Function (opAddParticipant).
-
-    ---
-
-#### [Setup List (JS) - setup-list.js](blocks/event/block-script-parts/setup-list.js)
-- Added new Lines in the Function (opSetupList).
-
-    ---
-
-#### [Add Participant (JS) - add-participant.js](blocks/event/block-script-parts/add-participant.js)
-- Added new Add Participant Script.
 
     ---
 
@@ -97,5 +65,17 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 #### [Modal (PHP) - modal.php](blocks/event/block-template-parts/modal.php)
 - Added Max Length to Inputs and Textarea in Modal.
+
+    ---
+
+## 2025-04-21
+
+#### [Block (JSON) - block.json](blocks/event/block.json)
+- Changed Version to 1.0.1.0.
+
+    ---
+
+#### [OnsitePrint Plugin (PHP) - onsiteprint-plugin.php](onsiteprint-plugin.php)
+- Changed Version to 1.2.2.00.
 
     ---
