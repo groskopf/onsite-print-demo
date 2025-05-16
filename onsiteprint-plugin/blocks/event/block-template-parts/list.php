@@ -166,6 +166,10 @@
             <span class="op-text">Loading...</span>
         </p>
 
-    <?php } ?>
+    <?php 
+
+        require( __DIR__ . '/participant-template.php' );
+
+    } ?>
 
 </div><!-- .op-participant-rows -->
