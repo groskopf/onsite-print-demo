@@ -32,6 +32,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new File `Participant Template`.
+- Removed attribute `data-op-arrival` from `article`.
+- Added new element `span.op-text` to `header time`.
 
     [EB | participant-template.php](blocks/event/block-template-parts/participant-template.php)
 
