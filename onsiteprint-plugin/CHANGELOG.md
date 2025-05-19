@@ -12,6 +12,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Changed how to show `Lines` in the `Participant Row (Event Block)`.
+    
+    [EB | block-style.css](blocks/event/block-style.css)
+
+    ---
+
 - Added new Script `Parts`.
 - Added new Function `opAddParticipant`.
     

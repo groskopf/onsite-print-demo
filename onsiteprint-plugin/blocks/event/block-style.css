@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
- ?  Info: (CSS) Added Textarea to Modal.
+ ?  Updated: 2025-05-19 - 04:15 (Y:m:d - H:i)
+ ?  Info: (CSS) Changed how to show lines in row.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -431,7 +431,18 @@
     padding: 0.9rem 1rem 0.9rem 0;
 }
 
-.op-block__event .op-col-lines p:not(:last-child) {
+.op-block__event[ data-column-count="1" ] .op-col-lines p:where( :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(5) ),
+.op-block__event[ data-column-count="2" ] .op-col-lines p:where( :nth-child(3), :nth-child(4), :nth-child(5) ),
+.op-block__event[ data-column-count="3" ] .op-col-lines p:where( :nth-child(4), :nth-child(5) ),
+.op-block__event[ data-column-count="4" ] .op-col-lines p:where( :nth-child(5) ) {
+    display: none;
+}
+
+.op-block__event[ data-column-count="1" ] .op-col-lines p:not( :nth-child(1) ),
+.op-block__event[ data-column-count="2" ] .op-col-lines p:not( :nth-child(2) ),
+.op-block__event[ data-column-count="3" ] .op-col-lines p:not( :nth-child(3) ),
+.op-block__event[ data-column-count="4" ] .op-col-lines p:not( :nth-child(4) ),
+.op-block__event[ data-column-count="5" ] .op-col-lines p:not( :nth-child(5) ) {
     border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
 }
 
@@ -755,7 +766,11 @@
         padding: 0.9rem 2rem;
     }
     
-    .op-block__event .op-col-lines p:not(:last-child) {
+    .op-block__event[ data-column-count="1" ] .op-col-lines p:not( :nth-child(1) ),
+    .op-block__event[ data-column-count="2" ] .op-col-lines p:not( :nth-child(2) ),
+    .op-block__event[ data-column-count="3" ] .op-col-lines p:not( :nth-child(3) ),
+    .op-block__event[ data-column-count="4" ] .op-col-lines p:not( :nth-child(4) ),
+    .op-block__event[ data-column-count="5" ] .op-col-lines p:not( :nth-child(5) ) {
         border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
         border-bottom: none;
     }
