@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant List in the Event Block.
- ?  Updated: 2025-05-17 - 05:48 (Y:m:d - H:i)
- ?  Info: Added new Add Participant Script.
+ ?  Updated: 2025-05-22 - 00:50 (Y:m:d - H:i)
+ ?  Info: Added new Participant Listener to the Participant Element.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -19,7 +19,6 @@ import * as opModuleEvent from '../../../../assets/js/inc/event/event.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Add the Participant to the Participant List
- ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
 export function opAddParticipant( debug, block, listElement, participant ) {
 
@@ -38,7 +37,7 @@ export function opAddParticipant( debug, block, listElement, participant ) {
         let participantElement = participantTemplateElement.content.cloneNode(true)
         
         ///// Set the Elements in the Participant Template Element.
-        participantElement.querySelector( 'article' ).setAttribute( 'id', participant.id )
+        participantElement.querySelector( 'article' ).setAttribute( 'id', `op-participant_${ participant.id }` )
         participantElement.querySelector( 'article' ).setAttribute( 'data-validation', ( participant.active == 1 ) ? 2 : 0 )
         participantElement.querySelector( 'article' ).setAttribute( 'data-op-arrival', participant.active )
         participantElement.querySelector( 'article' ).setAttribute( 'data-op-prints', participant.prints )
@@ -51,6 +50,34 @@ export function opAddParticipant( debug, block, listElement, participant ) {
         participantElement.querySelectorAll( '.op-col-arrival-time' ).forEach( timeElement => {
             timeElement.setAttribute( 'datetime', opTimeConverter( participant.time, 'full' ) )
             timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( participant.time, 'hour-min' )
+        })
+
+        ///// Set Participant Listener to the Participant Template Element.
+        opModuleBasic.opListener( 'click', participantElement.querySelector( 'article' ), async () => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `Participant with ID: op-participant_${ participant.id }` )
+                
+            ///// Add Class when the Participant is Clicked on.
+            opToggleActive( 'class', 'op-participant' )
+
+            ///// Console Log Success if Debug.
+            if ( debug ) console.log( 'SUCCESS:', { 
+                message: `No errors were found in the Participant Listener!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            })
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+                
+        })    
+            
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Participant Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
         })
 
         ///// Add the Participant Element to the List Element.

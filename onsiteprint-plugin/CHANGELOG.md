@@ -32,6 +32,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new Script `Add Participant`.
+- Added new Participant Listener to the Function `opAddParticipant` and Removed the Listener from the Participant Element in `participant-template.php`.
 
     [EB | add-participant.js](blocks/event/block-script-parts/add-participant.js)
 
