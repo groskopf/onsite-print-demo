@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant List in the Event Block.
- ?  Updated: 2025-05-22 - 02:04 (Y:m:d - H:i)
- ?  Info: Changed the Participant Listener to Participant Toggle Listener.
+ ?  Updated: 2025-05-22 - 02:28 (Y:m:d - H:i)
+ ?  Info: Added new Print Participant Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -55,6 +55,9 @@ export function opAddParticipant( debug, block, listElement, participant ) {
 
         ///// Set Participant Toggle Listener to the Participant Template Element.
         opModuleListeners.opParticipantToggleListener( debug, participantElement.querySelector( 'article' ), participant.id )
+
+        ///// Set Print Participant Listener to the Participant Print Button.
+        opModuleListeners.opPrintParticipantListener( debug, participantElement.querySelector( 'button.op-participant-print' ), participant.id )
 
         ///// Add the Participant Element to the List Element.
         listElement.append( participantElement )
