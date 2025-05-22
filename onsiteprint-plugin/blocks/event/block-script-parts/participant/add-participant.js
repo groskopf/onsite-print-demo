@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant List in the Event Block.
- ?  Updated: 2025-05-22 - 00:50 (Y:m:d - H:i)
- ?  Info: Added new Participant Listener to the Participant Element.
+ ?  Updated: 2025-05-22 - 02:04 (Y:m:d - H:i)
+ ?  Info: Changed the Participant Listener to Participant Toggle Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,6 +15,7 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
+import * as opModuleListeners from './participant-listeners.js'
 import * as opModuleEvent from '../../../../assets/js/inc/event/event.js'
 
 /* ------------------------------------------------------------------------
@@ -52,33 +53,8 @@ export function opAddParticipant( debug, block, listElement, participant ) {
             timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( participant.time, 'hour-min' )
         })
 
-        ///// Set Participant Listener to the Participant Template Element.
-        opModuleBasic.opListener( 'click', participantElement.querySelector( 'article' ), async () => {
-
-            ///// Start the Console Log Group.
-            if ( debug ) console.group( `Participant with ID: op-participant_${ participant.id }` )
-                
-            ///// Add Class when the Participant is Clicked on.
-            opToggleActive( 'class', 'op-participant' )
-
-            ///// Console Log Success if Debug.
-            if ( debug ) console.log( 'SUCCESS:', { 
-                message: `No errors were found in the Participant Listener!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            })
-
-            ///// End the Console Log Group.
-            if ( debug ) console.groupEnd()
-                
-        })    
-            
-        ///// Console Log Success if Debug.
-        if ( debug ) console.log( 'SUCCESS:', { 
-            message: `The Participant Listener is Active!`,
-            line: opModuleBasic.errorLine(),
-            function: functionName
-        })
+        ///// Set Participant Toggle Listener to the Participant Template Element.
+        opModuleListeners.opParticipantToggleListener( debug, participantElement.querySelector( 'article' ), participant.id )
 
         ///// Add the Participant Element to the List Element.
         listElement.append( participantElement )

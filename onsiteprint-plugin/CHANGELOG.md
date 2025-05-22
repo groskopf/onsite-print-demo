@@ -32,15 +32,23 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new Script `Add Participant`.
-- Added new Participant Listener to the Function `opAddParticipant` and Removed the Listener from the Participant Element in `participant-template.php`.
+- Added Participant Toggle Listener to the Function `opAddParticipant`.
 
-    [EB | add-participant.js](blocks/event/block-script-parts/add-participant.js)
+    [EB | add-participant.js](blocks/event/block-script-parts/participant/add-participant.js)
+
+    ---
+
+- Added new Script `Participant Listeners`.
+- Added new Function `Participant Toggle Listener`.
+
+    [EB | add-participant.js](blocks/event/block-script-parts/participant/participant-listeners.js)
 
     ---
 
 - Added new File `Participant Template`.
 - Removed attribute `data-op-arrival` from `article`.
 - Added new element `span.op-text` to `header time`.
+- Removed the Listener `opToggleActive` from the Participant Element.
 
     [EB | participant-template.php](blocks/event/block-template-parts/participant-template.php)
 
