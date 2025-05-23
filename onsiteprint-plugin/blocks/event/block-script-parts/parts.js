@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Parts
  *  Block functions included in the Event Block Script.
- ?  Updated: 2025-05-22 - 03:42 (Y:m:d - H:i)
- ?  Info: Added new Function, opGetParticipant().
+ ?  Updated: 2025-05-23 - 03:43 (Y:m:d - H:i)
+ ?  Info: Added new Function, opPrintParticipant().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -11,7 +11,9 @@
 
     2.  Add Participant
 
-    2.  Get Participant
+    3.  Get Participant
+    
+    4.  Print Participant
 
 ---------------------------------------------------------------------------
  #  1. Setup List
@@ -30,3 +32,9 @@ export { opAddParticipant }
 --------------------------------------------------------------------------- */
 import { opGetParticipant } from './participant/get-participant.js'
 export { opGetParticipant }
+
+/* ------------------------------------------------------------------------
+ #  4. Print Participant
+--------------------------------------------------------------------------- */
+import { opPrintParticipant } from './participant/print-participant.js'
+export { opPrintParticipant }

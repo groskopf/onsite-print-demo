@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-05-23 - 03:33 (Y:m:d - H:i)
- ?  Info: Added new Function, opPrintParticipantListener().
+ ?  Updated: 2025-05-23 - 03:41 (Y:m:d - H:i)
+ ?  Info: Added opPrintParticipant() to opPrintParticipantListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -17,6 +17,7 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
+import { opPrintParticipant } from '../parts.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Participant Toggle Listener
@@ -105,6 +106,10 @@ export function opPrintParticipantListener( debug, printButton, participantId ) 
 
             ///// Start the Console Log Group.
             if ( debug ) console.group( `Participant with ID: op-participant_${ participantId }` )
+
+            ///// Print the Participant.
+            await opPrintParticipant( debug, participantId )
+
 
 
             ///// Console Log Success if Debug.
