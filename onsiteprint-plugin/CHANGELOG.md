@@ -42,7 +42,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Script `Get Participant`.
 
-    [EB | add-participant.js](blocks/event/block-script-parts/participant/get-participant.js)
+    [EB | get-participant.js](blocks/event/block-script-parts/participant/get-participant.js)
+
+    ---
+
+- Added new Script `Print Participant`.
+
+    [EB | print-participant.js](blocks/event/block-script-parts/participant/print-participant.js)
 
     ---
 
@@ -51,7 +57,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function `Print Participant Listener`.
 - Added Stop Propagation to the Print Participant Listener.
 
-    [EB | add-participant.js](blocks/event/block-script-parts/participant/participant-listeners.js)
+    [EB | participant-listeners.js](blocks/event/block-script-parts/participant/participant-listeners.js)
 
     ---
 
