@@ -74,6 +74,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [EB | list.php](blocks/event/block-template-parts/list.php)
 
+    ---
+
+- Added new Script `Get Booking from Session`.
+    
+    [JS | elements.js](assets/js/inc/booking/get-booking-from-session.js)
+
 ---
 
 ### 1.2.2 (2025-04-21) - More Participant Data
