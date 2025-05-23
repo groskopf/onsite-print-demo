@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Print Participant
  *  Printing the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-05-23 - 03:37 (Y:m:d - H:i)
- ?  Info: Added new Print Participant Function.
+ ?  Updated: 2025-05-23 - 04:59 (Y:m:d - H:i)
+ ?  Info: Added Event Id to opPrintParticipant() function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -20,7 +20,7 @@ import { opGetParticipant } from '../parts.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Print the Participant from the Participant List
 --------------------------------------------------------------------------- */
-export async function opPrintParticipant( debug, participantId ) {
+export async function opPrintParticipant( debug, eventId, participantId ) {
 
     try {
 
@@ -34,7 +34,7 @@ export async function opPrintParticipant( debug, participantId ) {
 
 
 
-        await opGetParticipant( debug, participantId )
+        await opGetParticipant( debug, eventId, participantId )
 
 
 

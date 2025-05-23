@@ -35,18 +35,21 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Script `Add Participant`.
 - Added Participant Toggle Listener to the Function `opAddParticipant`.
 - Added Print Participant Listener to the Function `opAddParticipant`.
+- Added Event Id to the Function `opAddParticipant`.
 
     [EB | add-participant.js](blocks/event/block-script-parts/participant/add-participant.js)
 
     ---
 
 - Added new Script `Get Participant`.
+- Added Event Id to the Function `opGetParticipant`.
 
     [EB | get-participant.js](blocks/event/block-script-parts/participant/get-participant.js)
 
     ---
 
 - Added new Script `Print Participant`.
+- Added Event Id to the Function `opPrintParticipant`.
 
     [EB | print-participant.js](blocks/event/block-script-parts/participant/print-participant.js)
 
@@ -56,6 +59,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function `Participant Toggle Listener`.
 - Added new Function `Print Participant Listener`.
 - Added Stop Propagation to the Print Participant Listener.
+- Added Event Id to the Print Participant Listener.
 
     [EB | participant-listeners.js](blocks/event/block-script-parts/participant/participant-listeners.js)
 

@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-05-23 - 03:41 (Y:m:d - H:i)
- ?  Info: Added opPrintParticipant() to opPrintParticipantListener().
+ ?  Updated: 2025-05-23 - 04:59 (Y:m:d - H:i)
+ ?  Info: Added Event Id to opPrintParticipantListener() function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -86,7 +86,7 @@ export function opParticipantToggleListener( debug, participant, participantId )
 /* ------------------------------------------------------------------------
  #  3. Function: Print Participant Listener
 --------------------------------------------------------------------------- */
-export function opPrintParticipantListener( debug, printButton, participantId ) {
+export function opPrintParticipantListener( debug, printButton, eventId, participantId ) {
 
     try {
         
@@ -108,7 +108,7 @@ export function opPrintParticipantListener( debug, printButton, participantId ) 
             if ( debug ) console.group( `Participant with ID: op-participant_${ participantId }` )
 
             ///// Print the Participant.
-            await opPrintParticipant( debug, participantId )
+            await opPrintParticipant( debug, eventId, participantId )
 
 
 
