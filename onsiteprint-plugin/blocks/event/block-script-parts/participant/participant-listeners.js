@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-05-22 - 02:28 (Y:m:d - H:i)
+ ?  Updated: 2025-05-23 - 03:33 (Y:m:d - H:i)
  ?  Info: Added new Function, opPrintParticipantListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -98,13 +98,14 @@ export function opPrintParticipantListener( debug, printButton, participantId ) 
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Set Print Participant Listener to the Participant Print Button.
-        opModuleBasic.opListener( 'click', printButton, async () => {
+        opModuleBasic.opListener( 'click', printButton, async ( event ) => {
+
+            ///// Stop Propagation from the Event Listener.
+            event.stopPropagation()
 
             ///// Start the Console Log Group.
             if ( debug ) console.group( `Participant with ID: op-participant_${ participantId }` )
-                
-            ///// Add Class when the Participant is Clicked on.
-            opPrintParticipant( participantId )
+
 
             ///// Console Log Success if Debug.
             if ( debug ) console.log( 'SUCCESS:', { 
