@@ -1,79 +1,16 @@
 /* ------------------------------------------------------------------------
- #  JS Part Name: Event Script
- *  Functions used for Events.
- ?  Updated: 2024-07-02 - 19:25 (Y:m:d - H:i)
- ?  Info: Changed JS (event.js) and added function (opCreateEvent), but is not used (look at Event Block Script).
+ #  JS Part Name: Event
+ *  Event functions related to Events.
+ ?  Updated: 2025-05-30 - 18:12 (Y:m:d - H:i)
+ ?  Info: Added new Function, opCreateEvent().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
-	1. 	Import Functions from Scripts
-
-    2. 	Function: Create Event
+    1. 	Create Event
 
 ---------------------------------------------------------------------------
- #  1. Import Functions from Scripts
+ #  1. Create Event
 --------------------------------------------------------------------------- */
-import * as opModuleBasic from '../basic.js'
-
-/* ------------------------------------------------------------------------
- #  2. Function: Create Event
---------------------------------------------------------------------------- */
-export async function opCreateEvent( debug, formElement, jsonFormGrid ) {
-
-    try {
-
-        ///// Get Function Name.
-        var functionName = opCreateEvent.name
-
-        ///// Set the Debug.
-        ////* Set the Parameter If is not defined (true or false).
-        if ( debug !== true ) debug = false
-        if ( debug ) console.group( `${ functionName }()` )
-
-        ///// Throw Error if the Variables is missing.
-        if ( ! formElement ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing the Form Element!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
-        else if ( ! jsonFormGrid ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                message: `Missing the JSON Grid List!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
-        else {
-
-            ///// Return the Response.
-            return opModuleBasic.opReturnResponse( false, 200, { 
-                message: `The Event was Created!`, 
-                line: opModuleBasic.errorLine(),
-                function: functionName,
-                details: details
-            }, debug )
-
-        }
-
-    } catch( errorResponse ) {
-
-        ///// Create Error Details.
-        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
-            message: errorResponse.message,
-            line: opModuleBasic.errorLine(),
-            function: functionName
-        } )
-
-        ///// Log Error Details in the Console.
-        if ( debug ) console.error( 'ERROR:', errorDetails )
-
-        ///// Return the Error Response.
-        return errorDetails
-
-    } finally {
-
-        ///// End the Console Log Group.
-        if ( debug ) console.groupEnd()
-
-    }
-
-}
+import { opCreateEvent } from './create-event.js'
+export { opCreateEvent }
