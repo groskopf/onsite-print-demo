@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Get Booking from Session
  *  Getting the Booking from Session.
- ?  Updated: 2025-05-23 - 03:48 (Y:m:d - H:i)
- ?  Info: Added new Function, opGetBookingFromSession().
+ ?  Updated: 2025-05-30 - 19:11 (Y:m:d - H:i)
+ ?  Info: Changed the API file.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,7 +15,7 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../basic.js'
-import * as opModuleFastAPI from '../fastapi/fastapi.js'
+import { opGetApiData } from '../api/get-api-data.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Get Booking from Session
@@ -38,7 +38,7 @@ export async function opGetBookingFromSession( debug ) {
         const url = `${ opGetCurrentScriptPath() }/../api/api-get-session.php`
 
         ///// Fetch from Local PHP file.
-        const getBookingResponse = await opModuleFastAPI.opGetApiData( debug, 'GET', '', url, 'json' )
+        const getBookingResponse = await opGetApiData( debug, 'GET', '', url, 'json' )
         
         if ( getBookingResponse.error !== false ) throw getBookingResponse.response
 
