@@ -1,16 +1,24 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Event
  *  Event functions related to Events.
- ?  Updated: 2025-05-30 - 18:12 (Y:m:d - H:i)
- ?  Info: Added new Function, opCreateEvent().
+ ?  Updated: 2025-05-30 - 18:34 (Y:m:d - H:i)
+ ?  Info: Added new Function, opGetEvent().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
     1. 	Create Event
+    
+    2. 	Get Event
 
 ---------------------------------------------------------------------------
  #  1. Create Event
 --------------------------------------------------------------------------- */
 import { opCreateEvent } from './create-event.js'
 export { opCreateEvent }
+
+/* ------------------------------------------------------------------------
+ #  2. Get Event
+--------------------------------------------------------------------------- */
+import { opGetEvent } from './get-event.js'
+export { opGetEvent }
