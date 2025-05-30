@@ -16,7 +16,6 @@
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
 import * as opModuleListeners from './participant-listeners.js'
-import * as opModuleEvent from '../../../../assets/js/inc/event/event.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Add the Participant to the Participant List

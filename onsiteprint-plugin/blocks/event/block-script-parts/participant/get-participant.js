@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Get Participant
  *  Getting the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-05-23 - 04:59 (Y:m:d - H:i)
- ?  Info: Added Event Id to opGetParticipant() function.
+ ?  Updated: 2025-05-30 - 18:42 (Y:m:d - H:i)
+ ?  Info: Added opGetEvent() function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,7 +15,6 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
-import { opGetBookingFromSession } from '../../../../assets/js/inc/booking/get-booking-from-session.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Get the Participant from the Participant List
@@ -34,8 +33,11 @@ export async function opGetParticipant( debug, eventId, participantId ) {
 
 
 
-        ///// Get the Booking from Session.
-        await opGetBookingFromSession( debug )
+
+        ///// Get the Event. 
+        const eventList = opGetEvent( debug, eventId )
+
+
 
 
 

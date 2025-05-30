@@ -17,8 +17,6 @@
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import { opAddParticipant } from './parts.js'
 
-import * as opModuleEvent from '../../../assets/js/inc/event/event.js'
-
 /* ------------------------------------------------------------------------
  #  2. Function: Setup of the Participant List in Event
  ?  NB: The function is under construction.

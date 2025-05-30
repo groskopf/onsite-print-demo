@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Print Participant
  *  Printing the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-05-23 - 04:59 (Y:m:d - H:i)
- ?  Info: Added Event Id to opPrintParticipant() function.
+ ?  Updated: 2025-05-30 - 18:40 (Y:m:d - H:i)
+ ?  Info: Added the opGetBookingFromSession() function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,6 +15,7 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
+import { opGetBookingFromSession } from '../../../../assets/js/inc/booking/get-booking-from-session.js'
 import { opGetParticipant } from '../parts.js'
 
 /* ------------------------------------------------------------------------
@@ -32,11 +33,11 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
-
-
+        ///// Get the Booking from Session.
+        await opGetBookingFromSession( debug )
+        
+        ///// Get the Participant.
         await opGetParticipant( debug, eventId, participantId )
-
-
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
