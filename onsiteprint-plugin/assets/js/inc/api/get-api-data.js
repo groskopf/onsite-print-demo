@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
- #  JS Part Name: Set Column Number Script
- *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-09-12 - 12:38 (Y:m:d - H:i)
- ?  Info: Changed (Create Error Details) from false to true at (opReturnResponse).
+ #  JS Part Name: Get API Data
+ *  Getting the Data from the API.
+ ?  Updated: 2025-05-30 - 19:00 (Y:m:d - H:i)
+ ?  Info: Changed the Script Name.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------

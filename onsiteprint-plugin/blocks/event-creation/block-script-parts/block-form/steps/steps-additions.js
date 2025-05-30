@@ -25,7 +25,7 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../../assets/js/inc/basic.js'
-import * as opModuleFastAPI from '../../../../../assets/js/inc/fastapi/fastapi.js'
+import { opGetApiData } from '../../../../../assets/js/inc/api/get-api-data.js'
 
 var eventGridElement
 
@@ -354,7 +354,7 @@ export async function createPrintExample( debug, templateId ) {
             let  url = `https://api.printerboks.dk/api/v1/name_tags/${ printerBooking }?layout=${ layout }`
 
             ///// Get Print Example Filename.
-            const filenameResponse = await opModuleFastAPI.opGetApiData( debug, 'POST', bodyInput, url, 'json' )
+            const filenameResponse = await opGetApiData( debug, 'POST', bodyInput, url, 'json' )
 
             ///// Validate the Filename Response.
             if ( filenameResponse.error !== false ) throw filenameResponse
@@ -420,7 +420,7 @@ export async function getPrintExample( debug, filename ) {
             let  url = `https://api.printerboks.dk/api/v1/${ filename }`
 
             ///// Get Print Example Filename.
-            const pdfFileResponse = await opModuleFastAPI.opGetApiData( debug, 'GET', '', url, 'blob' )
+            const pdfFileResponse = await opGetApiData( debug, 'GET', '', url, 'blob' )
 
             ///// Validate the Filename Response.
             if ( pdfFileResponse.error !== false ) throw pdfFileResponse
@@ -499,7 +499,7 @@ export async function opGetCSVDataAsJSON( debug, gridContainer ) {
             const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
 
             ///// Get JSON from CSV file.
-            const jsonResponse = await opModuleFastAPI.opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+            const jsonResponse = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
 
             ///// Validate the JSON Response.
             if ( jsonResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
