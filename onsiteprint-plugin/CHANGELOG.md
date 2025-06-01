@@ -118,6 +118,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new Script `Get Template`.
+- Added the `Local Storage Data` and the `Filter` of the `Template List`.
     
     [JS | get-template.js](assets/js/inc/template/get-template.js)
 
