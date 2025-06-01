@@ -82,7 +82,25 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Script `Get Booking from Session`.
     
-    [JS | elements.js](assets/js/inc/booking/get-booking-from-session.js)
+    [JS | get-booking-from-session.js](assets/js/inc/booking/get-booking-from-session.js)
+
+    ---
+
+- Changed the API Folder `fastapi` to `api`.
+    
+    [JS | api](assets/js/inc/api)
+    
+    ---
+
+- Changed the API Script `fastAPI.js` to `get-api-date.js`.
+    
+    [JS | get-api-data.js](assets/js/inc/api/get-api-data.js)
+
+    ---
+
+- Added new Script `Get Local Storage Data`.
+    
+    [JS | get-local-storage-data.js](assets/js/inc/api/get-local-storage-data.js)
 
 ---
 
