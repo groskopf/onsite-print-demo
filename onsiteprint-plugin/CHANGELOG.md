@@ -43,6 +43,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Script `Get Participant`.
 - Added Event Id to the Function `opGetParticipant`.
+- Added the `Get Event` and the `Filter` of the `Participant List`.
 
     [EB | get-participant.js](blocks/event/block-script-parts/participant/get-participant.js)
 
