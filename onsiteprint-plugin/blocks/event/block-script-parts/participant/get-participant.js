@@ -37,7 +37,7 @@ export async function opGetParticipant( debug, eventId, participantId ) {
 
         ///// Validate the Response from the Get Event.
         if ( eventItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-            message: `Something went wrong getting the Local Storage Data!`,
+            message: `Something went wrong getting the Event!`,
             line: opModuleBasic.errorLine(),
             function: functionName
         } )
