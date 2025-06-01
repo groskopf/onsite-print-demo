@@ -113,7 +113,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Function, `opGetTemplate()`.
     
-    [JS | get-event.js](assets/js/inc/template/template.js)
+    [JS | template.js](assets/js/inc/template/template.js)
+
+    ---
+
+- Added new Script `Get Template`.
+    
+    [JS | get-template.js](assets/js/inc/template/get-template.js)
 
 ---
 
