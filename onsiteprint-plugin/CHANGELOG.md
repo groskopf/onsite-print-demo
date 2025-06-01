@@ -102,6 +102,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     
     [JS | get-local-storage-data.js](assets/js/inc/api/get-local-storage-data.js)
 
+    ---
+
+- Added the `Local Storage Data` and the `Filter` of the `Event List`.
+    
+    [JS | get-event.js](assets/js/inc/event/get-event.js)
+
 ---
 
 ### 1.2.2 (2025-04-21) - More Participant Data
