@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant List in the Event Block.
- ?  Updated: 2025-05-23 - 04:59 (Y:m:d - H:i)
- ?  Info: Added Event Id to opAddParticipant() function.
+ ?  Updated: 2025-06-03 - 04:20 (Y:m:d - H:i)
+ ?  Info: Added Participant Validation.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -31,6 +31,13 @@ export function opAddParticipant( debug, block, listElement, participant ) {
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Validate the Participant.
+        if ( participant?.id === undefined || participant?.id === '' ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            message: `Could not find any Participant!`, 
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Get the Participant Template Element.
         let participantTemplateElement = block.querySelector(`[id$="-participant-template"]`)
@@ -66,7 +73,7 @@ export function opAddParticipant( debug, block, listElement, participant ) {
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
-            message: `The Participant was Added to the Participant List in the Event Block!`, 
+            message: `The Participant (${participant.id}) was Added to the Participant List in the Event Block!`, 
             line: opModuleBasic.errorLine(),
             function: functionName
         }, debug )
