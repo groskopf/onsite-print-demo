@@ -20,7 +20,7 @@ import { opGetLocalStorageData } from '../api/get-local-storage-data.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Get Template from the Local Storage.
 --------------------------------------------------------------------------- */
-export async function opGetTemplate( debug, templateId ) {
+export function opGetTemplate( debug, templateId ) {
 
     try {
 
@@ -33,7 +33,7 @@ export async function opGetTemplate( debug, templateId ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Get Local Storage Data.
-        const localStorageData = await opGetLocalStorageData( debug, 'TEMPLATES' )
+        const localStorageData = opGetLocalStorageData( debug, 'TEMPLATES' )
         
         ///// Validate the Response from the Local Storage Data.
         if ( localStorageData.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 

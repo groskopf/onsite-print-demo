@@ -20,7 +20,7 @@ import { opGetLocalStorageData } from '../api/get-local-storage-data.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Get Event from the Local Storage.
 --------------------------------------------------------------------------- */
-export async function opGetEvent( debug, eventId ) {
+export function opGetEvent( debug, eventId ) {
 
     try {
 
@@ -33,7 +33,7 @@ export async function opGetEvent( debug, eventId ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Get Local Storage Data.
-        const localStorageData = await opGetLocalStorageData( debug, 'EVENTS' )
+        const localStorageData = opGetLocalStorageData( debug, 'EVENTS' )
         
         ///// Validate the Response from the Local Storage Data.
         if ( localStorageData.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
