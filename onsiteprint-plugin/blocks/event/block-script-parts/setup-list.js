@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
  *  Block functions included in the Parts Script in the Event Block.
- ?  Updated: 2025-04-14 - 03:55 (Y:m:d - H:i)
- ?  Info: Added new Lines in the Function (opSetupList).
+ ?  Updated: 2025-06-03 - 02:28 (Y:m:d - H:i)
+ ?  Info: Added new Get Event & Get Template Functions.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,6 +15,8 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
+import { opGetEvent } from '../../../assets/js/inc/event/event.js'
+import { opGetTemplate } from '../../../assets/js/inc/template/template.js'
 import { opAddParticipant } from './parts.js'
 
 /* ------------------------------------------------------------------------
@@ -32,7 +34,7 @@ export function opSetupList( debug, block ) {
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
-
+   
         ///// Get Event ID.
         const eventId = block.getAttribute( 'data-event-id' )
 
@@ -43,38 +45,48 @@ export function opSetupList( debug, block ) {
             function: functionName
         } )
 
-        ///// Get the Event.
-        //// #NG: Function (opGetEventList) needs to be moved and created as new. 
-        const eventItem = opGetEventList( eventId )
+        ///// Get the Event. 
+        const eventItem = opGetEvent( debug, eventId )
 
-        ///// Validate the Event List Response.
-        if ( eventItem.error !== false ) throw eventItem
+        ///// Validate the Response from the Get Event.
+        if ( eventItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+            message: `Something went wrong getting the Event!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
-        ///// Get the Participant List.
-        const participantList = eventItem.response.eventParticipants
+        ///// Get the Template. 
+        const templateItem = opGetTemplate( debug, eventItem.response.details.eventTemplate )
 
-        ///// Get the Event Template.
-        //// #NG: Function (opGetTemplate) needs to be moved and created as new. 
-        const templateResponse = opGetTemplate( eventItem.response.eventTemplate )
-
-        ///// Validate the Event Template Response.
-        if ( templateResponse.error !== false ) throw templateResponse
+        ///// Validate the Response from the Get Template.
+        if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+            message: `Something went wrong getting the Template!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Get the Amount of Columns.
-        let columnAmount = templateResponse.response.templateLayoutColumns.charAt(0)
+        let columnAmount = templateItem.response.details.templateLayoutColumns.charAt(0)
         
         ///// Set the Amount of Columns to the Block.
         block.setAttribute( 'data-column-count', columnAmount )
 
+        ///// Get Participant List.
+        const participantList = eventItem.response.details.eventParticipants
+
         ///// Get the elements.
         let participantListElement = block.querySelector( '.op-participant-rows' )
+
+        ///// Start the Console Log Group.
+        if ( debug ) console.group( `Participants Added: ${ participantList.length }` )
 
         ///// For each Participant create Participant Element.
         participantList.forEach( participant => {
             opAddParticipant( debug, block, participantListElement, participant, columnAmount )
         })
 
-
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 

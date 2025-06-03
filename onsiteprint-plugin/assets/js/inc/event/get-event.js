@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Get Event
  *  Getting the Event from the Local Storage.
- ?  Updated: 2025-06-01 - 17:19 (Y:m:d - H:i)
- ?  Info: Added the Local Storage Data and the Filter of the Event List.
+ ?  Updated: 2025-06-03 - 02:26 (Y:m:d - H:i)
+ ?  Info: Removed Async & Await in Functions.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
