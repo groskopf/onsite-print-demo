@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
  *  Block functions included in the Parts Script in the Event Block.
- ?  Updated: 2025-06-03 - 02:28 (Y:m:d - H:i)
- ?  Info: Added new Get Event & Get Template Functions.
+ ?  Updated: 2025-06-03 - 05:20 (Y:m:d - H:i)
+ ?  Info: Changed Participant List Element to Participant Container and Changed Block to Event ID.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -74,15 +74,15 @@ export function opSetupList( debug, block ) {
         ///// Get Participant List.
         const participantList = eventItem.response.details.eventParticipants
 
-        ///// Get the elements.
-        let participantListElement = block.querySelector( '.op-participant-rows' )
+        ///// Get the Participant Container.
+        let participantContainer = block.querySelector( '.op-participant-rows' )
 
         ///// Start the Console Log Group.
         if ( debug ) console.group( `Participants Added: ${ participantList.length }` )
 
         ///// For each Participant create Participant Element.
         participantList.forEach( participant => {
-            opAddParticipant( debug, block, participantListElement, participant, columnAmount )
+            opAddParticipant( debug, eventId, participantContainer, participant )
         })
 
         ///// End the Console Log Group.

@@ -27,6 +27,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new Script `Setup List` *(NB: The function is under construction)*.
+- Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
     
     [EB | setup-list.js](blocks/event/block-script-parts/setup-list.js)
 
