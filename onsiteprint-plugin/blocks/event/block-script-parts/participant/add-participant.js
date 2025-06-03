@@ -1,15 +1,15 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
- *  Adding the Participant to the Participant List in the Event Block.
- ?  Updated: 2025-06-03 - 04:20 (Y:m:d - H:i)
- ?  Info: Added Participant Validation.
+ *  Adding the Participant to the Participant Container in the Event Block.
+ ?  Updated: 2025-06-03 - 05:19 (Y:m:d - H:i)
+ ?  Info: Changed Participant List Element to Participant Container and Changed Block to Event ID.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
 	1. 	Import Functions from Scripts
 
-    2. 	Function: Add the Participant to the Participant List
+    2. 	Function: Add the Participant to the Participant Container
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -18,9 +18,9 @@ import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
 import * as opModuleListeners from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
- #  2. Function: Add the Participant to the Participant List
+ #  2. Function: Add the Participant to the Participant Container
 --------------------------------------------------------------------------- */
-export function opAddParticipant( debug, block, listElement, participant ) {
+export function opAddParticipant( debug, eventId, participantContainer, participant ) {
 
     try {
 
@@ -40,7 +40,7 @@ export function opAddParticipant( debug, block, listElement, participant ) {
         } )
 
         ///// Get the Participant Template Element.
-        let participantTemplateElement = block.querySelector(`[id$="-participant-template"]`)
+        let participantTemplateElement = participantContainer.querySelector(`[id$="-participant-template"]`)
         let participantElement = participantTemplateElement.content.cloneNode(true)
         
         ///// Set the Elements in the Participant Template Element.
@@ -62,18 +62,15 @@ export function opAddParticipant( debug, block, listElement, participant ) {
         ///// Set Participant Toggle Listener to the Participant Template Element.
         opModuleListeners.opParticipantToggleListener( debug, participantElement.querySelector( 'article' ), participant.id )
 
-        ///// Get Event Id. 
-        let eventId = block.getAttribute( 'data-event-id' )
-
         ///// Set Print Participant Listener to the Participant Print Button.
         opModuleListeners.opPrintParticipantListener( debug, participantElement.querySelector( 'button.op-participant-print' ), eventId, participant.id )
 
-        ///// Add the Participant Element to the List Element.
-        listElement.append( participantElement )
+        ///// Add the Participant to the Participant Container.
+        participantContainer.append( participantElement )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
-            message: `The Participant (${participant.id}) was Added to the Participant List in the Event Block!`, 
+            message: `The Participant (${participant.id}) was Added to the Participant Container in the Event Block!`, 
             line: opModuleBasic.errorLine(),
             function: functionName
         }, debug )

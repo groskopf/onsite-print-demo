@@ -37,6 +37,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added Print Participant Listener to the Function `opAddParticipant`.
 - Added Event Id to the Function `opAddParticipant`.
 - Added Participant Validation.
+- Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 
     [EB | add-participant.js](blocks/event/block-script-parts/participant/add-participant.js)
 
