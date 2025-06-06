@@ -33,21 +33,6 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-- Added new Script `Participant` with Functions.
-
-    [JS | participant.js](assets/js/inc/participant/participant.js)
-
-    ---
-
-- Added new Script `Get Participant`.
-- Added Event Id to the Function `opGetParticipant`.
-- Added the `Get Event` and the `Filter` of the `Participant List`.
-- Changed the `File Location` from `Event Block` to folder: `../assets/inc/participant`.
-
-    [EB | get-participant.js](assets/js/inc/participant/get-participant.js)
-
-    ---
-
 - Added new Script `Add Participant`.
 - Added Participant Toggle Listener to the Function `opAddParticipant`.
 - Added Print Participant Listener to the Function `opAddParticipant`.
@@ -56,13 +41,6 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 
     [EB | add-participant.js](blocks/event/block-script-parts/add-participant.js)
-
-    ---
-
-- Added new Script `Print Participant`.
-- Added Event Id to the Function `opPrintParticipant`.
-
-    [EB | print-participant.js](blocks/event/block-script-parts/participant/print-participant.js)
 
     ---
 
@@ -88,6 +66,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Lines with the `Participant Template`.
 
     [EB | list.php](blocks/event/block-template-parts/list.php)
+
+    ---
+
+- Changed the `opReturnResponse` Function with new `Debug Response`.
+    
+    [JS | basic.js](assets/js/inc/basic.js)
 
     ---
 
@@ -135,9 +119,26 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-- Changed the `opReturnResponse` Function with new `Debug Response`.
-    
-    [JS | basic.js](assets/js/inc/basic.js)
+    - Added new Script `Participant` with Functions.
+
+    [JS | participant.js](assets/js/inc/participant/participant.js)
+
+    ---
+
+- Added new Script `Get Participant`.
+- Added Event Id to the Function `opGetParticipant`.
+- Added the `Get Event` and the `Filter` of the `Participant List`.
+- Changed the `File Location` from `Event Block` to folder: `../assets/inc/participant`.
+
+    [JS | get-participant.js](assets/js/inc/participant/get-participant.js)
+
+    ---
+
+- Added new Script `Print Participant`.
+- Added Event Id to the Function `opPrintParticipant`.
+- Changed the `File Location` from `Event Block` to folder: `../assets/inc/participant`.
+
+    [JS | print-participant.js](assets/js/inc/participant/print-participant.js)
 
 ---
 

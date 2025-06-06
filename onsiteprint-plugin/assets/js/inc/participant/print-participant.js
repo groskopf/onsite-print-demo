@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Print Participant
  *  Printing the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-06-06 - 03:40 (Y:m:d - H:i)
- ?  Info: Changed the Script with new Functions and Outputs.
+ ?  Updated: 2025-06-06 - 04:10 (Y:m:d - H:i)
+ ?  Info: Changed the File Location from Event Block to folder: (../assets/inc/participant).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -14,12 +14,12 @@
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
-import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
-import { opGetBookingFromSession } from '../../../../assets/js/inc/booking/get-booking-from-session.js'
-import { opGetEvent } from '../../../../assets/js/inc/event/event.js'
-import { opGetTemplate } from '../../../../assets/js/inc/template/template.js'
-import { opGetParticipant } from '../parts.js'
-import { opGetApiData } from '../../../../assets/js/inc/api/get-api-data.js'
+import * as opModuleBasic from '../basic.js'
+import { opGetBookingFromSession } from '../booking/get-booking-from-session.js'
+import { opGetEvent } from '../event/event.js'
+import { opGetTemplate } from '../template/template.js'
+import { opGetApiData } from '../api/get-api-data.js'
+import { opGetParticipant } from './participant.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Print the Participant from the Participant List
