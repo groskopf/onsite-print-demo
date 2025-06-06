@@ -7,6 +7,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 ### 1.2.2^ (2025-05-16) - New Event Block
 
 - Changed the Block Script in the `Event Block` *(NB: The function is under construction)*.
+- Changed the `Import` Functions.
     
     [EB | block-script.js](blocks/event/block-script.js)
 
