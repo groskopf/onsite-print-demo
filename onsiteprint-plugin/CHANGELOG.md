@@ -141,6 +141,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added Event Id to the Function `opPrintParticipant`.
 - Changed the `File Location` from `Event Block` to folder: `../assets/inc/participant`.
 - Added `Validate` to the `Filename Response`.
+- Added the `Update Participant Information`.
 
     [JS | print-participant.js](assets/js/inc/participant/print-participant.js)
 

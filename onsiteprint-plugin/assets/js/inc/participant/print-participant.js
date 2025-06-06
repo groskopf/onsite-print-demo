@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Print Participant
  *  Printing the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-06-06 - 04:59 (Y:m:d - H:i)
- ?  Info: Added Validate to the Filename Response.
+ ?  Updated: 2025-06-06 - 05:18 (Y:m:d - H:i)
+ ?  Info: Added the Update Participant Information.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -117,12 +117,21 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
             function: functionName
         } )       
 
+        ///// Update Participant Information
+        let updatedParticipant = { ...participant }
+        updatedParticipant.time = Date.now()
+        updatedParticipant.prints = ( participant.prints + 1 )
+        updatedParticipant.active = 1
+
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `The Participant was Printed!`, 
             line: opModuleBasic.errorLine(),
             function: functionName,
-            details: filenameResponse.response.details
+            details: {
+                filename: filenameResponse.response.details,
+                participant: updatedParticipant
+            }
         }, debug )
         
     } catch( errorResponse ) {
