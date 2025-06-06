@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Get Booking from Session
  *  Getting the Booking from Session.
- ?  Updated: 2025-05-30 - 19:11 (Y:m:d - H:i)
- ?  Info: Changed the API file.
+ ?  Updated: 2025-06-06 - 02:50 (Y:m:d - H:i)
+ ?  Info: Changed the Validate and Response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -32,27 +32,25 @@ export async function opGetBookingFromSession( debug ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
-
-
         ///// The URL to the API.
         const url = `${ opGetCurrentScriptPath() }/../api/api-get-session.php`
 
-        ///// Fetch from Local PHP file.
+        ///// Get the Booking from from Session.
         const getBookingResponse = await opGetApiData( debug, 'GET', '', url, 'json' )
         
-        if ( getBookingResponse.error !== false ) throw getBookingResponse.response
-
-        ///// Get Booking Item.
-        const bookingItem = getBookingResponse.response.details.session
-        opConsoleDebug( debug, 'bookingItem:', bookingItem )
-
-
+        ///// Validate the Response from the Get Booking.
+        if ( getBookingResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+            message: `Something went wrong getting the Booking!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `The Booking was Found!`, 
             line: opModuleBasic.errorLine(),
-            function: functionName
+            function: functionName,
+            details: getBookingResponse.response.details.session
         }, debug )
 
     } catch( errorResponse ) {
