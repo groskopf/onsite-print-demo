@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-05-23 - 04:59 (Y:m:d - H:i)
- ?  Info: Added Event Id to opPrintParticipantListener() function.
+ ?  Updated: 2025-06-06 - 04:17 (Y:m:d - H:i)
+ ?  Info: Changed the File Location.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -16,8 +16,8 @@
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
-import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
-import { opPrintParticipant } from '../parts.js'
+import * as opModuleBasic from '../../../assets/js/inc/basic.js'
+import { opPrintParticipant } from '../../../assets/js/inc/participant/print-participant.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Participant Toggle Listener

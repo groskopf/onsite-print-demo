@@ -49,8 +49,9 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function `Print Participant Listener`.
 - Added Stop Propagation to the Print Participant Listener.
 - Added Event Id to the Print Participant Listener.
+- Changed the `File Location`.
 
-    [EB | participant-listeners.js](blocks/event/block-script-parts/participant/participant-listeners.js)
+    [EB | participant-listeners.js](blocks/event/block-script-parts/participant-listeners.js)
 
     ---
 
