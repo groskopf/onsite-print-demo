@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
- *  Block functions included in the Parts Script in the Event Block.
- ?  Updated: 2025-06-03 - 05:20 (Y:m:d - H:i)
- ?  Info: Changed Participant List Element to Participant Container and Changed Block to Event ID.
+ *  Block function included in the Event Block.
+ ?  Updated: 2025-06-06 - 04:25 (Y:m:d - H:i)
+ ?  Info: Changed the Import Functions.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -17,7 +17,7 @@
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import { opGetEvent } from '../../../assets/js/inc/event/event.js'
 import { opGetTemplate } from '../../../assets/js/inc/template/template.js'
-import { opAddParticipant } from './parts.js'
+import { opAddParticipant } from './add-participant.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Setup of the Participant List in Event
