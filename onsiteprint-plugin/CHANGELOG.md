@@ -39,6 +39,15 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script `Get Participant`.
+- Added Event Id to the Function `opGetParticipant`.
+- Added the `Get Event` and the `Filter` of the `Participant List`.
+- Changed the `File Location` from `Event Block` to folder: `../assets/inc/participant`.
+
+    [EB | get-participant.js](assets/js/inc/participant/get-participant.js)
+
+    ---
+
 - Added new Script `Add Participant`.
 - Added Participant Toggle Listener to the Function `opAddParticipant`.
 - Added Print Participant Listener to the Function `opAddParticipant`.
@@ -47,14 +56,6 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 
     [EB | add-participant.js](blocks/event/block-script-parts/add-participant.js)
-
-    ---
-
-- Added new Script `Get Participant`.
-- Added Event Id to the Function `opGetParticipant`.
-- Added the `Get Event` and the `Filter` of the `Participant List`.
-
-    [EB | get-participant.js](blocks/event/block-script-parts/participant/get-participant.js)
 
     ---
 

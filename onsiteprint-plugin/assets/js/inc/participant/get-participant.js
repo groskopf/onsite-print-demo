@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Get Participant
  *  Getting the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-06-01 - 17:49 (Y:m:d - H:i)
- ?  Info: Added the Get Event and the Filter of the Participant List.
+ ?  Updated: 2025-06-06 - 04:04 (Y:m:d - H:i)
+ ?  Info: Changed the File Location from Event Block to folder: (../assets/inc/participant).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -14,8 +14,8 @@
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
-import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
-import { opGetEvent } from '../../../../assets/js/inc/event/event.js'
+import * as opModuleBasic from '../basic.js'
+import { opGetEvent } from '../event/event.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Get the Participant from the Participant List
