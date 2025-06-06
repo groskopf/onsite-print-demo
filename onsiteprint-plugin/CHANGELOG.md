@@ -97,6 +97,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Changed the API Script `fastAPI.js` to `get-api-date.js`.
+- Changed the `Approved Response`.
     
     [JS | get-api-data.js](assets/js/inc/api/get-api-data.js)
 
