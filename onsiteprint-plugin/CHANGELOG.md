@@ -33,6 +33,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script `Participant` with Functions.
+
+    [JS | participant.js](assets/js/inc/participant/participant.js)
+
+    ---
+
 - Added new Script `Add Participant`.
 - Added Participant Toggle Listener to the Function `opAddParticipant`.
 - Added Print Participant Listener to the Function `opAddParticipant`.
