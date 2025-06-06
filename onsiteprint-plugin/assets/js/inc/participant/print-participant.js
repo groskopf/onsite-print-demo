@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Print Participant
  *  Printing the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-06-06 - 04:10 (Y:m:d - H:i)
- ?  Info: Changed the File Location from Event Block to folder: (../assets/inc/participant).
+ ?  Updated: 2025-06-06 - 04:59 (Y:m:d - H:i)
+ ?  Info: Added Validate to the Filename Response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
 
         ///// Validate the Response from the Get Booking from Session.
         if ( bookingItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-            message: `Something went wrong getting the Booking!`,
+            message: `Something went wrong Getting the Booking!`,
             line: opModuleBasic.errorLine(),
             function: functionName
         } )
@@ -51,7 +51,7 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
 
         ///// Validate the Response from the Get Event.
         if ( eventItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-            message: `Something went wrong getting the Event!`,
+            message: `Something went wrong Getting the Event!`,
             line: opModuleBasic.errorLine(),
             function: functionName
         } )
@@ -61,7 +61,7 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
 
         ///// Validate the Response from the Get Template.
         if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-            message: `Something went wrong getting the Template!`,
+            message: `Something went wrong Getting the Template!`,
             line: opModuleBasic.errorLine(),
             function: functionName
         } )
@@ -71,7 +71,7 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
 
         ///// Validate the Response from the Get Participant.
         if ( participantItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-            message: `Something went wrong getting the Participant!`,
+            message: `Something went wrong Getting the Participant!`,
             line: opModuleBasic.errorLine(),
             function: functionName
         } )
@@ -109,6 +109,13 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
 
         ///// Print the Participant and Get the Response with the Filename.
         const filenameResponse = await opGetApiData( debug, 'POST', bodyInput, url, 'json' )
+
+        ///// Validate the Response from the Filename Response.
+        if ( filenameResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+            message: `Something went wrong Printing the Participant!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )       
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
