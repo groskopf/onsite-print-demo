@@ -126,6 +126,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     
     [JS | get-template.js](assets/js/inc/template/get-template.js)
 
+    ---
+
+- Changed the `opReturnResponse` Function with new `Debug Response`.
+    
+    [JS | basic.js](assets/js/inc/basic.js)
+
 ---
 
 ### 1.2.2 (2025-04-21) - More Participant Data

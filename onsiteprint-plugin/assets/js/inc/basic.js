@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  >  JS Part Name: Basic
  *  Basic functions to the OnsitePrint Plugin.
- ?  Updated: 2024-06-03 - 03:12 (Y:m:d - H:i)
- ?  Info: Added extra validation.
+ ?  Updated: 2025-06-06 - 03:12 (Y:m:d - H:i)
+ ?  Info: Changed the opReturnResponse Function with new Debug Response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -30,13 +30,21 @@ export function opConsoleDebug( debug, response ) {
  #  2. Return Response as JSON
 ------------------------------------------------------------ */
 export function opReturnResponse( error, code, response, debug ) {
+
     ///// Debug to the Console Log.
-    if ( debug ) console.debug( 'DEBUG:', response )
+    if ( debug ) console.debug( 'DEBUG:', {
+        error : error,
+        code : code,
+        response : response
+    } )
+
+    ///// Return the Response.
     return {
         error : error,
         code : code,
         response : response
     }
+
 }
 
 /* ---------------------------------------------------------
