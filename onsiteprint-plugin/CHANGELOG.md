@@ -46,7 +46,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added Participant Validation.
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 
-    [EB | add-participant.js](blocks/event/block-script-parts/participant/add-participant.js)
+    [EB | add-participant.js](blocks/event/block-script-parts/add-participant.js)
 
     ---
 

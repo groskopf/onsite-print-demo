@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant Container in the Event Block.
- ?  Updated: 2025-06-03 - 05:19 (Y:m:d - H:i)
- ?  Info: Changed Participant List Element to Participant Container and Changed Block to Event ID.
+ ?  Updated: 2025-06-06 - 04:01 (Y:m:d - H:i)
+ ?  Info: Changed the File Location.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
-import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
+import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleListeners from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
