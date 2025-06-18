@@ -145,9 +145,17 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [JS | print-participant.js](assets/js/inc/participant/print-participant.js)
 
+    ---
+
 - Added new Script `Update Participant`.
 
     [JS | update-participant.js](assets/js/inc/participant/update-participant.js)
+
+    ---
+
+- Added new Script `Update Event`.
+
+    [JS | update-event.js](assets/js/inc/event/update-event.js)
 
 ---
 
