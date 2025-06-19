@@ -14,6 +14,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Changed how to show `Lines` in the `Participant Row (Event Block)`.
+- Added new `footer .op-message` in the `Participant Row - Info (Event Block)`.
     
     [EB | block-style.css](blocks/event/block-style.css)
 
@@ -67,6 +68,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Removed attribute `data-op-arrival` from `article`.
 - Added new element `span.op-text` to `header time`.
 - Removed the Listener `opToggleActive` from the Participant Element.
+- Added new `footer .op-message` elements.
 
     [EB | participant-template.php](blocks/event/block-template-parts/participant-template.php)
 

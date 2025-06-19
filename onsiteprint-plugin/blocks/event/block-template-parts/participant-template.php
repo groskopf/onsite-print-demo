@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Participant Template
- ?  Updated: 2025-05-17 - 05:28 (Y:m:d - H:i)
+ ?  Updated: 2025-06-19 - 05:30 (Y:m:d - H:i)
+ ?  Info: Added new footer .op-message.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -45,9 +46,11 @@
             </div>
         </header>
         <footer>
-            <p class="op-message" data-icon="user">
+            <p class="op-message" data-icon="user" data-message="2">
                 <span class="op-icon" role="img" aria-label="User Icon"></span>
-                <span class="op-text"></span>
+                <span class="op-text op-print_printing"><?= esc_attr( $list['messages_printing'] ) ?></span>
+                <span class="op-text op-print_success"><?= esc_attr( $list['messages_success'] ) ?></span>
+                <span class="op-text op-print_error"><?= esc_attr( $list['messages_error'] ) ?></span>
             </p>
             <time class="op-col-arrival-time" datetime="" data-icon="clock">
                 <span class="op-icon" role="img" aria-label="Clock Icon"></span>
