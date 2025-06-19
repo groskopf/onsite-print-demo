@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-06-06 - 04:17 (Y:m:d - H:i)
- ?  Info: Changed the File Location.
+ ?  Updated: 2025-06-19 - 05:17 (Y:m:d - H:i)
+ ?  Info: Added and Changed the Print Participant Listener with new Functions.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -18,6 +18,7 @@
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import { opPrintParticipant } from '../../../assets/js/inc/participant/print-participant.js'
+import { opUpdateParticipant } from '../../../assets/js/inc/participant/update-participant.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Participant Toggle Listener
@@ -101,16 +102,55 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
         ///// Set Print Participant Listener to the Participant Print Button.
         opModuleBasic.opListener( 'click', printButton, async ( event ) => {
 
-            ///// Stop Propagation from the Event Listener.
-            event.stopPropagation()
-
             ///// Start the Console Log Group.
             if ( debug ) console.group( `Participant with ID: op-participant_${ participantId }` )
 
+            ///// Stop Propagation from the Event Listener.
+            event.stopPropagation()
+
+            ///// Set the Participant Element.
+            let participantElement = event.target.closest( 'article' )
+            participantElement.classList.add( 'op-active' )
+            participantElement.querySelector( 'button.op-participant-print' ).disabled = true
+            participantElement.setAttribute( 'data-validation', '1' )
+            participantElement.querySelector( 'footer .op-message' ).setAttribute( 'data-message', '1' )
+
             ///// Print the Participant.
-            await opPrintParticipant( debug, eventId, participantId )
+            const printParticipantResponse = await opPrintParticipant( debug, eventId, participantId )
 
+            ///// Validate the Response from the Print the Participant.
+            if ( printParticipantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                message: `Something went wrong Printing the Event!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
 
+            ///// Get the Participant.
+            const participant = printParticipantResponse.response.details.participant
+
+            ///// Update the Participant.
+            const updateParticipantResponse = await opUpdateParticipant( debug, eventId, participant )
+
+            ///// Validate the Response from the Update the Participant.
+            if ( updateParticipantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                message: `Something went wrong Updating the Event!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+
+            ///// Set the Participant Element.
+            setTimeout( () => {
+                participantElement.querySelector( 'button.op-participant-print' ).disabled = false
+                participantElement.setAttribute( 'data-validation', '2' )
+                participantElement.setAttribute( 'data-op-arrival', participant.active )
+                participantElement.setAttribute( 'data-op-prints', participant.prints )
+                participantElement.querySelector( 'footer .op-message' ).setAttribute( 'data-message', '2' )
+                participantElement.querySelector( '.op-col-amount-of-prints' ).textContent = participant.prints
+                participantElement.querySelectorAll( '.op-col-arrival-time' ).forEach( timeElement => {
+                    timeElement.setAttribute( 'datetime', opTimeConverter( participant.time, 'full' ) )
+                    timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( participant.time, 'hour-min' )
+                } )
+            }, 3000 );
 
             ///// Console Log Success if Debug.
             if ( debug ) console.log( 'SUCCESS:', { 
