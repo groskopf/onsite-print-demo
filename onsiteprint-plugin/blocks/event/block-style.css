@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-06-19 - 05:30 (Y:m:d - H:i)
- ?  Info: Added new footer .op-message.
+ ?  Updated: 2025-06-20 - 03:40 (Y:m:d - H:i)
+ ?  Info: Changed validation in footer .op-message.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -551,10 +551,10 @@
     display: none;
 }
 
-.op-block__event footer .op-message[data-message="1"] .op-print_printing,
-.op-block__event footer .op-message[data-message="2"] .op-print_success,
-.op-block__event footer .op-message[data-message="3"] .op-print_error {
-    display: block;
+.op-block__event article[data-validation="1"] footer .op-message .op-print_printing,
+.op-block__event article[data-validation="2"] footer .op-message .op-print_success,
+.op-block__event article[data-validation="3"] footer .op-message .op-print_error {
+    display: block
 }
 
 .op-block__event article[data-validation="1"] footer .op-message .op-icon {

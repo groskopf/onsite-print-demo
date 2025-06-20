@@ -59,6 +59,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function `opUpdateParticipant()`, `Print Participant Listener`.
 - Added Validation of the Response from the Update the Participant, `Print Participant Listener`.
 - Added `setTimeout` with `Participant Element` actions, `Print Participant Listener`.
+- Added new `try/catch` with the `Participant Element` in the `Print Participant Listener` for error handling.
 
     [EB | participant-listeners.js](blocks/event/block-script-parts/participant-listeners.js)
 

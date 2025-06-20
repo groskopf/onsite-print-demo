@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-06-19 - 05:17 (Y:m:d - H:i)
- ?  Info: Added and Changed the Print Participant Listener with new Functions.
+ ?  Updated: 2025-06-20 - 03:37 (Y:m:d - H:i)
+ ?  Info: Added new try/catch in the Print Participant Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -113,51 +113,69 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
             participantElement.classList.add( 'op-active' )
             participantElement.querySelector( 'button.op-participant-print' ).disabled = true
             participantElement.setAttribute( 'data-validation', '1' )
-            participantElement.querySelector( 'footer .op-message' ).setAttribute( 'data-message', '1' )
+            
+            try {
 
-            ///// Print the Participant.
-            const printParticipantResponse = await opPrintParticipant( debug, eventId, participantId )
+                ///// Print the Participant.
+                const printParticipantResponse = await opPrintParticipant( debug, eventId, participantId )
 
-            ///// Validate the Response from the Print the Participant.
-            if ( printParticipantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-                message: `Something went wrong Printing the Event!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
-
-            ///// Get the Participant.
-            const participant = printParticipantResponse.response.details.participant
-
-            ///// Update the Participant.
-            const updateParticipantResponse = await opUpdateParticipant( debug, eventId, participant )
-
-            ///// Validate the Response from the Update the Participant.
-            if ( updateParticipantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-                message: `Something went wrong Updating the Event!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            } )
-
-            ///// Set the Participant Element.
-            setTimeout( () => {
-                participantElement.querySelector( 'button.op-participant-print' ).disabled = false
-                participantElement.setAttribute( 'data-validation', '2' )
-                participantElement.setAttribute( 'data-op-arrival', participant.active )
-                participantElement.setAttribute( 'data-op-prints', participant.prints )
-                participantElement.querySelector( 'footer .op-message' ).setAttribute( 'data-message', '2' )
-                participantElement.querySelector( '.op-col-amount-of-prints' ).textContent = participant.prints
-                participantElement.querySelectorAll( '.op-col-arrival-time' ).forEach( timeElement => {
-                    timeElement.setAttribute( 'datetime', opTimeConverter( participant.time, 'full' ) )
-                    timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( participant.time, 'hour-min' )
+                ///// Validate the Response from the Print the Participant.
+                if ( printParticipantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong Printing the Event!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
                 } )
-            }, 3000 );
 
-            ///// Console Log Success if Debug.
-            if ( debug ) console.log( 'SUCCESS:', { 
-                message: `No errors were found in the Print Participant Listener!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            })
+                ///// Get the Participant.
+                const participant = printParticipantResponse.response.details.participant
+
+                ///// Update the Participant.
+                const updateParticipantResponse = await opUpdateParticipant( debug, eventId, participant )
+
+                ///// Validate the Response from the Update the Participant.
+                if ( updateParticipantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong Updating the Event!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Set the Participant Element.
+                setTimeout( () => {
+                    participantElement.querySelector( 'button.op-participant-print' ).disabled = false
+                    participantElement.setAttribute( 'data-validation', '2' )
+                    participantElement.setAttribute( 'data-op-arrival', participant.active )
+                    participantElement.setAttribute( 'data-op-prints', participant.prints )
+                    participantElement.querySelector( '.op-col-amount-of-prints' ).textContent = participant.prints
+                    participantElement.querySelectorAll( '.op-col-arrival-time' ).forEach( timeElement => {
+                        timeElement.setAttribute( 'datetime', opTimeConverter( participant.time, 'full' ) )
+                        timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( participant.time, 'hour-min' )
+                    } )
+                }, 3000 )
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `No errors were found in the Print Participant Listener!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                })
+
+            } catch( errorListenerResponse ) {
+
+                ///// Set the Participant Element.
+                setTimeout( () => {
+                    let dateNow = Date.now()
+                    participantElement.querySelector( 'button.op-participant-print' ).disabled = false
+                    participantElement.setAttribute( 'data-validation', '3' )    
+                    participantElement.querySelectorAll( '.op-col-arrival-time' ).forEach( timeElement => {
+                        timeElement.setAttribute( 'datetime', opTimeConverter( dateNow, 'full' ) )
+                        timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( dateNow, 'hour-min' )
+                    } )
+                }, 3000 )
+
+                ///// Log Error Details in the Console.
+                if ( debug ) console.error( 'ERROR:', errorListenerResponse )
+
+            }
 
             ///// End the Console Log Group.
             if ( debug ) console.groupEnd()
