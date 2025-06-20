@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-06-20 - 03:37 (Y:m:d - H:i)
- ?  Info: Added new try/catch in the Print Participant Listener.
+ ?  Updated: 2025-06-20 - 03:51 (Y:m:d - H:i)
+ ?  Info: Added Update of the Event Information Block in the Print Participant Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -139,8 +139,10 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
                     function: functionName
                 } )
 
-                ///// Set the Participant Element.
+                ///// Set Timeout to three seconds.
                 setTimeout( () => {
+
+                    ///// Set the Participant Element.
                     participantElement.querySelector( 'button.op-participant-print' ).disabled = false
                     participantElement.setAttribute( 'data-validation', '2' )
                     participantElement.setAttribute( 'data-op-arrival', participant.active )
@@ -150,6 +152,11 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
                         timeElement.setAttribute( 'datetime', opTimeConverter( participant.time, 'full' ) )
                         timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( participant.time, 'hour-min' )
                     } )
+
+                    ////# NG - This function need to be changed, when a new (EventInformationBlock) is created.
+                    ///// Update Event Information Blocks.
+                    opEventInformationBlocks()
+
                 }, 3000 )
 
                 ///// Console Log Success if Debug.
@@ -161,8 +168,10 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
 
             } catch( errorListenerResponse ) {
 
-                ///// Set the Participant Element.
+                ///// Set Timeout to three seconds.
                 setTimeout( () => {
+                    
+                    ///// Set the Participant Element.
                     let dateNow = Date.now()
                     participantElement.querySelector( 'button.op-participant-print' ).disabled = false
                     participantElement.setAttribute( 'data-validation', '3' )    
@@ -170,6 +179,7 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
                         timeElement.setAttribute( 'datetime', opTimeConverter( dateNow, 'full' ) )
                         timeElement.querySelector( '.op-text' ).textContent =  opTimeConverter( dateNow, 'hour-min' )
                     } )
+
                 }, 3000 )
 
                 ///// Log Error Details in the Console.
