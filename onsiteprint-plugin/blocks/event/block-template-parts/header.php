@@ -89,6 +89,10 @@
                 <span class="op-icon" role="img" aria-label="PDF File Icon"></span>
                 <span class="op-button-title"><?= esc_attr( $header['download_pdf'] ) ?></span>
             </button>
+            <button id="op-print-all" class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="print" data-icon-position="right" data-title-visibility="1">
+                <span class="op-icon" role="img" aria-label="Print Icon"></span>
+                <span class="op-button-title">Print alle</span>
+            </button>
         </div>
     </div>
 

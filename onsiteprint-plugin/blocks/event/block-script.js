@@ -125,6 +125,78 @@ export function opEventBlocks( debug ) {
                     opAddNewParticipantToEventList( debug, eventId )
                     //opModuleEvent.opAddNewParticipantToEvent( debug, eventId )
                 } )
+                
+                
+
+                ///// Add Function to Modal Window. 
+                opModuleBasic.opListener( 'click', block.querySelector( '#op-print-all' ), async function() {
+
+                    ///// Get Print in Local Storage.
+                    const printResponse = localStorage.getItem( 'OP_PLUGIN_DATA_PRINT' )
+                    let printStorage = JSON.parse( printResponse )
+                    let participantId = printStorage.participant ? printStorage.participant : 0
+                    let breakUp = false
+                    
+                    ///// Validate the Print Storage.
+                    if ( ! printStorage || printStorage.print == false ) {
+
+                        localStorage.setItem( 'OP_PLUGIN_DATA_PRINT', JSON.stringify({
+                            print:true,
+                            participant: participantId
+                        }) )
+                        
+                        function participantPrint( i ) {
+                                
+                            ///// Get Print in Local Storage.
+                            const printNewResponse = localStorage.getItem( 'OP_PLUGIN_DATA_PRINT' )
+                            let printNewStorage = JSON.parse( printNewResponse )
+                            
+                            ///// Validate the Print Storage.
+                            if ( printNewStorage.print == false ) {
+                                localStorage.setItem( 'OP_PLUGIN_DATA_PRINT', JSON.stringify({
+                                    print:false,
+                                    participant: i
+                                }) )
+                                breakUp = true
+                                console.log((i+1), participants.length, 'stop')
+                            } else {
+                                localStorage.setItem( 'OP_PLUGIN_DATA_PRINT', JSON.stringify({
+                                    print:true,
+                                    participant: i
+                                }) )
+                                console.log((i+1), participants.length, 'print')
+                            }
+                            
+                            if ( (i+1) == participants.length && ! breakUp ) {
+                                localStorage.setItem( 'OP_PLUGIN_DATA_PRINT', JSON.stringify({
+                                    print: false,
+                                    participant: 0
+                                }) )
+                            }
+                            
+                            //// #NG (2023-06-26): The Promise needs to be looked at again!
+                            return new Promise( ( resolve ) => setTimeout( resolve, 2000 ) )
+                        
+                        }
+                        
+                        for( let i = participantId; i < participants.length; ++i ) { 
+                            const breakUpResponse = await participantPrint( i )
+                            
+                            //console.log('breakUp:', breakUp)
+                            if ( breakUp ) break
+                        }
+
+                    } else {
+                        participantId = printStorage.participant
+                        localStorage.setItem( 'OP_PLUGIN_DATA_PRINT', JSON.stringify({
+                            print:false,
+                            participant: participantId
+                        }) )
+                    }
+                    
+                } )
+                
+
 
             })
 

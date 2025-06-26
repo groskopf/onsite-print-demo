@@ -4,9 +4,23 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ---
 
-### 1.2.3 (2025-05-17) - Print Multiple Participants
+### 1.2.2^ (2025-05-17) - Print Multiple Participants
 
+- Added new `Print All` Function.
+    
+    [EB | block-script.css](blocks/event/block-script.js)
 
+    ---
+
+- Changed how to show `Lines` in the `Participant Row (Event Block)`.
+    
+    [EB | block-style.css](blocks/event/block-style.css)
+
+    ---
+
+- Added new `Print all Participant Button`.
+
+    [EB | participant-template.php](blocks/event/block-template-parts/header.php)
 
 ---
 
