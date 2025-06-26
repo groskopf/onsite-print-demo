@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
  *  Block function included in the Event Block.
- ?  Updated: 2025-06-06 - 04:25 (Y:m:d - H:i)
- ?  Info: Changed the Import Functions.
+ ?  Updated: 2025-06-26 - 11:43 (Y:m:d - H:i)
+ ?  Info: Added New Participant Loop with Fading (CSS Animation).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -80,10 +80,47 @@ export function opSetupList( debug, block ) {
         ///// Start the Console Log Group.
         if ( debug ) console.group( `Participants Added: ${ participantList.length }` )
 
-        ///// For each Participant create Participant Element.
-        participantList.forEach( participant => {
-            opAddParticipant( debug, eventId, participantContainer, participant )
-        })
+        ///// For each Participant.
+        for( var i = 0; i < participantList.length; i++ ) {
+            
+            ///// Create a Participant Element.
+            const participantResponse = opAddParticipant( debug, eventId, participantContainer, [participantList[i]] )
+
+            ///// Validate the Participant Response.
+            if ( participantResponse.error !== false ) {
+                
+                ///// Console Log Group Value.
+                if ( debug ) console.debug( 'DEBUG:', { 
+                    message: `Something went wrong when adding a Participant!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } ) 
+
+                ///// Break the for loop.
+                break
+                
+            } 
+            
+            ///// If the first Participant is added.
+            if ( i == 0 ) {
+                
+                ///// Fade Out the Skeleton and Fade In the Participant.
+                participantContainer.querySelectorAll( '.op-participant_skeleton' ).forEach( skeleton => {
+                    skeleton.classList.remove( 'op-fade-in' )
+                    setTimeout( () => {
+                        skeleton.classList.add( 'op-fade-out' )
+                    }, 300 )
+                    setTimeout( () => {
+                        skeleton.classList.remove( 'op-active' )
+                        participantContainer.querySelectorAll( '.op-participant' ).forEach( participant => {
+                            participant.classList.add( 'op-fade-in' )
+                        })
+                    }, 600 )
+                } )
+
+            }
+
+        }
 
         ///// End the Console Log Group.
         if ( debug ) console.groupEnd()

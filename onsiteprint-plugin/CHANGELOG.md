@@ -15,6 +15,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Changed how to show `Lines` in the `Participant Row (Event Block)`.
 - Added new `footer .op-message` in the `Participant Row - Info (Event Block)`.
+- Added `Participant Skeleton` and `CSS animation`.
     
     [EB | block-style.css](blocks/event/block-style.css)
 
@@ -31,6 +32,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Script `Setup List` *(NB: The function is under construction)*.
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 - Changed the `Import` Functions.
+- Added New `Participant Loop` with `Fading (CSS Animation)`.
     
     [EB | setup-list.js](blocks/event/block-script-parts/setup-list.js)
 
@@ -77,6 +79,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new Lines with the `Participant Template`.
+- Added `Participant Skeleton` when loading.
 
     [EB | list.php](blocks/event/block-template-parts/list.php)
 
