@@ -84,7 +84,7 @@ export function opSetupList( debug, block ) {
         for( var i = 0; i < participantList.length; i++ ) {
             
             ///// Create a Participant Element.
-            const participantResponse = opAddParticipant( debug, eventId, participantContainer, [participantList[i]] )
+            const participantResponse = opAddParticipant( debug, eventId, participantContainer, participantList[i] )
 
             ///// Validate the Participant Response.
             if ( participantResponse.error !== false ) {
