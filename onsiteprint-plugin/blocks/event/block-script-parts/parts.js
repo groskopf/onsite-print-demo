@@ -1,40 +1,48 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Parts
  *  Block functions included in the Event Block Script.
- ?  Updated: 2025-05-23 - 03:43 (Y:m:d - H:i)
- ?  Info: Added new Function, opPrintParticipant().
+ ?  Updated: 2025-07-03 - 01:18 (Y:m:d - H:i)
+ ?  Info: Added new Function, opSetupHeader().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
 
-    1. 	Setup List
-
-    2.  Add Participant
-
-    3.  Get Participant
+    1. 	Setup Header
     
-    4.  Print Participant
+    2. 	Setup List
+
+    3.  Add Participant
+
+    4.  Get Participant
+    
+    5.  Print Participant
 
 ---------------------------------------------------------------------------
- #  1. Setup List
+ #  1. Setup Header
+--------------------------------------------------------------------------- */
+import { opSetupHeader } from './setup-header.js'
+export { opSetupHeader }
+
+/* ------------------------------------------------------------------------
+ #  2. Setup List
 --------------------------------------------------------------------------- */
 import { opSetupList } from './setup-list.js'
 export { opSetupList }
 
 /* ------------------------------------------------------------------------
- #  2. Add Participant
+ #  3. Add Participant
 --------------------------------------------------------------------------- */
 import { opAddParticipant } from './participant/add-participant.js'
 export { opAddParticipant }
 
 /* ------------------------------------------------------------------------
- #  3. Get Participant
+ #  4. Get Participant
 --------------------------------------------------------------------------- */
 import { opGetParticipant } from './participant/get-participant.js'
 export { opGetParticipant }
 
 /* ------------------------------------------------------------------------
- #  4. Print Participant
+ #  5. Print Participant
 --------------------------------------------------------------------------- */
 import { opPrintParticipant } from './participant/print-participant.js'
 export { opPrintParticipant }

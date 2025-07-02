@@ -1,14 +1,14 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-06-06 - 04:22 (Y:m:d - H:i)
- ?  Info: Changed the Import Functions.
+ ?  Updated: 2025-07-03 - 01:18 (Y:m:d - H:i)
+ ?  Info: Added new Function, opSetupHeader().
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
-import { opSetupList } from './block-script-parts/setup-list.js'
+import { opSetupHeader, opSetupList } from './block-script-parts/parts.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Event Creation Blocks
@@ -57,11 +57,17 @@ export function opEventBlocks( debug ) {
                 ///// Start the Console Log Group.
                 if ( debug ) console.group( `Block with ID: ${ block.getAttribute( 'id' ) }` )
 
-                ///// Setup the Event List.
-                const setupEvent = opSetupList( debug, block )
+                ///// Setup the Event Header.
+                const setupHeader = opSetupHeader( debug, block )
 
-                ///// Validate the Response from the Approval.
-                if ( setupEvent.error !== false ) throw setupEvent
+                ///// Validate the Response from the Event Header.
+                if ( setupHeader.error !== false ) throw setupHeader
+
+                ///// Setup the Event List.
+                const setupList = opSetupList( debug, block )
+
+                ///// Validate the Response from the Event List.
+                if ( setupList.error !== false ) throw setupList
                 
 
 
