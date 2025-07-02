@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: List
- ?  Updated: 2025-06-26 - 11:43 (Y:m:d - H:i)
- ?  Info: Added Participant Skeleton.
+ ?  Updated: 2025-07-02 - 04:42 (Y:m:d - H:i)
+ ?  Info: Added new folder to the Participant Template.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -184,7 +184,7 @@
 
     <?php 
 
-        require( __DIR__ . '/participant-template.php' );
+        require( __DIR__ . '/templates/participant-template.php' );
 
     } ?>
 
