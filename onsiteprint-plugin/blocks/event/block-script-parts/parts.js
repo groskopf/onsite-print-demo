@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Parts
  *  Block functions included in the Event Block Script.
- ?  Updated: 2025-07-03 - 01:18 (Y:m:d - H:i)
- ?  Info: Added new Function, opSetupHeader().
+ ?  Updated: 2025-07-03 - 01:31 (Y:m:d - H:i)
+ ?  Info: Added new Script, participant-listeners.js.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -13,9 +13,7 @@
 
     3.  Add Participant
 
-    4.  Get Participant
-    
-    5.  Print Participant
+    4.  Participant Listeners
 
 ---------------------------------------------------------------------------
  #  1. Setup Header
@@ -32,17 +30,11 @@ export { opSetupList }
 /* ------------------------------------------------------------------------
  #  3. Add Participant
 --------------------------------------------------------------------------- */
-import { opAddParticipant } from './participant/add-participant.js'
+import { opAddParticipant } from './add-participant.js'
 export { opAddParticipant }
 
 /* ------------------------------------------------------------------------
- #  4. Get Participant
+ #  4. Participant Listeners
 --------------------------------------------------------------------------- */
-import { opGetParticipant } from './participant/get-participant.js'
-export { opGetParticipant }
-
-/* ------------------------------------------------------------------------
- #  5. Print Participant
---------------------------------------------------------------------------- */
-import { opPrintParticipant } from './participant/print-participant.js'
-export { opPrintParticipant }
+import { opParticipantToggleListener, opPrintParticipantListener } from './participant-listeners.js'
+export {  opParticipantToggleListener, opPrintParticipantListener }

@@ -24,8 +24,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Script `Parts`.
 - Added new Function, `opAddParticipant()`.
-- Added new Function, `opGetParticipant()`.
 - Added new Function, `opSetupHeader()`.
+- Added new Script, `participant-listeners.js`.
     
     [EB | parts.js](blocks/event/block-script-parts/parts.js)
 
