@@ -178,6 +178,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [JS | update-event.js](assets/js/inc/event/update-event.js)
 
+    ---
+
+- Changed the Modal Visibility.
+
+    [OP | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
+
 ---
 
 ### 1.2.2 (2025-04-21) - More Participant Data

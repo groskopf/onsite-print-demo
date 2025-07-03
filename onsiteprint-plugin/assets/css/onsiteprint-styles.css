@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-03-20 - 02:48 (Y:m:d - H:i)
- ?  Info: (CSS) added textarea to input.
+ ?  Updated: 2025-07-03 - 04:56 (Y:m:d - H:i)
+ ?  Info: (CSS) Changed the Modal Visibility.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2422,11 +2422,16 @@ fieldset {
     min-inline-size: inherit;
 }
 
-[id*="op-block"]:not( .active ) .op-modal {
-    display: none;
+.op-modal-active [id*="op-block"] .op-modal {
+    display: flex;
 }
 
-[id*="op-block"] .op-modal.op-active,
+[id*="op-block"] .op-modal {
+    display: none;
+    padding: 2rem;
+}
+
+[id*="op-block"] .op-modal,
 [id*="op-block"] .op-modal::after {
     height: 100%;
     width: 100%;
@@ -2434,15 +2439,11 @@ fieldset {
     top: 0;
     left: 0;
     z-index: 110;
-    display: flex;
-}
-
-[id*="op-block"] .op-modal {
-    padding: 2rem;
 }
 
 [id*="op-block"] .op-modal::after {
     background: var(--wp--preset--color--primary-100);
+    display: flex;
     content: "";
     z-index: -1;
     opacity: 0.5;
