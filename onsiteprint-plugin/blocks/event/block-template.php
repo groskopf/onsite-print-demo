@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
- ?  Info: (PHP) Added New variable to Modal (note), used in /modal.php (Event).
+ ?  Updated: 2025-07-04 - 02:09 (Y:m:d - H:i)
+ ?  Info: Added New Error variable to Modal (title & description), used in /modal.php (Event).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -45,6 +45,8 @@ $modal = array(
     'cancel_button'     => get_field( $path . 'modal_cancel_button' ) ?: 'Cancel',
     'add_button'        => get_field( $path . 'modal_add_button' ) ?: 'Add new Participant',
     'note'              => get_field( $path . 'modal_note' ) ?: 'Extra Notes',
+    'error_title'       => get_field( $path . 'modal_error_title' ) ?: 'Something went wrong!',
+    'error_description' => get_field( $path . 'modal_error_description' ) ?: 'Please try again and contact us if the error continues to persist.',
 );
 
 $list = array(  
