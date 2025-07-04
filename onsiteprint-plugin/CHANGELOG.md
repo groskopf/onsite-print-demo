@@ -190,6 +190,18 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [OP | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 
+    ---
+
+- Removed one of the `opToggleActive()` in the `Cancel Buttons`.
+    
+    [ECB | step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
+
+    ---
+
+- Changed the Activation of the Modal Window.
+
+    [ECB | steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+
 ---
 
 ### 1.2.2 (2025-04-21) - More Participant Data

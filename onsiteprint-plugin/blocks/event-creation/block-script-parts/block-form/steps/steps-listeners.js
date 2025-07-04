@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
- ?  Info: Added Error Modal to opExampleButtonListener().
+ ?  Updated: 2025-07-04 - 03:12 (Y:m:d - H:i)
+ ?  Info: Changed the Activation of the Modal Window.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -221,7 +221,7 @@ export function opLayoutButtonListener( debug, block ) {
                 modalInnerElement.append( modalTemplateElement )
 
                 ///// Activate the Modal Window.
-                modalElement.classList.add( 'op-active' )
+                modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                 ///// Console Log Success if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 
@@ -336,7 +336,7 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                 modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
 
                 ///// Activate the Modal Window.
-                modalElement.classList.add( 'op-active' )
+                modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                 ///// Console Log Success if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 
@@ -365,7 +365,7 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                 modalInnerElement.append( modalTemplateElement )
 
                 ///// Activate the Modal Window.
-                modalElement.classList.add( 'op-active' )
+                modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                 ///// Log Error Details in the Console.
                 if ( debug ) console.error( 'ERROR:', { 

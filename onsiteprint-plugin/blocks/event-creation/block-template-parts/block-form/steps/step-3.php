@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2025-04-09 - 11:31 (Y:m:d - H:i)
- ?  Info: Changed the Path to the Layout SVG.
+ ?  Updated: 2025-07-04 - 03:10 (Y:m:d - H:i)
+ ?  Info: Removed one of the opToggleActive() in the Cancel Buttons.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -58,7 +58,7 @@
             <template id="<?= esc_attr($id) ?>-modal-layout-template">
                 <div class="op-modal-header">
                     <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_layout_title'] ) ?></h3>
-                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                    <button type="button" onclick="opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
                         <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
                         <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
                     </button>
@@ -71,7 +71,7 @@
             <template id="<?= esc_attr($id) ?>-modal-example-template">
                 <div class="op-modal-header">
                     <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_example_title'] ) ?></h3>
-                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                    <button type="button" onclick="opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
                         <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
                         <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
                     </button>
@@ -84,7 +84,7 @@
             <template id="<?= esc_attr($id) ?>-modal-error-template">
                 <div class="op-modal-header">
                     <h3 class="op-modal-title"><?= esc_attr( $acf['step_3_error_title'] ) ?></h3>
-                    <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                    <button type="button" onclick="opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
                         <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
                         <span class="op-button-title"><?= esc_attr( $acf['step_3_cancel_button'] ) ?></span>
                     </button>
