@@ -1,13 +1,15 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-07-03 - 01:18 (Y:m:d - H:i)
- ?  Info: Added new Function, opSetupHeader().
+ ?  Updated: 2025-07-08 - 21:02 (Y:m:d - H:i)
+ ?  Info: Added Lines from the Setup List Script.
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
+import { opGetEvent } from '../../assets/js/inc/event/event.js'
+import { opGetTemplate } from '../../assets/js/inc/template/template.js'
 import { opSetupHeader, opSetupList } from './block-script-parts/parts.js'
 
 /* ------------------------------------------------------------------------
@@ -57,14 +59,53 @@ export function opEventBlocks( debug ) {
                 ///// Start the Console Log Group.
                 if ( debug ) console.group( `Block with ID: ${ block.getAttribute( 'id' ) }` )
 
+                ///// Get Event ID.
+                const eventId = block.getAttribute( 'data-event-id' )
+
+                ///// Throw Error if the Event ID is missing.
+                if ( ! eventId ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                    message: `Missing the Event ID!`, 
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Get the Event. 
+                const eventItem = opGetEvent( debug, eventId )
+
+                ///// Validate the Response from the Get Event.
+                if ( eventItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Event!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Get the Template. 
+                const templateItem = opGetTemplate( debug, eventItem.response.details.eventTemplate )
+
+                ///// Validate the Response from the Get Template.
+                if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Template!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Get the Amount of Columns.
+                let columnAmount = templateItem.response.details.templateLayoutColumns.charAt(0)
+                
+                ///// Set the Amount of Columns to the Block.
+                block.setAttribute( 'data-column-count', columnAmount )
+
                 ///// Setup the Event Header.
-                const setupHeader = opSetupHeader( debug, block )
+                const setupHeader = opSetupHeader( debug, block, columnAmount )
 
                 ///// Validate the Response from the Event Header.
                 if ( setupHeader.error !== false ) throw setupHeader
 
+                ///// Get Participant List.
+                const participantList = eventItem.response.details.eventParticipants
+                
                 ///// Setup the Event List.
-                const setupList = opSetupList( debug, block )
+                const setupList = opSetupList( debug, block, eventId, participantList )
 
                 ///// Validate the Response from the Event List.
                 if ( setupList.error !== false ) throw setupList
