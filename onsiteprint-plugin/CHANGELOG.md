@@ -88,7 +88,15 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Removed the Listener `opToggleActive` from the Participant Element.
 - Added new `footer .op-message` elements.
 
-    [EB | participant-template.php](blocks/event/block-template-parts/participant-template.php)
+    [EB | participant-template.php](blocks/event/block-template-parts/templates/participant-template.php)
+
+    ---
+
+- Added New `Create Participant Template Part`.
+
+    [EB | create-participant-template.php](blocks/event/block-template-parts/templates/create-participant-template.php)
+
+    [EB | modal.php](blocks/event/block-template-parts/modal.php)
 
     ---
 
