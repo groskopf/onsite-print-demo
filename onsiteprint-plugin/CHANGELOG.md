@@ -194,6 +194,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script `Toggle Modal Listener`.
+
+    [JS | toggle-modal-listener.js](assets/js/inc/modal/toggle-modal-listener.js)
+
+    ---
+
 - Changed the `Modal Visibility`.
 - Added the `old style` to older `Modals`.
 
