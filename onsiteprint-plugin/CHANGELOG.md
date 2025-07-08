@@ -186,7 +186,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-- Changed the Modal Visibility.
+- Changed the `Modal Visibility`.
+- Added the `old style` to older `Modals`.
 
     [OP | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 

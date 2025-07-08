@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-07-03 - 04:56 (Y:m:d - H:i)
- ?  Info: (CSS) Changed the Modal Visibility.
+ ?  Updated: 2025-07-08 - 19:26 (Y:m:d - H:i)
+ ?  Info: (CSS) Added the old style to older Modals.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2459,10 +2459,12 @@ fieldset {
     height: auto;
     max-height: 100%;
     margin: auto;
-    padding: 4rem;
     border-radius: 0.4rem;
     overflow-y: auto;
+}
 
+[id*="op-block"]:not( .op-block__event ) .op-modal__inner {
+    padding: 4rem;
 }
 
 [id*="op-block"] .op-modal__inner .op-flex-col {
