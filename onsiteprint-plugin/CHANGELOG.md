@@ -77,6 +77,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added `setTimeout` with `Participant Element` actions, `Print Participant Listener`.
 - Added new `try/catch` with the `Participant Element` in the `Print Participant Listener` for error handling.
 - Added Update of the `Event Information Block` in the `Print Participant Listener`.
+- Added `opModuleBasic` to `opTimeConverter()` in the `Print Participant Listener`.
 
     [EB | participant-listeners.js](blocks/event/block-script-parts/participant-listeners.js)
 
@@ -186,6 +187,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Script `Update Participant`.
 
     [JS | update-participant.js](assets/js/inc/participant/update-participant.js)
+
+    ---
+
+- Added new Script `Create Participant`.
+
+    [JS | create-participant.js](assets/js/inc/participant/create-participant.js)
 
     ---
 
