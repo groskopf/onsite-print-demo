@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  >  JS Part Name: Basic
  *  Basic functions to the OnsitePrint Plugin.
- ?  Updated: 2025-06-06 - 03:12 (Y:m:d - H:i)
- ?  Info: Changed the opReturnResponse Function with new Debug Response.
+ ?  Updated: 2025-07-27 - 00:56 (Y:m:d - H:i)
+ ?  Info: Added the same lines in opTimeConverter() as in opTimeConverter() from elements.js.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -85,6 +85,8 @@ export function opTimeConverter( timestamp, display, language ){
         time = `${date}. ${monthName}. ${year} - ${hour}:${min}:${sec}`
     } else if ( display == 'full' ) {
         time = `${year}-${month}-${date} ${hour}:${min}:${sec}`
+    } else if ( display == 'file' ) {
+        time = `${year}-${month}-${date}_${hour}${min}`
     }
 
     return time

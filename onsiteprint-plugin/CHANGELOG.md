@@ -108,6 +108,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Changed the `opReturnResponse` Function with new `Debug Response`.
+- Added the same lines in `opTimeConverter()` as in `opTimeConverter()` from `elements.js`.
     
     [JS | basic.js](assets/js/inc/basic.js)
 
