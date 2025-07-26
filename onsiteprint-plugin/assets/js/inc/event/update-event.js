@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Update Event
  *  Updating the Event in the Local Storage.
- ?  Updated: 2025-06-18 - 05:01 (Y:m:d - H:i)
- ?  Info: Added new Update Event Script with Function.
+ ?  Updated: 2025-07-27 - 01:20 (Y:m:d - H:i)
+ ?  Info: Added the Details to the Return Response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -74,7 +74,8 @@ export async function opUpdateEvent( debug, updatedEvent ) {
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `The Event was Updated!`, 
             line: opModuleBasic.errorLine(),
-            function: functionName
+            function: functionName,
+            details: updatedEvent
         }, debug )
 
     } catch( errorResponse ) {
