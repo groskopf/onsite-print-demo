@@ -98,10 +98,15 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added New `Create Participant Template Part`.
-- Added new `Error Button` in the modal.php.
-
+- Changed the Position of `Form Validation Element`.
+- Added class `.op-col-input` to the `Column Input Elements`.
+- Removed the `onclick` in the Save Participant Button, `.op-button-save`.
 
     [EB | create-participant-template.php](blocks/event/block-template-parts/templates/create-participant-template.php)
+
+    ---
+
+- Added new `Error Button` in the modal.php.
 
     [EB | modal.php](blocks/event/block-template-parts/modal.php)
 
