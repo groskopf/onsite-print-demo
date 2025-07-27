@@ -83,6 +83,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new `try/catch` with the `Participant Element` in the `Print Participant Listener` for error handling.
 - Added Update of the `Event Information Block` in the `Print Participant Listener`.
 - Added `opModuleBasic` to `opTimeConverter()` in the `Print Participant Listener`.
+- Changed the `Import` of the `Participant`.
+- Added the `Create Participant Listener` Function.
 
     [EB | participant-listeners.js](blocks/event/block-script-parts/participant-listeners.js)
 
