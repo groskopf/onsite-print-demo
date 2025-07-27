@@ -9,6 +9,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the Block Script in the `Event Block` *(NB: The function is under construction)*.
 - Changed the `Import` Functions.
 - Added new Function, `opSetupHeader()`.
+- Added `Event ID` to `opSetupHeader()`.
     
     [EB | block-script.js](blocks/event/block-script.js)
 

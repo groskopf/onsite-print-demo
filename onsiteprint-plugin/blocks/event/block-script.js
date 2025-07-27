@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-07-08 - 21:02 (Y:m:d - H:i)
- ?  Info: Added Lines from the Setup List Script.
+ ?  Updated: 2025-07-28 - 01:33 (Y:m:d - H:i)
+ ?  Info: Added Event ID to opSetupHeader().
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -96,7 +96,7 @@ export function opEventBlocks( debug ) {
                 block.setAttribute( 'data-column-count', columnAmount )
 
                 ///// Setup the Event Header.
-                const setupHeader = opSetupHeader( debug, block, columnAmount )
+                const setupHeader = opSetupHeader( debug, block, eventId, columnAmount )
 
                 ///// Validate the Response from the Event Header.
                 if ( setupHeader.error !== false ) throw setupHeader
