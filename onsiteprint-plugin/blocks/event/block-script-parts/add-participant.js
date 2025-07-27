@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant Container in the Event Block.
- ?  Updated: 2025-06-06 - 04:01 (Y:m:d - H:i)
- ?  Info: Changed the File Location.
+ ?  Updated: 2025-07-27 - 05:13 (Y:m:d - H:i)
+ ?  Info: Added the Details to the Return Response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -72,7 +72,8 @@ export function opAddParticipant( debug, eventId, participantContainer, particip
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `The Participant (${participant.id}) was Added to the Participant Container in the Event Block!`, 
             line: opModuleBasic.errorLine(),
-            function: functionName
+            function: functionName,
+            details: participantContainer.querySelector( `#op-participant_${ participant.id }` )
         }, debug )
 
     } catch( errorResponse ) {
