@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-07-08 - 19:26 (Y:m:d - H:i)
- ?  Info: (CSS) Added the old style to older Modals.
+ ?  Updated: 2025-07-27 - 05:23 (Y:m:d - H:i)
+ ?  Info: (CSS) Changed the (position: relative) to main instead of .wp-block-post-content.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -61,11 +61,14 @@ html {
     display: flex;
 }
 
+.wp-site-blocks > main {
+    position: relative;
+}
+
 .wp-site-blocks > main > .wp-block-post-content {
     display: flex;
     flex-direction: column;
     height: 100%;
-    position: relative;
 }
 
 .wp-site-blocks > main > .wp-block-post-content.op-modal-active {

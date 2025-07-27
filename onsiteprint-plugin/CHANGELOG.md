@@ -215,6 +215,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Changed the `Modal Visibility`.
 - Added the `old style` to older `Modals`.
+- Changed the `position: relative` to `main` instead of `.wp-block-post-content`.
 
     [OP | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 
