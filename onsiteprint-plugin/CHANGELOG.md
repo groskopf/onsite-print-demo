@@ -113,6 +113,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Removed the `onclick` in the Add Participant Button, `.op-button-add`.
+
+    [EB | header.php](blocks/event/block-template-parts/header.php)
+
+    ---
+
 - Changed the `opReturnResponse` Function with new `Debug Response`.
 - Added the same lines in `opTimeConverter()` as in `opTimeConverter()` from `elements.js`.
     
@@ -217,7 +223,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added the `old style` to older `Modals`.
 - Changed the `position: relative` to `main` instead of `.wp-block-post-content`.
 
-    [OP | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
+    [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 
     ---
 

@@ -65,7 +65,7 @@
     <?php } ?>
 
     <div class="op-participant-col-info">
-        <button type="button" onclick="opToggleActive( 'block', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-add op-button op-button-size-medium op-button-style-outline" data-color="primary-90" data-icon="user" data-icon-position="left" data-title-visibility="1">
+        <button type="button" class="op-button-add op-button op-button-size-medium op-button-style-outline" data-color="primary-90" data-icon="user" data-icon-position="left" data-title-visibility="1">
             <span class="op-icon" role="img" aria-label="User Icon"></span>
             <span class="op-button-title"><?= esc_attr( $header['add_participant'] ) ?></span>
         </button>
