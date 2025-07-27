@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-07-04 - 02:09 (Y:m:d - H:i)
- ?  Info: Added New Error variable to Modal (title & description), used in /modal.php (Event).
+ ?  Updated: 2025-07-27 - 03:31 (Y:m:d - H:i)
+ ?  Info: Changed the Error variable in the Modal (messages_error), used in /modal.php (Event).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -41,7 +41,7 @@ $header = array(
 $modal = array(
     'title'             => get_field( $path . 'modal_title' ) ?: 'Add new Participant',
     'description'       => get_field( $path . 'modal_description' ) ?: 'Below you can enter the information about the participant.',
-    'messages_error'    => get_field( $path . 'modal_messages_error' ) ?: 'One or more columns must be filled!',
+    'messages_error'    => get_field( $path . 'modal_messages_error' ) ?: 'At least one Column must be Filled!',
     'cancel_button'     => get_field( $path . 'modal_cancel_button' ) ?: 'Cancel',
     'add_button'        => get_field( $path . 'modal_add_button' ) ?: 'Add new Participant',
     'note'              => get_field( $path . 'modal_note' ) ?: 'Extra Notes',

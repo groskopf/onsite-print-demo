@@ -23,6 +23,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added New `Error Title` and `Error Description` to Modal, used in /modal.php.
+- Changed the `Error Messages` in the Modal, used in /modal.php.
     
     [EB | block-template.js](blocks/event/block-template.php)
 
