@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-07-27 - 03:31 (Y:m:d - H:i)
- ?  Info: Changed the Error variable in the Modal (messages_error), used in /modal.php (Event).
+ ?  Updated: 2025-07-27 - 04:52 (Y:m:d - H:i)
+ ?  Info: Added new Error variable in the Modal (error_button), used in /modal.php (Event).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -47,6 +47,7 @@ $modal = array(
     'note'              => get_field( $path . 'modal_note' ) ?: 'Extra Notes',
     'error_title'       => get_field( $path . 'modal_error_title' ) ?: 'Something went wrong!',
     'error_description' => get_field( $path . 'modal_error_description' ) ?: 'Please try again and contact us if the error continues to persist.',
+    'error_button'      => get_field( $path . 'modal_error_button' ) ?: 'Reload the page',
 );
 
 $list = array(  

@@ -24,6 +24,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added New `Error Title` and `Error Description` to Modal, used in /modal.php.
 - Changed the `Error Messages` in the Modal, used in /modal.php.
+- Added new `Error Button` to Modal, used in /modal.php.
     
     [EB | block-template.js](blocks/event/block-template.php)
 
@@ -95,6 +96,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added New `Create Participant Template Part`.
+- Added new `Error Button` in the modal.php.
+
 
     [EB | create-participant-template.php](blocks/event/block-template-parts/templates/create-participant-template.php)
 

@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-07-08 - 19:37 (Y:m:d - H:i)
- ?  Info: Added New Create Participant Template Part.
+ ?  Updated: 2025-07-27 - 04:52 (Y:m:d - H:i)
+ ?  Info: Added new Error Button.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -22,6 +22,10 @@
                     </h3>
 
                     <p class="op-modal-description"><?= esc_attr( $modal['error_description'] ) ?></p>
+
+                    <button type="button" class="op-button-reload op-button op-button-size-medium op-button-style-solid" data-color="primary-90" onclick="window.location.reload()">
+                        <span class="op-button-title"><?= esc_attr( $modal['error_button'] ) ?></span>
+                    </button>
 
                 </div>
             </div>
