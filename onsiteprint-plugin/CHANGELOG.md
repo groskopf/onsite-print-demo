@@ -18,6 +18,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed how to show `Lines` in the `Participant Row (Event Block)`.
 - Added new `footer .op-message` in the `Participant Row - Info (Event Block)`.
 - Added `Participant Skeleton` and `CSS animation`.
+- Changed the CSS in the `Modal Window` of `Add Participant`.
     
     [EB | block-style.css](blocks/event/block-style.css)
 
