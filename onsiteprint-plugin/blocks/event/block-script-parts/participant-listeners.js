@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-07-28 - 01:51 (Y:m:d - H:i)
- ?  Info: Changed the Import of the Participant and Added the Create Participant Listener.
+ ?  Updated: 2025-07-28 - 02:41 (Y:m:d - H:i)
+ ?  Info: Added the Column Input Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -13,7 +13,9 @@
 
     3. 	Function: Print Participant Listener
 
-    4.  Function: Create Participant Listener
+    4.  Function: Column Input Listener
+
+    5.  Function: Create Participant Listener
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -56,14 +58,14 @@ export function opParticipantToggleListener( debug, participant, participantId )
             ///// End the Console Log Group.
             if ( debug ) console.groupEnd()
             
-        })
+        } )
 
         ///// Console Log Success if Debug.
         if ( debug ) console.log( 'SUCCESS:', { 
             message: `The Participant Toggle Listener is Active!`,
             line: opModuleBasic.errorLine(),
             function: functionName
-        })
+        } )
 
     } catch( errorResponse ) {
 
@@ -166,7 +168,7 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
                     message: `No errors were found in the Print Participant Listener!`,
                     line: opModuleBasic.errorLine(),
                     function: functionName
-                })
+                } )
 
             } catch( errorListenerResponse ) {
 
@@ -199,7 +201,7 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
             message: `The Print Participant Listener is Active!`,
             line: opModuleBasic.errorLine(),
             function: functionName
-        })
+        } )
 
     } catch( errorResponse ) {
 
@@ -223,7 +225,83 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
 }
 
 /* ------------------------------------------------------------------------
- #  4. Function: Create Participant Listener
+ #  4. Function: Column Input Listener
+--------------------------------------------------------------------------- */
+export function opColumnInputListener( debug, block, inputElement ) {
+
+    try {
+
+        ///// Get Function Name.
+        var functionName = opColumnInputListener.name
+
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Set Create Participant Listener to the Button Element.
+        opModuleBasic.opListener( 'input', inputElement, async () => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `opColumnInputListener()` )
+
+            ///// Check if the String is Empty (Return: True or False).
+            const isEmpty = string => ! string || ! string.trim().length
+
+            ///// If all the Columns are Empty throw an error.
+            if ( ! isEmpty( inputElement.value ) ){
+
+                ///// Remove the Validation from the Form.
+                block.querySelector( '.op-modal' ).removeAttribute( 'data-validation' )
+
+            }
+
+            ///// Console Log Success if Debug.
+            if ( debug ) console.log( 'SUCCESS:', { 
+                message: `No errors were found in the Column Input Listener!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName,
+                details: {
+                    input: ! isEmpty( inputElement.value ),
+                    value: inputElement.value
+                }
+            } )
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+
+        } )
+
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Column Input Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  5. Function: Create Participant Listener
 --------------------------------------------------------------------------- */
 export function opCreateParticipantListener( debug, block, button, eventId, formElement ) {
 
@@ -335,7 +413,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                     message: `No errors were found in the Create Participant Listener!`,
                     line: opModuleBasic.errorLine(),
                     function: functionName
-                })
+                } )
 
             } catch( errorListenerResponse ) {
 
@@ -361,7 +439,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
             message: `The Create Participant Listener is Active!`,
             line: opModuleBasic.errorLine(),
             function: functionName
-        })
+        } )
 
     } catch( errorResponse ) {
 

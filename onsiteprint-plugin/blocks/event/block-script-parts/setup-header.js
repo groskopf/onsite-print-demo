@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-07-28 - 01:57 (Y:m:d - H:i)
- ?  Info: Added opModalToggleListener() and opCreateParticipantListener().
+ ?  Updated: 2025-07-28 - 02:02 (Y:m:d - H:i)
+ ?  Info: Added opColumnInputListener().
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -17,7 +17,7 @@
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
-import { opCreateParticipantListener } from './participant-listeners.js'
+import { opColumnInputListener, opCreateParticipantListener } from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Setup the Header of the Event
@@ -43,17 +43,17 @@ export function opSetupHeader( debug, block, eventId, columnAmount ) {
         let formElement = modalContent.querySelector( '.op-form' )
         let columnInputElements = formElement.querySelectorAll( '.op-col-input input' )
 
-        ///// Set Modal Toggle Listener to the Add Participant Button and Modal Close Button.
-        opModalToggleListener( debug, block.querySelector( '.op-button-cancel' ), false )
-        opModalToggleListener( debug, block.querySelector( '.op-button-add' ), true, modalHeader, modalContent )
+        ///// Set Column Input Listener to All of the Column Input Elements in the Modal Form.
+        columnInputElements.forEach( inputElement => {
+            opColumnInputListener( debug, block, inputElement )
+        })
 
         ///// Set Create Participant Listener to the Modal Form Button.
         opCreateParticipantListener( debug, block, modalContent.querySelector( '.op-button-save' ), eventId, formElement )
 
-        /* ///// Set Column Input Listener to All of the Column Input Elements in the Modal Form.
-        columnInputElements.forEach( inputElement => {
-            opColumnInputListener( debug, inputElement )
-        }) */
+        ///// Set Modal Toggle Listener to the Add Participant Button and Modal Close Button.
+        opModalToggleListener( debug, block.querySelector( '.op-button-cancel' ), false )
+        opModalToggleListener( debug, block.querySelector( '.op-button-add' ), true, modalHeader, modalContent )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 

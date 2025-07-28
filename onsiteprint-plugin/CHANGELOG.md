@@ -43,6 +43,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Script `Setup Header` *(NB: The function is under construction)*.
 - Added `opModalToggleListener()` and `opCreateParticipantListener()`.
+- Added the `Column Input Listener` Function.
     
     [EB | setup-header.js](blocks/event/block-script-parts/setup-header.js)
 
@@ -86,6 +87,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added `opModuleBasic` to `opTimeConverter()` in the `Print Participant Listener`.
 - Changed the `Import` of the `Participant`.
 - Added the `Create Participant Listener` Function.
+- Added the `Column Input Listener` Function.
 
     [EB | participant-listeners.js](blocks/event/block-script-parts/participant-listeners.js)
 
