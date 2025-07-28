@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Modal Part Name: Create Participant Template
- ?  Updated: 2025-07-28 - 01:43 (Y:m:d - H:i)
- ?  Info: Changed, Added and Removed some Elements, See the Change Log.
+ ?  Updated: 2025-07-28 - 03:42 (Y:m:d - H:i)
+ ?  Info: Added "disabled" to the Save Button.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
@@ -100,7 +100,7 @@
         
         <div class="op-modal-buttons op-flex-col">
             
-            <button type="button" class="op-button-save op-button op-button-size-medium op-button-style-solid" data-color="primary-90" >
+            <button type="button" class="op-button-save op-button op-button-size-medium op-button-style-solid" data-color="primary-90" disabled>
                 <span class="op-button-title"><?= esc_attr( $modal['add_button'] ) ?></span>
             </button>
     

@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-07-28 - 02:41 (Y:m:d - H:i)
- ?  Info: Added the Column Input Listener.
+ ?  Updated: 2025-07-28 - 03:39 (Y:m:d - H:i)
+ ?  Info: Added Button "disabled" in the opColumnInputListener() and opCreateParticipantListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -227,7 +227,7 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
 /* ------------------------------------------------------------------------
  #  4. Function: Column Input Listener
 --------------------------------------------------------------------------- */
-export function opColumnInputListener( debug, block, inputElement ) {
+export function opColumnInputListener( debug, block, inputElement, saveButton ) {
 
     try {
 
@@ -239,7 +239,7 @@ export function opColumnInputListener( debug, block, inputElement ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
-        ///// Set Create Participant Listener to the Button Element.
+        ///// Set Column Input Listener to the Input Element.
         opModuleBasic.opListener( 'input', inputElement, async () => {
 
             ///// Start the Console Log Group.
@@ -248,11 +248,19 @@ export function opColumnInputListener( debug, block, inputElement ) {
             ///// Check if the String is Empty (Return: True or False).
             const isEmpty = string => ! string || ! string.trim().length
 
-            ///// If all the Columns are Empty throw an error.
-            if ( ! isEmpty( inputElement.value ) ){
+            ///// If the Input Element is Empty.
+            if ( isEmpty( inputElement.value ) ) {
+
+                ///// Add "disabled" to the Create Participant Button.
+                saveButton.disabled = true
+
+            } else {
 
                 ///// Remove the Validation from the Form.
                 block.querySelector( '.op-modal' ).removeAttribute( 'data-validation' )
+
+                ///// Remove "disabled" from the Create Participant Button.
+                saveButton.disabled = false
 
             }
 
@@ -376,6 +384,9 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 inputElements.forEach( inputElement => {
                     inputElement.value = ''
                 } )
+
+                ///// Add "disabled" to the Create Participant Button.
+                button.disabled = true
 
                 ///// Get the Participant Container.
                 let participantContainer = block.querySelector( '.op-participant-rows' )

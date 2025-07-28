@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-07-28 - 01:45 (Y:m:d - H:i)
- ?  Info: Changed the Modal Window of Add Participant.
+ ?  Updated: 2025-07-28 - 03:36 (Y:m:d - H:i)
+ ?  Info: Changed the Form Validation in the Modal Window of Add Participant.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -818,6 +818,10 @@
     display: flex;
 }
 
+.op-block__event .op-modal .op-input-wrapper:last-child {
+    margin-bottom: 0.6rem;
+}
+
 .op-block__event .op-modal[ data-validation="2" ] .op-col-input .op-label-title {
     color: var(--wp--preset--color--error-100);
 }
@@ -827,30 +831,38 @@
     border-color: var(--wp--preset--color--error-40);
 }
 
-.op-block__event .op-modal .op-input-wrapper:last-child {
-    margin-bottom: 0.6rem;
-}
-
 .op-block__event .op-modal .op-form-validation {
-    background-color: var(--wp--preset--color--error-10);
-    color: var(--wp--preset--color--black);
+    color: var(--wp--preset--color--neutral-100);
     line-height: var(--wp--custom--typography--line-height--medium);
-    display: none;
+    display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+.op-block__event .op-modal .op-form-validation .op-icon {
+    color: var(--wp--preset--color--primary-100);
+    font-size: 1.2rem;
+    display: flex;
+    padding-top: 0.6rem;
+}
+
+.op-block__event .op-modal:not( [ data-validation="2" ] ) .op-form-validation .op-icon::before {
+    content: var(--fa-icon-play);
+    padding-left: 0.2rem;
+}
+
+.op-block__event .op-modal[ data-validation="2" ] .op-form-validation {
+    background-color: var(--wp--preset--color--error-10);
+    color: var(--wp--preset--color--black);
     padding: 0.6rem 1.2rem;
     border: 0.1rem solid var(--wp--preset--color--error-100);
     border-radius: 0.4rem;
 }
 
-.op-block__event .op-modal[ data-validation="2" ] .op-form-validation {
-    display: flex;
-}
-
-.op-block__event .op-modal .op-form-validation .op-icon {
+.op-block__event .op-modal[ data-validation="2" ] .op-form-validation .op-icon {
     color: var(--wp--preset--color--error-100);
     font-size: 2rem;
-    display: flex;
     padding-top: 0.2rem;
 }
 

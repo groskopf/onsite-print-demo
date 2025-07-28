@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-07-28 - 02:02 (Y:m:d - H:i)
- ?  Info: Added opColumnInputListener().
+ ?  Updated: 2025-07-28 - 03:40 (Y:m:d - H:i)
+ ?  Info: Added "saveButton" to opColumnInputListener().
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -42,14 +42,15 @@ export function opSetupHeader( debug, block, eventId, columnAmount ) {
         let modalContent = modalElement.querySelector( '.op-modal-content__inner' )
         let formElement = modalContent.querySelector( '.op-form' )
         let columnInputElements = formElement.querySelectorAll( '.op-col-input input' )
+        let saveButton = modalContent.querySelector( '.op-button-save' )
 
         ///// Set Column Input Listener to All of the Column Input Elements in the Modal Form.
         columnInputElements.forEach( inputElement => {
-            opColumnInputListener( debug, block, inputElement )
+            opColumnInputListener( debug, block, inputElement, saveButton )
         })
 
         ///// Set Create Participant Listener to the Modal Form Button.
-        opCreateParticipantListener( debug, block, modalContent.querySelector( '.op-button-save' ), eventId, formElement )
+        opCreateParticipantListener( debug, block,saveButton, eventId, formElement )
 
         ///// Set Modal Toggle Listener to the Add Participant Button and Modal Close Button.
         opModalToggleListener( debug, block.querySelector( '.op-button-cancel' ), false )

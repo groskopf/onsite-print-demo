@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-07-27 - 05:23 (Y:m:d - H:i)
- ?  Info: (CSS) Changed the (position: relative) to main instead of .wp-block-post-content.
+ ?  Updated: 2025-07-28 - 03:34 (Y:m:d - H:i)
+ ?  Info: Added (--fa-icon-play).
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -117,6 +117,7 @@ html {
     --fa-icon-file-csv: "\f6dd";
     --fa-icon-file-pdf: "\f1c1";
     --fa-icon-trash: "\f1f8";
+    --fa-icon-play: "\f04b";
 
 }
 
