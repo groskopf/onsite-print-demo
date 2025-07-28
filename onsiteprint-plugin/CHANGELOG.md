@@ -42,12 +42,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new Script `Setup Header` *(NB: The function is under construction)*.
+- Added `opModalToggleListener()` and `opCreateParticipantListener()`.
     
     [EB | setup-header.js](blocks/event/block-script-parts/setup-header.js)
 
     ---
 
-- Added new Script `Setup List` *(NB: The function is under construction)*.
+- Added new Script `Setup List`.
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 - Changed the `Import` Functions.
 - Added New `Participant Loop` with `Fading (CSS Animation)`.
