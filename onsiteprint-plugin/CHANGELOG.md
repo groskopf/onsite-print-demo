@@ -95,6 +95,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script `Modal - Create Participant`.
+
+    [EB | modal-create-participant.js](blocks/event/block-script-parts/modals/modal-create-participant.js)
+
+    ---
+
 - Added new File `Participant Template`.
 - Removed attribute `data-op-arrival` from `article`.
 - Added new element `span.op-text` to `header time`.
