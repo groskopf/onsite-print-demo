@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-07-28 - 03:39 (Y:m:d - H:i)
- ?  Info: Added Button "disabled" in the opColumnInputListener() and opCreateParticipantListener().
+ ?  Updated: 2025-07-29 - 04:01 (Y:m:d - H:i)
+ ?  Info: Added the Download CSV File Listener Function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -16,6 +16,8 @@
     4.  Function: Column Input Listener
 
     5.  Function: Create Participant Listener
+
+    6.  Function: Download CSV File Listener
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -448,6 +450,77 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
         ///// Console Log Success if Debug.
         if ( debug ) console.log( 'SUCCESS:', { 
             message: `The Create Participant Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  6. Function: Download CSV File Listener
+--------------------------------------------------------------------------- */
+export function opDownloadCSVFileListener( debug, block, button, eventId ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = opDownloadCSVFileListener.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Set Create Participant Listener to the Button Element.
+        opModuleBasic.opListener( 'click', button, async () => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `opDownloadCSVFileListener()` )
+
+            try {
+
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `No errors were found in the Download CSV File Listener!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+            } catch( errorListenerResponse ) {
+
+                ///// Log Error Details in the Console.
+                if ( debug ) console.error( 'ERROR:', errorListenerResponse )
+
+            }
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+
+        })
+
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Download CSV File Listener is Active!`,
             line: opModuleBasic.errorLine(),
             function: functionName
         } )
