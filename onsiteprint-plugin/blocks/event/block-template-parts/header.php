@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2024-01-10 - 03:00 (Y:m:d - H:i)
+ ?  Updated: 2025-07-29 - 03:46 (Y:m:d - H:i)
+ ?  Info: Removed the onclick in the .op-button-csv.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -81,7 +82,7 @@
             <span class="op-icon" role="img" aria-label="Printer Icon"></span>
         </p>
         <div class="op-download-menu op-flex-row">
-            <button class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-csv" data-icon-position="right" data-title-visibility="1" onclick="opDownloadEventParticipants('csv', <?= esc_attr( $options['event_id'] ) ?>)">
+            <button class="op-button op-button-csv op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-csv" data-icon-position="right" data-title-visibility="1">
                 <span class="op-icon" role="img" aria-label="CSV File Icon"></span>
                 <span class="op-button-title"><?= esc_attr( $header['download_csv'] ) ?></span>
             </button>

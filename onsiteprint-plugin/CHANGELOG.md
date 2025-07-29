@@ -128,6 +128,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Removed the `onclick` in the Add Participant Button, `.op-button-add`.
+- Removed the `onclick` in the Download CSV Button, `.op-button-csv`.
 
     [EB | header.php](blocks/event/block-template-parts/header.php)
 
