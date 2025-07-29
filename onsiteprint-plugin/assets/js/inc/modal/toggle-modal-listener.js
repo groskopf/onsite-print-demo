@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Toggle Modal Listener Script
  *  Functions Used to Open and Close the Modal Window.
- ?  Updated: 2025-07-08 - 20:14 (Y:m:d - H:i)
- ?  Info: Added new Script, Toggle Modal Listener.
+ ?  Updated: 2025-07-29 - 03:29 (Y:m:d - H:i)
+ ?  Info: Added new Modal Function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -19,7 +19,7 @@ import * as opModuleBasic from '../basic.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Modal Toggle Listener
 --------------------------------------------------------------------------- */
-export function opModalToggleListener( debug, button, state, header, content ) {
+export function opModalToggleListener( debug, button, state, modalFunction ) {
 
     try {
 
@@ -43,48 +43,85 @@ export function opModalToggleListener( debug, button, state, header, content ) {
             let modalHeader = modalElement.querySelector( '.op-modal-header')
             let modalContent = modalElement.querySelector( '.op-modal-content')
 
-            ///// If the State is True (Open) or False (Close).
-            if ( state ) {
+            try {
 
-                ///// Check if the Header or the Content is missing.
-                if ( ! header || ! content ){
+                ///// Check if there is a Modal Function.
+                if ( modalFunction ) {
 
-                    ///// Add Error Class to the Modal.
-                    modalElement.classList.add( 'op-error' )
+                    ///// Get the Modal Response.
+                    const modalResponse = await modalFunction
+
+                    ///// Validate the Modal Response.
+                    if ( modalResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                        message: `Something went wrong when in the Modal Function!`,
+                        line: opModuleBasic.errorLine(),
+                        function: functionName,
+                        modalFunction: modalResponse.response.function
+                    } )
+
+                    ///// Check the State.
+                    if ( state ) {
+
+                        ///// Get the Modal Header and Content.
+                        let header = modalResponse.response.details.header
+                        let content = modalResponse.response.details.content
+
+                        ///// Check if the Modal Header or Content is missing.
+                        if ( ! header || ! content ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                            message: `Could not find the Modal Header or Content!`,
+                            line: opModuleBasic.errorLine(),
+                            function: functionName
+                        } )
+
+                        ///// Add the Header and the Content to the Modal.
+                        modalHeader.querySelector( '.op-header-content').append( header )
+                        modalContent.append( content )
+
+                    }
+
+                }
+
+                ///// Check the State.
+                if ( state ) {
+
+                    ///// Open the Modal.
+                    container.classList.add( 'op-modal-active' )
 
                 } else {
 
-                    ///// Add the Header and the Content to the Modal.
-                    modalHeader.querySelector( '.op-header-content').append( header )
-                    modalContent.append( content )
+                    ///// Remove the Header and the Content from the Modal.
+                    modalHeader.querySelector( '.op-header-content').innerHTML = ''
+                    modalContent.innerHTML = ''
+
+                    ///// Close the Modal.
+                    container.classList.remove( 'op-modal-active' )
 
                 }
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `No errors were found in the Modal Toggle Listener!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+            } catch( errorListenerResponse ) {
+
+                ///// Add Error Class to the Modal.
+                modalElement.classList.add( 'op-error' )
 
                 ///// Open the Modal.
                 container.classList.add( 'op-modal-active' )
 
-            } else {
-
-                ///// Remove the Header and the Content from the Modal.
-                modalHeader.querySelector( '.op-header-content').innerHTML = ''
-                modalContent.innerHTML = ''
-
-                ///// Close the Modal.
-                container.classList.remove( 'op-modal-active' )
+                ///// Log Error Details in the Console.
+                if ( debug ) console.error( 'ERROR:', errorListenerResponse )
 
             }
-
-            ///// Console Log Success if Debug.
-            if ( debug ) console.log( 'SUCCESS:', { 
-                message: `No errors were found in the Modal Toggle Listener!`,
-                line: opModuleBasic.errorLine(),
-                function: functionName
-            })
 
             ///// End the Console Log Group.
             if ( debug ) console.groupEnd()
 
-        })
+        } )
 
         ///// Console Log Success if Debug.
         if ( debug ) console.log( 'SUCCESS:', { 
@@ -95,7 +132,7 @@ export function opModalToggleListener( debug, button, state, header, content ) {
                 element: button,
                 state: state
             }
-        })
+        } )
 
     } catch( errorResponse ) {
 
