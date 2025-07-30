@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0.1",
+    "version": "1.0.1.0",
     "name": "acf/event",
     "title": "Event",
     "description": "Displaying a List of Participants of the current Event with search functionality, if the User is logged in.",

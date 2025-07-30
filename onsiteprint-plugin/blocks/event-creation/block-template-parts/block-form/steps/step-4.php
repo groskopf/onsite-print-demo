@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 4
- ?  Updated: 2024-09-12 - 14:28 (Y:m:d - H:i)
- ?  Info: Changed flex classes.
+ ?  Updated: 2025-04-09 - 11:44 (Y:m:d - H:i)
+ ?  Info: Changed the Path to the Layout SVG.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -24,7 +24,7 @@
                 </div>
                 <div class="op-approval-field-layout op-flex-col">
                     <h4 class="op-text-title"><?= esc_attr( $acf['step_4_approval_4'] ) ?></h4>
-                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
+                    <img src="https://udviklingogtest.onsiteprint.dk/wp-content/plugins/onsiteprint-plugin/assets/img/svg/layouts/4786103/layout_2PB/layout_2PB_2L.svg" alt="Template: layout_2PB" width="100%" height="auto">
                 </div>
             </div>
             <div class="op-content op-flex-col op-flex-nowrap">
