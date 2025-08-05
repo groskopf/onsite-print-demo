@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Modal - Create Participant
  *  Creating the Create Participant Content to the Modal in the Event Block.
- ?  Updated: 2025-07-29 - 03:56 (Y:m:d - H:i)
- ?  Info: Added new Script and Function with the content from setup-header.js.
+ ?  Updated: 2025-08-04 - 04:31 (Y:m:d - H:i)
+ ?  Info: Changed how the Modal Toggle Listener is used.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,12 +15,15 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
-import { opColumnInputListener, opCreateParticipantListener } from '../participant-listeners.js'
+import { opModalToggleListener } from '../../../../assets/js/inc/modal/toggle-modal-listener.js'
+import { opColumnInputListener, opCreateParticipantListener, opDownloadCSVFileListener } from '../participant-listeners.js'
+import { opModalClearForm } from '../modals/modal-clear-form.js'
+
 
 /* ------------------------------------------------------------------------
  #  2. Function: Modal - Create Participant
 --------------------------------------------------------------------------- */
-export function opModalCreateParticipant( debug, block ) {
+export function opModalCreateParticipant( debug, block, eventId ) {
 
     try {
 
@@ -36,10 +39,18 @@ export function opModalCreateParticipant( debug, block ) {
         let modalTemplateElement = block.querySelector( `[id$="-create-participant-template"]` )
         let modalElement = modalTemplateElement.content.cloneNode(true)
         let modalHeader = modalElement.querySelector( '.op-header-content__inner' )
-        let modalContent = modalElement.querySelector( '.op-modal-content__inner' )
-        let formElement = modalContent.querySelector( '.op-form' )
+        let modalMain = modalElement.querySelector( '.op-modal-content__inner' )
+        let formElement = modalMain.querySelector( '.op-form' )
         let columnInputElements = formElement.querySelectorAll( '.op-col-input input' )
-        let saveButton = modalContent.querySelector( '.op-button-save' )
+        let addButton = block.querySelector( '.op-button-add' )
+        let cancelButton = block.querySelector( '.op-button-cancel' )
+        let saveButton = modalMain.querySelector( '.op-button-save' )
+
+        ///// Set Modal Toggle Listener to the Add Participant Button.
+        opModalToggleListener( debug, addButton, true, modalHeader, modalMain ) 
+
+        ///// Set Modal Toggle Listener to the Modal Close Button.
+        opModalToggleListener( debug, cancelButton, false )
 
         ///// Set Column Input Listener to All of the Column Input Elements in the Modal Form.
         columnInputElements.forEach( inputElement => {
@@ -51,13 +62,9 @@ export function opModalCreateParticipant( debug, block ) {
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
-            message: `The Participant () was Added to the Participant Container in the Event Block!`, 
+            message: `The Create Participant Modal was correctly Executed!`, 
             line: opModuleBasic.errorLine(),
-            function: functionName,
-            details: {
-                header: modalHeader,
-                content: modalContent
-            }
+            function: functionName
         }, debug )
 
     } catch( errorResponse ) {

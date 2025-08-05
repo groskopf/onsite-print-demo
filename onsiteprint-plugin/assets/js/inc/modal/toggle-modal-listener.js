@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Toggle Modal Listener Script
  *  Functions Used to Open and Close the Modal Window.
- ?  Updated: 2025-07-29 - 03:29 (Y:m:d - H:i)
- ?  Info: Added new Modal Function.
+ ?  Updated: 2025-08-04 - 04:31 (Y:m:d - H:i)
+ ?  Info: Changed how the Modal Toggle Listener is used.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -15,11 +15,12 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../basic.js'
+import { opChangeModalContent } from './change-modal-content.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Modal Toggle Listener
 --------------------------------------------------------------------------- */
-export function opModalToggleListener( debug, button, state, modalFunction ) {
+export function opModalToggleListener( debug, button, state, header, main ) {
 
     try {
 
@@ -32,90 +33,49 @@ export function opModalToggleListener( debug, button, state, modalFunction ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Set Modal Toggle Listener to the Button Element.
-        opModuleBasic.opListener( 'click', button, async ( event ) => {
+        opModuleBasic.opListener( 'click', button, async () => {
 
             ///// Start the Console Log Group.
             if ( debug ) console.group( `opModalToggleListener( ${ state } )` )
 
-            ///// Get the Elements.
-            let container = event.target.closest( '.wp-block-post-content' )
-            let modalElement = container.querySelector( '.op-modal')
-            let modalHeader = modalElement.querySelector( '.op-modal-header')
-            let modalContent = modalElement.querySelector( '.op-modal-content')
+            ///// Get the Modal Element.
+            let modal = button.closest( '[class*="op-block"]' ).querySelector( '.op-modal')
 
-            try {
+            ///// Create the Participant.
+            const modalContentResponse = opChangeModalContent( debug, modal, state, header, main )
 
-                ///// Check if there is a Modal Function.
-                if ( modalFunction ) {
+            ///// Validate the Response from the Modal Content.
+            if ( modalContentResponse.error !== false ) {
 
-                    ///// Get the Modal Response.
-                    const modalResponse = await modalFunction
+                ///// Add Error Class to the Modal.
+                modal.classList.add( 'op-error' )
 
-                    ///// Validate the Modal Response.
-                    if ( modalResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
-                        message: `Something went wrong when in the Modal Function!`,
-                        line: opModuleBasic.errorLine(),
-                        function: functionName,
-                        modalFunction: modalResponse.response.function
-                    } )
+                ///// Open the Modal.
+                modal.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
-                    ///// Check the State.
-                    if ( state ) {
-
-                        ///// Get the Modal Header and Content.
-                        let header = modalResponse.response.details.header
-                        let content = modalResponse.response.details.content
-
-                        ///// Check if the Modal Header or Content is missing.
-                        if ( ! header || ! content ) throw opModuleBasic.opReturnResponse( true, 404, { 
-                            message: `Could not find the Modal Header or Content!`,
-                            line: opModuleBasic.errorLine(),
-                            function: functionName
-                        } )
-
-                        ///// Add the Header and the Content to the Modal.
-                        modalHeader.querySelector( '.op-header-content').append( header )
-                        modalContent.append( content )
-
+                ///// Console Log if Debug.
+                if ( debug ) console.error( 'ERROR:', { 
+                    message: `Something went wrong when changing the Modal Content!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName,
+                    details: {
+                        element: button,
+                        state: state
                     }
+                } )
 
-                }
+            } else {
 
-                ///// Check the State.
-                if ( state ) {
-
-                    ///// Open the Modal.
-                    container.classList.add( 'op-modal-active' )
-
-                } else {
-
-                    ///// Remove the Header and the Content from the Modal.
-                    modalHeader.querySelector( '.op-header-content').innerHTML = ''
-                    modalContent.innerHTML = ''
-
-                    ///// Close the Modal.
-                    container.classList.remove( 'op-modal-active' )
-
-                }
-
-                ///// Console Log Success if Debug.
+                ///// Console Log if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 
                     message: `No errors were found in the Modal Toggle Listener!`,
                     line: opModuleBasic.errorLine(),
-                    function: functionName
+                    function: functionName,
+                    details: {
+                        element: button,
+                        state: state
+                    }
                 } )
-
-            } catch( errorListenerResponse ) {
-
-                ///// Add Error Class to the Modal.
-                modalElement.classList.add( 'op-error' )
-
-                ///// Open the Modal.
-                container.classList.add( 'op-modal-active' )
-
-                ///// Log Error Details in the Console.
-                if ( debug ) console.error( 'ERROR:', errorListenerResponse )
-
             }
 
             ///// End the Console Log Group.
@@ -132,7 +92,7 @@ export function opModalToggleListener( debug, button, state, modalFunction ) {
                 element: button,
                 state: state
             }
-        } )
+        })
 
     } catch( errorResponse ) {
 

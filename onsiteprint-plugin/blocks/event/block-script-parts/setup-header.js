@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-07-29 - 03:43 (Y:m:d - H:i)
- ?  Info: Added new Modal Toggle Listener to the CSV Download Button.
+ ?  Updated: 2025-08-04 - 04:31 (Y:m:d - H:i)
+ ?  Info: Changed how the Modal Toggle Listener is used.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -16,7 +16,6 @@
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
-import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
 import { opModalCreateParticipant } from './modals/modal-create-participant.js'
 import * as opModuleParticipantListeners from './participant-listeners.js'
 
@@ -36,19 +35,14 @@ export function opSetupHeader( debug, block, eventId, columnAmount ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
+        ///// Add Create Participant Modal.
+        opModalCreateParticipant( debug, block, eventId )
+            
         ///// Get the Button Elements.
-        let cancelButton = block.querySelector( '.op-button-cancel' )
-        let addButton = block.querySelector( '.op-button-add' )
         let csvButton = block.querySelector( '.op-button-csv' )
 
-        ///// Set Modal Toggle Listener to the Modal Close Button.
-        opModalToggleListener( debug, cancelButton, false )
-
-        ///// Set Modal Toggle Listener to the Add Participant Button.
-        opModalToggleListener( debug, addButton, true, opModalCreateParticipant( debug, block, eventId ) )
-
         ///// Set Modal Toggle Listener to the CSV Download Button.
-        opModalToggleListener( debug, csvButton, true, opModuleParticipantListeners.opDownloadCSVFileListener( debug, block, csvButton, eventId ) )
+        //opModalToggleListener( debug, csvButton, true, opModuleParticipantListeners.opDownloadCSVFileListener( debug, block, csvButton, eventId ) )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
