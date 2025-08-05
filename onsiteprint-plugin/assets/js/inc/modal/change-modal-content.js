@@ -71,8 +71,9 @@ export function opChangeModalContent( debug, modalElement, state, header, main )
             modalHeader.innerHTML = ''
             modalMain.innerHTML = ''
 
-            ///// Close the Modal.
+            ///// Close the Modal by removing Classes.
             container.classList.remove( 'op-modal-active' )
+            modalElement.classList.remove( 'op-error' )
 
         }
 
