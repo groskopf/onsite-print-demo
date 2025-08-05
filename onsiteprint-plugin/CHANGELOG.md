@@ -241,6 +241,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script `Change Modal Content`.
+
+    [JS | change-modal-content.js](assets/js/inc/modal/change-modal-content.js)
+
+    ---
+
 - Changed the `Modal Visibility`.
 - Added the `old style` to older `Modals`.
 - Changed the `position: relative` to `main` instead of `.wp-block-post-content`.
