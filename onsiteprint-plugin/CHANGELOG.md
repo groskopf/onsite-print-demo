@@ -125,7 +125,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new `Reload Button` in the modal.php.
-- Added new `Cancel Error Button` and moved Close Button.
+- Added new `Cancel Error Button` and moved `Close Button`.
 
     [EB | modal.php](blocks/event/block-template-parts/modal.php)
 
@@ -236,6 +236,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Script `Update Event`.
 
     [JS | update-event.js](assets/js/inc/event/update-event.js)
+
+    ---
+
+- Added new Script `Modal`.
+
+    [JS | modal.js](assets/js/inc/modal/modal.js)
 
     ---
 
