@@ -19,6 +19,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new `footer .op-message` in the `Participant Row - Info (Event Block)`.
 - Added `Participant Skeleton` and `CSS animation`.
 - Changed the CSS in the `Modal Window` of `Add Participant`.
+- Changed `op-button-cancel` to `op-button-close` in the Modal Window.
     
     [EB | block-style.css](blocks/event/block-style.css)
 
@@ -44,8 +45,8 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Script `Setup Header` *(NB: The function is under construction)*.
 - Added `opModalToggleListener()` and `opCreateParticipantListener()`.
 - Added the `Column Input Listener` Function.
-- Added new `Modal Function` to the `Modal Toggle Listener`.
 - Added new `Modal Toggle Listener` to the `CSV Download Button`.
+- Added new `Modal Toggle Listener` to new `Cancel Error Button`.
     
     [EB | setup-header.js](blocks/event/block-script-parts/setup-header.js)
 
@@ -117,12 +118,14 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the Position of `Form Validation Element`.
 - Added class `.op-col-input` to the `Column Input Elements`.
 - Removed the `onclick` in the Save Participant Button, `.op-button-save`.
+- Added new `Close Button`.
 
     [EB | create-participant-template.php](blocks/event/block-template-parts/templates/create-participant-template.php)
 
     ---
 
-- Added new `Error Button` in the modal.php.
+- Added new `Reload Button` in the modal.php.
+- Added new `Cancel Error Button` and moved Close Button.
 
     [EB | modal.php](blocks/event/block-template-parts/modal.php)
 

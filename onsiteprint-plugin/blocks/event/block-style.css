@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-07-28 - 03:36 (Y:m:d - H:i)
- ?  Info: Changed the Form Validation in the Modal Window of Add Participant.
+ ?  Updated: 2025-08-06 - 04:02 (Y:m:d - H:i)
+ ?  Info: Changed 'op-button-cancel' to 'op-button-close' in the Modal Window.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -785,18 +785,18 @@
     padding-bottom: 0.6rem;
 }
 
-.op-block__event .op-modal .op-modal-header .op-button-cancel {
+.op-block__event .op-modal .op-modal-header .op-button-close {
     position: absolute;
     top: 0;
     right: 0;
 }
 
-.op-block__event .op-modal .op-modal-header .op-button-cancel:not( :hover ) {
+.op-block__event .op-modal .op-modal-header .op-button-close:not( :hover ) {
     background-color: var(--wp--preset--color--white);
     border-color: var(--wp--preset--color--primary-20);
 }
 
-.op-block__event .op-modal .op-modal-header .op-button-cancel:is( .op-button-size-small ) .op-icon::before {
+.op-block__event .op-modal .op-modal-header .op-button-close:is( .op-button-size-small ) .op-icon::before {
     font-size: 2rem;
 }
 

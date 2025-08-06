@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Modal Part Name: Create Participant Template
- ?  Updated: 2025-07-28 - 03:42 (Y:m:d - H:i)
- ?  Info: Added "disabled" to the Save Button.
+ ?  Updated: 2025-08-06 - 05:08 (Y:m:d - H:i)
+ ?  Info: Added new Close Button.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
@@ -12,6 +12,11 @@
     
     <div class="op-header-content__inner">
         
+        <button type="button" class="op-button-close op-cancel_create-participant op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+            <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
+            <span class="op-button-title"><?= esc_attr( $modal['cancel_button'] ) ?></span>
+        </button>
+
         <h3 class="op-modal-title" data-icon="user">
             <span class="op-icon" role="img" aria-label="User Icon"></span>
             <span class="op-text"><?= esc_attr( $modal['title'] ) ?></span>
