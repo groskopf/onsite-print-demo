@@ -99,8 +99,15 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Script `Modal - Create Participant`.
 - Changed how the `Modal Toggle Listener` is used.
+- Added new `Modal Clear Form Listener`.
 
     [EB | modal-create-participant.js](blocks/event/block-script-parts/modals/modal-create-participant.js)
+
+    ---
+
+- Added new Script `Modal - Clear Form Listener`.
+
+    [EB | modal-clear-form-listener.js](blocks/event/block-script-parts/modals/modal-clear-form-listener.js)
 
     ---
 
