@@ -379,10 +379,10 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 ///// Close the Modal.
                 block.closest( '.wp-block-post-content' ).classList.remove( 'op-modal-active' )
                 
-                ///// Remove the Validation from the Form.
+                ///// Clear the Form Values and the Validation.
                 let inputElements = formElement.querySelectorAll( 'input' )
                 block.querySelector( '.op-modal' ).removeAttribute( 'data-validation' )
-                block.querySelector( '.op-modal textarea' ).value = ''
+                formElement.querySelector( 'textarea' ).value = ''
                 inputElements.forEach( inputElement => {
                     inputElement.value = ''
                 } )

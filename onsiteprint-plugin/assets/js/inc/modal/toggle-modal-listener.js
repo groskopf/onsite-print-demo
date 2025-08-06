@@ -41,7 +41,7 @@ export function opModalToggleListener( debug, button, state, header, main ) {
             ///// Get the Modal Element.
             let modal = button.closest( '[class*="op-block"]' ).querySelector( '.op-modal')
 
-            ///// Create the Participant.
+            ///// Get Response from the Modal Content.
             const modalContentResponse = opChangeModalContent( debug, modal, state, header, main )
 
             ///// Validate the Response from the Modal Content.
