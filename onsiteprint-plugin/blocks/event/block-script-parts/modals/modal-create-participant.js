@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Modal - Create Participant
  *  Creating the Create Participant Content to the Modal in the Event Block.
- ?  Updated: 2025-08-07 - 04:18 (Y:m:d - H:i)
- ?  Info: Changed the Query Selector to the Add Button.
+ ?  Updated: 2025-08-07 - 05:08 (Y:m:d - H:i)
+ ?  Info: Added Modal ID.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -47,9 +47,10 @@ export function opModalCreateParticipant( debug, block, eventId ) {
         ///// Get the Modal Elements.
         let addButton = block.querySelector( '.op-button[name="add-participant"]' )
         let modalElement = block.querySelector( '.op-modal' )
+        let modalId = modalTemplateElement.getAttribute( 'id' ).replace("op-block", "op-modal").slice(0, -9)
 
         ///// Set Modal Toggle Listener to the Add Participant Button.
-        opModalToggleListener( debug, addButton, true, modalHeader, modalMain ) 
+        opModalToggleListener( debug, addButton, true, modalHeader, modalMain, modalId ) 
 
         ///// Set Modal Clear Form Listener to the Modal Close Button.
         opModalClearFormListener( debug, modalElement, cancelButton )
@@ -57,7 +58,7 @@ export function opModalCreateParticipant( debug, block, eventId ) {
         ///// Set Column Input Listener to All of the Column Input Elements in the Modal Form.
         columnInputElements.forEach( inputElement => {
             opColumnInputListener( debug, block, inputElement, saveButton )
-        })
+        } )
 
         ///// Set Create Participant Listener to the Modal Form Button.
         opCreateParticipantListener( debug, block, saveButton, eventId, formElement )
