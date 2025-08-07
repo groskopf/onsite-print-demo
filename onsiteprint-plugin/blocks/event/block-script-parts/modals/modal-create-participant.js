@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Modal - Create Participant
  *  Creating the Create Participant Content to the Modal in the Event Block.
- ?  Updated: 2025-08-06 - 04:15 (Y:m:d - H:i)
- ?  Info: Added new Modal Clear Form Listener.
+ ?  Updated: 2025-08-07 - 04:18 (Y:m:d - H:i)
+ ?  Info: Changed the Query Selector to the Add Button.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -16,9 +16,8 @@
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../../assets/js/inc/basic.js'
 import { opModalToggleListener } from '../../../../assets/js/inc/modal/toggle-modal-listener.js'
-import { opColumnInputListener, opCreateParticipantListener, opDownloadCSVFileListener } from '../participant-listeners.js'
+import { opColumnInputListener, opCreateParticipantListener } from '../participant-listeners.js'
 import { opModalClearFormListener } from './modal-clear-form-listener.js'
-
 
 /* ------------------------------------------------------------------------
  #  2. Function: Modal - Create Participant
@@ -46,7 +45,7 @@ export function opModalCreateParticipant( debug, block, eventId ) {
         let cancelButton = modal.querySelector( '.op-cancel_create-participant' )
 
         ///// Get the Modal Elements.
-        let addButton = block.querySelector( '.op-button-add' )
+        let addButton = block.querySelector( '.op-button[name="add-participant"]' )
         let modalElement = block.querySelector( '.op-modal' )
 
         ///// Set Modal Toggle Listener to the Add Participant Button.
