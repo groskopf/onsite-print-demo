@@ -159,6 +159,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script and Function, `Listeners Script`.
+    
+    [JS | listeners.js](assets/js/inc/listeners.js)
+
+    ---
+
 - Added new Script `Get Booking from Session`.
     
     [JS | get-booking-from-session.js](assets/js/inc/booking/get-booking-from-session.js)
