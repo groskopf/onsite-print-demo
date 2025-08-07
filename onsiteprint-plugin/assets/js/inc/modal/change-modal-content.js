@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Change Modal Content Script
  *  Functions Used to Open and Close the Modal Window.
- ?  Updated: 2025-08-04 - 03:48 (Y:m:d - H:i)
- ?  Info: Added new Script, Change Modal Content.
+ ?  Updated: 2025-08-07 - 05:06 (Y:m:d - H:i)
+ ?  Info: Added Modal ID.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -19,7 +19,7 @@ import * as opModuleBasic from '../basic.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Change Modal Content
 --------------------------------------------------------------------------- */
-export function opChangeModalContent( debug, modalElement, state, header, main ) {
+export function opChangeModalContent( debug, modalElement, state, header, main, id ) {
 
     try {
 
@@ -30,6 +30,9 @@ export function opChangeModalContent( debug, modalElement, state, header, main )
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
+            
+        ///// Set Modal ID.
+        if ( id ) modalElement.setAttribute( 'id', id )
 
         ///// Get the Elements.
         let container = modalElement.closest( '.wp-block-post-content' )
@@ -66,6 +69,9 @@ export function opChangeModalContent( debug, modalElement, state, header, main )
             }
 
         } else {
+
+            ///// Remove Modal ID.
+            modalElement.removeAttribute( 'id' )
 
             ///// Remove the Header and the Main from the Modal.
             modalHeader.innerHTML = ''

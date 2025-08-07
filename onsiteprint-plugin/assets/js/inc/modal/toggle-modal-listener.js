@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Toggle Modal Listener Script
  *  Functions Used to Open and Close the Modal Window.
- ?  Updated: 2025-08-04 - 04:31 (Y:m:d - H:i)
- ?  Info: Changed how the Modal Toggle Listener is used.
+ ?  Updated: 2025-08-07 - 05:06 (Y:m:d - H:i)
+ ?  Info: Added Modal ID.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -20,7 +20,7 @@ import { opChangeModalContent } from './change-modal-content.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Modal Toggle Listener
 --------------------------------------------------------------------------- */
-export function opModalToggleListener( debug, button, state, header, main ) {
+export function opModalToggleListener( debug, button, state, header, main, id ) {
 
     try {
 
@@ -42,7 +42,7 @@ export function opModalToggleListener( debug, button, state, header, main ) {
             let modal = button.closest( '[class*="op-block"]' ).querySelector( '.op-modal')
 
             ///// Get Response from the Modal Content.
-            const modalContentResponse = opChangeModalContent( debug, modal, state, header, main )
+            const modalContentResponse = opChangeModalContent( debug, modal, state, header, main, id )
 
             ///// Validate the Response from the Modal Content.
             if ( modalContentResponse.error !== false ) {
