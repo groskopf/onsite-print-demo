@@ -21,6 +21,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the CSS in the `Modal Window` of `Add Participant`.
 - Changed `op-button-cancel` to `op-button-close` in the Modal Window.
 - Added `z-index` to `.op-filter-options`.
+- Removed `.op-input-wrapper:last-child` and changed padding in `.op-modal-overflow__inner`.
     
     [EB | block-style.css](blocks/event/block-style.css)
 

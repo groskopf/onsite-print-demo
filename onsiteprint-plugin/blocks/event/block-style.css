@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-08-07 - 02:02 (Y:m:d - H:i)
- ?  Info: Added 'z-index' to '.op-filter-options'.
+ ?  Updated: 2025-08-020 - 01:42 (Y:m:d - H:i)
+ ?  Info: Removed '.op-input-wrapper:last-child' and changed padding in '.op-modal-overflow__inner'.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -755,7 +755,7 @@
 
 .op-block__event .op-modal .op-modal-overflow .op-modal-overflow__inner {
     overflow: auto;
-    padding: 1rem;
+    padding: 1.6rem 1rem;
 }
 
 .op-block__event .op-modal .op-modal-header .op-header-content__inner {
@@ -804,6 +804,10 @@
     font-size: 2rem;
 }
 
+.op-block__event .op-modal .op-form {
+    margin-top: -0.6rem;
+} 
+
 .op-block__event .op-modal .op-fieldset__inner {
     gap: 2rem;
 }
@@ -820,10 +824,6 @@
 .op-block__event[ data-column-count="4" ] .op-modal .op-col-input:where( :nth-child(1), :nth-child(2), :nth-child(3), :nth-child(4) ), 
 .op-block__event[ data-column-count="5" ] .op-modal .op-col-input:where( :nth-child(1), :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(5) ) {
     display: flex;
-}
-
-.op-block__event .op-modal .op-input-wrapper:last-child {
-    margin-bottom: 0.6rem;
 }
 
 .op-block__event .op-modal[ data-validation="2" ] .op-col-input .op-label-title {
