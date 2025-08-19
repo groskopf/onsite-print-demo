@@ -20,6 +20,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added `Participant Skeleton` and `CSS animation`.
 - Changed the CSS in the `Modal Window` of `Add Participant`.
 - Changed `op-button-cancel` to `op-button-close` in the Modal Window.
+- Added `z-index` to `.op-filter-options`.
     
     [EB | block-style.css](blocks/event/block-style.css)
 

@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-08-06 - 04:02 (Y:m:d - H:i)
- ?  Info: Changed 'op-button-cancel' to 'op-button-close' in the Modal Window.
+ ?  Updated: 2025-08-07 - 02:02 (Y:m:d - H:i)
+ ?  Info: Added 'z-index' to '.op-filter-options'.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -186,6 +186,7 @@
 
 .op-block__event [id*=__filter-button]:checked ~ .op-filter-options {
     display: flex;
+    z-index: 2;
 }
 
 .op-block__event .op-filter-options .op-filter-input-label {
@@ -752,7 +753,7 @@
     bottom: 1rem;
 }
 
-.op-block__event .op-modal .op-modal-overflow__inner {
+.op-block__event .op-modal .op-modal-overflow .op-modal-overflow__inner {
     overflow: auto;
     padding: 1rem;
 }
@@ -773,6 +774,9 @@
 
 .op-block__event .op-modal .op-modal-header .op-modal-title .op-icon {
     color: var(--wp--preset--color--primary-100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .op-block__event .op-modal .op-modal-header .op-modal-description {
