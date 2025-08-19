@@ -278,6 +278,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added the `old style` to older `Modals`.
 - Changed the `position: relative` to `main` instead of `.wp-block-post-content`.
 - Added `--fa-icon-play`.
+- Added new `Dropdown (#1.b)`.
 
     [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 
