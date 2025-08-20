@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-08-20 - 03:24 (Y:m:d - H:i)
- ?  Info: Changed the Modal variable.
+ ?  Updated: 2025-08-20 - 03:37 (Y:m:d - H:i)
+ ?  Info: Added new Download Files Template.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -45,6 +45,7 @@
     <div class="op-modal__templates">
         
         <?php require( __DIR__ . '/templates/create-participant-template.php' ); ?>
+        <?php require( __DIR__ . '/templates/download-files-template.php' ); ?>
 
     </div><!-- .op-modal__templates -->
 </div><!-- .op-modal -->

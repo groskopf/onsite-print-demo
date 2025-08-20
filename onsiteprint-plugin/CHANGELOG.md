@@ -137,9 +137,16 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added New `Download Files Template Part`.
+
+    [EB | download-files-template.php](blocks/event/block-template-parts/templates/download-files-template.php)
+
+    ---
+
 - Added new `Reload Button` in the modal.php.
 - Added new `Cancel Error Button` and moved `Close Button`.
 - Changed the Modal variable.
+- Added new `Download Files Template Part`.
 
     [EB | modal.php](blocks/event/block-template-parts/modal.php)
 
