@@ -94,6 +94,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added the `Create Participant Listener` Function.
 - Added the `Column Input Listener` Function.
 - Added the `Download CSV File Listener` Function.
+- Added 'opChangeModalContent()' to the `Create Participant Listener` Function.
 
     [EB | participant-listeners.js](blocks/event/block-script-parts/participant-listeners.js)
 

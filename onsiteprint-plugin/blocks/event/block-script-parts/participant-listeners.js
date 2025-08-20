@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-07-29 - 04:01 (Y:m:d - H:i)
- ?  Info: Added the Download CSV File Listener Function.
+ ?  Updated: 2025-08-20 - 02:41 (Y:m:d - H:i)
+ ?  Info: Added 'opChangeModalContent()' to the 'opCreateParticipantListener()'.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -24,6 +24,7 @@
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleParticipant from '../../../assets/js/inc/participant/participant.js'
+import { opChangeModalContent } from '../../../assets/js/inc/modal/change-modal-content.js'
 import { opAddParticipant } from './add-participant.js'
 
 /* ------------------------------------------------------------------------
@@ -375,10 +376,8 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                     line: opModuleBasic.errorLine(),
                     function: functionName
                 } )
-               
-                ///// Close the Modal.
-                block.closest( '.wp-block-post-content' ).classList.remove( 'op-modal-active' )
-                
+
+
                 ///// Clear the Form Values and the Validation.
                 let inputElements = formElement.querySelectorAll( 'input' )
                 block.querySelector( '.op-modal' ).removeAttribute( 'data-validation' )
@@ -389,6 +388,9 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
 
                 ///// Add "disabled" to the Create Participant Button.
                 button.disabled = true
+
+                ///// Close the Modal.
+                opChangeModalContent( debug, block.querySelector( '.op-modal' ), false )
 
                 ///// Get the Participant Container.
                 let participantContainer = block.querySelector( '.op-participant-rows' )
@@ -445,7 +447,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
             ///// End the Console Log Group.
             if ( debug ) console.groupEnd()
 
-        })
+        } )
 
         ///// Console Log Success if Debug.
         if ( debug ) console.log( 'SUCCESS:', { 
