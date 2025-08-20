@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2025-07-29 - 03:46 (Y:m:d - H:i)
- ?  Info: Removed the onclick in the .op-button-csv.
+ ?  Updated: 2025-08-20 - 03:32 (Y:m:d - H:i)
+ ?  Info: Added new Dropdown Element.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -66,10 +66,9 @@
     <?php } ?>
 
     <div class="op-participant-col-info">
-        <button type="button" class="op-button-add op-button op-button-size-medium op-button-style-outline" data-color="primary-90" data-icon="user" data-icon-position="left" data-title-visibility="1">
+        <p class="op-col-user" data-icon="user">
             <span class="op-icon" role="img" aria-label="User Icon"></span>
-            <span class="op-button-title"><?= esc_attr( $header['add_participant'] ) ?></span>
-        </button>
+        </p>
         <p class="op-col-line-1"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">1</span></p>
         <p class="op-col-line-2"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">2</span></p>
         <p class="op-col-line-3"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">3</span></p>
@@ -81,15 +80,21 @@
         <p class="op-col-amount-of-prints" data-icon="print">
             <span class="op-icon" role="img" aria-label="Printer Icon"></span>
         </p>
-        <div class="op-download-menu op-flex-row">
-            <button class="op-button op-button-csv op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-csv" data-icon-position="right" data-title-visibility="1">
-                <span class="op-icon" role="img" aria-label="CSV File Icon"></span>
-                <span class="op-button-title"><?= esc_attr( $header['download_csv'] ) ?></span>
+        <div class="op-dropdown-menu" data-dropdown-position="right">
+            <button name="dropdown" type="button" class="op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="ellipsis" data-icon-position="left">
+                <span class="op-icon" role="img" aria-label="Ellipsis Icon"></span>
+                <span class="op-button-title">Genveje</span>
             </button>
-            <button class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-pdf" data-icon-position="right" data-title-visibility="1" onclick="opDownloadEventParticipants('pdf', <?= esc_attr( $options['event_id'] ) ?>)">
-                <span class="op-icon" role="img" aria-label="PDF File Icon"></span>
-                <span class="op-button-title"><?= esc_attr( $header['download_pdf'] ) ?></span>
-            </button>
+            <div class="op-dropdown">
+                <button name="add-participant" type="button" class="op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="user-plus" data-icon-position="left">
+                    <span class="op-icon" role="img" aria-label="User Plus Icon"></span>
+                    <span class="op-button-title"><?= esc_attr( $header['add_participant'] ) ?></span>
+                </button>
+                <button name="download" type="button" class="op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="download" data-icon-position="left">
+                    <span class="op-icon" role="img" aria-label="Download Icon"></span>
+                    <span class="op-button-title">Hent liste</span>
+                </button>
+            </div>
         </div>
     </div>
 
