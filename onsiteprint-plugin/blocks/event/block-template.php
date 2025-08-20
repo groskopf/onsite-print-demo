@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-07-27 - 04:52 (Y:m:d - H:i)
- ?  Info: Added new Error variable in the Modal (error_button), used in /modal.php (Event).
+ ?  Updated: 2025-08-20 - 03:19 (Y:m:d - H:i)
+ ?  Info: Changed the Modal variable.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -33,18 +33,26 @@ $header = array(
     'search_message'    => get_field( $path . 'header_search_message' ) ?: 'Search for Participants here...',
     'search_filter'     => get_field( $path . 'header_search_filter' ) ?: 'All Columns',
     'column'            => get_field( $path . 'header_columns_col' ) ?: 'Column',
-    'download_csv'      => get_field( $path . 'header_columns_download_csv' ) ?: 'Download CSV',
-    'download_pdf'      => get_field( $path . 'header_columns_download_pdf' ) ?: 'Download PDF',
     'add_participant'   => get_field( $path . 'header_columns_add_participant' ) ?: 'Add new Participant',
 );
 
 $modal = array(
-    'title'             => get_field( $path . 'modal_title' ) ?: 'Add new Participant',
-    'description'       => get_field( $path . 'modal_description' ) ?: 'Below you can enter the information about the participant.',
-    'messages_error'    => get_field( $path . 'modal_messages_error' ) ?: 'At least one Column must be Filled!',
-    'cancel_button'     => get_field( $path . 'modal_cancel_button' ) ?: 'Cancel',
-    'add_button'        => get_field( $path . 'modal_add_button' ) ?: 'Add new Participant',
-    'note'              => get_field( $path . 'modal_note' ) ?: 'Extra Notes',
+    'cp_path'           => $path . 'modal_create_participant_',
+    'df_path'           => $path . 'modal_download_files_',
+    'cp'                => array(
+        'title'             => get_field( $modal[0] . 'title' ) ?: 'Add new Participant',
+        'description'       => get_field( $modal[0] . 'description' ) ?: 'Below you can enter the information about the participant.',
+        'messages_error'    => get_field( $modal[0] . 'messages_error' ) ?: 'At least one Column must be Filled!',
+        'add_button'        => get_field( $modal[0] . 'add_button' ) ?: 'Add new Participant',
+        'note'              => get_field( $modal[0] . 'note' ) ?: 'Extra Notes',
+    ),
+    'df'                => array(
+        'title'             => get_field( $modal[1] . 'title' ) ?: 'Download List',
+        'description'       => get_field( $modal[1] . 'description' ) ?: 'Below you can download the Participant List in CSV or PDF format.',
+        'download_csv'      => get_field( $modal[1] . 'download_csv_button' ) ?: 'CSV File',
+        'download_pdf'      => get_field( $modal[1] . 'download_pdf_button' ) ?: 'PDF File',
+    ),
+    'close_button'      => get_field( $path . 'modal_close_button' ) ?: 'Close',
     'error_title'       => get_field( $path . 'modal_error_title' ) ?: 'Something went wrong!',
     'error_description' => get_field( $path . 'modal_error_description' ) ?: 'Please try again and contact us if the error continues to persist.',
     'error_button'      => get_field( $path . 'modal_error_button' ) ?: 'Reload the page',

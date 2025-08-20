@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-08-06 - 04:06 (Y:m:d - H:i)
- ?  Info: Added new Cancel Error Button and moved Close Button.
+ ?  Updated: 2025-08-20 - 03:24 (Y:m:d - H:i)
+ ?  Info: Changed the Modal variable.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -18,7 +18,7 @@
 
                     <button type="button" class="op-button-close op-cancel_error op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
                         <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
-                        <span class="op-button-title"><?= esc_attr( $modal['cancel_button'] ) ?></span>
+                        <span class="op-button-title"><?= esc_attr( $modal['close_button'] ) ?></span>
                     </button>
 
                     <h3 class="op-modal-title" data-icon="circle-exclamation">

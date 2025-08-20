@@ -30,8 +30,9 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added New `Error Title` and `Error Description` to Modal, used in /modal.php.
 - Changed the `Error Messages` in the Modal, used in /modal.php.
 - Added new `Error Button` to Modal, used in /modal.php.
+- Changed the Modal variable.
     
-    [EB | block-template.js](blocks/event/block-template.php)
+    [EB | block-template.php](blocks/event/block-template.php)
 
     ---
 
@@ -130,6 +131,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added class `.op-col-input` to the `Column Input Elements`.
 - Removed the `onclick` in the Save Participant Button, `.op-button-save`.
 - Added new `Close Button`.
+- Changed the Modal variable.
 
     [EB | create-participant-template.php](blocks/event/block-template-parts/templates/create-participant-template.php)
 
@@ -137,6 +139,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new `Reload Button` in the modal.php.
 - Added new `Cancel Error Button` and moved `Close Button`.
+- Changed the Modal variable.
 
     [EB | modal.php](blocks/event/block-template-parts/modal.php)
 
