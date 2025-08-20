@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-08-20 - 01:44 (Y:m:d - H:i)
- ?  Info: Added new Dropdown (#1.b).
+ ?  Updated: 2025-08-20 - 03:28 (Y:m:d - H:i)
+ ?  Info: Added 'transform' to User Plus Icon.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -249,6 +249,7 @@ html {
 
 [data-icon="user-plus"] .op-icon::before {
 	content: var(--fa-icon-user-plus);
+    transform: scaleX(-1)
 }
 
 [data-icon="lock"] .op-icon::before {

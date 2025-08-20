@@ -283,6 +283,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the `position: relative` to `main` instead of `.wp-block-post-content`.
 - Added `--fa-icon-play`.
 - Added new `Dropdown (#1.b)`.
+- Added `transform` to User Plus Icon.
 
     [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 
