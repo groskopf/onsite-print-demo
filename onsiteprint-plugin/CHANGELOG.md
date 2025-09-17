@@ -4,13 +4,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ---
 
-### 1.2.2^ (2025-05-16) - New Event Block
+### 1.2.3 (2025-08-20) - New Event Block *(NB: Under Construction)*
 
-- Changed the Block Script in the `Event Block` *(NB: The function is under construction)*.
+- Changed the Block Script in the `Event Block`.
 - Changed the `Import` Functions.
 - Added new Function, `opSetupHeader()`.
 - Added `Event ID` to `opSetupHeader()`.
-    
+
     [EB | block-script.js](blocks/event/block-script.js)
 
     ---
@@ -22,7 +22,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed `op-button-cancel` to `op-button-close` in the Modal Window.
 - Added `z-index` to `.op-filter-options`.
 - Removed `.op-input-wrapper:last-child` and changed padding in `.op-modal-overflow__inner`.
-    
+
     [EB | block-style.css](blocks/event/block-style.css)
 
     ---
@@ -31,7 +31,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the `Error Messages` in the Modal, used in /modal.php.
 - Added new `Error Button` to Modal, used in /modal.php.
 - Changed the Modal variable.
-    
+
     [EB | block-template.php](blocks/event/block-template.php)
 
     ---
@@ -40,17 +40,18 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function, `opAddParticipant()`.
 - Added new Function, `opSetupHeader()`.
 - Added new Script, `participant-listeners.js`.
-    
+
     [EB | parts.js](blocks/event/block-script-parts/parts.js)
 
     ---
 
-- Added new Script `Setup Header` *(NB: The function is under construction)*.
+- Added new Script `Setup Header`.
 - Added `opModalToggleListener()` and `opCreateParticipantListener()`.
 - Added the `Column Input Listener` Function.
 - Added new `Modal Toggle Listener` to the `CSV Download Button`.
 - Added new `Modal Toggle Listener` to new `Cancel Error Button`.
-    
+- Added new `Modal Toggle Listener` to new `Download Button`.
+
     [EB | setup-header.js](blocks/event/block-script-parts/setup-header.js)
 
     ---
@@ -59,7 +60,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 - Changed the `Import` Functions.
 - Added New `Participant Loop` with `Fading (CSS Animation)`.
-    
+
     [EB | setup-list.js](blocks/event/block-script-parts/setup-list.js)
 
     ---
@@ -169,57 +170,57 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Changed the `opReturnResponse` Function with new `Debug Response`.
 - Added the same lines in `opTimeConverter()` as in `opTimeConverter()` from `elements.js`.
-    
+
     [JS | basic.js](assets/js/inc/basic.js)
 
     ---
 
 - Added new Script and Function, `Listeners Script`.
-    
+
     [JS | listeners.js](assets/js/inc/listeners.js)
 
     ---
 
 - Added new Script `Get Booking from Session`.
-    
+
     [JS | get-booking-from-session.js](assets/js/inc/booking/get-booking-from-session.js)
 
     ---
 
 - Changed the API Folder `fastapi` to `api`.
-    
+
     [JS | api](assets/js/inc/api)
-    
+
     ---
 
 - Changed the API Script `fastAPI.js` to `get-api-date.js`.
 - Changed the `Approved Response`.
-    
+
     [JS | get-api-data.js](assets/js/inc/api/get-api-data.js)
 
     ---
 
 - Added new Script `Get Local Storage Data`.
-    
+
     [JS | get-local-storage-data.js](assets/js/inc/api/get-local-storage-data.js)
 
     ---
 
 - Added the `Local Storage Data` and the `Filter` of the `Event List`.
-    
+
     [JS | get-event.js](assets/js/inc/event/get-event.js)
 
     ---
 
 - Added new Function, `opGetTemplate()`.
-    
+
     [JS | template.js](assets/js/inc/template/template.js)
 
     ---
 
 - Added new Script `Get Template`.
 - Added the `Local Storage Data` and the `Filter` of the `Template List`.
-    
+
     [JS | get-template.js](assets/js/inc/template/get-template.js)
 
     ---
@@ -298,7 +299,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Removed one of the `opToggleActive()` in the `Cancel Buttons`.
-    
+
     [ECB | step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
 
     ---
