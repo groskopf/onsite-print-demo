@@ -37,6 +37,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added new `QR Code Column` in `opAddGridToElement()`.
+- Added new `QR Code Column` in `createPrintExample()`.
 
     [ECB | steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
 

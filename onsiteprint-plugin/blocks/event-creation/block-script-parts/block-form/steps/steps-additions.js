@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-09-19 - 02:26 (Y:m:d - H:i)
- ?  Info: Added new QR Code Column in opAddGridToElement().
+ ?  Updated: 2025-09-19 - 02:56 (Y:m:d - H:i)
+ ?  Info: Added new QR Code Column in createPrintExample().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -364,13 +364,13 @@ export async function createPrintExample( debug, templateId ) {
             ///// The Body Input to Request Options.
             let bodyInput = JSON.stringify(
                 {
-                "line_1": ( 1 <= columnAmount ) ? lines[0] : "",
-                "line_2": ( 2 <= columnAmount ) ? lines[1] : "",
-                "line_3": ( 3 <= columnAmount ) ? lines[2] : "",
-                "line_4": ( 4 <= columnAmount ) ? lines[3] : "",
-                "line_5": ( 5 <= columnAmount ) ? lines[4] : "",
-                "image_name": imageFilename,
-                "qr_code": ""
+                    "line_1": ( 1 <= columnAmount ) ? lines[0] : "",
+                    "line_2": ( 2 <= columnAmount ) ? lines[1] : "",
+                    "line_3": ( 3 <= columnAmount ) ? lines[2] : "",
+                    "line_4": ( 4 <= columnAmount ) ? lines[3] : "",
+                    "line_5": ( 5 <= columnAmount ) ? lines[4] : "",
+                    "image_name": imageFilename,
+                    "qr_code": ( layout.includes("Q") ) ? lines[ Number( columnAmount ) ] : ""
                 }
             )
 
