@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-09-19 - 04:45 (Y:m:d - H:i)
- ?  Info: Added opGetTemplate() to the opCreateEvent() Function and Appended more Data to Form Element.
+ ?  Updated: 2025-09-19 - 04:53 (Y:m:d - H:i)
+ ?  Info: Added QR Code Column to the opPrintParticipant() Function.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2040,6 +2040,7 @@ async function opPrintParticipant( participantId ) {
     let bookingCode = bookingItem.response.bookingId
     let layout = template.templateLayout
     let imageFilename = template.templateFilenameUploaded
+    let qrCode = participant.qrCode
     let string1 = ( 1 <= columnAmount ) ? participant.line1 : ""
     let string2 = ( 2 <= columnAmount ) ? participant.line2 : ""
     let string3 = ( 3 <= columnAmount ) ? participant.line3 : ""
@@ -2058,7 +2059,7 @@ async function opPrintParticipant( participantId ) {
         "line_4": string4,
         "line_5": string5,
         "image_name": imageFilename,
-        "qr_code": "string"
+        "qr_code": qrCode
         }
     )
 

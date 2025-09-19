@@ -19,7 +19,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Added `opGetTemplate()` to the `opCreateEvent()` Function and Appended more Data to Form Element.
-
+- Added QR Code Column to the `opPrintParticipant()` Function.
 
     [JS | elements.js](assets/js/elements.js)
 
