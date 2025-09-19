@@ -16,6 +16,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ECB | block-template.php](blocks/event-creation/block-template.php)
 
+    ---
+
+- Added new Data Attribute `(data-grid-qr-col)` to `(.op-grid-wrapper)` with the `(step_3_qr_col)` Variable.
+
+    [ECB | step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
+
 ---
 
 
