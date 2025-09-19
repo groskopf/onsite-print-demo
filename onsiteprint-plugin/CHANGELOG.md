@@ -12,6 +12,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Modified the file to handle QR Code Column and added some more error handling.
+
+    [API | api-convert-grid-data-into-json.php](assets/api/api-convert-grid-data-into-json.php)
+
+    ---
+
 - Added `opGetTemplate()` to the `opCreateEvent()` Function and Appended more Data to Form Element.
 
 
