@@ -10,6 +10,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [API | api-convert-csv-into-json.php](assets/api/api-convert-csv-into-json.php)
 
+    ---
+
+- Added new Variable `(step_3_qr_col)`.
+
+    [ECB | block-template.php](blocks/event-creation/block-template.php)
+
 ---
 
 
