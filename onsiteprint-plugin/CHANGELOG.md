@@ -28,6 +28,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ECB | block-style.css](blocks/event-creation/block-style.css)
 
+    ---
+
+- Added `(block)` parameter to `opAddGridToElement()` in the Function `opGridInputListener()`.
+
+    [ECB | steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
+
 ---
 
 
