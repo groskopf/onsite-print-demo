@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2025-01-02 - 02:56 (Y:m:d - H:i)
- ?  Info: Changed the Appearance of the Dropdown Menu, located in Step 3 (Event Creation).
+ ?  Updated: 2025-09-19 - 01:37 (Y:m:d - H:i)
+ ?  Info: Add new (.op-col-qr) to Grid.
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
  >  Approval Display
@@ -151,10 +151,17 @@
     border-top: none;
 }
 
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col-qr {
+    background: var(--form-color-medium);
+    color: var(--wp--preset--color--black);
+    border: 1px solid var(--form-color-dark);
+    border-top: none;
+}
+
 .op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col-no {
     background: var(--wp--preset--color--neutral-40);
     color: var(--wp--preset--color--black);
-    border: 1px solid var(--wp--preset--color--neutral-40);
+    border: 1px solid var(--wp--preset--color--neutral-50);
     border-top: none;
 }
 

@@ -22,6 +22,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ECB | step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
 
+    ---
+
+- Add new CSS rule `(.op-col-qr)` to Grid.
+
+    [ECB | block-style.css](blocks/event-creation/block-style.css)
+
 ---
 
 
