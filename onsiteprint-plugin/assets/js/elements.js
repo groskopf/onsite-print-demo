@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2024-06-15 - 15:31 (Y:m:d - H:i)
- ?  Info: Change opCreateEvent() & Replaced opSaveNewEvent() to step-additions.js in the Event Creation Block. 
+ ?  Updated: 2025-09-19 - 04:45 (Y:m:d - H:i)
+ ?  Info: Added opGetTemplate() to the opCreateEvent() Function and Appended more Data to Form Element.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1650,8 +1650,8 @@ function opGetEventList( eventListId ) {
 
 /* ------------------------------------------
  >  4c-2. Create Event
- ?  Updated: 2024-06-15 - 15:27 (Y:m:d - H:i)
- ?  Info: Added (jsonFormGrid) parameter instead of getting the Grid Variable. Function: opCreateEvent().
+ ?  Updated: 2025-09-19 - 04:45 (Y:m:d - H:i)
+ ?  Info: Added opGetTemplate() to the opCreateEvent() Function and Appended more Data to Form Element.
 --------------------------------------------- */
 async function opCreateEvent( debug, formElement, jsonFormGrid ) {   
         
@@ -1679,11 +1679,27 @@ async function opCreateEvent( debug, formElement, jsonFormGrid ) {
         let inputName = formElement[ 'name' ].value
         let inputTemplate = formElement[ 'template' ].value  
 
+        ///// Get Template Item.
+        // #NG (2025-09-19) - opGetTemplate() need new Function. Is under construction in the GitHub Branch (new_event_block).
+        const templateItem = opGetTemplate( inputTemplate )
+
+        ///// Throw Error if the Template is missing.
+        if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            message: `Missing the Template!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Get the Template.
+        let template = templateItem.response
+
         ///// Get data from the form element.
         let formData = new FormData()
 
-        ///// Add JSON from Grid to Form Element
+        ///// Add Data to Form Element
         formData.append( 'json-from-grid', jsonFormGrid )
+        formData.append( 'templateLayout', template.templateLayout )
+        formData.append( 'templateColumns', template.templateLayoutColumns.charAt(0) )
 
         ///// The URL to the API.
         const url = `${ opGetCurrentScriptPath() }/../api/api-convert-grid-data-into-json.php`

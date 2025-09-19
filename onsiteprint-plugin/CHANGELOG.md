@@ -12,6 +12,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added `opGetTemplate()` to the `opCreateEvent()` Function and Appended more Data to Form Element.
+
+
+    [JS | elements.js](assets/js/elements.js)
+
+    ---
+
 - Added new Variable `(step_3_qr_col)`.
 
     [ECB | block-template.php](blocks/event-creation/block-template.php)
