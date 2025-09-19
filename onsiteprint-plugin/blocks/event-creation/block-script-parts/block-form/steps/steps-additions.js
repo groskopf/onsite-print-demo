@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-01-21 - 03:26 (Y:m:d - H:i)
- ?  Info: Added new Template Layout Type in createPrintExample().
+ ?  Updated: 2025-09-19 - 02:26 (Y:m:d - H:i)
+ ?  Info: Added new QR Code Column in opAddGridToElement().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ export function opSetColumnNumber( debug, templateId, fieldset ) {
  *  Adding the Grid from the CSV file to an Element.
  *  Link: https://www.datagridxl.com/docs
 --------------------------------------------------------------------------- */
-export async function opAddGridToElement( debug, gridContainer ) {
+export async function opAddGridToElement( debug, block, gridContainer ) {
 
     try {
         
@@ -140,6 +140,7 @@ export async function opAddGridToElement( debug, gridContainer ) {
             let gridCols = gridContainer.getAttribute( 'data-grid-cols' )
             let gridElementId = gridElement.getAttribute( 'id' )
             let gridColName = gridContainer.getAttribute( 'data-grid-col-name' )
+            let gridColQR = gridContainer.getAttribute( 'data-grid-qr-col' )
             let gridNoCol = gridContainer.getAttribute( 'data-grid-no-col' )
             let gridNewCol = gridContainer.getAttribute( 'data-grid-new-col' )
             let colWidth = ( Number( gridWidth ) / ( Number( gridCols ) + 2 ) )
@@ -157,6 +158,33 @@ export async function opAddGridToElement( debug, gridContainer ) {
 
             } )
 
+            ///// Get the the Form Element.
+            let formElement = block.querySelector( '.op-form-steps' )
+
+            ///// Throw Error if the Form is missing.
+            if ( ! formElement ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Form Elements!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+
+            ///// Get the Template ID from the Form Element.
+            let templateId = formElement[ 'template' ].value
+
+            ///// Get Template Item.
+            // #NG (2025-09-19) - opGetTemplate() need new Function. Is under construction in the GitHub Branch (new_event_block).
+            const templateItem = opGetTemplate( templateId )
+
+            ///// Throw Error if the Template is missing.
+            if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Missing the Template!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+
+            ///// Get the Template Layout.
+            let templateLayout = templateItem.response.templateLayout
+
             ///// Create and Add the new Grid to the Element.
             eventGridElement = new DataGridXL( gridElementId, {
                 data: jsonList,
@@ -168,10 +196,12 @@ export async function opAddGridToElement( debug, gridContainer ) {
                 rowHeaderWidth: 44,
                 colWidth: ( colWidth > 100 ) ? colWidth : 100,
                 colHeaderLabelFunction: function( index, coord, colRef, labels ){
-                    //console.log( 'index: ', index, 'coord: ', coord, 'colRef: ', colRef, 'labels: ', labels )
+                    //console.log( 'index: ', index, 'coord: ', coord, 'colRef: ', colRef, 'labels: ', labels, 'gridCols: ', Number( gridCols ) )
                     let colTitle = ( colRef.title ) ? colRef.title : `${ gridNewCol } ${ colRef.id }`
-                    if ( Number ( coord ) < Number ( gridCols ) ){
-                        return String( `<span class="op-col">${ gridColName } ${ Number ( coord + 1 ) }</span><span class="op-col-name">${ colTitle }</span>` );
+                    if ( Number( coord ) < Number( gridCols ) ){
+                        return String( `<span class="op-col">${ gridColName } ${ ( Number ( coord ) + 1 ) }</span><span class="op-col-name">${ colTitle }</span>` );
+                    } else if ( templateLayout && templateLayout.includes("Q") && Number( coord ) === Number( gridCols ) ){
+                        return String( `<span class="op-col-qr">${ gridColQR }</span><span class="op-col-name">${ colTitle }</span>` );
                     } else {
                         return String( `<span class="op-col-no">${ gridNoCol }</span><span class="op-col-name">${ colTitle }</span>` );
                     }

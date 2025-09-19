@@ -34,6 +34,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ECB | steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
 
+    ---
+
+- Added new `QR Code Column` in `opAddGridToElement()`.
+
+    [ECB | steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
+
 ---
 
 
