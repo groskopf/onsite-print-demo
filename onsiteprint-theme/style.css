@@ -8,8 +8,9 @@
  *	Tested up to: 6.0
  *	Requires PHP: 5.6
  *	Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments
- *  Version: 1.0.0.05
- ?  Updated: 2022-11-07 - 11:44 (Y:m:d - H:i)
+ *  Version: 2.0.1
+ ?  Updated: 2025-09-24 - 01:33 (Y:m:d - H:i)
+ ?  Info: Modified Scrollbar styles.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -18,7 +19,9 @@
 	0. 	List of upcoming tasks
 	1. 	Document Setup
 	2. 	CSS Reset
-	3. 	Element Base
+		a. Scrollbar
+			1. Modern Browsers
+			2. Legacy Browsers
 	4. 	Additional Classes
 	5. 	Site Header
     6. 	Menu Modal
@@ -67,6 +70,10 @@
  #  2. CSS Reset
 --------------------------------------------------------------------------- */
 
+* {
+	box-sizing: border-box;
+}
+
 html {
     font-size: 62.5%;
 }
@@ -81,38 +88,60 @@ body.admin-bar {
     height: calc(100vh - var(--wp-admin--admin-bar--height));
 }
 
-/* width */
-::-webkit-scrollbar {
-	width: 1rem;
-	height: 1rem;
-}
-  
-/* Track */
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-corner {
-	background-color: rgba(0, 0, 0, 0.1); 
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-	background-color: rgba(0, 0, 0, 0.2); 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-	background-color: var(--wp--preset--color--accent-60);
-}
-
-* {
-    box-sizing: border-box;
-	scrollbar-color: var(--wp--preset--color--primary-100) var(--wp--preset--color--primary-80);
-  	scrollbar-width: thin;
-}
-
 h1, h2, h3, h4, h5, h6, p {
 	margin: 0;
 }
 
+/* ---------------------------------------------------------
+ >  2a. Scrollbar
+------------------------------------------------------------ */
+
+* {
+	--scrollbar-color-thumb: var(--wp--preset--color--neutral-50);
+	--scrollbar-color-track: var(--wp--preset--color--neutral-20);
+	--scrollbar-color-hover: var(--wp--preset--color--accent-60);
+	--scrollbar-width-legacy: 10px;
+}
+
+/* ------------------------------------------
+ >  2a-1. Modern Browsers
+ *	Browser support: `scrollbar-*`
+--------------------------------------------- */
+
+@supports ( scrollbar-width: auto ) {
+	
+	* {
+		scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
+		scrollbar-width: var(--scrollbar-width);
+	}
+
+}
+
+/* ------------------------------------------
+ >  2a-2. Legacy Browsers
+ * Browser support: `::-webkit-scrollbar-*`
+--------------------------------------------- */
+
+@supports selector( ::-webkit-scrollbar ) {
+
+	*::-webkit-scrollbar-thumb {
+		background: var(--scrollbar-color-thumb);
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		background: var(--scrollbar-color-hover);
+	}
+
+	*::-webkit-scrollbar-track {
+		background: var(--scrollbar-color-track);
+	}
+
+	*::-webkit-scrollbar {
+		max-width: var(--scrollbar-width-legacy);
+		max-height: var(--scrollbar-width-legacy);
+	}
+
+}
 
 /* ------------------------------------------------------------------------
  #  3. Element Base
