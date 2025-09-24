@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2025-09-19 - 01:37 (Y:m:d - H:i)
- ?  Info: Added Icon to Grid Header Columns.
+ ?  Updated: 2025-09-24 - 03:45 (Y:m:d - H:i)
+ ?  Info: Added Gray Color to Grid Columns that are not included in the layout.
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
  >  Approval Display
@@ -175,6 +175,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column:has( span.op-col-no ) .dgxl-innerColumn .dgxl-column-center {
+    color: var(--wp--preset--color--neutral-50);
 }
 
 /* ------------------------------------------

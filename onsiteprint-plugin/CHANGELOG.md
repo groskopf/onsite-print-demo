@@ -45,6 +45,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Add new CSS rule `(.op-col-qr)` to Grid.
 - Added new `Icon` to `Grid Header Columns`.
+- Added `Gray Color` to `Grid Columns` that are not included in the layout.
 
     [ECB | block-style.css](blocks/event-creation/block-style.css)
 
