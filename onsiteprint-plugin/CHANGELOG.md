@@ -25,6 +25,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new `Move Icon`.
+
+    [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
+
+    ---
+
 - Added new Variable `(step_3_qr_col)`.
 
     [ECB | block-template.php](blocks/event-creation/block-template.php)
@@ -38,6 +44,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Add new CSS rule `(.op-col-qr)` to Grid.
+- Added new `Icon` to `Grid Header Columns`.
 
     [ECB | block-style.css](blocks/event-creation/block-style.css)
 
@@ -51,6 +58,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new `QR Code Column` in `opAddGridToElement()`.
 - Added new `QR Code Column` in `createPrintExample()`.
+- Added new `Icon` to `Header Columns` in `opAddGridToElement()`.
 
     [ECB | steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
 

@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-09-19 - 02:56 (Y:m:d - H:i)
- ?  Info: Added new QR Code Column in createPrintExample().
+ ?  Updated: 2025-09-24 - 02:54 (Y:m:d - H:i)
+ ?  Info: Added new Icon to Header Columns in opAddGridToElement().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -199,11 +199,11 @@ export async function opAddGridToElement( debug, block, gridContainer ) {
                     //console.log( 'index: ', index, 'coord: ', coord, 'colRef: ', colRef, 'labels: ', labels, 'gridCols: ', Number( gridCols ) )
                     let colTitle = ( colRef.title ) ? colRef.title : `${ gridNewCol } ${ colRef.id }`
                     if ( Number( coord ) < Number( gridCols ) ){
-                        return String( `<span class="op-col">${ gridColName } ${ ( Number ( coord ) + 1 ) }</span><span class="op-col-name">${ colTitle }</span>` );
+                        return String( `<span class="op-col">${ gridColName } ${ ( Number ( coord ) + 1 ) }</span><span class="op-col-name" data-icon="move"><span class="op-text">${ colTitle }</span><span class="op-icon"></span></span>` );
                     } else if ( templateLayout && templateLayout.includes("Q") && Number( coord ) === Number( gridCols ) ){
-                        return String( `<span class="op-col-qr">${ gridColQR }</span><span class="op-col-name">${ colTitle }</span>` );
+                        return String( `<span class="op-col-qr"><span class="op-text" >${ gridColQR }</span></span><span class="op-col-name" data-icon="move"><span class="op-text">${ colTitle }</span><span class="op-icon"></span></span>` );
                     } else {
-                        return String( `<span class="op-col-no">${ gridNoCol }</span><span class="op-col-name">${ colTitle }</span>` );
+                        return String( `<span class="op-col-no">${ gridNoCol }</span><span class="op-col-name" data-icon="move"><span class="op-text">${ colTitle }</span><span class="op-icon"></span></span>` );
                     }
                 }
             } )
