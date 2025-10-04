@@ -25,7 +25,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-- Added new `Move Icon`.
+- Added new `Move` and `Hand Icon`.
 
     [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
 
