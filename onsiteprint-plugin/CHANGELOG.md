@@ -4,7 +4,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ---
 
-### 1.2.3 (2025-09-18) - QR Code in Templates *(NB: Under Construction)*
+### 1.2.3 (2025-10-17) - QR Code in Templates
+
+- New OnsitePrint Plugin Version `(1.2.3)`.
+
+    [OP | onsiteprint-plugin.php](onsiteprint-plugin.php)
+
+    ---
 
 - Modified the file to handle multi-line fields and added some more error handling.
 
@@ -28,6 +34,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new `Move` and `Hand Icon`.
 
     [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
+
+    ---
+
+- New Event Creation Block Version `(1.0.1)`.
+
+    [ECB | block.json](blocks/event-creation/block.json)
 
     ---
 
