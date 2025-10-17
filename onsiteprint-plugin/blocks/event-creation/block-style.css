@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event Creation) Block Style 
- ?  Updated: 2025-01-02 - 02:56 (Y:m:d - H:i)
- ?  Info: Changed the Appearance of the Dropdown Menu, located in Step 3 (Event Creation).
+ ?  Updated: 2025-09-24 - 03:45 (Y:m:d - H:i)
+ ?  Info: Added Gray Color to Grid Columns that are not included in the layout.
 --------------------------------------------------------------------------- */
 /* ------------------------------------------
  >  Approval Display
@@ -134,7 +134,7 @@
     right: 0 !important;
 }
 
-.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span {
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel > span {
     line-height: 30px;
     display: flex;
     align-items: center;
@@ -144,18 +144,41 @@
     box-sizing: border-box;
 }
 
-.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col {
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel > span.op-col {
     background: var(--form-color-light);
     color: var(--wp--preset--color--black);
     border: 1px solid var(--form-color-dark);
     border-top: none;
 }
 
-.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeader span.op-col-no {
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel > span.op-col-qr {
+    background: var(--form-color-medium);
+    color: var(--wp--preset--color--black);
+    border: 1px solid var(--form-color-dark);
+    border-top: none;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel > span.op-col-no {
     background: var(--wp--preset--color--neutral-40);
     color: var(--wp--preset--color--black);
-    border: 1px solid var(--wp--preset--color--neutral-40);
+    border: 1px solid var(--wp--preset--color--neutral-50);
     border-top: none;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel > span.op-col-name {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column .dgxl-columnHeaderLabel > span.op-col-name .op-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.op-block__event-creation [id*="-form-grid"] .dgxl-column:has( span.op-col-no ) .dgxl-innerColumn .dgxl-column-center {
+    color: var(--wp--preset--color--neutral-50);
 }
 
 /* ------------------------------------------

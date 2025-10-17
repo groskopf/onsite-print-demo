@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-03-20 - 02:48 (Y:m:d - H:i)
- ?  Info: (CSS) added textarea to input.
+ ?  Updated: 2025-10-05 - 01:09 (Y:m:d - H:i)
+ ?  Info: Added new Hand Icon.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -114,6 +114,8 @@ html {
     --fa-icon-file-csv: "\f6dd";
     --fa-icon-file-pdf: "\f1c1";
     --fa-icon-trash: "\f1f8";
+    --fa-icon-move: "\f0b2";
+    --fa-icon-hand: "\f256";
 
 }
 
@@ -274,6 +276,14 @@ html {
 
 [data-icon="trash"] .op-icon::before {
 	content: var(--fa-icon-trash);
+}
+
+[data-icon="move"] .op-icon::before {
+	content: var(--fa-icon-move);
+}
+
+[data-icon="hand"] .op-icon::before {
+	content: var(--fa-icon-hand);
 }
 
 .op-flex-row {

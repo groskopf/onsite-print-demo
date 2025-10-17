@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-01-09 - 04:55 (Y:m:d - H:i)
- ?  Info: Added new Title and Description Text to the Error Modal, located in Step 3 (Event Creation).
+ ?  Updated: 2025-09-19 - 01:23 (Y:m:d - H:i)
+ ?  Info: Added new Variable (step_3_qr_col).
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -57,6 +57,7 @@ $acf = array(
     'step_3_field_2_value'  => get_field( $ec . 'steps_step_3_field_2_value' ) ?: 'The CSV List looks Great!',
     'step_3_grid_title'     => get_field( $ec . 'steps_step_3_grid_title' ) ?: 'Change CSV List',
     'step_3_col'            => get_field( $ec . 'steps_step_3_grid_column' ) ?: 'Column',
+    'step_3_qr_col'         => get_field( $ec . 'steps_step_3_grid_qr_column' ) ?: 'QR Code',
     'step_3_no_col'         => get_field( $ec . 'steps_step_3_grid_no_column' ) ?: 'No Column!',
     'step_3_new_col'        => get_field( $ec . 'steps_step_3_grid_new_column' ) ?: 'New Column',
     'step_3_dropdown_button' => get_field( $ec . 'steps_step_3_dropdown_buttons_menu' ) ?: 'Previews',
