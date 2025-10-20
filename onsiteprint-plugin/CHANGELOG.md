@@ -22,4 +22,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ACF | button-link.php](/acf-blocks/button-link.php)
 
+    ---
+
+- Changed `Session` Structure.
+
+    [SLB | block-template.php](/blocks/site-login/block-template.php)
+
 ---
