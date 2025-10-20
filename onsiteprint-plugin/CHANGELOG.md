@@ -10,4 +10,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     
     [OP | .gitignore](../.gitignore)
 
+    ---
+
+- Removed unused stuff including some `Functions`.
+
+    [OP | onsiteprint-plugin.php](onsiteprint-plugin.php)
+
 ---
