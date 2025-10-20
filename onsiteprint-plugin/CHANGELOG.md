@@ -28,4 +28,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [SLB | block-template.php](/blocks/site-login/block-template.php)
 
+    ---
+
+- Changed `Session` Structure & Fixed `Variables`.
+
+    [SIUB | block-template.php](/blocks/site-loginout-button/block-template.php)
+
 ---
