@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-10-19 - 02:18 (Y:m:d - H:i)
- ?  Info: Fixed Variables
+ ?  Updated: 2025-11-18 - 02:09 (Y:m:d - H:i)
+ ?  Info: Fixed Variables & Attributes Handling.
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -25,40 +25,22 @@ $buttonIconPosition = get_field('button_icon_position') ?: '';
 $buttonTitleVisibility = get_field('button_title_visibility') ?: 0;
 $buttonMaxWidthNumber = get_field('button_max_width_number') ?: false;
 $buttonMaxWidthUnit = get_field('button_max_width_unit') ?: 'px';
-$titleVisibility = '';
-$iconPosition = '';
-$icon = '';
-
-$id = 'op-' . $block['id'];
-
-if( ! empty( $block['anchor'] ) ) {
-    $id = $block['anchor'];
-}
-
-$className = 'op-button';
-
-if ( $buttonSize ) {
-    $className .= ' op-button-size-' . $buttonSize;
-}
-
-if ( $buttonStyle ) {
-    $className .= ' op-button-style-' . $buttonStyle;
-}
-
-if ( $buttonColor ) {
-    $buttonColor = ' data-color=' . $buttonColor;
-}
+$url = site_url();
+$title = 'OnsitePrint';
+$id = 'op-' . esc_attr( $block['id'] );
+$classNames = 'op-button';
+$attributes = '';
 
 if( $buttonLink ) {
-    //var_dump($buttonLink);
-    $url = $buttonLink['url'];
-    $target = $buttonLink['target'];
-    $title = $buttonLink['title'];
+    $url = esc_attr( $buttonLink['url'] );
+    $title = esc_attr( $buttonLink['title'] );
+    $attributes .= 'href="' . esc_attr( $buttonLink['url'] ) . '"';
 
-    if( $target ) {
-        $target = 'target=' . $target;
+    if ( $buttonLink['target'] ) {
+        $attributes .= 'target="' . esc_attr( $buttonLink['target'] ) . '"';
     }
-
+    
+    //// If no title is set, use the URL as the title.
     if( ! $title || "" ) {
         if ( substr( $url, 0, 7 ) == 'http://' ) {
             $title = substr( $url, 7 );
@@ -68,37 +50,43 @@ if( $buttonLink ) {
             $title = $url;
         }
     }
+}
+
+if ( $buttonSize ) {
+    $classNames .= ' op-button-size-' . esc_attr( $buttonSize );
 } else {
-    $url = site_url();
-    $title = 'OnsitePrint';
+    $classNames .= ' op-button-size-medium';
 }
 
-if ( ! $buttonIcon && $buttonStyle == 'show' ) {
-    $buttonIcon = 'link';
+if ( $buttonStyle ) {
+    $classNames .= ' op-button-style-' . esc_attr( $buttonStyle );
+} else {
+    $classNames .= ' op-button-style-solid';
 }
 
-if( $buttonIcon ) {
-    $icon = ' data-icon=' . $buttonIcon;
+if ( $buttonColor ) {
+    $attributes .= ' data-color="' . esc_attr( $buttonColor ) . '"';
 }
 
-if( $buttonIconPosition ) {
-    $iconPosition = ' data-icon-position=' . $buttonIconPosition;
+if ( $buttonIcon ) {
+    $attributes .= ' data-icon="' . esc_attr( $buttonIcon ) . '"';
+    $attributes .= ' data-icon-position="' . esc_attr( $buttonIconPosition ) . '"';
+    $attributes .= ' data-title-visibility="' . esc_attr( $buttonTitleVisibility ) . '"';
 }
 
-if ( $buttonTitleVisibility == 1 ) {
-    $titleVisibility = ' data-title-visibility=' . $buttonTitleVisibility;
+if ( $buttonMaxWidthNumber ) {
+    $classNames .= ' op-button-has-max-width';
+    $attributes .= 'style="max-width:' . esc_attr( $buttonMaxWidthNumber ) . esc_attr( $buttonMaxWidthUnit ) . ';"';
 }
-
-
 
 /* ------------------------------------------------------------------------
- #  The Block Content
+#  The Block Content
 --------------------------------------------------------------------------- */
 ?>
 
-<a id="<?= esc_attr( $id ) ?>" class="<?= esc_attr( $className ) ?>" href="<?= esc_attr( $url ) ?>" <?php echo esc_attr( $target ) . esc_attr( $buttonColor ) . esc_attr( $icon ) . esc_attr( $iconPosition ) . esc_attr( $titleVisibility )?>>
+<a id="<?= $id ?>" class="<?= $classNames ?>" <?= $attributes ?>>
     <?php if ( $buttonIcon ) { ?>
-        <span class="op-icon" role="img" aria-label="<?= esc_attr($buttonIcon) ?> Icon"></span>
+        <span class="op-icon" role="img" aria-label="<?= esc_attr( $buttonIcon ) ?> Icon"></span>
     <?php } ?>
-    <span class="op-button-title"><?= esc_attr( $title ) ?></span>
-</a><!-- #<?= esc_attr( $id ) ?> -->
+    <span class="op-button-title"><?= $title ?></span>
+</a><!-- #<?= $id ?> -->

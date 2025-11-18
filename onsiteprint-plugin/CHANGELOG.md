@@ -18,7 +18,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-- Fixed `Variables`.
+- Fixed `Variables` & `Attributes` Handling.
 
     [ACF | button-link.php](/acf-blocks/button-link.php)
 
