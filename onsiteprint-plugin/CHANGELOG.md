@@ -13,6 +13,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Removed unused stuff including some `Functions`.
+- New OnsitePrint Plugin Version `(1.2.4)`.
 
     [OP | onsiteprint-plugin.php](onsiteprint-plugin.php)
 
@@ -25,12 +26,14 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     ---
 
 - Changed `Session` Structure.
+- New Site Login Block Version `(1.0.3)`.
 
     [SLB | block-template.php](/blocks/site-login/block-template.php)
 
     ---
 
 - Changed `Session` Structure & Fixed `Variables`.
+- New Site Loginout Button Block Version `(1.0.2)`.
 
     [SLBB | block-template.php](/blocks/site-loginout-button/block-template.php)
 
