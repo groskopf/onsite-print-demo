@@ -1,150 +1,165 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2023-04-11 - 17:30 (Y:m:d - H:i)
----------------------------------------------------------------------------
+ ?  Updated: 2025-07-28 - 01:33 (Y:m:d - H:i)
+ ?  Info: Added Event ID to opSetupHeader().
+ ?  NB: The Script wil replace the Old Script.
+--------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
-import * as opModuleEvent from '../../assets/js/inc/event/event.js'
+import { opGetEvent } from '../../assets/js/inc/event/event.js'
+import { opGetTemplate } from '../../assets/js/inc/template/template.js'
+import { opSetupHeader, opSetupList } from './block-script-parts/parts.js'
 
 /* ------------------------------------------------------------------------
-#  2. Functions of Blocks
+ #  2. The Function of Event Creation Blocks
+ ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
 export function opEventBlocks( debug ) {
 
-    ///// Create Variables.
-    let error, code, message, blockCount = 0
-
     try {
+        
+        ///// Get Function Name.
+        var functionName = opEventBlocks.name
+    
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = true       
+        if ( debug ) console.group( `${ functionName }()` )
 
-        ///// Set the Parameter If is not defined.
-        ////* true or false
-        if ( ! debug ) debug = false
+        ///// Create Variables.
+        let blockName = 'Event'
 
         ///// Get the elements.
-        let blockName = 'Event'
         let blocks = document.querySelectorAll( 'section.op-block__event' )
 
-        ///// Throw an Error if no Block was found.
-        if ( ! blocks || blocks.length === 0 ) throw `Could not find any ${ blockName } Blocks!` 
-        else {
+        ///// Debug to the Console Log.
+        opModuleBasic.opConsoleDebug( debug, { 
+            message: `${ blocks.length } quantity of the ${ blockName } Block was found!`,
+            line: opModuleBasic.errorLine(),
+            details: blocks 
+        } )
+
+        ///// Check if some Blocks were found.
+        if ( ! blocks || blocks.length === 0 ) {
+            
+            ///// Return the Response.
+            return opModuleBasic.opReturnResponse( false, 404, { 
+                message: `Could not find any ${ blockName } Blocks!`, 
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
+
+        } else {
             
             ///// Get each Block.
             blocks.forEach( block => {
-                
-                ///// Count the Blocks. 
-                ++blockCount
+
+                ///// Start the Console Log Group.
+                if ( debug ) console.group( `Block with ID: ${ block.getAttribute( 'id' ) }` )
 
                 ///// Get Event ID.
-                let eventId = block.getAttribute( 'data-event-id' )
+                const eventId = block.getAttribute( 'data-event-id' )
 
-                ///// Get the elements.
-                let participantListElement = block.querySelector( '.op-participant-rows' )
+                ///// Throw Error if the Event ID is missing.
+                if ( ! eventId ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                    message: `Missing the Event ID!`, 
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
 
-                //----------- function
-                ///// Validate Local Storage of Events.
-                const eventsStorage = opGetLocalStorage( debug, 'Events' )
+                ///// Get the Event. 
+                const eventItem = opGetEvent( debug, eventId )
 
-                ///// Get Event List. 
-                const eventList = eventsStorage.response.eventList
-                opConsoleDebug( debug, 'eventList:', eventList )
+                ///// Validate the Response from the Get Event.
+                if ( eventItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Event!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
 
-                ///// Validate Event List.
-                if ( ! eventList || ! eventList[0] ) return opValidateBlock( block, blockName, 'No Events have been created yet!' )
+                ///// Get the Template. 
+                const templateItem = opGetTemplate( debug, eventItem.response.details.eventTemplate )
 
-                //----------- function
-                ///// Filter Event Items.
-                let eventItems = eventList.filter( event => event.eventCreationDate === Number( eventId ) )
-                opConsoleDebug( debug, `event-${eventId}:`, eventItems )
-                
-                ///// Validate Event Item. 
-                if ( ! eventItems[0] ) return opValidateBlock( block, blockName, 'No Event Information could be found to display!' )
-
-                //----------- function
-                ///// Get Event Participants. 
-                let participants = eventItems[0].eventParticipants
-                opConsoleDebug( debug, 'participants:', participants )
-
-                //----------- function
-                // #NG (2023-02-26) - New Code
-                ///// Get Template Item.
-                const templateItem = opGetTemplate( eventItems[0].eventTemplate )
-                if ( templateItem.error !== false ) opConsoleDebug( true, 'templateItem:', 'Could not find the Template!' )
-                opConsoleDebug( debug, 'templateItem:', templateItem )
+                ///// Validate the Response from the Get Template.
+                if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Template!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
 
                 ///// Get the Amount of Columns.
-                let columnAmount = templateItem.response.templateLayoutColumns.charAt(0)
-
-                participantListElement.innerHTML = ''
-
-                //----------- function
-                ///// For each Participant create Participant Element.
-                for( let i = 0; i < participants.length; ++i ) {
-
-                    opAddEventParticipant( debug, block, participants[i], columnAmount ).then( response => {
-                        opConsoleDebug( debug, 'Response:', response )
-                        participantListElement.insertAdjacentHTML( 'afterbegin', response.element )
-                    })
-
-                }
-
-
+                let columnAmount = templateItem.response.details.templateLayoutColumns.charAt(0)
+                
+                ///// Set the Amount of Columns to the Block.
                 block.setAttribute( 'data-column-count', columnAmount )
 
-                ///// Get All Column Elements in hte Search.
-                let filterElements = block.querySelectorAll( '.op-filter-options .op-filter-input-label' )
-                var filterNodes = Array.from( filterElements )
-                filterNodes.shift()
+                ///// Setup the Event Header.
+                const setupHeader = opSetupHeader( debug, block, eventId, columnAmount )
 
-                ///// Get All Column Elements in the Modal.
-                let columnElements = block.querySelectorAll( '.op-modal .op-fieldset__inner .op-input-wrapper input' )
-                
-                opConsoleDebug( debug, 'columnElements:', 'There are too many Column Elements in relation to the Number of Columns in the Event!' )
-                
-                ///// Delete the Column Element if the Column Number is above the Amount of Columns.
-                for( let i = 0; i < filterNodes.length; ++i ) {
-                    if ( columnAmount < Number( i + 1 ) ) {
-                        filterNodes[i].remove()
-                        opConsoleDebug( debug, `filterElement-${ Number( i + 1 ) }:`, 'The Column Element is deleted!' )
-                    }
-                }
-                
-                ///// Delete the Column Element if the Column Number is above the Amount of Columns.
-                for( let i = 0; i < columnElements.length; ++i ) {                   
-                    if ( columnAmount < Number( i + 1 ) ) {
-                        columnElements[i].closest( '.op-input-wrapper' ).remove()
-                        opConsoleDebug( debug, `columnElement-${ Number( i + 1 ) }:`, 'The Column Element is deleted!' )
-                    }
-                }
+                ///// Validate the Response from the Event Header.
+                if ( setupHeader.error !== false ) throw setupHeader
 
-                //-----------
+                ///// Get Participant List.
+                const participantList = eventItem.response.details.eventParticipants
+                
+                ///// Setup the Event List.
+                const setupList = opSetupList( debug, block, eventId, participantList )
 
-                ///// Add Function to Modal Window. 
-                opModuleBasic.opListener( 'click', block.querySelector( '.op-modal .op-button-save' ), function() {
-                    opAddNewParticipantToEventList( debug, eventId )
-                    //opModuleEvent.opAddNewParticipantToEvent( debug, eventId )
+                ///// Validate the Response from the Event List.
+                if ( setupList.error !== false ) throw setupList
+                
+
+
+
+                ///// Debug to the Console Log.
+                opModuleBasic.opConsoleDebug( debug, { 
+                    message: `No errors were found in the Block!`,
+                    line: opModuleBasic.errorLine(),
+                    details: block 
                 } )
+
+                ///// End the Console Log Group.
+                if ( debug ) console.groupEnd()
 
             })
 
-            ///// Create Response.
-            error = false, code = 200, message = `${ blockCount } quantity of the ${ blockName } Block was found!`
-        
         }
 
-    } catch( errorMessage ) {
+        ///// Return the Response.
+        return opModuleBasic.opReturnResponse( false, 200, { 
+            message: `No errors were found in the ${ blockName } Function!`, 
+            line: opModuleBasic.errorLine()
+        }, debug )
 
-        ///// Throw Error Response.
-        error = true, code = 400, message = errorMessage
+    } catch( errorResponse ) {
 
-        ///// Throw Error Response in the Console.
-        //console.error( `opEventBlocks()`, opModuleBasic.opReturnResponse( error, code, errorMessage ) )
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', { 
+            function: functionName,
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
+        } )
+
+        ///// Return the Error Response.
+        return opModuleBasic.opReturnResponse( true, 400, { 
+            function: functionName,
+            message: `Something went wrong in the function!`, 
+            details: errorDetails
+        } )
 
     } finally {
 
-        ///// Return the Response to the Function.
-        return opModuleBasic.opReturnResponse( error, code, message )
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
 
     }
     

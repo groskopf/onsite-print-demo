@@ -221,7 +221,7 @@ export function opLayoutButtonListener( debug, block ) {
                 modalInnerElement.append( modalTemplateElement )
 
                 ///// Activate the Modal Window.
-                modalElement.classList.add( 'op-active' )
+                modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                 ///// Console Log Success if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 
@@ -336,7 +336,7 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                 modalElement.querySelector( 'iframe' ).setAttribute( 'src', url )
 
                 ///// Activate the Modal Window.
-                modalElement.classList.add( 'op-active' )
+                modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                 ///// Console Log Success if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 
@@ -365,7 +365,7 @@ export function opExampleButtonListener( debug, block, eventElement ) {
                 modalInnerElement.append( modalTemplateElement )
 
                 ///// Activate the Modal Window.
-                modalElement.classList.add( 'op-active' )
+                modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                 ///// Log Error Details in the Console.
                 if ( debug ) console.error( 'ERROR:', { 

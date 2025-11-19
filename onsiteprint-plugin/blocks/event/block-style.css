@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-03-20 - 03:15 (Y:m:d - H:i)
- ?  Info: (CSS) Added Textarea to Modal.
+ ?  Updated: 2025-08-020 - 01:42 (Y:m:d - H:i)
+ ?  Info: Removed '.op-input-wrapper:last-child' and changed padding in '.op-modal-overflow__inner'.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -186,6 +186,7 @@
 
 .op-block__event [id*=__filter-button]:checked ~ .op-filter-options {
     display: flex;
+    z-index: 2;
 }
 
 .op-block__event .op-filter-options .op-filter-input-label {
@@ -336,6 +337,7 @@
 .op-block__event .op-participant-rows {
     font-weight: 500;
     gap: 0.3rem;
+    scroll-margin: 2rem;
 }
 
 .op-block__event .op-label,
@@ -344,8 +346,94 @@
     font-variant-numeric: tabular-nums;
 }
 
-.op-block__event article {
+.op-block__event article[ class*='op-participant' ] {
+    display: none;
     width: 100%;
+}
+
+.op-block__event article[ class*='op-participant' ].op-active {
+    display: block;
+}
+
+.op-block__event article[ class*='op-participant' ].op-fade-in {
+    display: block;
+    animation: fade 300ms ease-in;
+}
+
+.op-block__event article[ class*='op-participant' ].op-fade-out {
+    animation: fade 300ms ease-out reverse;
+    opacity: 0;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.op-block__event .op-participant_skeleton p {
+    position: relative;
+    color: var(--wp--preset--color--neutral-40);
+    background-color: var(--wp--preset--color--neutral-20);
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 7rem;
+    padding: 1rem 1rem 1rem 3rem;
+    border-left: 0.4rem solid var(--wp--preset--color--neutral-30);
+    border-radius: 0.4rem;
+    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+    opacity: 0.6;
+}
+
+.op-block__event .op-participant_skeleton:nth-child(2) p {
+    opacity: 0.4;
+}
+
+.op-block__event .op-participant_skeleton:nth-child(3) p {
+    opacity: 0.2;
+}
+
+.op-block__event .op-participant_skeleton p .op-shimmer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.4rem;
+}
+
+.op-block__event .op-participant_skeleton p .op-shimmer::before {
+    background: linear-gradient(300deg,rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 70%);
+    content: '';
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+}
+
+.op-block__event .op-participant_skeleton:nth-child(2) p .op-shimmer::before {
+    animation-delay: 200ms;
+}
+
+.op-block__event .op-participant_skeleton:nth-child(3) p .op-shimmer::before {
+    animation-delay: 400ms;
+}
+
+@keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
 }
 
 .op-block__event article header {
@@ -431,7 +519,18 @@
     padding: 0.9rem 1rem 0.9rem 0;
 }
 
-.op-block__event .op-col-lines p:not(:last-child) {
+.op-block__event[ data-column-count="1" ] .op-col-lines p:where( :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(5) ),
+.op-block__event[ data-column-count="2" ] .op-col-lines p:where( :nth-child(3), :nth-child(4), :nth-child(5) ),
+.op-block__event[ data-column-count="3" ] .op-col-lines p:where( :nth-child(4), :nth-child(5) ),
+.op-block__event[ data-column-count="4" ] .op-col-lines p:where( :nth-child(5) ) {
+    display: none;
+}
+
+.op-block__event[ data-column-count="1" ] .op-col-lines p:not( :nth-child(1) ),
+.op-block__event[ data-column-count="2" ] .op-col-lines p:not( :nth-child(2) ),
+.op-block__event[ data-column-count="3" ] .op-col-lines p:not( :nth-child(3) ),
+.op-block__event[ data-column-count="4" ] .op-col-lines p:not( :nth-child(4) ),
+.op-block__event[ data-column-count="5" ] .op-col-lines p:not( :nth-child(5) ) {
     border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
 }
 
@@ -536,6 +635,16 @@
     border-radius: 3rem;
 }
 
+.op-block__event footer .op-message .op-text {
+    display: none;
+}
+
+.op-block__event article[data-validation="1"] footer .op-message .op-print_printing,
+.op-block__event article[data-validation="2"] footer .op-message .op-print_success,
+.op-block__event article[data-validation="3"] footer .op-message .op-print_error {
+    display: block
+}
+
 .op-block__event article[data-validation="1"] footer .op-message .op-icon {
     background-color: var(--wp--preset--color--action-10);
     color: var(--wp--preset--color--action-60);
@@ -573,6 +682,12 @@
 /* ------------------------------------------
  >  Add Participant Modal Window
 --------------------------------------------- */
+
+.op-block__event .op-modal .op-button-reload {
+    width: 100%;
+    margin-top: 1.4rem;
+}
+
 .op-block__event .op-modal .op-form {
     padding: 0;
 }
@@ -581,28 +696,117 @@
     text-align: left;
 }
 
+.op-block__event .op-modal .op-modal-content,
+.op-block__event .op-modal .op-modal-content__inner,
+.op-block__event .op-modal .op-modal-overflow {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.op-block__event .op-modal .op-modal__inner {
+    background: var(--wp--preset--color--neutral-10);
+    padding: 2rem;
+}
+
 .op-block__event .op-modal .op-modal-header {
-    padding: 0.5rem 6rem 2rem 0;
     position: relative;
 }
 
-.op-block__event .op-modal .op-modal-header .op-modal-description {
-    line-height: var(--wp--custom--typography--line-height--normal);
+.op-block__event .op-modal:not( .op-error ) .op-modal-error,
+.op-block__event .op-modal.op-error .op-header-content,
+.op-block__event .op-modal.op-error .op-modal-content,
+.op-block__event .op-modal .op-col-input {
+    display: none;
 }
 
-.op-block__event .op-modal .op-modal-header .op-button-cancel {
+.op-block__event .op-modal .op-modal-content__inner {
+    gap: 2rem;
+}
+
+.op-block__event .op-modal .op-modal-overflow {
+    background: var(--wp--preset--color--white);
+    padding: 1rem;
+    border: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-radius: 0.4rem;
+    position: relative;
+}
+
+.op-block__event .op-modal .op-modal-overflow::before,
+.op-block__event .op-modal .op-modal-overflow::after {
+    background: var(--wp--preset--color--white);
+    content: "";
+    width: calc( 100% - 4rem );
+    height: 1.6rem;
+    position: absolute;
+    left: 2rem;
+    z-index: 1;
+}
+
+.op-block__event .op-modal .op-modal-overflow::before {
+    background: linear-gradient( rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100% );
+    top: 1rem;
+}
+
+.op-block__event .op-modal .op-modal-overflow::after {
+    background: linear-gradient( rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100% );
+    bottom: 1rem;
+}
+
+.op-block__event .op-modal .op-modal-overflow .op-modal-overflow__inner {
+    overflow: auto;
+    padding: 1.6rem 1rem;
+}
+
+.op-block__event .op-modal .op-modal-header .op-header-content__inner {
+        padding-bottom: 1rem;
+}
+
+.op-block__event .op-modal .op-modal-header .op-modal-title {
+    color: var(--wp--preset--color--neutral-100);
+    font-weight: 500;
+    font-size: 1.8rem;
+    display: flex;
+    gap: 1rem;
+    min-height: 4rem;
+    padding: 0.8rem  6rem 0.8rem 1rem;
+}
+
+.op-block__event .op-modal .op-modal-header .op-modal-title .op-icon {
+    color: var(--wp--preset--color--primary-100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.op-block__event .op-modal .op-modal-header .op-modal-description {
+    color: var(--wp--preset--color--neutral-100);
+    line-height: var(--wp--custom--typography--line-height--medium);
+    padding: 0 6rem 1rem 1rem;
+}
+
+.op-block__event .op-modal .op-modal-error .op-modal-description {
+    padding-bottom: 0.6rem;
+}
+
+.op-block__event .op-modal .op-modal-header .op-button-close {
     position: absolute;
     top: 0;
     right: 0;
 }
 
-.op-block__event .op-modal .op-modal-header .op-button-cancel:is( .op-button-size-small ) .op-icon::before {
+.op-block__event .op-modal .op-modal-header .op-button-close:not( :hover ) {
+    background-color: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--primary-20);
+}
+
+.op-block__event .op-modal .op-modal-header .op-button-close:is( .op-button-size-small ) .op-icon::before {
     font-size: 2rem;
 }
 
-.op-block__event .op-modal .op-fieldset-step {
-    padding-bottom: 3rem
-}
+.op-block__event .op-modal .op-form {
+    margin-top: -0.6rem;
+} 
 
 .op-block__event .op-modal .op-fieldset__inner {
     gap: 2rem;
@@ -614,25 +818,55 @@
     resize: none;
 }
 
-.op-block__event .op-modal .op-fieldset__inner .op-form-validation {
+.op-block__event[ data-column-count="1" ] .op-modal .op-col-input:where( :nth-child(1) ),
+.op-block__event[ data-column-count="2" ] .op-modal .op-col-input:where( :nth-child(1), :nth-child(2) ),
+.op-block__event[ data-column-count="3" ] .op-modal .op-col-input:where( :nth-child(1), :nth-child(2), :nth-child(3) ),
+.op-block__event[ data-column-count="4" ] .op-modal .op-col-input:where( :nth-child(1), :nth-child(2), :nth-child(3), :nth-child(4) ), 
+.op-block__event[ data-column-count="5" ] .op-modal .op-col-input:where( :nth-child(1), :nth-child(2), :nth-child(3), :nth-child(4), :nth-child(5) ) {
+    display: flex;
+}
+
+.op-block__event .op-modal[ data-validation="2" ] .op-col-input .op-label-title {
+    color: var(--wp--preset--color--error-100);
+}
+
+.op-block__event .op-modal[ data-validation="2" ] .op-col-input .op-input-border, 
+.op-block__event .op-modal[ data-validation="2" ] .op-col-input .op-input-border .op-radio-check {
+    border-color: var(--wp--preset--color--error-40);
+}
+
+.op-block__event .op-modal .op-form-validation {
+    color: var(--wp--preset--color--neutral-100);
+    line-height: var(--wp--custom--typography--line-height--medium);
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+.op-block__event .op-modal .op-form-validation .op-icon {
+    color: var(--wp--preset--color--primary-100);
+    font-size: 1.2rem;
+    display: flex;
+    padding-top: 0.6rem;
+}
+
+.op-block__event .op-modal:not( [ data-validation="2" ] ) .op-form-validation .op-icon::before {
+    content: var(--fa-icon-play);
+    padding-left: 0.2rem;
+}
+
+.op-block__event .op-modal[ data-validation="2" ] .op-form-validation {
     background-color: var(--wp--preset--color--error-10);
     color: var(--wp--preset--color--black);
-    line-height: var(--wp--custom--typography--line-height--medium);
-    display: none;
-    gap: 1rem;
     padding: 0.6rem 1.2rem;
     border: 0.1rem solid var(--wp--preset--color--error-100);
     border-radius: 0.4rem;
 }
 
-.op-block__event .op-modal [data-validation="2"] .op-fieldset__inner .op-form-validation {
-    display: flex;
-}
-
-.op-block__event .op-modal .op-fieldset__inner .op-form-validation .op-icon {
+.op-block__event .op-modal[ data-validation="2" ] .op-form-validation .op-icon {
     color: var(--wp--preset--color--error-100);
     font-size: 2rem;
-    display: flex;
     padding-top: 0.2rem;
 }
 
@@ -755,7 +989,11 @@
         padding: 0.9rem 2rem;
     }
     
-    .op-block__event .op-col-lines p:not(:last-child) {
+    .op-block__event[ data-column-count="1" ] .op-col-lines p:not( :nth-child(1) ),
+    .op-block__event[ data-column-count="2" ] .op-col-lines p:not( :nth-child(2) ),
+    .op-block__event[ data-column-count="3" ] .op-col-lines p:not( :nth-child(3) ),
+    .op-block__event[ data-column-count="4" ] .op-col-lines p:not( :nth-child(4) ),
+    .op-block__event[ data-column-count="5" ] .op-col-lines p:not( :nth-child(5) ) {
         border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
         border-bottom: none;
     }

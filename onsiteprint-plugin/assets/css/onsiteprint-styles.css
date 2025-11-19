@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-10-05 - 01:09 (Y:m:d - H:i)
- ?  Info: Added new Hand Icon.
+ ?  Updated: 2025-08-20 - 03:28 (Y:m:d - H:i)
+ ?  Info: Added 'transform' to User Plus Icon.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -17,6 +17,7 @@
             1. 	Colors
             2. 	Sizes
             3. 	Styles
+        b. Dropdown
 	2. 	ACF Custom Blocks
 		a. 	Block Styles
 		b. 	Block Validation
@@ -61,11 +62,14 @@ html {
     display: flex;
 }
 
+.wp-site-blocks > main {
+    position: relative;
+}
+
 .wp-site-blocks > main > .wp-block-post-content {
     display: flex;
     flex-direction: column;
     height: 100%;
-    position: relative;
 }
 
 .wp-site-blocks > main > .wp-block-post-content.op-modal-active {
@@ -105,6 +109,7 @@ html {
     --fa-icon-xmark: "\f00d";
     --fa-icon-print: "\f02f";
     --fa-icon-user: "\f007";
+    --fa-icon-user-plus: "\f234";
     --fa-icon-lock: "\f023";
     --fa-icon-unlock: "\f09c";
     --fa-icon-clock: "\f017";
@@ -116,6 +121,9 @@ html {
     --fa-icon-trash: "\f1f8";
     --fa-icon-move: "\f0b2";
     --fa-icon-hand: "\f256";
+    --fa-icon-play: "\f04b";
+    --fa-icon-ellipsis: "\f141";
+    --fa-icon-download: "\f2f6";
 
 }
 
@@ -241,6 +249,11 @@ html {
 	content: var(--fa-icon-user);
 }
 
+[data-icon="user-plus"] .op-icon::before {
+	content: var(--fa-icon-user-plus);
+    transform: scaleX(-1)
+}
+
 [data-icon="lock"] .op-icon::before {
 	content: var(--fa-icon-lock);
 }
@@ -284,6 +297,19 @@ html {
 
 [data-icon="hand"] .op-icon::before {
 	content: var(--fa-icon-hand);
+}
+
+[data-icon="play"] .op-icon::before {
+	content: var(--fa-icon-play);
+}
+
+[data-icon="ellipsis"] .op-icon::before {
+	content: var(--fa-icon-ellipsis);
+}
+
+[data-icon="download"] .op-icon::before {
+	content: var(--fa-icon-download);
+    rotate: 90deg;
 }
 
 .op-flex-row {
@@ -762,6 +788,65 @@ html {
     border-color: var(--wp--preset--color--primary-100);
 }
 
+/* ---------------------------------------------------------
+ >  1b. Dropdown
+------------------------------------------------------------ */
+.op-dropdown-menu {
+    position: relative;
+}
+.op-dropdown-menu,
+.op-dropdown-menu:is( .op-active ) .op-dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.op-dropdown-menu .op-button[name="dropdown"] {
+    z-index: 1;
+}
+
+.op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"] {
+    background: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--accent-60);
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"]:is( :hover ) {
+    background: var(--wp--preset--color--primary-90);
+    border-color: var(--wp--preset--color--primary-90);
+}
+
+.op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"]:is( :hover ) ~ .op-dropdown {
+    background: var(--wp--preset--color--primary-90);
+}
+
+.op-dropdown-menu .op-dropdown {
+    background: var(--wp--preset--color--accent-60);
+    display: none;
+    gap: 0.4rem;
+    min-width: 100%;
+    margin-top: -0.4rem;
+    padding: 0.4rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 0;
+    border-radius: 0.4rem;
+    transition: all 200ms ease-in-out;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.op-dropdown-menu:where( [data-dropdown-position="right"] ) .op-dropdown {
+    right: 0;
+    left: auto;
+}
+
+.op-dropdown-menu .op-dropdown .op-button {
+    background: var(--wp--preset--color--white);
+    justify-content: flex-start;
+    white-space: nowrap;
+    border-color: var(--wp--preset--color--white);
+}
 
 /* ------------------------------------------------------------------------
  #  2. ACF Custom Blocks
@@ -2432,11 +2517,16 @@ fieldset {
     min-inline-size: inherit;
 }
 
-[id*="op-block"]:not( .active ) .op-modal {
-    display: none;
+.op-modal-active [id*="op-block"] .op-modal {
+    display: flex;
 }
 
-[id*="op-block"] .op-modal.op-active,
+[id*="op-block"] .op-modal {
+    display: none;
+    padding: 2rem;
+}
+
+[id*="op-block"] .op-modal,
 [id*="op-block"] .op-modal::after {
     height: 100%;
     width: 100%;
@@ -2444,15 +2534,11 @@ fieldset {
     top: 0;
     left: 0;
     z-index: 110;
-    display: flex;
-}
-
-[id*="op-block"] .op-modal {
-    padding: 2rem;
 }
 
 [id*="op-block"] .op-modal::after {
     background: var(--wp--preset--color--primary-100);
+    display: flex;
     content: "";
     z-index: -1;
     opacity: 0.5;
@@ -2468,10 +2554,12 @@ fieldset {
     height: auto;
     max-height: 100%;
     margin: auto;
-    padding: 4rem;
     border-radius: 0.4rem;
     overflow-y: auto;
+}
 
+[id*="op-block"]:not( .op-block__event ) .op-modal__inner {
+    padding: 4rem;
 }
 
 [id*="op-block"] .op-modal__inner .op-flex-col {

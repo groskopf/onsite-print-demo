@@ -1,7 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: List
- ?  Updated: 2023-04-13 - 19:48 (Y:m:d - H:i)
+ ?  Updated: 2025-07-02 - 04:42 (Y:m:d - H:i)
+ ?  Info: Added new folder to the Participant Template.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -162,10 +163,29 @@
 
     <?php } else { ?>
 
-        <p class="op-flex-col">
-            <span class="op-text">Loading...</span>
-        </p>
+        <article class="op-participant_skeleton op-active op-fade-in">
+            <p class="op-flex-col">
+                <span class="op-shimmer"></span>
+                <span class="op-text">Loading...</span>
+            </p>
+        </article>
+        <article class="op-participant_skeleton op-active op-fade-in">
+            <p class="op-flex-col">
+                <span class="op-shimmer"></span>
+                <span class="op-text">Loading...</span>
+            </p>
+        </article>
+        <article class="op-participant_skeleton op-active op-fade-in">
+            <p class="op-flex-col">
+                <span class="op-shimmer"></span>
+                <span class="op-text">Loading...</span>
+            </p>
+        </article>
 
-    <?php } ?>
+    <?php 
+
+        require( __DIR__ . '/templates/participant-template.php' );
+
+    } ?>
 
 </div><!-- .op-participant-rows -->

@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-04-17 - 14:32 (Y:m:d - H:i)
- ?  Info: Added Max Length to Inputs and Textarea in Modal.
+ ?  Updated: 2025-08-20 - 03:37 (Y:m:d - H:i)
+ ?  Info: Added new Download Files Template.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -10,85 +10,42 @@
 
 <div class="op-modal">
     <div class="op-modal__inner">
+
         <div class="op-modal-header">
-            <h3 class="op-modal-title"><?= esc_attr( $modal['title'] ) ?></h3>
-            <button type="button" onclick="opToggleActive( 'class', 'op-modal ' ), opToggleActive( 'class', 'wp-block-post-content', 'op-modal-active' )" class="op-button-cancel op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
-                <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
-                <span class="op-button-title"><?= esc_attr( $modal['cancel_button'] ) ?></span>
-            </button>
-            <p class="op-modal-description"><?= esc_attr( $modal['description'] ) ?></p>
+
+            <div class="op-modal-error">
+                <div class="op-modal-error__inner">
+
+                    <button type="button" class="op-button-close op-cancel_error op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                        <span class="op-icon" role="img" aria-label="X Mark Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $modal['close_button'] ) ?></span>
+                    </button>
+
+                    <h3 class="op-modal-title" data-icon="circle-exclamation">
+                        <span class="op-icon" role="img" aria-label="Error Icon"></span>
+                        <span class="op-text"><?= esc_attr( $modal['error_title'] ) ?></span>
+                    </h3>
+
+                    <p class="op-modal-description"><?= esc_attr( $modal['error_description'] ) ?></p>
+
+                    <button type="button" class="op-button-reload op-button op-button-size-medium op-button-style-solid" data-color="primary-90" onclick="window.location.reload()">
+                        <span class="op-button-title"><?= esc_attr( $modal['error_button'] ) ?></span>
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="op-header-content"></div>
+
         </div>
 
-        <form id="<?= esc_attr( $id ) ?>__form" class="op-form op-form-fields op-flex-col" action="POST">
+        <div class="op-modal-content"></div>
 
-            <button type="submit" disabled style="display: none" aria-hidden="true"></button>
+    </div><!-- .op-modal__inner -->
+    <div class="op-modal__templates">
+        
+        <?php require( __DIR__ . '/templates/create-participant-template.php' ); ?>
+        <?php require( __DIR__ . '/templates/download-files-template.php' ); ?>
 
-            <div class="op-form__inner op-flex-col">
-
-                <div class="op-form-content op-flex-col">
-
-                    <fieldset class="op-fieldset-step" data-validation="0">
-                        <div class="op-fieldset__inner op-flex-col">
-                            
-                            <label for="<?= esc_attr($id) ?>-column-1-input" class="op-input-wrapper">
-                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">1</span></p>
-                                <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-1-input" class="op-input-border" name="column-1" type="text" maxlength="60">
-                                </div>
-                            </label>
-
-                            <label for="<?= esc_attr($id) ?>-column-2-input" class="op-input-wrapper">
-                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">2</span></p>
-                                <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-2-input" class="op-input-border" name="column-2" type="text" maxlength="60">
-                                </div>
-                            </label>
-
-                            <label for="<?= esc_attr($id) ?>-column-3-input" class="op-input-wrapper">
-                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">3</span></p>
-                                <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-3-input" class="op-input-border" name="column-3" type="text" maxlength="60">
-                                </div>
-                            </label>
-
-                            <label for="<?= esc_attr($id) ?>-column-4-input" class="op-input-wrapper">
-                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">4</span></p>
-                                <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-4-input" class="op-input-border" name="column-4" type="text" maxlength="60">
-                                </div>
-                            </label>
-
-                            <label for="<?= esc_attr($id) ?>-column-5-input" class="op-input-wrapper">
-                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $header['column'] ) ?></span><span class="op-number">5</span></p>
-                                <div class="op-input-field">
-                                    <input id="<?= esc_attr($id) ?>-column-5-input" class="op-input-border" name="column-5" type="text" maxlength="60">
-                                </div>
-                            </label>
-
-                            <label for="<?= esc_attr($id) ?>-note-input" class="op-input-wrapper">
-                                <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal['note'] ) ?></span></p>
-                                <div class="op-input-field">
-                                    <textarea id="<?= esc_attr($id) ?>-note-input" class="op-input-border" name="note" rows="3" maxlength="250"></textarea>
-                                </div>
-                            </label>
-
-                            <div class="op-form-validation" data-icon="circle-exclamation">
-                                <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
-                                <span class="op-message"><?= esc_attr( $modal['messages_error'] ) ?></span>
-                            </div>
-
-                        </div>
-
-                    </fieldset>
-                    
-                    <button type="button" onclick="" class="op-button-save op-button op-button-size-medium op-button-style-solid" data-color="primary-90">
-                        <span class="op-button-title"><?= esc_attr( $modal['add_button'] ) ?></span>
-                    </button>
-                
-                </div>
-
-            </div><!-- .op-form__inner -->
-        </form><!-- .op-form-fields -->
-
-    </div>
+    </div><!-- .op-modal__templates -->
 </div><!-- .op-modal -->
