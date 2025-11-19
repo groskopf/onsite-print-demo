@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-11-18 - 02:09 (Y:m:d - H:i)
- ?  Info: Fixed Variables & Attributes Handling.
+ ?  Updated: 2025-11-19 - 01:50 (Y:m:d - H:i)
+ ?  Info: Added extra handling for button max width.
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -30,8 +30,9 @@ $title = 'OnsitePrint';
 $id = 'op-' . esc_attr( $block['id'] );
 $classNames = 'op-button';
 $attributes = '';
+$maxWidth = '';
 
-if( $buttonLink ) {
+if ( $buttonLink ) {
     $url = esc_attr( $buttonLink['url'] );
     $title = esc_attr( $buttonLink['title'] );
     $attributes .= 'href="' . esc_attr( $buttonLink['url'] ) . '"';
@@ -39,9 +40,9 @@ if( $buttonLink ) {
     if ( $buttonLink['target'] ) {
         $attributes .= 'target="' . esc_attr( $buttonLink['target'] ) . '"';
     }
-    
+
     //// If no title is set, use the URL as the title.
-    if( ! $title || "" ) {
+    if ( ! $title || "" ) {
         if ( substr( $url, 0, 7 ) == 'http://' ) {
             $title = substr( $url, 7 );
         } else if ( substr( $url, 0, 8 ) == 'https://' ) {
@@ -73,10 +74,15 @@ if ( $buttonIcon ) {
     $attributes .= ' data-icon-position="' . esc_attr( $buttonIconPosition ) . '"';
     $attributes .= ' data-title-visibility="' . esc_attr( $buttonTitleVisibility ) . '"';
 }
-
+ 
 if ( $buttonMaxWidthNumber ) {
     $classNames .= ' op-button-has-max-width';
-    $attributes .= 'style="max-width:' . esc_attr( $buttonMaxWidthNumber ) . esc_attr( $buttonMaxWidthUnit ) . ';"';
+    $buttonMaxWidth = 'max-width:' . esc_attr( $buttonMaxWidthNumber ) . esc_attr( $buttonMaxWidthUnit ) . ';';
+    if ( $buttonTitleVisibility == 1 ) {
+        $maxWidth = $buttonMaxWidth;
+    } else {
+        $attributes .= $buttonMaxWidth;
+    }
 }
 
 /* ------------------------------------------------------------------------
@@ -88,5 +94,5 @@ if ( $buttonMaxWidthNumber ) {
     <?php if ( $buttonIcon ) { ?>
         <span class="op-icon" role="img" aria-label="<?= esc_attr( $buttonIcon ) ?> Icon"></span>
     <?php } ?>
-    <span class="op-button-title"><?= $title ?></span>
+    <span class="op-button-title" <?= $maxWidth ?>><?= $title ?></span>
 </a><!-- #<?= $id ?> -->
