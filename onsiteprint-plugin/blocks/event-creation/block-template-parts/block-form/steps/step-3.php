@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Step 3
- ?  Updated: 2025-07-04 - 03:10 (Y:m:d - H:i)
- ?  Info: Removed one of the opToggleActive() in the Cancel Buttons.
+ ?  Updated: 2025-09-19 - 01:25 (Y:m:d - H:i)
+ ?  Info: Added new Data Attribute (data-grid-qr-col) to (.op-grid-wrapper) with the (step_3_qr_col) Variable.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -30,7 +30,7 @@
             </div>
         </label>
 
-        <div class="op-grid-wrapper" data-grid-cols="0" data-grid-col-name="<?= esc_attr( $acf['step_3_col'] ) ?>" data-grid-no-col="<?= esc_attr( $acf['step_3_no_col'] ) ?>" data-grid-new-col="<?= esc_attr( $acf['step_3_new_col'] ) ?>">
+        <div class="op-grid-wrapper" data-grid-cols="0" data-grid-col-name="<?= esc_attr( $acf['step_3_col'] ) ?>" data-grid-qr-col="<?= esc_attr( $acf['step_3_qr_col'] ) ?>" data-grid-no-col="<?= esc_attr( $acf['step_3_no_col'] ) ?>" data-grid-new-col="<?= esc_attr( $acf['step_3_new_col'] ) ?>">
 
             <p class="op-label-title"><?= esc_attr( $acf['step_3_grid_title'] ) ?></p>
             <div id="<?= esc_attr($id) ?>-form-grid"></div>

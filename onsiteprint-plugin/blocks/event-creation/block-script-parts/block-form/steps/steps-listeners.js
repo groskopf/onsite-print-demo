@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Listeners Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-07-04 - 03:12 (Y:m:d - H:i)
- ?  Info: Changed the Activation of the Modal Window.
+ ?  Updated: 2025-09-19 - 02:02 (Y:m:d - H:i)
+ ?  Info: Added (block) parameter to (opAddGridToElement) in opGridInputListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ export function opGridInputListener( debug, block ) {
                 let gridContainer = fieldset3Element.querySelector( '.op-grid-wrapper' )
 
                 ///// Set add Grid to Element in Step 3.
-                const gridValidation = await opModuleAdditions.opAddGridToElement( debug, gridContainer )
+                const gridValidation = await opModuleAdditions.opAddGridToElement( debug, block, gridContainer )
 
                 ///// Validate the Response from the Grid Validation.
                 if ( gridValidation.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 

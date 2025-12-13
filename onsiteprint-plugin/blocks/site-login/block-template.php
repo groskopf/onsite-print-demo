@@ -1,5 +1,5 @@
 <?php
-/* ------------------------------------------------------------------------
+                /* ------------------------------------------------------------------------
 
  *  The OnsitePrint (Site Login) Block.
  *  Displaying a Site Login Form.
@@ -9,11 +9,15 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2023-03-26 - 20:27 (Y:m:d - H:i)
+ ?  Updated: 2025-10-19 - 03:49 (Y:m:d - H:i)
+ ?  Info: Changed Session Structure.
 
 ---------------------------------------------------------------------------
  #  The Block Data
 --------------------------------------------------------------------------- */
+
+///// Check & Start Session if not Active.
+if ( session_status() !== PHP_SESSION_ACTIVE ) session_start();
 
 $path = 'site_login_';
 
@@ -21,7 +25,9 @@ $options = array(
     'style_color'       => get_field( $path . 'color' ) ?: 'primary-60',
 );
 
-if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) ) {
+$bookingSession = isset( $_SESSION['OP_PLUGIN_DATA_BOOKING'] ) ? json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true ) : array( 'bookingId' => '' );
+
+if ( $bookingSession['bookingId'] === '' ) {
     $header = array(
         'title'         => get_field( $path . 'login_title' ) ?: 'Login with Booking Code',
         'description'   => get_field( $path . 'login_description' ) ?: 'Login to our web service and easily complete your event.',    
@@ -78,7 +84,7 @@ $styleColor = substr( $options['style_color'], 0, strpos( $options['style_color'
 $id = 'op-' . $block['id'];
 
 if( ! empty( $block['anchor'] ) ) {
-	$id = $block['anchor'];
+    $id = $block['anchor'];
 }
 
 $className = 'op-site-login op-form op-flex-col';
@@ -91,9 +97,6 @@ if ( ! empty( $block['align'] ) ) {
     $className .= ' align' . $block['align'];
 }
 
-///// Start Session.
-session_start();
-
 /* ------------------------------------------------------------------------
  #  The Block Content
 --------------------------------------------------------------------------- */
@@ -101,8 +104,8 @@ session_start();
 
 <section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
 
-    <?php ///// Validate if the user is logged in with a Booking Code or a Wordpress login.
-        if ( ! isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
+    <?php ///// Validate if the user is logged in with a Booking Code.
+    if ( $bookingSession['bookingId'] === '' ) { ?>
 
         <div class="op-block__inner op-flex-col op-login">
 
@@ -120,13 +123,13 @@ session_start();
                     <div class="op-form-content op-flex-col">
 
                         <?php $form_steps = glob( __DIR__ . '/block-template-parts/block-form/steps/*' );
-                        
+
                         foreach ( $form_steps as $step ) {
                             require( $step );
-                        } ?>                   
+                        } ?>
 
                     </div>
-                    
+
                     <button type="button" onclick="opBookingFormValidation( false, '<?= esc_attr( $login['login_link']['url'] ) ?>' )" class="op-button-save op-button op-button-size-medium op-button-style-solid" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="lock" data-icon-position="left" disabled>
                         <span class="op-icon" role="img" aria-label="Lock Icon"></span>
                         <span class="op-button-title"><?= esc_attr( $login['login_link']['title'] ) ?></span>
@@ -134,10 +137,10 @@ session_start();
 
                 </div><!-- .op-form__inner -->
             </form><!-- .op-form-fields -->
-            
+
         </div><!-- .op-login -->
 
-    <?php } if ( isset( json_decode( $_SESSION['OP_PLUGIN_DATA_BOOKING'], true )['bookingId'] ) || ( current_user_can( 'edit_posts' ) && is_admin() ) ) { ?>
+    <?php } else { ?>
 
         <div class="op-block__inner op-flex-col op-logout">
 
@@ -147,7 +150,7 @@ session_start();
             </header>
 
             <div class="op-form-fields op-flex-col">
-        
+
                 <a class="op-button op-button-size-medium op-button-style-solid" href="<?= esc_attr( $logout['dashboard_link']['url'] ) ?>" target="<?= esc_attr( $logout['dashboard_link']['target'] ) ?>" data-color="<?= esc_attr( $styleColor ) ?>-60" data-icon="arrow-left" data-icon-position="left">
                     <span class="op-icon" role="img" aria-label="arrow-left Icon"></span>
                     <span class="op-button-title"><?= esc_attr( $logout['dashboard_link']['title'] ) ?></span>
@@ -159,7 +162,7 @@ session_start();
                 </button>
 
             </div><!-- .op-form-fields -->
-            
+
         </div><!-- .op-logout -->
 
     <?php } ?>
