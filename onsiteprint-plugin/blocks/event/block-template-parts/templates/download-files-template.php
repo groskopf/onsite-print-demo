@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Modal Part Name: Download Files Template
- ?  Updated: 2025-08-20 - 03:37 (Y:m:d - H:i)
- ?  Info: Added new Script, Download Files Template.
+ ?  Updated: 2025-11-20 - 04:10 (Y:m:d - H:i)
+ ?  Info: Changed the Modal Variable.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
@@ -19,10 +19,10 @@
 
         <h3 class="op-modal-title" data-icon="download">
             <span class="op-icon" role="img" aria-label="Download"></span>
-            <span class="op-text"><?= esc_attr( $modal['df']['title'] ) ?></span>
+            <span class="op-text"><?= esc_attr( $modal_df['title'] ) ?></span>
         </h3>
 
-        <p class="op-modal-description"><?= esc_attr( $modal['df']['description'] ) ?></p>
+        <p class="op-modal-description"><?= esc_attr( $modal_df['description'] ) ?></p>
 
     </div>
 
@@ -33,11 +33,11 @@
 
                 <button class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-csv" data-icon-position="left" onclick="opDownloadEventParticipants('csv', <?= esc_attr( $options['event_id'] ) ?>)">
                     <span class="op-icon" role="img" aria-label="CSV File Icon"></span>
-                    <span class="op-button-title"><?= esc_attr( $modal['df']['download_csv'] ) ?></span>
+                    <span class="op-button-title"><?= esc_attr( $modal_df['download_csv'] ) ?></span>
                 </button>
                 <button class="op-button op-button-size-medium op-button-style-outline op-flex-fill"  data-color="primary-90" data-icon="file-pdf" data-icon-position="left" onclick="opDownloadEventParticipants('pdf', <?= esc_attr( $options['event_id'] ) ?>)">
                     <span class="op-icon" role="img" aria-label="PDF File Icon"></span>
-                    <span class="op-button-title"><?= esc_attr( $modal['df']['download_pdf'] ) ?></span>
+                    <span class="op-button-title"><?= esc_attr( $modal_df['download_pdf'] ) ?></span>
                 </button>
 
             </div><!-- .op-modal-overflow__inner -->   

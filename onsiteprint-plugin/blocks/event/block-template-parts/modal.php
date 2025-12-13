@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-08-20 - 03:37 (Y:m:d - H:i)
- ?  Info: Added new Download Files Template.
+ ?  Updated: 2025-11-20 - 04:10 (Y:m:d - H:i)
+ ?  Info: Changed the Modal Variable.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -23,13 +23,13 @@
 
                     <h3 class="op-modal-title" data-icon="circle-exclamation">
                         <span class="op-icon" role="img" aria-label="Error Icon"></span>
-                        <span class="op-text"><?= esc_attr( $modal['error_title'] ) ?></span>
+                        <span class="op-text"><?= esc_attr( $modal_error['title'] ) ?></span>
                     </h3>
 
-                    <p class="op-modal-description"><?= esc_attr( $modal['error_description'] ) ?></p>
+                    <p class="op-modal-description"><?= esc_attr( $modal_error['description'] ) ?></p>
 
                     <button type="button" class="op-button-reload op-button op-button-size-medium op-button-style-solid" data-color="primary-90" onclick="window.location.reload()">
-                        <span class="op-button-title"><?= esc_attr( $modal['error_button'] ) ?></span>
+                        <span class="op-button-title"><?= esc_attr( $modal_error['button'] ) ?></span>
                     </button>
 
                 </div>
