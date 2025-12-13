@@ -57,16 +57,16 @@ if ( ! empty( $block['align'] ) ) {
 ///// Validate if the user is logged in with a Booking Code.
 if ( $bookingSession['bookingId'] === '' ) { ?>
 
-    <a id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?> op-button-login op-button op-button-size-medium op-button-style-solid" href="<?= esc_attr( $acf['login_link_url'] ) ?>" data-color="<?= esc_attr( $acf['style_color'] ) ?>" data-icon="lock" data-icon-position="left" data-title-visibility="1">
+    <a id="<?= esc_attr( $id ) ?>" class="<?= esc_attr( $className ) ?> op-button-login op-button op-button-size-medium op-button-style-solid" href="<?= esc_attr( $acf['login_link_url'] ) ?>" data-color="<?= esc_attr( $acf['style_color'] ) ?>" data-icon="lock" data-icon-position="left" data-title-visibility="1">
         <span class="op-icon" role="img" aria-label="Lock Icon"></span>
         <span class="op-button-title"><?= esc_attr( $acf['login_link_title'] ) ?></span>
     </a>
 
 <?php } else { ?>
 
-    <button type="button" onclick="opLogoutButton( false, '<?= esc_attr( $acf['logout_link_url'] ) ?>' )"  id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?> op-button-logout op-button op-button-size-medium op-button-style-solid" data-color="<?= esc_attr( $acf['style_color'] ) ?>" data-icon="unlock" data-icon-position="left" data-title-visibility="1">
+    <button type="button" onclick="opLogoutButton( false, '<?= esc_attr( $acf['logout_link_url'] ) ?>' )"  id="<?= esc_attr( $id ) ?>" class="<?= esc_attr( $className ) ?> op-button-logout op-button op-button-size-medium op-button-style-solid" data-color="<?= esc_attr( $acf['style_color'] ) ?>" data-icon="unlock" data-icon-position="left" data-title-visibility="1">
         <span class="op-icon" role="img" aria-label="Unlock Icon"></span>
         <span class="op-button-title"><?= esc_attr( $acf['logout_link_title'] ) ?></span>
-    </button><!-- #<?= esc_attr($id) ?> -->
+    </button><!-- #<?= esc_attr( $id ) ?> -->
 
 <?php } ?>

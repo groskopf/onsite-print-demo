@@ -102,7 +102,7 @@ if ( ! empty( $block['align'] ) ) {
 --------------------------------------------------------------------------- */
 ?>
 
-<section id="<?= esc_attr($id) ?>" class="<?= esc_attr($className) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
+<section id="<?= esc_attr( $id ) ?>" class="<?= esc_attr( $className ) ?>" data-form-color="<?= esc_attr( $styleColor ) ?>">
 
     <?php ///// Validate if the user is logged in with a Booking Code.
     if ( $bookingSession['bookingId'] === '' ) { ?>
@@ -167,4 +167,4 @@ if ( ! empty( $block['align'] ) ) {
 
     <?php } ?>
 
-</section><!-- #<?= esc_attr($id) ?> -->
+</section><!-- #<?= esc_attr( $id ) ?> -->

@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Modal Part Name: Create Participant Template
- ?  Updated: 2025-08-20 - 03:22 (Y:m:d - H:i)
- ?  Info: Changed the Modal variable.
+ ?  Updated: 2025-11-20 - 04:10 (Y:m:d - H:i)
+ ?  Info: Changed the Modal Variable.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
@@ -19,14 +19,14 @@
 
         <h3 class="op-modal-title" data-icon="user-plus">
             <span class="op-icon" role="img" aria-label="User Icon"></span>
-            <span class="op-text"><?= esc_attr( $modal['cp']['title'] ) ?></span>
+            <span class="op-text"><?= esc_attr( $modal_cp['title'] ) ?></span>
         </h3>
-    
-        <p class="op-modal-description"><?= esc_attr( $modal['cp']['description'] ) ?></p>
+
+        <p class="op-modal-description"><?= esc_attr( $modal_cp['description'] ) ?></p>
 
         <div class="op-form-validation" data-icon="circle-exclamation">
             <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
-            <span class="op-message"><?= esc_attr( $modal['cp']['messages_error'] ) ?></span>
+            <span class="op-message"><?= esc_attr( $modal_cp['messages_error'] ) ?></span>
         </div>
 
     </div>
@@ -84,7 +84,7 @@
                                     </label>
 
                                     <label for="<?= esc_attr($id) ?>-note-input" class="op-input-wrapper">
-                                        <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal['cp']['note'] ) ?></span></p>
+                                        <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal_cp['note'] ) ?></span></p>
                                         <div class="op-input-field">
                                             <textarea id="<?= esc_attr($id) ?>-note-input" class="op-input-border" name="note" rows="3" maxlength="250"></textarea>
                                         </div>
@@ -106,7 +106,7 @@
         <div class="op-modal-buttons op-flex-col">
             
             <button type="button" class="op-button-save op-button op-button-size-medium op-button-style-solid" data-color="primary-90" disabled>
-                <span class="op-button-title"><?= esc_attr( $modal['cp']['add_button'] ) ?></span>
+                <span class="op-button-title"><?= esc_attr( $modal_cp['add_button'] ) ?></span>
             </button>
     
         </div><!-- .op-modal-buttons -->

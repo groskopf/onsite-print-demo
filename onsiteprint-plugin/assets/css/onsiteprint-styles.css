@@ -124,9 +124,7 @@ html {
     --fa-icon-download: "\f2f6";
     --fa-icon-move: "\f0b2";
     --fa-icon-hand: "\f256";
-
 }
-
 
 [data-icon="op-dashboard"] .op-icon::before {
 	content: '';
