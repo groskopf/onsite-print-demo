@@ -1,14 +1,19 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-08-020 - 01:42 (Y:m:d - H:i)
- ?  Info: Removed '.op-input-wrapper:last-child' and changed padding in '.op-modal-overflow__inner'.
+ ?  Updated: 2025-12-14 - 05:17 (Y:m:d - H:i)
+ ?  Info: Added footer.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
     line-height: 1;
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
     padding: 1rem 2rem;
+}
+
+.op-block__event .op-block__inner {
+    flex: 1 1 auto;
 }
 
 .op-block__event p .op-icon {
@@ -27,9 +32,51 @@
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30), 0 -3rem 2rem 2rem var(--wp--preset--color--white);
 }
 
-.wp-admin .op-block__event .op-block__inner > header {
+.op-block__event .op-block__inner > footer {
+    background: var(--wp--preset--color--white);
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    position: sticky;
+    bottom: 2rem;
+    z-index: 99;
+    border-radius: 0.4rem;
+    box-shadow: 0 -0.5rem 1rem var(--wp--preset--color--neutral-30), 0 3rem 2rem 2rem var(--wp--preset--color--white);
+}
+
+.wp-admin .op-block__event .op-block__inner > header,
+.wp-admin .op-block__event .op-block__inner > footer {
     position: static;
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
+}
+
+.op-block__event .op-block__inner > footer div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.op-block__event .op-block__inner > footer .op-limit {
+    padding: 0 2.4rem 0 1.4rem;
+    border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-block__event .op-block__inner > footer .op-limit-filter {
+    position: relative;
+}
+
+.op-block__event .op-block__inner > footer .op-limit-options {
+    position: absolute;
+    bottom: 100%;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.op-block__event .op-block__inner .op-participant-list {
+    flex: 1 1 auto;
 }
 
 /* ------------------------------------------
