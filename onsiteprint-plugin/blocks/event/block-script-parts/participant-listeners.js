@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-08-20 - 02:41 (Y:m:d - H:i)
- ?  Info: Added 'opChangeModalContent()' to the 'opCreateParticipantListener()'.
+ ?  Updated: 2025-12-14 - 05:07 (Y:m:d - H:i)
+ ?  Info: Changed some Variable Names.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -392,11 +392,11 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 ///// Close the Modal.
                 opChangeModalContent( debug, block.querySelector( '.op-modal' ), false )
 
-                ///// Get the Participant Container.
-                let participantContainer = block.querySelector( '.op-participant-rows' )
+                ///// Get the Participants Container.
+                let participantsContainer = block.querySelector('.op-participant-list')
 
                 ///// Create a Participant Element.
-                const participantResponse = opAddParticipant( debug, eventId, participantContainer, participant )
+                const participantResponse = opAddParticipant( debug, eventId, participantsContainer, participant )
 
                 ///// Validate the Participant Response.
                 if ( participantResponse.error !== false ) {
@@ -413,7 +413,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                     ///// Scroll and Fade In the Participant after Timeout.
                     setTimeout( () => {
                         participantResponse.response.details.classList.add( 'op-fade-in' )
-                        participantContainer.scrollIntoView( false )
+                        participantsContainer.scrollIntoView( false )
 
                         ////# NG - This function need to be changed, when a new (EventInformationBlock) is created.
                         ///// Update Event Information Blocks.
