@@ -1,16 +1,16 @@
 <?php
-/* ------------------------------------------------------------------------
+                                                    /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2025-08-20 - 03:32 (Y:m:d - H:i)
- ?  Info: Added new Dropdown Element.
+ ?  Updated: 2025-12-14 - 05:10 (Y:m:d - H:i)
+ ?  Info: Added new Variables to the Header.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
-?>
+                                                    ?>
 
 <header>
 
-    <?php if ( $options['enable_search'] ) { ?>
+    <?php if ( $header['enable_search'] ) { ?>
 
     <div class="op-participants-search">
         <form class="op-search-form" data-search-active="0" action="POST" onsubmit="return false">
@@ -83,7 +83,7 @@
         <div class="op-dropdown-menu" data-dropdown-position="right">
             <button name="dropdown" type="button" class="op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="ellipsis" data-icon-position="left">
                 <span class="op-icon" role="img" aria-label="Ellipsis Icon"></span>
-                <span class="op-button-title">Genveje</span>
+                <span class="op-button-title"><?= esc_attr( $header['shortcuts'] ) ?></span>
             </button>
             <div class="op-dropdown">
                 <button name="add-participant" type="button" class="op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="user-plus" data-icon-position="left">
@@ -92,7 +92,7 @@
                 </button>
                 <button name="download" type="button" class="op-button op-button-size-small op-button-style-outline" data-color="accent-60" data-icon="download" data-icon-position="left">
                     <span class="op-icon" role="img" aria-label="Download Icon"></span>
-                    <span class="op-button-title">Hent liste</span>
+                    <span class="op-button-title"><?= esc_attr( $header['download'] ) ?></span>
                 </button>
             </div>
         </div>
