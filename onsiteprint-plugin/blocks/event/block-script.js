@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-07-28 - 01:33 (Y:m:d - H:i)
- ?  Info: Added Event ID to opSetupHeader().
+ ?  Updated: 2025-12-14 - 05:18 (Y:m:d - H:i)
+ ?  Info: Added new Limit & Page Filter.
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -25,12 +25,12 @@ export function opEventBlocks( debug ) {
     
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
-        if ( debug !== true ) debug = true       
+        if ( debug !== true ) debug = false       
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Create Variables.
         let blockName = 'Event'
-
+    
         ///// Get the elements.
         let blocks = document.querySelectorAll( 'section.op-block__event' )
 
@@ -104,8 +104,18 @@ export function opEventBlocks( debug ) {
                 ///// Get Participant List.
                 const participantList = eventItem.response.details.eventParticipants
                 
+
+
+                ///// Get the Page Information.
+                let pageNumber = Number( block.querySelector( '.op-page' ).getAttribute( 'data-page' ) )
+                let pageSize = Number( block.querySelector( '.op-limit' ).getAttribute( 'data-limit' ) )
+                let startIndex = ( pageNumber - 1 ) * pageSize
+                let endIndex = startIndex + pageSize
+
+                console.log( 'startIndex:', startIndex, 'endIndex:', endIndex )
+
                 ///// Setup the Event List.
-                const setupList = opSetupList( debug, block, eventId, participantList )
+                const setupList = opSetupList( debug, block, eventId, participantList, startIndex, endIndex )
 
                 ///// Validate the Response from the Event List.
                 if ( setupList.error !== false ) throw setupList

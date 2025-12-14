@@ -10,6 +10,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed the `Import` Functions.
 - Added new Function, `opSetupHeader()`.
 - Added `Event ID` to `opSetupHeader()`.
+- Added new `Limit` & `Page` Filter.
 
     [EB | block-script.js](blocks/event/block-script.js)
 
@@ -62,6 +63,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed `Participant List Element` to `Participant Container` and Changed `Block` to `Event ID`.
 - Changed the `Import` Functions.
 - Added New `Participant Loop` with `Fading (CSS Animation)`.
+- Added new `Limit` & `Page` Filter.
 
     [EB | setup-list.js](blocks/event/block-script-parts/setup-list.js)
 

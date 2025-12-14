@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
  *  Block function included in the Event Block.
- ?  Updated: 2025-07-08 - 21:02 (Y:m:d - H:i)
- ?  Info: Removed Lines and Added the Lines to the Block Script.
+ ?  Updated: 2025-12-14 - 05:18 (Y:m:d - H:i)
+ ?  Info: Added new Limit & Page Filter.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -21,7 +21,7 @@ import { opAddParticipant } from './add-participant.js'
  #  2. Function: Setup of the Participant List in Event
  ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
-export function opSetupList( debug, block, eventId, participantList ) {
+export function opSetupList(debug, block, eventId, participantList, startIndex, endIndex ) {
 
     try {
         
@@ -33,57 +33,47 @@ export function opSetupList( debug, block, eventId, participantList ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
-            
-        //// #NG: Need to Validate the Length of the Participant List
+        ///// Validate the Participant List.
+        if ( participantList.length === 0 ) throw opModuleBasic.opReturnResponse( true, 404, { 
+            message: `No Participants found!`, 
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
 
-
-        ///// Get the Participant Container.
-        let participantContainer = block.querySelector( '.op-participant-rows' )
+        ///// Get the Participants Container.
+        let participantsContainer = block.querySelector( '.op-participant-list' )
 
         ///// Start the Console Log Group.
         if ( debug ) console.group( `Participants Added: ${ participantList.length }` )
 
         ///// For each Participant.
-        for( var i = 0; i < participantList.length; i++ ) {
+        for ( var i = startIndex; i < endIndex && i < participantList.length; i++ ) {
 
             ///// Create a Participant Element.
-            const participantResponse = opAddParticipant( debug, eventId, participantContainer, participantList[i] )
+            const participantResponse = opAddParticipant( debug, eventId, participantsContainer, participantList[i] )
 
             ///// Validate the Participant Response.
-            if ( participantResponse.error !== false ) {
-                
-                ///// Console Log Group Value.
-                if ( debug ) console.debug( 'DEBUG:', { 
-                    message: `Something went wrong when adding a Participant!`,
-                    line: opModuleBasic.errorLine(),
-                    function: functionName
-                } ) 
-
-                ///// Break the for loop.
-                break
-                
-            } 
+            if ( participantResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 404, { 
+                message: `Something went wrong when adding a Participant!`, 
+                line: opModuleBasic.errorLine(),
+                function: functionName
+            } )
             
-            ///// If the first Participant is added.
-            if ( i == 0 ) {
-                
-                ///// Fade Out the Skeleton and Fade In the Participant.
-                participantContainer.querySelectorAll( '.op-participant_skeleton' ).forEach( skeleton => {
-                    skeleton.classList.remove( 'op-fade-in' )
-                    setTimeout( () => {
-                        skeleton.classList.add( 'op-fade-out' )
-                    }, 300 )
-                    setTimeout( () => {
-                        skeleton.classList.remove( 'op-active' )
-                        participantContainer.querySelectorAll( '.op-participant' ).forEach( participant => {
-                            participant.classList.add( 'op-fade-in' )
-                        })
-                    }, 600 )
-                } )
-
-            }
-
         }
+
+        ///// Fade Out the Skeleton and Fade In the Participant.
+        participantsContainer.querySelectorAll( '.op-participant_skeleton' ).forEach( skeleton => {
+            skeleton.classList.remove( 'op-fade-in' )
+            setTimeout( () => {
+                skeleton.classList.add( 'op-fade-out' )
+            }, 300 )
+            setTimeout( () => {
+                skeleton.classList.remove( 'op-active' )
+                participantsContainer.querySelectorAll( '.op-participant' ).forEach( participant => {
+                    participant.classList.add( 'op-fade-in' )
+                } )
+            }, 600 )
+        } )
 
         ///// End the Console Log Group.
         if ( debug ) console.groupEnd()
