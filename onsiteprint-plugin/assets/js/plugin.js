@@ -4,7 +4,8 @@
  *  Description: This is the Main JavaScript Module to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2023-04-11 - 17:50 (Y:m:d - H:i)
+ ?  Updated: 2025-12-14 - 04:56 (Y:m:d - H:i)
+ ?  Info: Changed the Debug Parameter.
 
 ---------------------------------------------------------------------------
 #  TABLE OF CONTENTS:
@@ -29,16 +30,16 @@ import * as opModuleBlocks from './inc/blocks.js'
 /* ------------------------------------------------------------------------
  #  3. Call all functions in the Blocks Module
 --------------------------------------------------------------------------- */
-function opCalAllBlocks( debug ) {
+function opCalAllBlocks() {
 
     ///// Create Variables.
     let error, code, message
 
     try {
 
-        ///// Set the Parameter If is not defined.
+        ///// Set the Debug.
         ////* true or false
-        if ( ! debug ) debug = false
+        let debug = true
 
         ///// Call all functions in the Blocks Module.
         opModuleBlocks.opCallAllFunctions( debug )

@@ -22,6 +22,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed `op-button-cancel` to `op-button-close` in the Modal Window.
 - Added `z-index` to `.op-filter-options`.
 - Removed `.op-input-wrapper:last-child` and changed padding in `.op-modal-overflow__inner`.
+- Added `footer`.
 
     [EB | block-style.css](blocks/event/block-style.css)
 
@@ -166,6 +167,18 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Dropdown Element.
 
     [EB | header.php](blocks/event/block-template-parts/header.php)
+
+    ---
+
+- Added new Footer File.
+
+    [EB | footer.php](blocks/event/block-template-parts/footer.php)
+
+    ---
+
+- Changed the `Debug` Parameter.
+
+    [JS | plugin.js](assets/js/plugin.js)
 
     ---
 
