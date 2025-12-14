@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant Container in the Event Block.
- ?  Updated: 2025-07-27 - 05:13 (Y:m:d - H:i)
- ?  Info: Added the Details to the Return Response.
+ ?  Updated: 2025-12-14 - 05:05 (Y:m:d - H:i)
+ ?  Info: Changed some Variable Names.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -20,7 +20,7 @@ import * as opModuleListeners from './participant-listeners.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Add the Participant to the Participant Container
 --------------------------------------------------------------------------- */
-export function opAddParticipant( debug, eventId, participantContainer, participant ) {
+export function opAddParticipant( debug, eventId, participantsContainer, participant ) {
 
     try {
 
@@ -40,7 +40,7 @@ export function opAddParticipant( debug, eventId, participantContainer, particip
         } )
 
         ///// Get the Participant Template Element.
-        let participantTemplateElement = participantContainer.querySelector(`[id$="-participant-template"]`)
+        let participantTemplateElement = participantsContainer.querySelector(`[id$="-participant-template"]`)
         let participantElement = participantTemplateElement.content.cloneNode(true)
         
         ///// Set the Elements in the Participant Template Element.
@@ -65,15 +65,16 @@ export function opAddParticipant( debug, eventId, participantContainer, particip
         ///// Set Print Participant Listener to the Participant Print Button.
         opModuleListeners.opPrintParticipantListener( debug, participantElement.querySelector( 'button.op-participant-print' ), eventId, participant.id )
 
-        ///// Add the Participant to the Participant Container.
-        participantContainer.append( participantElement )
+        ///// Get the Participant Rows Element and Add the Participant.
+        let participantRows = participantsContainer.querySelector('.op-participant-rows')
+        participantRows.append( participantElement )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
-            message: `The Participant (${participant.id}) was Added to the Participant Container in the Event Block!`, 
+            message: `The Participant (${ participant.id }) was Added to the Participant Container in the Event Block!`, 
             line: opModuleBasic.errorLine(),
             function: functionName,
-            details: participantContainer.querySelector( `#op-participant_${ participant.id }` )
+            details: participantRows.querySelector( `#op-participant_${ participant.id }` )
         }, debug )
 
     } catch( errorResponse ) {
