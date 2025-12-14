@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-14 - 05:00 (Y:m:d - H:i)
- ?  Info: Changed the Header Variable.
+ ?  Updated: 2025-12-14 - 05:14 (Y:m:d - H:i)
+ ?  Info: Added new Footer Variable and Footer File.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -36,6 +36,14 @@ $header = array(
     'shortcuts'         => get_field( $path . 'header_buttons_shortcuts' ) ?: 'Shortcuts',
     'add_participant'   => get_field( $path . 'header_buttons_add_participant' ) ?: 'Add new Participant',
     'download'          => get_field( $path . 'header_buttons_download' ) ?: 'Download List',
+);
+
+$footer = array(
+    'page'              => empty( $_GET['pg'] ) ? 1 : $_GET['pg'],
+    'show_limit'        => empty( $_GET['limit'] ) ? 50 : $_GET['limit'],
+    'show_text_first'   => get_field( $path . 'footer_show_text_first' ) ?: 'Show',
+    'show_text_last'    => get_field( $path . 'footer_show_text_last' ) ?: 'per page',
+    'show_choices'      => get_field( $path . 'footer_show_choices' ) ?: [ '5', '10', '25', '50', '75' ],
 );
 
 $modal = array(
@@ -103,6 +111,7 @@ if ( ! empty( $block['align'] ) ) {
         require( __DIR__ . '/block-template-parts/header.php' );
         require( __DIR__ . '/block-template-parts/modal.php' );
         require( __DIR__ . '/block-template-parts/list.php' );
+        require( __DIR__ . '/block-template-parts/footer.php' );
 
         ?>
 
