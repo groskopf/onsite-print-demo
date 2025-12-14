@@ -157,6 +157,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 - Added new Lines with the `Participant Template`.
 - Added `Participant Skeleton` when loading.
+- Added new `Div` Elements.
 
     [EB | list.php](blocks/event/block-template-parts/list.php)
 
