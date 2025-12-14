@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-14 - 05:18 (Y:m:d - H:i)
- ?  Info: Added new Limit & Page Filter.
+ ?  Updated: 2025-12-14 - 05:31 (Y:m:d - H:i)
+ ?  Info: Added new Setup Footer Script.
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -10,7 +10,7 @@
 import * as opModuleBasic from '../../assets/js/inc/basic.js'
 import { opGetEvent } from '../../assets/js/inc/event/event.js'
 import { opGetTemplate } from '../../assets/js/inc/template/template.js'
-import { opSetupHeader, opSetupList } from './block-script-parts/parts.js'
+import { opSetupHeader, opSetupFooter, opSetupList } from './block-script-parts/parts.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Event Creation Blocks
@@ -100,6 +100,12 @@ export function opEventBlocks( debug ) {
 
                 ///// Validate the Response from the Event Header.
                 if ( setupHeader.error !== false ) throw setupHeader
+
+                ///// Setup the Event Footer.
+                const setupFooter = opSetupFooter( debug, block )
+
+                ///// Validate the Response from the Event Footer.
+                if ( setupFooter.error !== false ) throw setupFooter
 
                 ///// Get Participant List.
                 const participantList = eventItem.response.details.eventParticipants

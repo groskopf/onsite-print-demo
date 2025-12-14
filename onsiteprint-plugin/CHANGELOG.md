@@ -11,6 +11,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function, `opSetupHeader()`.
 - Added `Event ID` to `opSetupHeader()`.
 - Added new `Limit` & `Page` Filter.
+- Added new Script `Setup Footer`.
 
     [EB | block-script.js](blocks/event/block-script.js)
 
@@ -43,6 +44,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new Function, `opAddParticipant()`.
 - Added new Function, `opSetupHeader()`.
 - Added new Script, `participant-listeners.js`.
+- Added new Function, `SetupFooter()`.
 
     [EB | parts.js](blocks/event/block-script-parts/parts.js)
 
@@ -56,6 +58,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added new `Modal Toggle Listener` to new `Download Button`.
 
     [EB | setup-header.js](blocks/event/block-script-parts/setup-header.js)
+
+    ---
+
+- Added new Script `Setup Footer`.
+
+    [EB | setup-footer.js](blocks/event/block-script-parts/setup-footer.js)
 
     ---
 
