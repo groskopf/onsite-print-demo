@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-14 - 05:14 (Y:m:d - H:i)
- ?  Info: Added new Footer Variable and Footer File.
+ ?  Updated: 2025-12-15 - 04:39 (Y:m:d - H:i)
+ ?  Info: Changed the default Limit to 50.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -38,12 +38,36 @@ $header = array(
     'download'          => get_field( $path . 'header_buttons_download' ) ?: 'Download List',
 );
 
+$raw_choices = get_field( $path . 'footer_show_choices' ) ?: [ '5', '10', '25', '50', '75' ];
+$show_choices = array_values( (array) $raw_choices );
+
+///// Determine incoming selected limit (prefer GET, fallback to 50)
+$incoming_limit = isset( $_GET['limit'] ) && $_GET['limit'] !== '' ? strval( $_GET['limit'] ) : '50';
+
+///// String-safe comparison set of choices
+$choices_as_strings = array_map( 'strval', $show_choices );
+
+if ( in_array( $incoming_limit, $choices_as_strings, true ) ) {
+    ///// Incoming value is valid and present in choices
+    $resolved_limit = $incoming_limit;
+} else {
+    ///// Find numeric choices and pick the largest
+    $numeric_choices = array_filter( $show_choices, function( $v ) { return is_numeric( $v ); } );
+    if ( $numeric_choices ) {
+        $max = max( array_map( 'floatval', $numeric_choices ) );
+        $resolved_limit = strval( intval( $max ) );
+    } else {
+        ///// No numeric choices -> fallback to incoming or default
+        $resolved_limit = $incoming_limit !== '' ? $incoming_limit : '50';
+    }
+}
+
 $footer = array(
-    'page'              => empty( $_GET['pg'] ) ? 1 : $_GET['pg'],
-    'show_limit'        => empty( $_GET['limit'] ) ? 50 : $_GET['limit'],
+    'page'              => empty( $_GET['pg'] ) ? 1 : intval( $_GET['pg'] ),
+    'show_limit'        => $resolved_limit,
     'show_text_first'   => get_field( $path . 'footer_show_text_first' ) ?: 'Show',
     'show_text_last'    => get_field( $path . 'footer_show_text_last' ) ?: 'per page',
-    'show_choices'      => get_field( $path . 'footer_show_choices' ) ?: [ '5', '10', '25', '50', '75' ],
+    'show_choices'      => $show_choices,
 );
 
 $modal = array(
