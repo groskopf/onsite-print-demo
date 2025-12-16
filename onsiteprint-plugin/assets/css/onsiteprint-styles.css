@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-10-05 - 01:09 (Y:m:d - H:i)
- ?  Info: Added new Hand Icon.
+ ?  Updated: 2025-12-16 - 03:17 (Y:m:d - H:i)
+ ?  Info: Added "align-items: stretch" to the Dropdown.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -796,6 +796,7 @@ html {
 .op-dropdown-menu:is( .op-active ) .op-dropdown {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
 }
 
 .op-dropdown-menu .op-button[name="dropdown"] {
