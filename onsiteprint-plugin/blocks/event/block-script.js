@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-16 - 03:13 (Y:m:d - H:i)
+ ?  Updated: 2025-12-16 - 04:45 (Y:m:d - H:i)
  ?  Info: Added new Page Navigation.
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
@@ -103,29 +103,59 @@ export function opEventBlocks( debug ) {
 
                 ///// Get Participant List.
                 const participantList = eventItem.response.details.eventParticipants
-                
-                ///// Get the Page Information.
+
+                ///// Get the Page Information and calculate paging.
                 let pageNumber = Number( block.querySelector( '.op-page' ).getAttribute( 'data-page' ) )
                 let pageSize = Number( block.querySelector( '.op-limit' ).getAttribute( 'data-limit' ) )
-                let startIndex = ( pageNumber - 1 ) * pageSize
-                let endIndex = startIndex + pageSize
+                if ( ! Number.isFinite( pageSize ) || pageSize <= 0 ) pageSize = 50
 
-                ///// Setup the Event Footer.
-                const setupFooter = opSetupFooter( debug, block, startIndex, endIndex, participantList.length )
+                const totalItems = participantList.length
+                const totalPages = Math.max( 1, Math.ceil( totalItems / pageSize ) )
 
-                ///// Validate the Response from the Event Footer.
-                if ( setupFooter.error !== false ) throw setupFooter
+                ///// Clamp pageNumber into valid range
+                pageNumber = Number.isFinite( pageNumber ) ? pageNumber : 1
+                pageNumber = Math.min( Math.max( 1, pageNumber ), totalPages )
 
-                console.log( 'startIndex:', startIndex, 'endIndex:', endIndex )
+                ///// Compute slice indexes
+                const startIndex = ( pageNumber - 1 ) * pageSize
+                const endIndex = Math.min( startIndex + pageSize, totalItems )
 
-                ///// Setup the Event List.
-                const setupList = opSetupList( debug, block, eventId, participantList, startIndex, endIndex )
+                ///// Divide participantList into pages and pick current page items
+                const pages = []
+                for ( let i = 0; i < totalPages; i++ ) {
+                    const s = i * pageSize
+                    const e = Math.min( s + pageSize, totalItems )
+                    pages.push( participantList.slice( s, e ) )
+                }
+
+                //// Get the Current Page Items.
+                const currentPageItems = pages[ pageNumber - 1 ] || []
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `Successfully retrieved current page items.`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName,
+                    details: {
+                        currentPageItems: currentPageItems,
+                        startIndex: startIndex,
+                        endIndex: endIndex,
+                        totalItems: totalItems, 
+                        totalPages: totalPages
+                    }
+                } )
+
+                ///// Setup the Event List with current page items.
+                const setupList = opSetupList( debug, block, eventId, currentPageItems, startIndex, endIndex )
 
                 ///// Validate the Response from the Event List.
                 if ( setupList.error !== false ) throw setupList
-                
 
+                ///// Setup the Event Footer (pass total item count for pagination display).
+                const setupFooter = opSetupFooter( debug, block, startIndex, endIndex, totalItems, pageNumber, totalPages )
 
+                ///// Validate the Response from the Event Footer.
+                if ( setupFooter.error !== false ) throw setupFooter
 
                 ///// Debug to the Console Log.
                 opModuleBasic.opConsoleDebug( debug, { 

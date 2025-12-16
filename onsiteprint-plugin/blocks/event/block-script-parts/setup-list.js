@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-16 - 01:07 (Y:m:d - H:i)
- ?  Info: Changed the placement of the Skeleton and the Participant.
+ ?  Updated: 2025-12-16 - 04:12 (Y:m:d - H:i)
+ ?  Info: Removed the Index variables.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -21,13 +21,13 @@ import { opAddParticipant } from './add-participant.js'
  #  2. Function: Setup of the Participant List in Event
  ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
-export function opSetupList(debug, block, eventId, participantList, startIndex, endIndex ) {
+export function opSetupList( debug, block, eventId, participantList ) {
 
     try {
-        
+
         ///// Get Function Name.
         var functionName = opSetupList.name
-        
+
         ///// Set the Debug.
         ////* Set the Parameter If is not defined (true or false).
         if ( debug !== true ) debug = false
@@ -47,7 +47,7 @@ export function opSetupList(debug, block, eventId, participantList, startIndex, 
         if ( debug ) console.group( `Participants Added: ${ participantList.length }` )
 
         ///// For each Participant.
-        for ( var i = startIndex; i < endIndex; i++ ) {
+        for (let i = 0; i < participantList.length; i++ ) {
 
             ///// Create a Participant Element.
             const participantResponse = opAddParticipant( debug, eventId, participantsContainer, participantList[i] )
@@ -59,7 +59,7 @@ export function opSetupList(debug, block, eventId, participantList, startIndex, 
                 function: functionName
             } )
 
-            if ( i === startIndex ) {
+            if ( i === 0 ) {
 
                 ///// Fade Out the Skeleton and Fade In the Participant.
                 participantsContainer.querySelectorAll( '.op-participant_skeleton' ).forEach( skeleton => {
@@ -82,7 +82,7 @@ export function opSetupList(debug, block, eventId, participantList, startIndex, 
             }
 
             setTimeout(() => {
-                participantResponse.response.details.classList.add('op-fade-in')
+                participantResponse.response.details.classList.add( 'op-fade-in' )
             }, 600)
 
         }
