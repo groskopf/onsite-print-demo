@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Footer
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-14 - 05:25 (Y:m:d - H:i)
- ?  Info: Added new Setup Footer Script.
+ ?  Updated: 2025-12-16 - 01:46 (Y:m:d - H:i)
+ ?  Info: Added new Redirect Listener to each Limit Option.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -34,12 +34,30 @@ export function opSetupFooter( debug, block ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
-        ///// Get the Button Elements.
-        let dropdownButton = block.querySelector( '.op-button-limit-filter' )
+        ///// Get the Limit Elements.
+        let opLimitContainer = block.querySelector( '.op-limit-filter' )
+        let dropdownButton = opLimitContainer.querySelector( '.op-button-limit-filter' )
 
-        ///// Set Toggle Class Listener to the Dropdown Button.
+        ///// Set Toggle Class Listener to the Limit Filter Dropdown Button.
         opModuleListeners.opToggleClassListener( debug, dropdownButton, 'op-limit-filter' )
-    
+
+        ///// Set Redirect Listener to each Limit Option.
+        opLimitContainer.querySelectorAll('.op-limit-input-label').forEach( optionElement => {
+
+            ///// Get the Option Value.
+            let optionValue = optionElement.querySelector( '[name="op-limit-input"]' ).value
+
+            ///// Create the New URL with the new Limit Parameter.
+            let urlParams = new URLSearchParams( window.location.search )
+            urlParams.set( 'pg', '1' )
+            urlParams.set( 'limit', optionValue )
+            let newUrl = window.location.pathname + '?' + urlParams.toString()
+
+            ///// Set the Redirect Listener.
+            opModuleListeners.opRedirectListener( debug, optionElement, newUrl )
+
+        } )
+
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `The Setup of the Footer was correctly Executed!`, 
