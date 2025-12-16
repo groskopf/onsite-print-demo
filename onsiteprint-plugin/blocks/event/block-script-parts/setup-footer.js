@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Footer
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-16 - 01:46 (Y:m:d - H:i)
- ?  Info: Added new Redirect Listener to each Limit Option.
+ ?  Updated: 2025-12-16 - 02:59 (Y:m:d - H:i)
+ ?  Info: Added new Participant Index.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -22,7 +22,7 @@ import * as opModuleListeners from '../../../assets/js/inc/listeners.js'
  #  2. Function: Setup the Footer of the Event
  ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
-export function opSetupFooter( debug, block ) {
+export function opSetupFooter( debug, block, startIndex, endIndex, totalParticipants ) {
 
     try {
         
@@ -57,6 +57,13 @@ export function opSetupFooter( debug, block ) {
             opModuleListeners.opRedirectListener( debug, optionElement, newUrl )
 
         } )
+
+        ///// Get the Index Element and Update it's Content.
+        let indexElement = block.querySelector('.op-participant-index')
+        indexElement.querySelector( '.op-index-start' ).textContent = Number( startIndex + 1 )
+        indexElement.querySelector( '.op-index-end' ).textContent = Number( endIndex )
+        indexElement.querySelector( '.op-index-amount' ).textContent = Number( totalParticipants )
+        indexElement.classList.add( 'op-active' )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 

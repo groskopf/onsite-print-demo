@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-15 - 04:39 (Y:m:d - H:i)
- ?  Info: Changed the default Limit to 50.
+ ?  Updated: 2025-12-16 - 02:59 (Y:m:d - H:i)
+ ?  Info: Added new Participant Index.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -63,11 +63,13 @@ if ( in_array( $incoming_limit, $choices_as_strings, true ) ) {
 }
 
 $footer = array(
-    'page'              => empty( $_GET['pg'] ) ? 1 : intval( $_GET['pg'] ),
-    'show_limit'        => $resolved_limit,
-    'show_text_first'   => get_field( $path . 'footer_show_text_first' ) ?: 'Show',
-    'show_text_last'    => get_field( $path . 'footer_show_text_last' ) ?: 'per page',
-    'show_choices'      => $show_choices,
+    'page'                  => empty( $_GET['pg'] ) ? 1 : intval( $_GET['pg'] ),
+    'show_limit'            => $resolved_limit,
+    'show_text_first'       => get_field( $path . 'footer_show_text_first' ) ?: 'Show',
+    'show_text_last'        => get_field( $path . 'footer_show_text_last' ) ?: 'per page',
+    'show_choices'          => $show_choices,
+    'index_text_first'      => get_field( $path . 'footer_index_text_first' ) ?: 'of',
+    'index_text_last'       => get_field( $path . 'footer_index_text_last' ) ?: 'Participants',
 );
 
 $modal = array(
@@ -78,24 +80,24 @@ $modal = array(
 );
 
 $modal_cp = array(
-        'title'             => get_field( $modal['cp_path'] . 'title') ?: 'Add new Participant',
-        'description'       => get_field( $modal['cp_path'] . 'description') ?: 'Below you can enter the information about the participant.',
-        'messages_error'    => get_field( $modal['cp_path'] . 'messages_error') ?: 'At least one Column must be Filled!',
-        'add_button'        => get_field( $modal['cp_path'] . 'add_button') ?: 'Add new Participant',
-        'note'              => get_field( $modal['cp_path'] . 'note') ?: 'Extra Notes',
+        'title'             => get_field( $modal['cp_path'] . 'title' ) ?: 'Add new Participant',
+        'description'       => get_field( $modal['cp_path'] . 'description' ) ?: 'Below you can enter the information about the participant.',
+        'messages_error'    => get_field( $modal['cp_path'] . 'messages_error' ) ?: 'At least one Column must be Filled!',
+        'add_button'        => get_field( $modal['cp_path'] . 'add_button' ) ?: 'Add new Participant',
+        'note'              => get_field( $modal['cp_path'] . 'note' ) ?: 'Extra Notes',
 );
 
 $modal_df = array(
-        'title'             => get_field( $modal['df_path'] . 'title') ?: 'Download List',
-        'description'       => get_field( $modal['df_path'] . 'description') ?: 'Below you can download the Participant List in CSV or PDF format.',
-        'download_csv'      => get_field( $modal['df_path'] . 'download_csv_button') ?: 'CSV File',
-        'download_pdf'      => get_field( $modal['df_path'] . 'download_pdf_button') ?: 'PDF File',
+        'title'             => get_field( $modal['df_path'] . 'title' ) ?: 'Download List',
+        'description'       => get_field( $modal['df_path'] . 'description' ) ?: 'Below you can download the Participant List in CSV or PDF format.',
+        'download_csv'      => get_field( $modal['df_path'] . 'download_csv_button' ) ?: 'CSV File',
+        'download_pdf'      => get_field( $modal['df_path'] . 'download_pdf_button' ) ?: 'PDF File',
 );
 
 $modal_error = array(
-    'title'       => get_field( $modal['error_path'] . 'title') ?: 'Something went wrong!',
-    'description' => get_field( $modal['error_path'] . 'description') ?: 'Please try again and contact us if the error continues to persist.',
-    'button'      => get_field( $modal['error_path'] . 'button') ?: 'Reload the page',
+    'title'       => get_field( $modal['error_path'] . 'title' ) ?: 'Something went wrong!',
+    'description' => get_field( $modal['error_path'] . 'description' ) ?: 'Please try again and contact us if the error continues to persist.',
+    'button'      => get_field( $modal['error_path'] . 'button' ) ?: 'Reload the page',
 );
 
 
