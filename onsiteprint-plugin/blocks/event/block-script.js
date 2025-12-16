@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-14 - 05:31 (Y:m:d - H:i)
- ?  Info: Added new Setup Footer Script.
+ ?  Updated: 2025-12-16 - 03:13 (Y:m:d - H:i)
+ ?  Info: Added new Page Navigation.
  ?  NB: The Script wil replace the Old Script.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -101,22 +101,20 @@ export function opEventBlocks( debug ) {
                 ///// Validate the Response from the Event Header.
                 if ( setupHeader.error !== false ) throw setupHeader
 
-                ///// Setup the Event Footer.
-                const setupFooter = opSetupFooter( debug, block )
-
-                ///// Validate the Response from the Event Footer.
-                if ( setupFooter.error !== false ) throw setupFooter
-
                 ///// Get Participant List.
                 const participantList = eventItem.response.details.eventParticipants
                 
-
-
                 ///// Get the Page Information.
                 let pageNumber = Number( block.querySelector( '.op-page' ).getAttribute( 'data-page' ) )
                 let pageSize = Number( block.querySelector( '.op-limit' ).getAttribute( 'data-limit' ) )
                 let startIndex = ( pageNumber - 1 ) * pageSize
                 let endIndex = startIndex + pageSize
+
+                ///// Setup the Event Footer.
+                const setupFooter = opSetupFooter( debug, block, startIndex, endIndex, participantList.length )
+
+                ///// Validate the Response from the Event Footer.
+                if ( setupFooter.error !== false ) throw setupFooter
 
                 console.log( 'startIndex:', startIndex, 'endIndex:', endIndex )
 

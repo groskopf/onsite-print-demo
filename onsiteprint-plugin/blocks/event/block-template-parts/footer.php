@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Footer
- ?  Updated: 2025-12-16 - 02:59 (Y:m:d - H:i)
- ?  Info: Added new Participant Index.
+ ?  Updated: 2025-12-16 - 03:13 (Y:m:d - H:i)
+ ?  Info: Added new Page Navigation.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -49,5 +49,19 @@
         <?= esc_attr( $footer['index_text_last'] ) ?>
 
     </p>
+
+    <div class="op-page" data-page="<?= esc_attr( $footer['page'] ) ?>">
+
+        <button type="button" name="previous" class="op-button-page-previous op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="arrow-left" data-icon-position="left">
+            <span class="op-icon" role="img" aria-label="Previous Icon"></span>
+            <span class="op-button-title"><?= esc_attr( $footer['page_previous_text'] ) ?></span>
+        </button>
+
+        <button type="button" name="next" class="op-button-page-next op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="arrow-right" data-icon-position="right">
+            <span class="op-icon" role="img" aria-label="Next Icon"></span>
+            <span class="op-button-title"><?= esc_attr( $footer['page_next_text'] ) ?></span>
+        </button>
+
+    </div>
 
 </footer>

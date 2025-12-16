@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-16 - 02:59 (Y:m:d - H:i)
- ?  Info: Added new Participant Index.
+ ?  Updated: 2025-12-16 - 03:13 (Y:m:d - H:i)
+ ?  Info: Added new Page Navigation.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -70,6 +70,8 @@ $footer = array(
     'show_choices'          => $show_choices,
     'index_text_first'      => get_field( $path . 'footer_index_text_first' ) ?: 'of',
     'index_text_last'       => get_field( $path . 'footer_index_text_last' ) ?: 'Participants',
+    'page_previous_text'    => get_field( $path . 'footer_page_previous_text' ) ?: 'Previous',
+    'page_next_text'        => get_field( $path . 'footer_page_next_text' ) ?: 'Next'
 );
 
 $modal = array(

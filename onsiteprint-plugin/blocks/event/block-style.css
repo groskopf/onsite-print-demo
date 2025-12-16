@@ -35,7 +35,10 @@
 .op-block__event .op-block__inner > footer {
     background: var(--wp--preset--color--white);
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    row-gap: 1rem;
     margin-top: 2rem;
     padding: 1rem;
     position: sticky;
@@ -51,28 +54,128 @@
     box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
 }
 
-.op-block__event .op-block__inner > footer div {
+.op-block__event footer :is( .op-limit, .op-page, .op-page-number ) {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.op-block__event .op-block__inner > footer .op-limit {
+.op-block__event footer .op-page-number p {
+    font-size: var(--wp--preset--font-size--medium);
+}
+
+.op-block__event footer .op-page-number .op-button {
+    font-variant-numeric: tabular-nums;
+}
+
+.op-block__event footer .op-page-number .op-button.op-active:not( :hover ) {
+    background-color: var(--wp--preset--color--primary-10);
+    text-decoration: underline;
+}
+
+.op-block__event footer .op-page-number .op-button .op-button-title {
+    padding-right: 1.3rem;
+    padding-left: 1.3rem;
+}
+
+.op-block__event footer .op-limit {
     padding: 0 2.4rem 0 1.4rem;
     border-right: 0.1rem solid var(--wp--preset--color--neutral-20);
 }
 
-.op-block__event .op-block__inner > footer .op-limit-filter {
+.op-block__event footer .op-limit-filter {
     position: relative;
 }
 
-.op-block__event .op-block__inner > footer .op-limit-options {
-    position: absolute;
+.op-block__event footer .op-limit-filter:is( .op-active ) .op-button-limit-filter {
+    background: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--accent-60);
+    border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.op-block__event footer .op-limit-filter:is( .op-active ) .op-button-limit-filter:is( :hover ) {
+    background: var(--wp--preset--color--primary-90);
+    border-color: var(--wp--preset--color--primary-90);
+}
+
+.op-block__event footer .op-dropdown {
+    top: auto;
     bottom: 100%;
-    display: none;
-    flex-direction: column;
-    width: 100%;
     align-items: flex-start;
+    margin-top: 0;
+    margin-bottom: -0.4rem;
+    padding: 0.4rem;
+    box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.op-block__event footer .op-limit-options {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.4rem;
+    overflow: hidden;
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label {
+    color: var(--wp--preset--color--primary-40);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label:not( :last-child ) {
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label:is( :hover, :focus ) {
+    background-color: var(--wp--preset--color--primary-10);
+    color: var(--wp--preset--color--primary-100);
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label input {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label .op-check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid currentColor;
+    border-radius: 1rem;
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label input:checked ~ .op-text {
+    font-weight: 500;
+}
+
+.op-block__event footer .op-limit-options .op-limit-input-label input:checked ~ .op-check {
+    border: 0.4rem solid currentColor;
+}
+
+.op-block__event footer .op-participant-index {
+    margin-right: auto;
+    padding: 0 2.4rem;
+    word-spacing: 0.5rem;
+    visibility: hidden;
+}
+
+.op-block__event footer .op-participant-index.op-active {
+    visibility: visible;
 }
 
 .op-block__event .op-block__inner .op-participant-list {
