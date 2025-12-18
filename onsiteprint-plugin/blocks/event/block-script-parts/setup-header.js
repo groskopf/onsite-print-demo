@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-09-18 - 00:48 (Y:m:d - H:i)
- ?  Info: Added new Modal Toggle Listener to new Download Button.
+ ?  Updated: 2025-09-18 - 05:02 (Y:m:d - H:i)
+ ?  Info: Added new Search Filter Dropdown.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -19,13 +19,12 @@ import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleListeners from '../../../assets/js/inc/listeners.js'
 import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
 import { opModalCreateParticipant } from './modals/modal-create-participant.js'
-import * as opModuleParticipantListeners from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Setup the Header of the Event
  ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
-export function opSetupHeader( debug, block, eventId, columnAmount ) {
+export function opSetupHeader( debug, block, eventId ) {
 
     try {
         
@@ -37,8 +36,31 @@ export function opSetupHeader( debug, block, eventId, columnAmount ) {
         if ( debug !== true ) debug = false
         if ( debug ) console.group( `${ functionName }()` )
 
+        ///// Get the Search Elements.
+        let opSearchContainer = block.querySelector( '.op-search-filter' )
+        let filterButton = opSearchContainer.querySelector( '.op-button-search-filter' )
+
+        ///// Set Toggle Class Listener to the Search Filter Dropdown Button.
+        opModuleListeners.opToggleClassListener( debug, filterButton, 'op-search-filter__inner' )
+
+        ///// Set Redirect Listener to each Limit Option.
+        opSearchContainer.querySelectorAll( '.op-filter-input-label' ).forEach( optionElement => {
+
+            ///// Get the Option Value.
+            let optionValue = optionElement.querySelector( '[name="op-filter-input"]' ).value
+
+            ///// Create the New URL with the new Filter Parameter.
+            let urlParams = new URLSearchParams( window.location.search )
+            urlParams.set( 'filter', optionValue )
+            let newUrl = window.location.pathname + '?' + urlParams.toString()
+
+            ///// Set the Redirect Listener.
+            opModuleListeners.opRedirectListener( debug, optionElement, newUrl )
+
+        } )
+
         ///// Get the Button Elements.
-        let dropdownButton = block.querySelector( '.op-button[name="dropdown"]' )
+        let dropdownButton = block.querySelector( '.op-button-shortcuts' )
         let cancelButton = block.querySelector( '.op-cancel_error' )
         let downloadButton = block.querySelector( '.op-button[name="download"]' )
 
