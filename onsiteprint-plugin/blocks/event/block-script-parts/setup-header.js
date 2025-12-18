@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-09-18 - 05:02 (Y:m:d - H:i)
- ?  Info: Added new Search Filter Dropdown.
+ ?  Updated: 2025-09-19 - 00:48 (Y:m:d - H:i)
+ ?  Info: Added new Code to Filter Options.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -24,7 +24,7 @@ import { opModalCreateParticipant } from './modals/modal-create-participant.js'
  #  2. Function: Setup the Header of the Event
  ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
-export function opSetupHeader( debug, block, eventId ) {
+export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
 
     try {
         
@@ -38,16 +38,45 @@ export function opSetupHeader( debug, block, eventId ) {
 
         ///// Get the Search Elements.
         let opSearchContainer = block.querySelector( '.op-search-filter' )
+        let opFilterInputLabels = opSearchContainer.querySelectorAll('.op-filter-input-label')
         let filterButton = opSearchContainer.querySelector( '.op-button-search-filter' )
 
         ///// Set Toggle Class Listener to the Search Filter Dropdown Button.
         opModuleListeners.opToggleClassListener( debug, filterButton, 'op-search-filter__inner' )
 
-        ///// Set Redirect Listener to each Limit Option.
-        opSearchContainer.querySelectorAll( '.op-filter-input-label' ).forEach( optionElement => {
+        ///// Set the First Filter Option (all) as Checked if there are more than 1 Field.
+        if ( fieldsAmount > 1 ) {
+            for ( let i = 0; i < opFilterInputLabels.length; i++ ) {
+
+                ///// Get the Filter Input Element.
+                let filterInput = opFilterInputLabels[i].querySelector( '[name="op-filter-input"]' )
+
+                ///// Set the First Filter Option as Checked.
+                if ( i === 0 ) {
+                    filterInput.checked = true
+                } else {
+                    filterInput.checked = false
+                    filterInput.removeAttribute( 'checked' )
+                }
+
+            }
+        }
+
+        ///// Set Redirect Listener to each Filter Option.
+        opFilterInputLabels.forEach( optionElement => {
+
+            ///// Get the Filter Input Elements.
+            let filterInput = optionElement.querySelector('[name="op-filter-input"]')
+            let filterText = optionElement.querySelector('.op-text').innerText
+
+            console.log( 'Filter Text:', filterText )
+
+            if ( filterInput.checked ) {
+                filterButton.querySelector( '.op-button-title' ).innerText = filterText
+            }
 
             ///// Get the Option Value.
-            let optionValue = optionElement.querySelector( '[name="op-filter-input"]' ).value
+            let optionValue = filterInput.value
 
             ///// Create the New URL with the new Filter Parameter.
             let urlParams = new URLSearchParams( window.location.search )
