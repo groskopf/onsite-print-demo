@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-18 - 04:59 (Y:m:d - H:i)
- ?  Info: Added Column Count to Search Filter.
+ ?  Updated: 2025-12-19 - 00:36 (Y:m:d - H:i)
+ ?  Info: Added (.op-button-search-filter) to Search Filter Button.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -226,12 +226,12 @@
     border-radius: 0.4rem;
 }
 
-.op-block__event .op-filter-label .op-button-title {
-    display: none;
-}
-
 .op-block__event .op-search-filter {
     z-index: 2;
+}
+
+.op-block__event .op-search-filter .op-button-search-filter {
+    min-width: 20rem;
 }
 
 .op-block__event .op-search-filter .op-dropdown label:first-child {
