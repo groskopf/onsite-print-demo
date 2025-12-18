@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Footer
- ?  Updated: 2025-12-16 - 03:47 (Y:m:d - H:i)
- ?  Info: Added disabled state to Page Navigation.
+ ?  Updated: 2025-12-18 - 01:08 (Y:m:d - H:i)
+ ?  Info: Added new "No Participants Found" message.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -41,14 +41,20 @@
 
     </div>
 
-    <p class="op-participant-index">
-        <span class="op-index-start">1</span>-<span class="op-index-end">2</span>
+    <div class="op-participant-index">
 
-        <?= esc_attr( $footer['index_text_first'] ) ?>
-        <span class="op-index-amount">3</span>
-        <?= esc_attr( $footer['index_text_last'] ) ?>
+        <p class="op-index-empty"><?= esc_attr( $footer['no_participants'] ) ?></p>
 
-    </p>
+        <p class="op-index-text">
+            <span class="op-index-start">1</span>-<span class="op-index-end">2</span>
+
+            <?= esc_attr( $footer['index_text_first'] ) ?>
+            <span class="op-index-amount">3</span>
+            <?= esc_attr( $footer['index_text_last'] ) ?>
+
+        </p>
+
+    </div>
 
     <div class="op-page" data-page="<?= esc_attr( $footer['page'] ) ?>">
 

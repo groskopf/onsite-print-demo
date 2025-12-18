@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Footer
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-16 - 02:59 (Y:m:d - H:i)
- ?  Info: Added new Pagination.
+ ?  Updated: 2025-12-18 - 01:02 (Y:m:d - H:i)
+ ?  Info: Added if no Participants were found message.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -58,33 +58,46 @@ export function opSetupFooter(debug, block, startIndex, endIndex, totalParticipa
 
         } )
 
+
         ///// Get the Index Element and Update it's Content.
         let indexElement = block.querySelector('.op-participant-index')
-        indexElement.querySelector( '.op-index-start' ).textContent = Number( startIndex + 1 )
-        indexElement.querySelector( '.op-index-end' ).textContent = Number( endIndex )
-        indexElement.querySelector( '.op-index-amount' ).textContent = Number( totalParticipants )
-        indexElement.classList.add( 'op-active' )
-       
-        ///// Setup the Previous Page Button.
-        if ( currentPage !== 1 ) {
-            let previousPageButton = block.querySelector( '.op-button-page-previous' )
-            previousPageButton.classList.remove( 'op-disabled' )
-            previousPageButton.removeAttribute( 'disabled' )
-            let urlParams = new URLSearchParams( window.location.search )
-            urlParams.set( 'pg', String( currentPage - 1 ) )
-            let newUrl = window.location.pathname + '?' + urlParams.toString()
-            opModuleListeners.opRedirectListener( debug, previousPageButton, newUrl )
-        }
-        
-        ///// Setup the Next Page Button.
-        if ( currentPage !== totalPages ) {
-            let nextPageButton = block.querySelector( '.op-button-page-next' )
-            nextPageButton.classList.remove( 'op-disabled' )
-            nextPageButton.removeAttribute( 'disabled' )
-            let urlParams = new URLSearchParams( window.location.search )
-            urlParams.set( 'pg', String( currentPage + 1 ) )
-            let newUrl = window.location.pathname + '?' + urlParams.toString()
-            opModuleListeners.opRedirectListener( debug, nextPageButton, newUrl )
+
+        ///// If there are No Participants.
+        if ( totalParticipants === 0 ) {
+
+            ///// Update the Index Content if there are no Participants.
+            indexElement.querySelector( '.op-index-empty' ).classList.add( 'op-active' )
+
+        } else {
+
+            ///// Update the Index Content.
+            indexElement.querySelector( '.op-index-start' ).textContent = Number( startIndex + 1 )
+            indexElement.querySelector( '.op-index-end' ).textContent = Number( endIndex )
+            indexElement.querySelector( '.op-index-amount' ).textContent = Number( totalParticipants )
+            indexElement.querySelector( '.op-index-text' ).classList.add( 'op-active' )
+
+            ///// Setup the Previous Page Button.
+            if ( currentPage !== 1 ) {
+                let previousPageButton = block.querySelector( '.op-button-page-previous' )
+                previousPageButton.classList.remove( 'op-disabled' )
+                previousPageButton.removeAttribute( 'disabled' )
+                let urlParams = new URLSearchParams( window.location.search )
+                urlParams.set( 'pg', String( currentPage - 1 ) )
+                let newUrl = window.location.pathname + '?' + urlParams.toString()
+                opModuleListeners.opRedirectListener( debug, previousPageButton, newUrl )
+            }
+
+            ///// Setup the Next Page Button.
+            if ( currentPage !== totalPages ) {
+                let nextPageButton = block.querySelector( '.op-button-page-next' )
+                nextPageButton.classList.remove( 'op-disabled' )
+                nextPageButton.removeAttribute( 'disabled' )
+                let urlParams = new URLSearchParams( window.location.search )
+                urlParams.set( 'pg', String( currentPage + 1 ) )
+                let newUrl = window.location.pathname + '?' + urlParams.toString()
+                opModuleListeners.opRedirectListener( debug, nextPageButton, newUrl )
+            }
+
         }
 
         ///// Return the Response.

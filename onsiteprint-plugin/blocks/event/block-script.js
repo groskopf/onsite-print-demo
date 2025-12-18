@@ -1,9 +1,9 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-16 - 04:45 (Y:m:d - H:i)
+ ?  Updated: 2025-12-18 - 01:03 (Y:m:d - H:i)
  ?  Info: Added new Page Navigation.
- ?  NB: The Script wil replace the Old Script.
+ ?  NB: Added Search For Participant Script and functionality.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -11,6 +11,7 @@ import * as opModuleBasic from '../../assets/js/inc/basic.js'
 import { opGetEvent } from '../../assets/js/inc/event/event.js'
 import { opGetTemplate } from '../../assets/js/inc/template/template.js'
 import { opSetupHeader, opSetupFooter, opSetupList } from './block-script-parts/parts.js'
+import { opSearchForParticipant } from './block-script-parts/search-for-participant.js'
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Event Creation Blocks
@@ -102,7 +103,34 @@ export function opEventBlocks( debug ) {
                 if ( setupHeader.error !== false ) throw setupHeader
 
                 ///// Get Participant List.
-                const participantList = eventItem.response.details.eventParticipants
+                let participantList = eventItem.response.details.eventParticipants
+
+                ///// Get Search Form Element.
+                let formElement = block.querySelector('.op-search-form')
+                
+                ///// Get Search Query and Line Filter from the Search Form.
+                const searchQuery = formElement['op-search-input'].value || ''
+                const lineFilter = formElement['op-filter-input'].value || ''
+
+                ///// Normalize search query and default fields
+                let fields = []
+                if ( lineFilter === 'all' || lineFilter === '' ) fields = [ 'line1', 'line2', 'line3', 'line4', 'line5' ]
+                else fields = [ lineFilter ]
+                const newQuery = String( searchQuery || '' ).toLowerCase().trim()
+                
+                ///// Check if query is empty
+                if ( newQuery !== '' ) {
+
+                    ///// Search for Participant.
+                    const searchParticipant = opSearchForParticipant( debug, participantList, newQuery, fields )
+
+                    ///// Validate the Response from the Search for Participant.
+                    if ( searchParticipant.error !== false ) throw searchParticipant
+
+                    ///// Get the Search Results.
+                    participantList = searchParticipant.response.details.results
+
+                }
 
                 ///// Get the Page Information and calculate paging.
                 let pageNumber = Number( block.querySelector( '.op-page' ).getAttribute( 'data-page' ) )
@@ -150,6 +178,20 @@ export function opEventBlocks( debug ) {
 
                 ///// Validate the Response from the Event List.
                 if ( setupList.error !== false ) throw setupList
+                else if ( setupList.code === 204 ) {
+
+                    ///// Fade Out the Skeleton and Fade In the Participant.
+                    block.querySelectorAll( '.op-participant-list .op-participant_skeleton' ).forEach( skeleton => {
+                        skeleton.classList.remove( 'op-fade-in' )
+                        setTimeout( () => {
+                            skeleton.classList.add( 'op-fade-out' )
+                        }, 300 )
+                        setTimeout( () => {
+                            skeleton.classList.remove( 'op-active' )
+                        }, 600 )
+                    } )
+
+                }
 
                 ///// Setup the Event Footer (pass total item count for pagination display).
                 const setupFooter = opSetupFooter( debug, block, startIndex, endIndex, totalItems, pageNumber, totalPages )

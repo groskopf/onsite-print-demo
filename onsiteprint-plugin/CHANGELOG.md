@@ -89,6 +89,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Script `Search For Participant`.
+
+    [EB | search-for-participant.js](blocks/event/block-script-parts/search-for-participant.js)
+
+    ---
+
 - Added new Script `Participant Listeners`.
 - Added new Function `Participant Toggle Listener`.
 - Added new Function `Print Participant Listener`.

@@ -1,24 +1,24 @@
 <?php
-                                                    /* ------------------------------------------------------------------------
+/* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2025-12-14 - 05:10 (Y:m:d - H:i)
- ?  Info: Added new Variables to the Header.
+ ?  Updated: 2025-12-18 - 01:10 (Y:m:d - H:i)
+ ?  Info: Removed functions and added new query and filter values.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
-                                                    ?>
+?>
 
 <header>
 
     <?php if ( $header['enable_search'] ) { ?>
 
     <div class="op-participants-search">
-        <form class="op-search-form" data-search-active="0" action="POST" onsubmit="return false">
+        <form class="op-search-form" data-search-active="<?= ( isset( $header['query'] ) && $header['query'] !== '' ) ? 1 : 0 ?>" action="POST" onsubmit="return false">
             <label for="<?= esc_attr( $id ) ?>__search-input" class="op-search-label" data-icon="magnifying-glass">
-                <span class="op-icon" role="img" aria-label="Search Icon" onclick="opSearchEventParticipants()"></span>
-                <input id="<?= esc_attr( $id ) ?>__search-input" name="op-search-input" type="search" placeholder="<?= esc_attr( $header['search_message'] ) ?>" oninput="opSearchEventParticipants()">
+                <span class="op-icon" role="img" aria-label="Search Icon"></span>
+                <input id="<?= esc_attr( $id ) ?>__search-input" name="op-search-input" type="search" placeholder="<?= esc_attr( $header['search_message'] ) ?>" value="<?= esc_attr( $header['query'] ) ?>">
             </label>
-            <div class="op-search-cancel" data-icon="xmark" onclick="opSearchClear()">
+            <div class="op-search-cancel" data-icon="xmark">
                 <span class="op-icon" role="img" aria-label="Cancel Icon"></span>
             </div>
             <fieldset class="op-search-filter">
@@ -28,33 +28,33 @@
                     <span class="op-button-title"><?= esc_attr( $header['search_filter'] ) ?></span>
                 </label>
                 <div class="op-filter-options">
-                    <label for="<?= esc_attr( $id ) ?>__filter-input-0" class="op-filter-input-label" onclick="opToggleSearchFilter('0')">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-0" name="op-filter-input" value="0" checked>
+                    <label for="<?= esc_attr( $id ) ?>__filter-input-0" class="op-filter-input-label">
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-0" name="op-filter-input" value="all" <?= ( $header['filter'] === 'all') ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['search_filter'] ) ?></span>
                     </label>
-                    <label for="<?= esc_attr( $id ) ?>__filter-input-1" class="op-filter-input-label" onclick="opToggleSearchFilter('1')">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-1" name="op-filter-input" value="1">
+                    <label for="<?= esc_attr( $id ) ?>__filter-input-1" class="op-filter-input-label">
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-1" name="op-filter-input" value="line1" <?= ( $header['filter'] === 'line1') ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 1</span>
                     </label>
-                    <label for="<?= esc_attr( $id ) ?>__filter-input-2" class="op-filter-input-label" onclick="opToggleSearchFilter('2')">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-2" name="op-filter-input" value="2">
+                    <label for="<?= esc_attr( $id ) ?>__filter-input-2" class="op-filter-input-label">
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-2" name="op-filter-input" value="line2" <?= ( $header['filter'] === 'line2') ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 2</span>
                     </label>
-                    <label for="<?= esc_attr( $id ) ?>__filter-input-3" class="op-filter-input-label" onclick="opToggleSearchFilter('3')">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-3" name="op-filter-input" value="3">
+                    <label for="<?= esc_attr( $id ) ?>__filter-input-3" class="op-filter-input-label">
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-3" name="op-filter-input" value="line3" <?= ( $header['filter'] === 'line3' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 3</span>
                     </label>
-                    <label for="<?= esc_attr( $id ) ?>__filter-input-4" class="op-filter-input-label" onclick="opToggleSearchFilter('4')">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-4" name="op-filter-input" value="4">
+                    <label for="<?= esc_attr( $id ) ?>__filter-input-4" class="op-filter-input-label">
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-4" name="op-filter-input" value="line4" <?= ( $header['filter'] === 'line4' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 4</span>
                     </label>
-                    <label for="<?= esc_attr( $id ) ?>__filter-input-5" class="op-filter-input-label" onclick="opToggleSearchFilter('5')">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-5" name="op-filter-input" value="5">
+                    <label for="<?= esc_attr( $id ) ?>__filter-input-5" class="op-filter-input-label">
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-5" name="op-filter-input" value="line5" <?= ( $header['filter'] === 'line5' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 5</span>
                     </label>

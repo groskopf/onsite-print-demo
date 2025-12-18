@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup List
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-16 - 04:12 (Y:m:d - H:i)
- ?  Info: Removed the Index variables.
+ ?  Updated: 2025-12-18 - 01:08 (Y:m:d - H:i)
+ ?  Info: Changed throw error to return response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -34,11 +34,11 @@ export function opSetupList( debug, block, eventId, participantList ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Validate the Participant List.
-        if ( participantList.length === 0 ) throw opModuleBasic.opReturnResponse( true, 404, { 
+        if ( participantList.length === 0 ) return opModuleBasic.opReturnResponse( false, 204, { 
             message: `No Participants found!`, 
             line: opModuleBasic.errorLine(),
             function: functionName
-        } )
+        }, debug )
 
         ///// Get the Participants Container.
         let participantsContainer = block.querySelector( '.op-participant-list' )

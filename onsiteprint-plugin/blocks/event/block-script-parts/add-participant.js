@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant Container in the Event Block.
- ?  Updated: 2025-12-14 - 05:05 (Y:m:d - H:i)
- ?  Info: Changed some Variable Names.
+ ?  Updated: 2025-12-16 - 01:03 (Y:m:d - H:i)
+ ?  Info: Changed "textContent" to "innerHTML" in the Participant lines.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -48,11 +48,11 @@ export function opAddParticipant( debug, eventId, participantsContainer, partici
         participantElement.querySelector( 'article' ).setAttribute( 'data-validation', ( participant.active == 1 ) ? 2 : 0 )
         participantElement.querySelector( 'article' ).setAttribute( 'data-op-arrival', participant.active )
         participantElement.querySelector( 'article' ).setAttribute( 'data-op-prints', participant.prints )
-        participantElement.querySelector( '.op-col-line-1 .op-text' ).textContent = participant.line1
-        participantElement.querySelector( '.op-col-line-2 .op-text' ).textContent = participant.line2
-        participantElement.querySelector( '.op-col-line-3 .op-text' ).textContent = participant.line3
-        participantElement.querySelector( '.op-col-line-4 .op-text' ).textContent = participant.line4
-        participantElement.querySelector( '.op-col-line-5 .op-text' ).textContent = participant.line5
+        participantElement.querySelector( '.op-col-line-1 .op-text' ).innerHTML = participant.line1
+        participantElement.querySelector( '.op-col-line-2 .op-text' ).innerHTML = participant.line2
+        participantElement.querySelector( '.op-col-line-3 .op-text' ).innerHTML = participant.line3
+        participantElement.querySelector( '.op-col-line-4 .op-text' ).innerHTML = participant.line4
+        participantElement.querySelector( '.op-col-line-5 .op-text' ).innerHTML = participant.line5
         participantElement.querySelector( '.op-col-amount-of-prints' ).textContent = participant.prints
         participantElement.querySelectorAll( '.op-col-arrival-time' ).forEach( timeElement => {
             timeElement.setAttribute( 'datetime', opTimeConverter( participant.time, 'full' ) )

@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-14 - 05:17 (Y:m:d - H:i)
- ?  Info: Added footer.
+ ?  Updated: 2025-12-18 - 01:04 (Y:m:d - H:i)
+ ?  Info: Changed the footer pagination and index, if no Participants were found message.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -58,6 +58,18 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.op-block__event footer :is( .op-button-page-previous, .op-button-page-next ) {
+    display: none;
+}
+
+.op-block__event footer :is( .op-button-page-previous, .op-button-page-next ):not( .op-disabled ) {
+    display: flex;
+}
+
+.op-block__event footer .op-page-number p {
+    font-size: var(--wp--preset--font-size--medium);
 }
 
 .op-block__event footer .op-page-number p {
@@ -168,14 +180,21 @@
 }
 
 .op-block__event footer .op-participant-index {
+    display: flex;
     margin-right: auto;
     padding: 0 2.4rem;
-    word-spacing: 0.5rem;
-    visibility: hidden;
 }
 
-.op-block__event footer .op-participant-index.op-active {
-    visibility: visible;
+.op-block__event footer .op-participant-index p {
+    display: none;
+}
+
+.op-block__event footer .op-participant-index p.op-index-text {
+    word-spacing: 0.5rem;
+}
+
+.op-block__event footer .op-participant-index p.op-active {
+    display: block;
 }
 
 .op-block__event .op-block__inner .op-participant-list {
@@ -1166,6 +1185,10 @@
         z-index: 1;
         border-radius: 0 0.4rem 0.4rem 0;
         box-shadow: 0.4rem 0 0.4rem lightgray;
+    }
+
+    .op-block__event .op-col-lines p .op-text b {
+        color: var(--wp--preset--color--primary-90);
     }
 
     .op-block__event header .op-col-arrival-time::before {

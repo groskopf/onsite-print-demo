@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-16 - 03:13 (Y:m:d - H:i)
- ?  Info: Added new Page Navigation.
+ ?  Updated: 2025-12-18 - 01:06 (Y:m:d - H:i)
+ ?  Info: Added new Query and Filter Variables to the Header and new no Participants found message to the footer.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -28,6 +28,10 @@ $options = array(
     'event_id'          => empty( $_GET['event'] ) ? false : $_GET['event'],
 );
 
+///// Determine incoming search query (prefer GET, fallback to empty)
+$incoming_query = isset( $_GET['query'] ) && $_GET['query'] !== '' ? strval( $_GET['query'] ) : '';
+$incoming_filter = isset( $_GET['filter'] ) && $_GET['filter'] !== '' ? strval( $_GET['filter'] ) : 'all';
+
 $header = array(
     'enable_search'     => get_field( $path . 'header_enable_search' ) ? true : false,
     'search_message'    => get_field( $path . 'header_search_message' ) ?: 'Search for Participants here...',
@@ -36,6 +40,8 @@ $header = array(
     'shortcuts'         => get_field( $path . 'header_buttons_shortcuts' ) ?: 'Shortcuts',
     'add_participant'   => get_field( $path . 'header_buttons_add_participant' ) ?: 'Add new Participant',
     'download'          => get_field( $path . 'header_buttons_download' ) ?: 'Download List',
+    'query'             => $incoming_query,
+    'filter'            => $incoming_filter,
 );
 
 $raw_choices = get_field( $path . 'footer_show_choices' ) ?: [ '5', '10', '25', '50', '75' ];
@@ -63,6 +69,7 @@ if ( in_array( $incoming_limit, $choices_as_strings, true ) ) {
 }
 
 $footer = array(
+    'no_participants'       => get_field( $path . 'footer_no_participants' ) ?: 'No Participants were Found!',
     'page'                  => empty( $_GET['pg'] ) ? 1 : intval( $_GET['pg'] ),
     'show_limit'            => $resolved_limit,
     'show_text_first'       => get_field( $path . 'footer_show_text_first' ) ?: 'Show',
@@ -71,7 +78,7 @@ $footer = array(
     'index_text_first'      => get_field( $path . 'footer_index_text_first' ) ?: 'of',
     'index_text_last'       => get_field( $path . 'footer_index_text_last' ) ?: 'Participants',
     'page_previous_text'    => get_field( $path . 'footer_page_previous_text' ) ?: 'Previous',
-    'page_next_text'        => get_field( $path . 'footer_page_next_text' ) ?: 'Next'
+    'page_next_text'        => get_field( $path . 'footer_page_next_text' ) ?: 'Next',
 );
 
 $modal = array(
