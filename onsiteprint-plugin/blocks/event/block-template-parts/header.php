@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2025-12-18 - 01:10 (Y:m:d - H:i)
- ?  Info: Removed functions and added new query and filter values.
+ ?  Updated: 2025-12-18 - 01:57 (Y:m:d - H:i)
+ ?  Info: Changed filter values.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -29,32 +29,32 @@
                 </label>
                 <div class="op-filter-options">
                     <label for="<?= esc_attr( $id ) ?>__filter-input-0" class="op-filter-input-label">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-0" name="op-filter-input" value="all" <?= ( $header['filter'] === 'all') ? 'checked' : ''; ?>>
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-0" name="op-filter-input" value="all" <?= ( $header['filter'] === 'all' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['search_filter'] ) ?></span>
                     </label>
                     <label for="<?= esc_attr( $id ) ?>__filter-input-1" class="op-filter-input-label">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-1" name="op-filter-input" value="line1" <?= ( $header['filter'] === 'line1') ? 'checked' : ''; ?>>
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-1" name="op-filter-input" value="1" <?= ( $header['filter'] === '1' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 1</span>
                     </label>
                     <label for="<?= esc_attr( $id ) ?>__filter-input-2" class="op-filter-input-label">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-2" name="op-filter-input" value="line2" <?= ( $header['filter'] === 'line2') ? 'checked' : ''; ?>>
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-2" name="op-filter-input" value="2" <?= ( $header['filter'] === '2' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 2</span>
                     </label>
                     <label for="<?= esc_attr( $id ) ?>__filter-input-3" class="op-filter-input-label">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-3" name="op-filter-input" value="line3" <?= ( $header['filter'] === 'line3' ) ? 'checked' : ''; ?>>
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-3" name="op-filter-input" value="3" <?= ( $header['filter'] === '3' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 3</span>
                     </label>
                     <label for="<?= esc_attr( $id ) ?>__filter-input-4" class="op-filter-input-label">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-4" name="op-filter-input" value="line4" <?= ( $header['filter'] === 'line4' ) ? 'checked' : ''; ?>>
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-4" name="op-filter-input" value="4" <?= ( $header['filter'] === '4' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 4</span>
                     </label>
                     <label for="<?= esc_attr( $id ) ?>__filter-input-5" class="op-filter-input-label">
-                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-5" name="op-filter-input" value="line5" <?= ( $header['filter'] === 'line5' ) ? 'checked' : ''; ?>>
+                        <input type="radio" id="<?= esc_attr( $id ) ?>__filter-input-5" name="op-filter-input" value="5" <?= ( $header['filter'] === '5' ) ? 'checked' : ''; ?>>
                         <span class="op-check"></span>
                         <span class="op-text"><?= esc_attr( $header['column'] ) ?> 5</span>
                     </label>

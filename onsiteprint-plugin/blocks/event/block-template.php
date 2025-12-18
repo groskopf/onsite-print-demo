@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-18 - 01:06 (Y:m:d - H:i)
- ?  Info: Added new Query and Filter Variables to the Header and new no Participants found message to the footer.
+ ?  Updated: 2025-12-18 - 02:06 (Y:m:d - H:i)
+ ?  Info: Added new Filter Validation.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -30,7 +30,17 @@ $options = array(
 
 ///// Determine incoming search query (prefer GET, fallback to empty)
 $incoming_query = isset( $_GET['query'] ) && $_GET['query'] !== '' ? strval( $_GET['query'] ) : '';
-$incoming_filter = isset( $_GET['filter'] ) && $_GET['filter'] !== '' ? strval( $_GET['filter'] ) : 'all';
+
+///// Validate filter: accept only integers 1..5, otherwise fallback to 'all'
+$incoming_filter = 'all';
+if ( isset( $_GET['filter'] ) && $_GET['filter'] !== '' ) {
+    $filter_val = filter_var( $_GET['filter'], FILTER_VALIDATE_INT, [
+        'options' => [ 'min_range' => 1, 'max_range' => 5 ],
+    ] );
+    if ( $filter_val !== false && $filter_val !== null ) {
+        $incoming_filter = strval( $filter_val );
+    }
+}
 
 $header = array(
     'enable_search'     => get_field( $path . 'header_enable_search' ) ? true : false,
