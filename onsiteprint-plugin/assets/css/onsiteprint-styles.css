@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-12-16 - 03:17 (Y:m:d - H:i)
- ?  Info: Added "align-items: stretch" to the Dropdown.
+ ?  Updated: 2025-12-18 - 03:28 (Y:m:d - H:i)
+ ?  Info: Added Filter Options to the Dropdown.
  
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -845,6 +845,65 @@ html {
     justify-content: flex-start;
     white-space: nowrap;
     border-color: var(--wp--preset--color--white);
+}
+
+.op-dropdown-menu .op-filter-options {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0.4rem;
+    overflow: hidden;
+}
+
+.op-dropdown-menu .op-filter-options label {
+    color: var(--wp--preset--color--primary-40);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.op-dropdown-menu .op-filter-options label:not( :last-child) {
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-dropdown-menu .op-filter-options label:is( :hover, :focus) {
+    background-color: var(--wp--preset--color--primary-10);
+    color: var(--wp--preset--color--primary-100);
+}
+
+.op-dropdown-menu .op-filter-options label input {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+}
+
+.op-dropdown-menu .op-filter-options label .op-check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid currentColor;
+    border-radius: 1rem;
+}
+
+.op-dropdown-menu .op-filter-options label input:checked~.op-text {
+    font-weight: 500;
+}
+
+.op-dropdown-menu .op-filter-options label input:checked~.op-check {
+    border: 0.4rem solid currentColor;
 }
 
 /* ------------------------------------------------------------------------
