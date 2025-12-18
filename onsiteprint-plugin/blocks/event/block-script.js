@@ -1,9 +1,9 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-18 - 04:58 (Y:m:d - H:i)
+ ?  Updated: 2025-12-19 - 00:46 (Y:m:d - H:i)
  ?  Info: Added new Page Navigation.
- ?  NB: Added Column Count to Line Filter.
+ ?  NB: Changed Line Filter to Search Filter and relocated some code.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -96,31 +96,31 @@ export function opEventBlocks( debug ) {
                 ///// Set the Amount of Columns to the Block.
                 block.setAttribute( 'data-column-count', columnAmount )
 
+                ///// Get Search Form Element.
+                let formElement = block.querySelector( '.op-search-form' )
+
+                ///// Get Search Query and Filter from the Search Form.
+                const searchQuery = formElement[ 'op-search-input' ].value || ''
+                const searchFilter = formElement[ 'op-filter-input' ].value || ''
+
+                ///// Normalize search query and default fields
+                const newQuery = String( searchQuery || '' ).toLowerCase().trim()
+                let fields = []
+                if ( searchFilter >= 1 && searchFilter <= columnAmount ) fields.push( `line${ searchFilter }` )
+                else {
+                    for ( let index = 1; index <= columnAmount; index++ ) {
+                        fields.push( `line${ index }` )
+                    }
+                }
+
                 ///// Setup the Event Header.
-                const setupHeader = opSetupHeader( debug, block, eventId, columnAmount )
+                const setupHeader = opSetupHeader( debug, block, eventId, fields.length )
 
                 ///// Validate the Response from the Event Header.
                 if ( setupHeader.error !== false ) throw setupHeader
 
                 ///// Get Participant List.
                 let participantList = eventItem.response.details.eventParticipants
-
-                ///// Get Search Form Element.
-                let formElement = block.querySelector('.op-search-form')
-                
-                ///// Get Search Query and Line Filter from the Search Form.
-                const searchQuery = formElement['op-search-input'].value || ''
-                const lineFilter = formElement['op-filter-input'].value || ''
-
-                ///// Normalize search query and default fields
-                const newQuery = String(searchQuery || '').toLowerCase().trim()
-                let fields = []
-                if ( lineFilter >= 1 && lineFilter <= columnAmount ) fields.push( `line${ lineFilter }` )
-                else {
-                    for (let index = 1; index <= columnAmount; index++) {
-                        fields.push( `line${ index }` )
-                    }
-                }
 
                 ///// Check if query is empty
                 if ( newQuery !== '' ) {
