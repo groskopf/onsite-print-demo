@@ -1,9 +1,9 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-18 - 02:09 (Y:m:d - H:i)
+ ?  Updated: 2025-12-18 - 04:58 (Y:m:d - H:i)
  ?  Info: Added new Page Navigation.
- ?  NB: Added new Filter Validation.
+ ?  NB: Added Column Count to Line Filter.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -113,10 +113,14 @@ export function opEventBlocks( debug ) {
                 const lineFilter = formElement['op-filter-input'].value || ''
 
                 ///// Normalize search query and default fields
+                const newQuery = String(searchQuery || '').toLowerCase().trim()
                 let fields = []
-                if ( lineFilter >= 1 && lineFilter <= 5 ) fields = [ `line${ lineFilter }` ]
-                else fields = [ 'line1', 'line2', 'line3', 'line4', 'line5' ]
-                const newQuery = String( searchQuery || '' ).toLowerCase().trim()
+                if ( lineFilter >= 1 && lineFilter <= columnAmount ) fields.push( `line${ lineFilter }` )
+                else {
+                    for (let index = 1; index <= columnAmount; index++) {
+                        fields.push( `line${ index }` )
+                    }
+                }
 
                 ///// Check if query is empty
                 if ( newQuery !== '' ) {

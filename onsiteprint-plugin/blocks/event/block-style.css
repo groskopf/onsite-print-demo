@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-18 - 01:04 (Y:m:d - H:i)
- ?  Info: Changed the footer pagination and index, if no Participants were found message.
+ ?  Updated: 2025-12-18 - 04:59 (Y:m:d - H:i)
+ ?  Info: Added Column Count to Search Filter.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -97,86 +97,6 @@
 
 .op-block__event footer .op-limit-filter {
     position: relative;
-}
-
-.op-block__event footer .op-limit-filter:is( .op-active ) .op-button-limit-filter {
-    background: var(--wp--preset--color--accent-60);
-    color: var(--wp--preset--color--white);
-    border-color: var(--wp--preset--color--accent-60);
-    border-radius: 0 0 0.4rem 0.4rem;
-}
-
-.op-block__event footer .op-limit-filter:is( .op-active ) .op-button-limit-filter:is( :hover ) {
-    background: var(--wp--preset--color--primary-90);
-    border-color: var(--wp--preset--color--primary-90);
-}
-
-.op-block__event footer .op-dropdown {
-    top: auto;
-    bottom: 100%;
-    align-items: flex-start;
-    margin-top: 0;
-    margin-bottom: -0.4rem;
-    padding: 0.4rem;
-    box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-.op-block__event footer .op-limit-options {
-    background-color: var(--wp--preset--color--white);
-    display: flex;
-    flex-direction: column;
-    border-radius: 0.4rem;
-    overflow: hidden;
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label {
-    color: var(--wp--preset--color--primary-40);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    cursor: pointer;
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label:not( :last-child ) {
-    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label:is( :hover, :focus ) {
-    background-color: var(--wp--preset--color--primary-10);
-    color: var(--wp--preset--color--primary-100);
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label input {
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    position: absolute;
-    overflow: hidden;
-    opacity: 0;
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label .op-check {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 2rem;
-    height: 2rem;
-    border: 0.1rem solid currentColor;
-    border-radius: 1rem;
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label input:checked ~ .op-text {
-    font-weight: 500;
-}
-
-.op-block__event footer .op-limit-options .op-limit-input-label input:checked ~ .op-check {
-    border: 0.4rem solid currentColor;
 }
 
 .op-block__event footer .op-participant-index {
@@ -310,102 +230,24 @@
     display: none;
 }
 
-.op-block__event [id*=__filter-button],
-.op-block__event .op-filter-options .op-filter-input-label input {
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    position: absolute;
-    overflow: hidden;
-    opacity: 0;
-    clip: rect(1px,1px,1px,1px);
-    clip-path: inset(50%);
-}
-
-.op-block__event :where(.op-filter-label) {
-    background-color: var(--wp--preset--color--white);
-    min-width: 4rem;
-    max-width: 4rem;
-}
-
-.op-block__event .op-filter-label .op-icon {
-    padding: 0.9rem;
-}
-
-.op-block__event [id*=__filter-button]:checked ~ .op-filter-label {
-    border-radius: 0.4rem 0.4rem 0 0;
-}
-
-.op-block__event [id*=__filter-button] ~ .op-filter-options {
-    background-color: var(--wp--preset--color--white);
-    display: none;
-    flex-direction: column;
-    width: 20.5rem;
-    position: absolute;
-    top: calc(100% - 0.6rem);
-    right: 0.5rem;
-    z-index: 1;
-    border: 0.1rem solid var(--wp--preset--color--primary-100);
-    border-radius: 0.4rem 0 0.4rem 0.4rem;
-    box-shadow: 0 0.5rem 1rem var(--wp--preset--color--neutral-30);
-    overflow: hidden;
-}
-
-.op-block__event [id*=__filter-button]:checked ~ .op-filter-options {
-    display: flex;
+.op-block__event .op-search-filter {
     z-index: 2;
 }
 
-.op-block__event .op-filter-options .op-filter-input-label {
-    color: var(--wp--preset--color--primary-40);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    cursor: pointer;
-}
-
-.op-block__event .op-filter-input-label:is( :hover, :focus ) {
-    background-color: var(--wp--preset--color--primary-10);
-    color: var(--wp--preset--color--primary-100);
-    border-color: var(--wp--preset--color--primary-100);
-}
-
-.op-block__event .op-filter-input-label:not( :last-child ) {
-    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
-}
-
-.op-block__event .op-filter-input-label:first-child {
+.op-block__event .op-search-filter .op-dropdown label:first-child {
     border-color: var(--wp--preset--color--primary-20);
 }
 
-.op-block__event .op-filter-input-label .op-check {
+.op-block__event .op-search-filter .op-dropdown label:not( :first-child ) {
+    display: none;
+}
+
+.op-block__event[ data-column-count="1" ] .op-search-filter .op-dropdown label:where( .op-col-line-1 ), 
+.op-block__event[ data-column-count="2" ] .op-search-filter .op-dropdown label:where( .op-col-line-1, .op-col-line-2 ), 
+.op-block__event[ data-column-count="3" ] .op-search-filter .op-dropdown label:where( .op-col-line-1, .op-col-line-2, .op-col-line-3 ), 
+.op-block__event[ data-column-count="4" ] .op-search-filter .op-dropdown label:where( .op-col-line-1, .op-col-line-2, .op-col-line-3, .op-col-line-4 ), 
+.op-block__event[ data-column-count="5" ] .op-search-filter .op-dropdown label:where( .op-col-line-1, .op-col-line-2, .op-col-line-3, .op-col-line-4, .op-col-line-5 ) {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 2rem;
-    height: 2rem;
-    border: 0.1rem solid currentColor;
-    border-radius: 1rem;
-}
-
-.op-block__event .op-filter-input-label input:checked ~ .op-check {
-    background-color: currentColor;
-}
-
-.op-block__event .op-filter-input-label input:checked ~ .op-text {
-    font-weight: 500;
-}
-
-.op-block__event .op-filter-input-label input:checked ~ .op-check::before {
-    background-color: var(--wp--preset--color--white);
-    content: "";
-    width: 1rem;
-    height: 1rem;
-    border-radius: 1rem;
 }
 
 /* ------------------------------------------

@@ -25,7 +25,7 @@ require_once( __DIR__ . '/../../private/session.php' );
 $path = 'event_';
 
 $options = array(
-    'event_id'          => empty( $_GET['event'] ) ? false : $_GET['event'],
+    'event_id'  => empty( $_GET['event'] ) ? false : $_GET['event'],
 );
 
 ///// Determine incoming search query (prefer GET, fallback to empty)

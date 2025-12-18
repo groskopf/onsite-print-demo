@@ -58,7 +58,6 @@ export function opSetupFooter(debug, block, startIndex, endIndex, totalParticipa
 
         } )
 
-
         ///// Get the Index Element and Update it's Content.
         let indexElement = block.querySelector('.op-participant-index')
 
