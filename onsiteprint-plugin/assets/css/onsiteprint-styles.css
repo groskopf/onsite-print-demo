@@ -4,9 +4,9 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-12-18 - 03:28 (Y:m:d - H:i)
- ?  Info: Added Filter Options to the Dropdown.
- 
+ ?  Updated: 2025-12-18 - 04:02 (Y:m:d - H:i)
+ ?  Info: Added new direction and position to the Dropdown.
+
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -810,6 +810,10 @@ html {
     border-radius: 0.4rem 0.4rem 0 0;
 }
 
+.op-dropdown-menu:is( .op-active ):where( [data-dropdown-position="bottom"] ) .op-button[name="dropdown"] {
+    border-radius: 0 0 0.4rem 0.4rem;
+}
+
 .op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"]:is( :hover ) {
     background: var(--wp--preset--color--primary-90);
     border-color: var(--wp--preset--color--primary-90);
@@ -835,9 +839,17 @@ html {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-.op-dropdown-menu:where( [data-dropdown-position="right"] ) .op-dropdown {
+.op-dropdown-menu:where( [data-dropdown-direction="right"] ) .op-dropdown {
     right: 0;
     left: auto;
+}
+
+.op-dropdown-menu:where( [data-dropdown-position="bottom"] ) .op-dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: -0.4rem;
+    box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 .op-dropdown-menu .op-dropdown .op-button {
