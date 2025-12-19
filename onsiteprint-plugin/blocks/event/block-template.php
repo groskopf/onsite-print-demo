@@ -105,6 +105,7 @@ $modal_cp = array(
         'description'       => get_field( $modal['cp_path'] . 'description' ) ?: 'Below you can enter the information about the participant.',
         'messages_error'    => get_field( $modal['cp_path'] . 'messages_error' ) ?: 'At least one Column must be Filled!',
         'add_button'        => get_field( $modal['cp_path'] . 'add_button' ) ?: 'Add new Participant',
+        'qr'                => get_field( $modal['cp_path'] . 'qr' ) ?: 'QR Code Text',
         'note'              => get_field( $modal['cp_path'] . 'note' ) ?: 'Extra Notes',
 );
 

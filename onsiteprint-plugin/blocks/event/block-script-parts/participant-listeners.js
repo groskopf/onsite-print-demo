@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-12-19 - 04:23 (Y:m:d - H:i)
- ?  Info: Added new Search for Participant Listener.
+ ?  Updated: 2025-12-19 - 06:05 (Y:m:d - H:i)
+ ?  Info: Added QR Code to Create Participant Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -346,6 +346,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 let column3 = isEmpty( formElement[ 'column-3' ].value ) ? '' : formElement[ 'column-3' ].value
                 let column4 = isEmpty( formElement[ 'column-4' ].value ) ? '' : formElement[ 'column-4' ].value
                 let column5 = isEmpty( formElement[ 'column-5' ].value ) ? '' : formElement[ 'column-5' ].value
+                let qrCode = isEmpty( formElement[ 'qr' ].value ) ? '' : formElement[ 'qr' ].value
                 let note = isEmpty( formElement[ 'note' ].value ) ? '' : formElement[ 'note' ].value
                 
                 ///// If all the Columns are Empty throw an error.
@@ -363,6 +364,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                     line3 : column3,
                     line4 : column4,
                     line5 : column5,
+                    qrCode : qrCode,
                     note : note,
                     time : '',
                     active : 0,

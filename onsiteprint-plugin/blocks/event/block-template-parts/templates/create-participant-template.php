@@ -83,6 +83,13 @@
                                         </div>
                                     </label>
 
+                                    <label for="<?= esc_attr($id) ?>-qr-input" class="op-input-wrapper">
+                                        <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal_cp['qr'] ) ?></span></p>
+                                        <div class="op-input-field">
+                                            <input id="<?= esc_attr($id) ?>-qr-input" class="op-input-border" name="qr" type="text" maxlength="500">
+                                        </div>
+                                    </label>
+
                                     <label for="<?= esc_attr($id) ?>-note-input" class="op-input-wrapper">
                                         <p class="op-label-title"><span class="op-text"><?= esc_attr( $modal_cp['note'] ) ?></span></p>
                                         <div class="op-input-field">

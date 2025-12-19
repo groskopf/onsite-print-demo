@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Print Participant
  *  Printing the Participant from the Participant List in the Event Block.
- ?  Updated: 2025-06-06 - 05:18 (Y:m:d - H:i)
- ?  Info: Added the Update Participant Information.
+ ?  Updated: 2025-12-19 - 06:23 (Y:m:d - H:i)
+ ?  Info: Added QR Code to the Print the Participant.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -90,6 +90,7 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
         let string3 = ( 3 <= columnAmount ) ? participant.line3 : ""
         let string4 = ( 4 <= columnAmount ) ? participant.line4 : ""
         let string5 = ( 5 <= columnAmount ) ? participant.line5 : ""
+        let qrCode = ( layout.toLowerCase().includes( 'q') ) ? participant.qrCode : ""
 
         ///// The URL to the API.
         let url = `https://api.printerboks.dk/api/v1/name_tags/${ bookingCode }?layout=${ layout }`
@@ -103,7 +104,7 @@ export async function opPrintParticipant( debug, eventId, participantId ) {
             "line_4": string4,
             "line_5": string5,
             "image_name": imageFilename,
-            "qr_code": "string"
+            "qr_code": qrCode
             }
         )
 
