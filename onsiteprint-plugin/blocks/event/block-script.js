@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
- ?  Updated: 2025-12-19 - 00:46 (Y:m:d - H:i)
- ?  Info: Added new Page Navigation.
+ ?  Updated: 2025-12-19 - 05:39 (Y:m:d - H:i)
+ ?  Info: Added new Title Tag Update.
  ?  NB: Changed Line Filter to Search Filter and relocated some code.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -79,6 +79,11 @@ export function opEventBlocks( debug ) {
                     line: opModuleBasic.errorLine(),
                     function: functionName
                 } )
+
+                ///// Update the Title Tag
+                let titleElement = window.document.querySelector('head title')
+                let titleString = titleElement.innerText.split('|')[1]
+                titleElement.innerText = `Event: ${ eventItem.response.details.eventName } | ${ titleString }`
 
                 ///// Get the Template. 
                 const templateItem = opGetTemplate( debug, eventItem.response.details.eventTemplate )
