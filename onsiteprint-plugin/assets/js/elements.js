@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-09-19 - 04:53 (Y:m:d - H:i)
- ?  Info: Added QR Code Column to the opPrintParticipant() Function.
+ ?  Updated: 2025-12-19 - 04:53 (Y:m:d - H:i)
+ ?  Info: opSaveNewTemplate(), Changed where the class should be placed to activate the Modal window.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -2732,7 +2732,7 @@ function opFormGoToTab( newTab, blockElement ) {
 }
 
 /* ------------------------------------------
- >   >  6a-8. Save New Template from Form 
+ >   >  6a-8. Save New Template from Form
 --------------------------------------------- */
 async function opSaveNewTemplate( debug ) {
 
@@ -2770,7 +2770,7 @@ async function opSaveNewTemplate( debug ) {
             const template = createdTemplateResponse.response.template
 
             ///// Activate the Modal Window.
-            modal.classList.add( 'op-active' )
+            modal.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
             let templateId = template.templateCreationDate
 

@@ -341,4 +341,11 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ECB | steps-listeners.js](blocks/event-creation/block-script-parts/block-form/steps/steps-listeners.js)
 
+    ---
+
+- Changed where the class should be placed to activate the Modal window in (step-4.js) and the function opSaveNewTemplate() in (elements.js).
+
+    [ECB | step-4.js](blocks/event-creation/block-script-parts/block-form/steps/step-4.js)
+    [JS | elements.js](assets/js/elements.js)
+
 ---
