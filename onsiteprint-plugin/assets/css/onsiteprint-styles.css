@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-12-18 - 04:02 (Y:m:d - H:i)
- ?  Info: Added new direction and position to the Dropdown.
+ ?  Updated: 2025-12-19 - 01:20 (Y:m:d - H:i)
+ ?  Info: Changed (.op-button) when positioned right.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -767,6 +767,7 @@ html {
 }
 
 .op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ) .op-button-title {
+    border-radius: 0.4rem 0 0 0.4rem;
     right: 100%;
     left: auto;
 }
@@ -774,10 +775,6 @@ html {
 .op-button[data-title-visibility="1"]:where( :hover ) .op-button-title {
     opacity: 1;
     transition: all 0.2s ease-in-out;
-}
-
-.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover ) .op-button-title {
-	border-radius: 0.4rem 0 0 0.4rem;
 }
 
 .op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover ):not( :disabled ) .op-button-title,
