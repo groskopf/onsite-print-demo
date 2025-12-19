@@ -1,9 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-09-19 - 00:48 (Y:m:d - H:i)
- ?  Info: Added new Code to Filter Options.
-
+ ?  Updated: 2025-12-19 - 01:25 (Y:m:d - H:i)
+ ?  Info: Added new Clear Search button.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -37,9 +36,18 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         if ( debug ) console.group( `${ functionName }()` )
 
         ///// Get the Search Elements.
-        let opSearchContainer = block.querySelector( '.op-search-filter' )
-        let opFilterInputLabels = opSearchContainer.querySelectorAll('.op-filter-input-label')
+        let opSearchContainer = block.querySelector( '.op-search-form' )
+        let clearButton = opSearchContainer.querySelector( '.op-button-clear-search' )
+        let opFilterInputLabels = opSearchContainer.querySelectorAll( '.op-filter-input-label' )
         let filterButton = opSearchContainer.querySelector( '.op-button-search-filter' )
+
+        ///// Create the New URL for the Clear Search Button.
+        let clearUrlParams = new URLSearchParams( window.location.search )
+        clearUrlParams.delete( 'query' )
+        let newClearUrl = window.location.pathname + '?' + clearUrlParams.toString()
+
+        ///// Set the Redirect Listener to the Clear Search Button.
+        opModuleListeners.opRedirectListener( debug, clearButton, newClearUrl )
 
         ///// Set Toggle Class Listener to the Search Filter Dropdown Button.
         opModuleListeners.opToggleClassListener( debug, filterButton, 'op-search-filter__inner' )
@@ -66,11 +74,10 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         opFilterInputLabels.forEach( optionElement => {
 
             ///// Get the Filter Input Elements.
-            let filterInput = optionElement.querySelector('[name="op-filter-input"]')
-            let filterText = optionElement.querySelector('.op-text').innerText
+            let filterInput = optionElement.querySelector( '[name="op-filter-input"]' )
+            let filterText = optionElement.querySelector( '.op-text' ).innerText
 
-            console.log( 'Filter Text:', filterText )
-
+            ///// Change the Filter Button Title.
             if ( filterInput.checked ) {
                 filterButton.querySelector( '.op-button-title' ).innerText = filterText
             }
@@ -102,13 +109,12 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         ///// Add Create Participant Modal.
         opModalCreateParticipant( debug, block, eventId )
 
-
-
+        ///// Get the Modal Template Element and Create the Modal.
         let modalTemplateElement = block.querySelector( `[id$="-download-files-template"]` )
         let modal = modalTemplateElement.content.cloneNode(true)
         let modalHeader = modal.querySelector( '.op-header-content__inner' )
         let modalMain = modal.querySelector( '.op-modal-content__inner' )
-        let modalId = modalTemplateElement.getAttribute( 'id' ).replace("op-block", "op-modal").slice(0, -9)
+        let modalId = modalTemplateElement.getAttribute( 'id' ).replace( 'op-block', 'op-modal' ).slice( 0, -9 )
         let closeButton = modal.querySelector( '.op-cancel_download-files' )
 
         ///// Set Modal Toggle Listener to the Close Button.
@@ -116,8 +122,6 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
 
         ///// Set Modal Toggle Listener to the Download Button.
         opModalToggleListener( debug, downloadButton, true, modalHeader, modalMain, modalId )
-
-
     
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 

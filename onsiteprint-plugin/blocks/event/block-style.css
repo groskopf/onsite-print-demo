@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-19 - 00:36 (Y:m:d - H:i)
- ?  Info: Added (.op-button-search-filter) to Search Filter Button.
+ ?  Updated: 2025-12-19 - 01:25 (Y:m:d - H:i)
+ ?  Info: Added new Clear Search button.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -192,41 +192,31 @@
     font-weight: 500;
 }
 
-.op-block__event .op-search-cancel {
-    color: var(--wp--preset--color--primary-40);
-    font-size: 2rem;
+.op-block__event .op-button-clear-search {
     display: none;
-    justify-content: center;
-    align-items: center;
-    width: 5rem;
-    cursor: pointer;
+    border-color: transparent;
 }
 
-.op-block__event .op-search-cancel:is( :hover, :focus ) .op-icon::before {
-    background: var(--wp--preset--color--accent-60);
-    color: var(--wp--preset--color--white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 0.4rem;
-    transition: all 200ms ease-in-out;
+.op-block__event .op-button-clear-search .op-icon {
+    font-size: 2rem;
 }
 
-.op-block__event [data-search-active="1"] .op-search-cancel {
+.op-block__event .op-button-clear-search:not( :hover ) .op-icon {
+    color: var(--wp--preset--color--primary-40);
+}
+
+.op-block__event [data-search-active="1"] .op-button-clear-search {
     display: flex;
 }
 
 .op-block__event .op-search-filter {
+    display: flex;
+    gap: 0.5rem;
     margin: 0;
     padding: 0.5rem 0.5rem 0.5rem 0;
     position: relative;
     border: none;
     border-radius: 0.4rem;
-}
-
-.op-block__event .op-search-filter {
     z-index: 2;
 }
 

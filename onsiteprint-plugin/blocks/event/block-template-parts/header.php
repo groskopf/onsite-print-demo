@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2025-12-18 - 04:11 (Y:m:d - H:i)
- ?  Info: Changed dropdown structure.
+ ?  Updated: 2025-12-19 - 01:25 (Y:m:d - H:i)
+ ?  Info: Added new Clear Search button.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -18,10 +18,11 @@
                     <span class="op-icon" role="img" aria-label="Search Icon"></span>
                     <input id="<?= esc_attr( $id ) ?>__search-input" name="op-search-input" type="search" placeholder="<?= esc_attr( $header['search_message'] ) ?>" value="<?= esc_attr( $header['query'] ) ?>">
                 </label>
-                <div class="op-search-cancel" data-icon="xmark">
-                    <span class="op-icon" role="img" aria-label="Cancel Icon"></span>
-                </div>
                 <div class="op-search-filter">
+                    <button type="button" name="clear" class="op-button-clear-search op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="xmark" data-icon-position="right" data-title-visibility="1">
+                        <span class="op-icon" role="img" aria-label="Xmark Icon"></span>
+                        <span class="op-button-title"><?= esc_attr( $header['search_clear'] ) ?></span>
+                    </button>
                     <div class="op-search-filter__inner op-dropdown-menu" data-dropdown-direction="right">
                         <button type="button" name="dropdown" class="op-button-search-filter op-button op-button-size-small op-button-style-outline" data-color="primary-90" data-icon="sliders" data-icon-position="left">
                             <span class="op-icon" role="img" aria-label="Filter Icon"></span>
