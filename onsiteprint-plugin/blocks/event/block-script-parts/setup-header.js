@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-19 - 01:25 (Y:m:d - H:i)
- ?  Info: Added new Clear Search button.
+ ?  Updated: 2025-12-19 - 04:24 (Y:m:d - H:i)
+ ?  Info: !dded new Search for Participant Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -18,6 +18,7 @@ import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleListeners from '../../../assets/js/inc/listeners.js'
 import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
 import { opModalCreateParticipant } from './modals/modal-create-participant.js'
+import { opParticipantSearchListener } from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Setup the Header of the Event
@@ -37,9 +38,13 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
 
         ///// Get the Search Elements.
         let opSearchContainer = block.querySelector( '.op-search-form' )
+        let submitButton = opSearchContainer.querySelector( '.op-button-submit-search' )
         let clearButton = opSearchContainer.querySelector( '.op-button-clear-search' )
         let opFilterInputLabels = opSearchContainer.querySelectorAll( '.op-filter-input-label' )
         let filterButton = opSearchContainer.querySelector( '.op-button-search-filter' )
+
+        ///// Set the Redirect Listener to the Search Button.
+        opParticipantSearchListener( debug, submitButton, opSearchContainer.querySelector( '[name="op-search-input"]' ) )
 
         ///// Create the New URL for the Clear Search Button.
         let clearUrlParams = new URLSearchParams( window.location.search )

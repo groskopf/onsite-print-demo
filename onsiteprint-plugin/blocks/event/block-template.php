@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-19 - 01:25 (Y:m:d - H:i)
- ?  Info: Added new Clear Search variable.
+ ?  Updated: 2025-12-19 - 02:21 (Y:m:d - H:i)
+ ?  Info: Added new Submit Search variable.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -44,6 +44,7 @@ if ( isset( $_GET['filter'] ) && $_GET['filter'] !== '' ) {
 
 $header = array(
     'enable_search'     => get_field( $path . 'header_enable_search' ) ? true : false,
+    'search_submit'     => get_field( $path . 'header_search_submit' ) ?: 'Search',
     'search_message'    => get_field( $path . 'header_search_message' ) ?: 'Search for Participants here...',
     'search_clear'      => get_field( $path . 'header_search_clear' ) ?: 'Clear Search',
     'search_filter'     => get_field( $path . 'header_search_filter' ) ?: 'All Columns',

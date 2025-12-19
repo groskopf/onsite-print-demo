@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-19 - 01:25 (Y:m:d - H:i)
- ?  Info: Added new Clear Search button.
+ ?  Updated: 2025-12-19 - 04:22 (Y:m:d - H:i)
+ ?  Info: Added new Search button.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -96,6 +96,7 @@
 }
 
 .op-block__event footer .op-limit-filter {
+    min-width: 9rem;
     position: relative;
 }
 
@@ -136,6 +137,12 @@
     border-radius: 0.4rem;
 }
 
+.op-block__event .op-search-form .op-search-submit {
+    display: flex;
+    padding: 0.5rem;
+    border-right: 0.1rem solid var(--wp--preset--color--primary-20);
+}
+
 .op-block__event :is( .op-search-label, .op-search-label input ) {
     display: flex;
     flex-direction: row;
@@ -153,38 +160,11 @@
     font-weight: 600;
 }
 
-.op-block__event .op-search-label .op-icon {
-    color: currentColor;
-    font-size: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 5.3rem;
-    border-right: 0.1rem solid transparent;
-    cursor: pointer;
-}
-
-.op-block__event .op-search-label .op-icon:is( :hover, :focus )::before {
-    background: var(--wp--preset--color--accent-60);
-    color: var(--wp--preset--color--white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 0.4rem;
-    transition: all 200ms ease-in-out;
-}
-
 .op-block__event .op-search-label input {
     background-color: transparent;
     color: currentColor;
-    padding: 1rem 2rem 1rem 0;
+    padding: 1rem 2rem;
     border: none;
-}
-
-.op-block__event [data-search-active="1"] .op-search-label input {
-    padding-right: 0;
 }
 
 .op-block__event .op-search-label input::placeholder {
@@ -192,16 +172,19 @@
     font-weight: 500;
 }
 
-.op-block__event .op-button-clear-search {
-    display: none;
+.op-block__event :is( .op-button-submit-search, .op-button-clear-search ) {
     border-color: transparent;
 }
 
-.op-block__event .op-button-clear-search .op-icon {
+.op-block__event .op-button-clear-search {
+    display: none;
+}
+
+.op-block__event :is( .op-button-submit-search, .op-button-clear-search ) .op-icon {
     font-size: 2rem;
 }
 
-.op-block__event .op-button-clear-search:not( :hover ) .op-icon {
+.op-block__event :is( .op-button-submit-search, .op-button-clear-search ):not( :hover ) .op-icon {
     color: var(--wp--preset--color--primary-40);
 }
 
@@ -220,8 +203,16 @@
     z-index: 2;
 }
 
-.op-block__event .op-search-filter .op-button-search-filter {
-    min-width: 20rem;
+.op-block__event .op-search-filter .op-dropdown {
+    min-width: 19.2rem;
+}
+
+.op-block__event .op-search-filter .op-button-search-filter .op-button-title {
+    display: none;
+}
+
+.op-block__event .op-search-filter .op-button-search-filter .op-icon {
+    padding: 0.9rem;
 }
 
 .op-block__event .op-search-filter .op-dropdown label:first-child {
@@ -877,31 +868,18 @@
     >  Participant Search Filter
     --------------------------------------------- */
 
-    .op-block__event .op-search-label .op-icon {
-        border-right-color: var(--wp--preset--color--primary-20);
+    .op-block__event .op-search-filter .op-button-search-filter {
+        min-width: 20rem;
     }
 
-    .op-block__event .op-search-label input {
-        padding-left: 2rem;
+    .op-block__event .op-search-filter .op-button-search-filter .op-button-title {
+        display: flex;
     }
 
-    .op-block__event :where(.op-filter-label) {
-        min-width: 20.5rem;
-        max-width: 20.5rem;
-    }
-    
-    .op-block__event .op-filter-label .op-icon {
+    .op-block__event .op-search-filter .op-button-search-filter .op-icon {
         padding-right: 1.2rem;
         padding-left: 1.6rem;
     }
-
-    .op-block__event .op-filter-label .op-button-title {
-        display: flex;
-    }
-    
-    .op-block__event [id*=__filter-button] ~ .op-filter-options {
-        border-radius: 0 0 0.4rem 0.4rem;
-    }    
 
     /* ------------------------------------------
     >  Participant Column Info
