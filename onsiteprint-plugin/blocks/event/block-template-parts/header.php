@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Header
- ?  Updated: 2025-12-19 - 04:24 (Y:m:d - H:i)
- ?  Info: Added new Search Submit button.
+ ?  Updated: 2025-12-19 - 05:22 (Y:m:d - H:i)
+ ?  Info: Added required to Search Input.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -25,7 +25,7 @@
                 </div>
 
                 <label for="<?= esc_attr( $id ) ?>__search-input" class="op-search-label" data-icon="magnifying-glass">
-                    <input id="<?= esc_attr( $id ) ?>__search-input" name="op-search-input" type="search" placeholder="<?= esc_attr( $header['search_message'] ) ?>" value="<?= esc_attr( $header['query'] ) ?>">
+                    <input id="<?= esc_attr( $id ) ?>__search-input" name="op-search-input" type="search" placeholder="<?= esc_attr( $header['search_message'] ) ?>" value="<?= esc_attr( $header['query'] ) ?>" required>
                 </label>
 
                 <div class="op-search-filter">

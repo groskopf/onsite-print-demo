@@ -574,7 +574,7 @@ export function opParticipantSearchListener( debug, button, searchInputElement )
             let urlParams = new URLSearchParams( window.location.search )
 
             ///// Update the Query Parameter.
-            if (searchValue) {
+            if ( searchValue ) {
                 urlParams.set( 'query', searchValue )
             } else {
                 urlParams.delete( 'query' )

@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-19 - 04:22 (Y:m:d - H:i)
- ?  Info: Added new Search button.
+ ?  Updated: 2025-12-19 - 05:20 (Y:m:d - H:i)
+ ?  Info: Added selector if search is valid to .op-button-clear-search.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -188,6 +188,7 @@
     color: var(--wp--preset--color--primary-40);
 }
 
+.op-block__event .op-search-label:has( input:valid ) + .op-search-filter .op-button-clear-search,
 .op-block__event [data-search-active="1"] .op-button-clear-search {
     display: flex;
 }
