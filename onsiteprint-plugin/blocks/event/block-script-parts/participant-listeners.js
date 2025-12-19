@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-12-14 - 05:07 (Y:m:d - H:i)
- ?  Info: Changed some Variable Names.
+ ?  Updated: 2025-12-19 - 04:23 (Y:m:d - H:i)
+ ?  Info: Added new Search for Participant Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -18,6 +18,8 @@
     5.  Function: Create Participant Listener
 
     6.  Function: Download CSV File Listener
+
+    7.  Function: Search for Participant Listener
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -525,6 +527,130 @@ export function opDownloadCSVFileListener( debug, block, button, eventId ) {
             message: `The Download CSV File Listener is Active!`,
             line: opModuleBasic.errorLine(),
             function: functionName
+        } )
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  7. Function: Search for Participant Listener
+--------------------------------------------------------------------------- */
+export function opParticipantSearchListener( debug, button, searchInputElement ) {
+
+    try {
+
+        ///// Get Function Name.
+        var functionName = opParticipantSearchListener.name
+
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        function setURLParams() {
+
+            ///// Get the Search Value.
+            let searchValue = searchInputElement.value
+
+            ///// Get the Current URL Parameters.
+            let urlParams = new URLSearchParams( window.location.search )
+
+            ///// Update the Query Parameter.
+            if (searchValue) {
+                urlParams.set( 'query', searchValue )
+            } else {
+                urlParams.delete( 'query' )
+            }
+
+            ///// Create the New URL for the Search Button.
+            let newUrl = window.location.pathname + '?' + urlParams.toString()
+
+            ///// Redirect to the New URL.
+            window.location.href = newUrl
+
+        }
+
+        ///// Set Search for Participant Listener to the Search Button.
+        opModuleBasic.opListener( 'click', button, async ( event ) => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `opParticipantSearchListener()` )
+
+            ///// Stop Propagation from the Event Listener.
+            event.stopPropagation()
+
+            setURLParams()
+
+            ///// Console Log Success if Debug.
+            if ( debug ) console.log( 'SUCCESS:', { 
+                message: `No errors were found in the Search for Participant Listener!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName,
+                details: {
+                    button: button,
+                    url: newUrl
+                }
+            } )
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+
+        } )
+
+        ///// Set Search for Participant Listener to the Search Button.
+        opModuleBasic.opListener( 'search', searchInputElement, async ( event ) => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `opParticipantSearchListener()` )
+
+            ///// Stop Propagation from the Event Listener.
+            event.stopPropagation()
+
+            setURLParams()
+
+            ///// Console Log Success if Debug.
+            if ( debug ) console.log( 'SUCCESS:', { 
+                message: `No errors were found in the Search for Participant Listener!`,
+                line: opModuleBasic.errorLine(),
+                function: functionName,
+                details: {
+                    button: searchInputElement,
+                    url: newUrl
+                }
+            } )
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+
+        } )
+
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Search for Participant Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName,
+            details: { 
+                button: button,
+                searchInput: searchInputElement
+            }
         } )
 
     } catch( errorResponse ) {
