@@ -4,8 +4,8 @@
  *  Description: This is a JavaScript to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-12-19 - 04:53 (Y:m:d - H:i)
- ?  Info: opSaveNewTemplate(), Changed where the class should be placed to activate the Modal window.
+ ?  Updated: 2025-12-26 - 05:37 (Y:m:d - H:i)
+ ?  Info: Changed URL in opCreateEvent().
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -1702,7 +1702,7 @@ async function opCreateEvent( debug, formElement, jsonFormGrid ) {
         formData.append( 'templateColumns', template.templateLayoutColumns.charAt(0) )
 
         ///// The URL to the API.
-        const url = `${ opGetCurrentScriptPath() }/../api/api-convert-grid-data-into-json.php`
+        const url = `${ opGetCurrentScriptPath() }/../api/api-convert/api-convert-grid-data-into-json.php`
 
         ///// Fetch from Local PHP file.
         const apiData = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )

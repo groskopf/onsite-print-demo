@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-10-05 - 01:09 (Y:m:d - H:i)
- ?  Info: Changed Move Icon to Hand Icon in opAddGridToElement().
+ ?  Updated: 2025-12-26 - 05:33 (Y:m:d - H:i)
+ ?  Info: Changed URL in opGetCSVDataAsJSON().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -526,7 +526,7 @@ export async function opGetCSVDataAsJSON( debug, gridContainer ) {
             const formData = new FormData( gridContainer.closest( '.op-form-steps' ) )
 
             ///// The URL to the API.
-            const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../api/api-convert-csv-into-json.php`
+            const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../api/api-convert/api-convert-csv-into-json.php`
 
             ///// Get JSON from CSV file.
             const jsonResponse = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
