@@ -343,6 +343,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Changed URL in opGetCSVDataAsJSON().
+
+    [ECB | steps-additions.js](blocks/event-creation/block-script-parts/block-form/steps/steps-additions.js)
+
+    ---
+
 - Changed where the class should be placed to activate the Modal window in (step-4.js) and the function opSaveNewTemplate() in (elements.js).
 
     [ECB | step-4.js](blocks/event-creation/block-script-parts/block-form/steps/step-4.js)

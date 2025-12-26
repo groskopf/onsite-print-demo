@@ -79,6 +79,7 @@ try {
         array_walk_recursive( $array, function( &$item, $key ) {
             if ( ! mb_detect_encoding( $item, 'utf-8', true ) ) {
                 $item = utf8_encode( $item );
+                ////#NG - Maybe use this: $item = mb_convert_encoding( $item, 'UTF-8', 'ISO-8859-1' );
             }
         });
         return $array;
