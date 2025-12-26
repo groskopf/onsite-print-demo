@@ -201,6 +201,13 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Changed where the class should be placed to activate the Modal window in the function opSaveNewTemplate().
+- Changed URL in opCreateEvent().
+
+    [JS | elements.js](assets/js/elements.js)
+
+---
+
 - Changed the `opReturnResponse` Function with new `Debug Response`.
 - Added the same lines in `opTimeConverter()` as in `opTimeConverter()` from `elements.js`.
 
@@ -331,6 +338,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Modified the file to handle a QR Code line and added some more error handling.
+
+    [PHP | api-convert-json-into-csv.php](/assets/api/api-convert/api-convert-json-into-csv.php)
+
+    ---
+
 - Removed one of the `opToggleActive()` in the `Cancel Buttons`.
 
     [ECB | step-3.php](blocks/event-creation/block-template-parts/block-form/steps/step-3.php)
@@ -352,12 +365,5 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Changed where the class should be placed to activate the Modal window.
 
     [ECB | step-4.js](blocks/event-creation/block-script-parts/block-form/steps/step-4.js)
-
----
-
-- Changed where the class should be placed to activate the Modal window in the function opSaveNewTemplate().
-- Changed URL in opCreateEvent().
-
-    [JS | elements.js](assets/js/elements.js)
 
 ---
