@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Modal Part Name: Download Files Template
- ?  Updated: 2025-12-26 - 03:36 (Y:m:d - H:i)
- ?  Info: Added Classes to the Download Buttons.
+ ?  Updated: 2025-12-28 - 02:48 (Y:m:d - H:i)
+ ?  Info: Removed Function fra the Download CSV Button.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
@@ -31,7 +31,7 @@
         <div class="op-modal-overflow">
             <div class="op-modal-overflow__inner op-flex-row">
 
-                <button class="op-button-download-csv op-button op-button-size-medium op-button-style-outline op-flex-fill" data-color="primary-90" data-icon="file-csv" data-icon-position="left" onclick="opDownloadEventParticipants('csv', <?= esc_attr($options['event_id']) ?>)">
+                <button class="op-button-download-csv op-button op-button-size-medium op-button-style-outline op-flex-fill" data-color="primary-90" data-icon="file-csv" data-icon-position="left">
                     <span class="op-icon" role="img" aria-label="CSV File Icon"></span>
                     <span class="op-button-title"><?= esc_attr($modal_df['download_csv']) ?></span>
                 </button>

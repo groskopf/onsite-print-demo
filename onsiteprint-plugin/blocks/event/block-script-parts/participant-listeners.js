@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-12-19 - 06:05 (Y:m:d - H:i)
- ?  Info: Added QR Code to Create Participant Listener.
+ ?  Updated: 2025-12-28 - 02:46 (Y:m:d - H:i)
+ ?  Info: Added new Code to Download CSV File Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -28,6 +28,9 @@ import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleParticipant from '../../../assets/js/inc/participant/participant.js'
 import { opChangeModalContent } from '../../../assets/js/inc/modal/change-modal-content.js'
 import { opAddParticipant } from './add-participant.js'
+import { opGetEvent } from '../../../assets/js/inc/event/event.js'
+import { opGetApiData } from '../../../assets/js/inc/api/get-api-data.js'
+
 
 /* ------------------------------------------------------------------------
  #  2. Function: Participant Toggle Listener
@@ -484,7 +487,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
 /* ------------------------------------------------------------------------
  #  6. Function: Download CSV File Listener
 --------------------------------------------------------------------------- */
-export function opDownloadCSVFileListener( debug, block, button, eventId ) {
+export function opDownloadCSVFileListener( debug, button, eventId ) {
 
     try {
         
@@ -504,6 +507,83 @@ export function opDownloadCSVFileListener( debug, block, button, eventId ) {
 
             try {
 
+                ///// Get the Event. 
+                const eventItem = opGetEvent( debug, eventId )
+
+                ///// Validate the Response from the Get Event.
+                if ( eventItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Event!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Create Variables.
+                const currentDate = opModuleBasic.opTimeConverter( new Date(), 'file')
+                const filename = eventItem.response.details.eventName.replace(/ /g,"-")
+                const participantList = eventItem.response.details.eventParticipants
+                const newFilename = ( filename + '_' + currentDate.toString() )
+
+                ///// Convert Epoch Timestamp to new Date
+                ////* https://www.epochconverter.com/
+                participantList.forEach( participant => {
+                    let newDate = new Date( Number( participant.time ) )
+                    let newParticipantTime = Math.floor( newDate.getTime() / 1000.0 )
+                    participant.time = newParticipantTime
+                } )
+
+                ///// Create new Form Element.
+                const formData = new FormData()
+
+                
+                ///// Add Data to the new Form Element
+                formData.append( 'event-list', JSON.stringify( participantList ) )
+
+                ///// The URL to the API.
+                const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../api/api-convert/api-convert-json-into-csv.php`
+
+                ///// Get JSON with CSV Data.
+                const jsonResponse = await opGetApiData( debug, 'POST', formData, url, 'json', 'form' )
+
+                ///// Validate the JSON Response.
+                if ( jsonResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong when Converting the Participant List into CSV format!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+                
+                ///// Create a Blob with the Participant List in CSV Format
+                var blob = new Blob( jsonResponse.response.details, { type: 'text/csv;charset=utf-8;' } )
+
+                ///// Check if the Browser is Internet Explorer (10+) else use the Create Element method.
+                if ( navigator.msSaveBlob ) {
+
+                    ///// Internet Explorer (10+) method.
+                    navigator.msSaveBlob( blob, newFilename )
+
+                } else {
+
+                    ///// Create a Link Element
+                    const link = document.createElement( 'a' )
+
+                    ///// Check if the Link Element has the HTML Download attribute.
+                    if ( link.download !== undefined ) {   
+
+                        const blobURL = URL.createObjectURL( blob )
+                        link.setAttribute( 'href', blobURL )
+                        link.setAttribute( 'download', newFilename )
+                        link.style.visibility = 'hidden'
+
+                        ///// Append the Link Element
+                        document.body.appendChild( link )
+
+                        ///// Trigger a Click
+                        link.click()
+
+                        /////Remove the Element again.
+                        document.body.removeChild( link )
+
+                    }
+                }
 
                 ///// Console Log Success if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 

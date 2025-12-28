@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-19 - 04:24 (Y:m:d - H:i)
- ?  Info: !dded new Search for Participant Listener.
+ ?  Updated: 2025-12-28 - 02:47 (Y:m:d - H:i)
+ ?  Info: Added new Download CSV File Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleListeners from '../../../assets/js/inc/listeners.js'
 import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
 import { opModalCreateParticipant } from './modals/modal-create-participant.js'
-import { opParticipantSearchListener } from './participant-listeners.js'
+import { opParticipantSearchListener, opDownloadCSVFileListener } from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Setup the Header of the Event
@@ -121,6 +121,10 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         let modalMain = modal.querySelector( '.op-modal-content__inner' )
         let modalId = modalTemplateElement.getAttribute( 'id' ).replace( 'op-block', 'op-modal' ).slice( 0, -9 )
         let closeButton = modal.querySelector( '.op-cancel_download-files' )
+        let downloadCSVButton = modal.querySelector( '.op-button-download-csv' )
+
+        ///// Set Download CSV File Listener to the Download CSV Button.
+        opDownloadCSVFileListener( debug, downloadCSVButton, eventId )
 
         ///// Set Modal Toggle Listener to the Close Button.
         opModalToggleListener( debug, closeButton, false )
