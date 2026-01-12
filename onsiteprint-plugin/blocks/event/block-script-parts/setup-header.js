@@ -18,7 +18,7 @@ import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleListeners from '../../../assets/js/inc/listeners.js'
 import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
 import { opModalCreateParticipant } from './modals/modal-create-participant.js'
-import { opParticipantSearchListener, opDownloadCSVFileListener } from './participant-listeners.js'
+import { opParticipantSearchListener, opDownloadCSVFileListener, opDownloadPDFFileListener } from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
  #  2. Function: Setup the Header of the Event
@@ -122,9 +122,13 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         let modalId = modalTemplateElement.getAttribute( 'id' ).replace( 'op-block', 'op-modal' ).slice( 0, -9 )
         let closeButton = modal.querySelector( '.op-cancel_download-files' )
         let downloadCSVButton = modal.querySelector( '.op-button-download-csv' )
+        let downloadPDFButton = modal.querySelector( '.op-button-download-pdf' )
 
         ///// Set Download CSV File Listener to the Download CSV Button.
         opDownloadCSVFileListener( debug, downloadCSVButton, eventId )
+
+        ///// Set Download PDF File Listener to the Download PDF Button.
+        opDownloadPDFFileListener( debug, downloadPDFButton, eventId )
 
         ///// Set Modal Toggle Listener to the Close Button.
         opModalToggleListener( debug, closeButton, false )

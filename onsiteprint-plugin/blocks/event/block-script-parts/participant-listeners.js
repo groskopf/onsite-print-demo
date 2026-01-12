@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2025-12-28 - 02:46 (Y:m:d - H:i)
- ?  Info: Added new Code to Download CSV File Listener.
+ ?  Updated: 2026-01-12 - 03:27 (Y:m:d - H:i)
+ ?  Info: Finished Download PDF File Listener.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -19,7 +19,9 @@
 
     6.  Function: Download CSV File Listener
 
-    7.  Function: Search for Participant Listener
+    7.  Function: Download PDF File Listener
+
+    8.  Function: Search for Participant Listener
 
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
@@ -29,8 +31,8 @@ import * as opModuleParticipant from '../../../assets/js/inc/participant/partici
 import { opChangeModalContent } from '../../../assets/js/inc/modal/change-modal-content.js'
 import { opAddParticipant } from './add-participant.js'
 import { opGetEvent } from '../../../assets/js/inc/event/event.js'
+import { opGetTemplate } from '../../../assets/js/inc/template/template.js'
 import { opGetApiData } from '../../../assets/js/inc/api/get-api-data.js'
-
 
 /* ------------------------------------------------------------------------
  #  2. Function: Participant Toggle Listener
@@ -633,7 +635,184 @@ export function opDownloadCSVFileListener( debug, button, eventId ) {
 }
 
 /* ------------------------------------------------------------------------
- #  7. Function: Search for Participant Listener
+ #  7. Function: Download PDF File Listener
+--------------------------------------------------------------------------- */
+export function opDownloadPDFFileListener( debug, button, eventId ) {
+
+    try {
+        
+        ///// Get Function Name.
+        var functionName = opDownloadPDFFileListener.name
+        
+        ///// Set the Debug.
+        ////* Set the Parameter If is not defined (true or false).
+        if ( debug !== true ) debug = false
+        if ( debug ) console.group( `${ functionName }()` )
+
+        ///// Set Download PDF Listener to the Button Element.
+        opModuleBasic.opListener( 'click', button, async () => {
+
+            ///// Start the Console Log Group.
+            if ( debug ) console.group( `opDownloadPDFFileListener()` )
+
+            try {
+
+                ///// Get the Event. 
+                const eventResponse = opGetEvent( debug, eventId )
+
+                ///// Validate the Response from the Get Event.
+                if ( eventResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Event!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Get the Information from Event Response (Event Participants & Template ID).
+                const eventItem = eventResponse.response.details
+                const participants = eventItem.eventParticipants
+                const templateId = eventItem.eventTemplate
+
+                ///// Get the Template. 
+                const templateItem = opGetTemplate( debug, templateId )
+
+                ///// Validate the Response from the Get Template.
+                if ( templateItem.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong getting the Template!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// The URL to the API.
+                const url = `${ opModuleBasic.opGetCurrentScriptPath() }/../../blocks/event/block-template-parts/print-document.php`
+
+                ///// Get the Response from the PHP File.
+                const printResponse = await opGetApiData( debug, 'GET', '', url, 'text' )
+
+                ///// Validate the Print Response.
+                if ( printResponse.error !== false ) throw opModuleBasic.opReturnResponse( true, 400, { 
+                    message: `Something went wrong Getting the Content form the Print Document!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+                ///// Get the Print Document Content.
+                let printDocument = new DOMParser().parseFromString( printResponse.response.details, 'text/html' )
+                let headContent = printDocument.querySelector( 'head' )
+                let bodyContent = printDocument.querySelector( 'body' )
+
+                ///// Get the Content from the Participant List Site.
+                const htmlHead = document.querySelector( 'head' )
+                const titleElement = `<span><b>Event:</b> ${ eventItem.eventName }</span>`
+                const logo = document.querySelector( '.custom-logo-link' )
+                const currentDate = `<span>${ opModuleBasic.opTimeConverter( new Date(), 'full', 'da' ) }</span>`
+                const columnAmount = Number( templateItem.response.details.templateLayoutColumns.charAt(0) )
+                const headerInfo = `<th><p>${ titleElement } ${ currentDate }</p></th>`
+
+                ///// Edit the Print Document Content.
+                headContent.insertAdjacentHTML( 'afterbegin', htmlHead.innerHTML )
+                bodyContent.querySelector('.op-pdf-header-info').innerHTML = headerInfo
+                bodyContent.querySelector( '.op-pdf-container' ).setAttribute( 'data-column-count', columnAmount )
+                bodyContent.querySelector( '.logo figure' ).insertAdjacentHTML( 'beforeend', logo.innerHTML )
+
+                ///// Create the Table Head Columns.
+                let thUser = `<th class="op-col-user">${ document.querySelector( '.op-participant-col-info .op-col-user' ).outerHTML }</th>`
+                let thLine1 = `<th class="op-col-line-1">${ document.querySelector( '.op-participant-col-info .op-col-line-1' ).outerHTML }</th>`
+                let thLine2 = `<th class="op-col-line-2">${ document.querySelector( '.op-participant-col-info .op-col-line-2' ).outerHTML }</th>`
+                let thLine3 = `<th class="op-col-line-3">${ document.querySelector( '.op-participant-col-info .op-col-line-3' ).outerHTML }</th>`
+                let thLine4 = `<th class="op-col-line-4">${ document.querySelector( '.op-participant-col-info .op-col-line-4' ).outerHTML }</th>`
+                let thLine5 = `<th class="op-col-line-5">${ document.querySelector( '.op-participant-col-info .op-col-line-5' ).outerHTML }</th>`
+                let thTime = `<th class="op-col-arrival-time">${ document.querySelector( '.op-participant-col-info .op-col-arrival-time' ).outerHTML }</th>`
+                let thPrints = `<th class="op-col-amount-of-prints">${ document.querySelector( '.op-participant-col-info .op-col-amount-of-prints' ).outerHTML }</th>`
+
+                ///// Insert each Column in the Table Head in the Print Document Content.
+                bodyContent.querySelector('.op-pdf-header .op-pdf-col-info').insertAdjacentHTML('beforeend', thUser + thLine1 + thLine2 + thLine3 + thLine4 + thLine5 + thTime + thPrints )
+
+                ///// Insert each Row in the Table Body in the Print Document Content.
+                participants.forEach( participant => {
+
+                    let user
+
+                    if ( ! Number( participant.active ) == 1 ) {
+                         user = `<td class="op-col-user"><p class="op-col-user" data-icon="user"><span class="op-icon" role="img" aria-label="User Icon"></span></p></td>`
+                    } else {
+                         user = `<td class="op-col-user"><p class="op-col-user" data-icon="check"><span class="op-icon" role="img" aria-label="User Icon"></span></p></td>`
+                    }
+
+                    let line1 = `<td class="op-col-line-1"><p>${ participant.line1 }</p></td>`
+                    let line2 = `<td class="op-col-line-2"><p>${ participant.line2 }</p></td>`
+                    let line3 = `<td class="op-col-line-3"><p>${ participant.line3 }</p></td>`
+                    let line4 = `<td class="op-col-line-4"><p>${ participant.line4 }</p></td>`
+                    let line5 = `<td class="op-col-line-5"><p>${ participant.line5 }</p></td>`
+                    let time = `<td class="op-col-arrival-time"><p>${ opModuleBasic.opTimeConverter( participant.time, 'hour-min' ) }</p></td>`
+                    let prints = `<td class="op-col-amount-of-prints"><p>${ participant.prints }</p></td>`
+                    let newElement = `<tr>${ user + line1 + line2 + line3 + line4 + line5 + time + prints }</tr>`
+
+                    bodyContent.querySelector( '.op-pdf-content' ).insertAdjacentHTML( 'beforeend', newElement )
+
+                } )
+
+                ///// Create Browser Window. 
+                let printWindow = window.open( '', '_blank', `height=${ screen.height }, width=${ screen.width }` )
+
+                ///// Insert Head and Body Content.
+                printWindow.document.querySelector( 'head' ).insertAdjacentHTML( 'beforeend',  headContent.innerHTML )
+                printWindow.document.querySelector( 'body' ).insertAdjacentHTML( 'beforeend',  bodyContent.innerHTML )
+
+                ///// Set Timeout to Print and Close the Window.
+                setInterval( () => {
+                    printWindow.print()
+                    printWindow.close()
+                }, 300 )
+
+                ///// Console Log Success if Debug.
+                if ( debug ) console.log( 'SUCCESS:', { 
+                    message: `No errors were found in the Download CSV File Listener!`,
+                    line: opModuleBasic.errorLine(),
+                    function: functionName
+                } )
+
+            } catch( errorListenerResponse ) {
+
+                ///// Log Error Details in the Console.
+                if ( debug ) console.error( 'ERROR:', errorListenerResponse )
+
+            }
+
+            ///// End the Console Log Group.
+            if ( debug ) console.groupEnd()
+
+        })
+
+        ///// Console Log Success if Debug.
+        if ( debug ) console.log( 'SUCCESS:', { 
+            message: `The Download CSV File Listener is Active!`,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+    } catch( errorResponse ) {
+
+        ///// Create Error Details.
+        let errorDetails = ( errorResponse.error == true ) ? errorResponse : opModuleBasic.opReturnResponse( false, 400, { 
+            message: errorResponse.message,
+            line: opModuleBasic.errorLine(),
+            function: functionName
+        } )
+
+        ///// Log Error Details in the Console.
+        if ( debug ) console.error( 'ERROR:', errorDetails )
+
+    } finally {
+
+        ///// End the Console Log Group.
+        if ( debug ) console.groupEnd()
+
+    }
+
+}
+
+/* ------------------------------------------------------------------------
+ #  8. Function: Search for Participant Listener
 --------------------------------------------------------------------------- */
 export function opParticipantSearchListener( debug, button, searchInputElement ) {
 

@@ -6,6 +6,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ### 1.2.5 (2025-12-13) - New Event Block *(NB: Under Construction)*
 
+- Changed Block Version to `1.0.2`.
+
+    [EB | block.json](blocks/event/block.json)
+
+    ---
+
 - Changed the Block Script in the `Event Block`.
 - Changed the `Import` Functions.
 - Added new Function, `opSetupHeader()`.
@@ -29,6 +35,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
     [EB | block-style.css](blocks/event/block-style.css)
 
     ---
+
+- Added new Print CSS to Event Block.
+
+    [CSS | block-style-print.css](blocks/event/block-style-print.css)
+
+---
 
 - Added New `Error Title` and `Error Description` to Modal, used in /modal.php.
 - Changed the `Error Messages` in the Modal, used in /modal.php.
@@ -195,6 +207,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
+- Added new Added new Print Document PHP File.
+
+    [EB | print-document.php](blocks/event/block-template-parts/print-document.php)
+
+    ---
+
 - Changed the `Debug` Parameter.
 
     [JS | plugin.js](assets/js/plugin.js)
@@ -335,6 +353,12 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 - Added `transform` to User Plus Icon.
 
     [CSS | onsiteprint-styles.css](assets/css/onsiteprint-styles.css)
+
+    ---
+
+- Deleted Print CSS.
+
+    [CSS | onsiteprint-styles-print.css](assets/css/onsiteprint-styles-print.css)
 
     ---
 

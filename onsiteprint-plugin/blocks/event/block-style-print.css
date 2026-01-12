@@ -1,0 +1,189 @@
+/* ------------------------------------------------------------------------
+
+ *  Plugin Name: OnsitePrint Plugin
+ *  Description: This is the Styles to the OnsitePrint Plugin.
+ *  Author: Gerdes Group
+ *  Author URI: https://www.clarify.nu/
+ ?  Updated: 2026-01-12 - 03:33 (Y:m:d - H:i)
+ ?  Info:  Added new Print CSS to Event Block.
+
+---------------------------------------------------------------------------
+ #  TABLE OF CONTENTS:
+--------------------------------------------------------------------------- */
+
+@page {
+    -webkit-print-color-adjust: exact !important; /* Chrome, Safari 6 – 15.3, Edge */
+    color-adjust: exact !important; /* Firefox 48 – 96 */
+    print-color-adjust: exact !important; /* Firefox 97+, Safari 15.4+ */
+
+    size: auto; /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 7mm 5mm 8.5mm;
+} 
+
+*, html, body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    background: var(--wp--preset--color--primary-90);
+    overflow: visible;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.logo figure {
+    display: flex;
+    width: 20%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo figure img {
+    width: 100%;
+    height: auto;
+    min-width: 10rem;
+    max-width: 50rem;
+    aspect-ratio: 1 / 1;
+}
+
+table.op-pdf-container {
+    display: none;
+    width: 100%;
+    font-size: inherit;
+    text-align: left;
+    border-spacing: 0;
+}
+
+thead.op-pdf-header {
+    color: var(--wp--preset--color--neutral-60);
+    display: table-header-group;
+}
+
+tfoot.op-pdf-footer {
+    display: table-footer-group;
+}
+
+thead tr, tbody tr:nth-child(even) {
+    background: var(--wp--preset--color--neutral-10);
+}
+
+tr {
+    display: grid;
+}
+
+tr.op-pdf-header-info th {
+    padding: 0;
+    grid-column: 1/-1;
+}
+
+tr.op-pdf-header-info th p {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 1rem 0.5rem;
+}
+
+tr.op-pdf-col-info th {
+    border: 0.1rem solid var(--wp--preset--color--neutral-40);
+}
+
+td {
+    border: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+th, td {
+    font-size: 1rem;
+    padding: 0.6rem;
+}
+
+th:where( :first-child, :last-child, :nth-last-child(2) ),
+td:where( :first-child, :last-child, :nth-last-child(2) ) {
+    text-align: center;
+    padding: 0;
+}
+
+th:where( :first-child, :last-child, :nth-last-child(2) ) p,
+td:where( :first-child, :last-child, :nth-last-child(2) ) p {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+p[ class*="op-col-line" ] {
+    display: flex;
+    gap: 1ch;
+}
+
+.op-pdf-content [ data-icon="user" ] {
+    color: var(--wp--preset--color--primary-90);
+}
+
+[ data-icon="check" ] {
+    color: var(--wp--preset--color--accent-60);
+}
+
+.op-pdf-container[ data-column-count="1" ] tr {
+    grid-template-columns: 2.6rem 1fr 5rem 2.6rem;
+}
+
+.op-pdf-container[ data-column-count="2" ] tr {
+    grid-template-columns: 2.6rem repeat(2, 1fr) 5rem 2.6rem;
+}
+
+.op-pdf-container[ data-column-count="3" ] tr {
+    grid-template-columns: 2.6rem repeat(3, 1fr) 5rem 2.6rem;
+}
+
+.op-pdf-container[ data-column-count="4" ] tr {
+    grid-template-columns: 2.6rem repeat(4, 1fr) 5rem 2.6rem;
+}
+
+.op-pdf-container[ data-column-count="5" ] tr {
+    grid-template-columns: 2.6rem repeat(5, 1fr) 5rem 2.6rem;
+}
+
+.op-pdf-container tr :is( th, td ):where( .op-col-line-1, .op-col-line-2, .op-col-line-3, .op-col-line-4, .op-col-line-5 ) {
+    display: none;
+}
+
+.op-pdf-container[ data-column-count="1" ] tr :is( th, td ):where( .op-col-line-1 ),
+.op-pdf-container[ data-column-count="2" ] tr :is( th, td ):where( .op-col-line-1, .op-col-line-2 ),
+.op-pdf-container[ data-column-count="3" ] tr :is( th, td ):where( .op-col-line-1, .op-col-line-2, .op-col-line-3 ),
+.op-pdf-container[ data-column-count="4" ] tr :is( th, td ):where( .op-col-line-1, .op-col-line-2, .op-col-line-3, .op-col-line-4 ),
+.op-pdf-container[ data-column-count="5" ] tr :is( th, td ):where( .op-col-line-1, .op-col-line-2, .op-col-line-3, .op-col-line-4, .op-col-line-5 ) {
+    display: flex;
+}
+
+@media print {
+
+    body {
+        background: none;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    table.op-pdf-container {
+        display: table;
+    }
+
+}

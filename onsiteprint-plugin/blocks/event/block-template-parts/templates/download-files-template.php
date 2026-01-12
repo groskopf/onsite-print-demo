@@ -35,7 +35,7 @@
                     <span class="op-icon" role="img" aria-label="CSV File Icon"></span>
                     <span class="op-button-title"><?= esc_attr($modal_df['download_csv']) ?></span>
                 </button>
-                <button class="op-button-download-pdf op-button op-button-size-medium op-button-style-outline op-flex-fill" data-color="primary-90" data-icon="file-pdf" data-icon-position="left" onclick="opDownloadEventParticipants('pdf', <?= esc_attr($options['event_id']) ?>)">
+                <button class="op-button-download-pdf op-button op-button-size-medium op-button-style-outline op-flex-fill" data-color="primary-90" data-icon="file-pdf" data-icon-position="left">
                     <span class="op-icon" role="img" aria-label="PDF File Icon"></span>
                     <span class="op-button-title"><?= esc_attr($modal_df['download_pdf']) ?></span>
                 </button>
