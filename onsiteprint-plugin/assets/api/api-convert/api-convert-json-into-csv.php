@@ -2,96 +2,121 @@
 /* ------------------------------------------------------------------------
 
  #  API Name: Create CSV from JSON
- *  This PHP file provides an API endpoint to convert a JSON array (uploaded via POST) into a CSV format (array).
- ?  Updated: 2025-12-26 - 05:24 (Y:m:d - H:i)
- ?  Info: Modified the file to handle a QR Code line and added some more error handling.
+ *  Purpose: Convert a JSON array (POSTed as 'event-list') into a CSV-like array. The script normalizes empty values, preserves numeric zeros, formats timestamps to a readable date/time and includes a QR code column.
+ ?  Updated: 2026-01-16 - 02:58 (Y:m:d - H:i)
+ ?  Info: Added check for empty fields and extra error handling.
 
 ---------------------------------------------------------------------------
  #  The API Content
 --------------------------------------------------------------------------- */
 try {
 
-    ///// Get POST (csv-file).
-    $eventList = $_POST['event-list'] ?? null;
+    ///// Get POST parameters.
+    $eventList = $_POST['event-list'] ?? '';
 
-    ///// Validate CSV file.
-    if ( ! isset( $eventList ) || ! is_string( $eventList ) ) {
+    ///// Validate required field
+    if (empty($eventList)) {
         http_response_code(400);
-        header( 'Content-Type: application/json' );
+        header('Content-Type: application/json');
         echo '{"error":"Missing Event List"}';
         exit();
     }
-        
-    $jsonArray = json_decode( $eventList, true );
+
+    ///// Decode JSON into associative array and validate
+    $jsonArray = json_decode($eventList, true);
+    if (! is_array($jsonArray)) {
+        http_response_code(400);
+        header('Content-Type: application/json');
+        echo '{"error":"Invalid JSON data"}';
+        exit();
+    }
+
+    ///// Prepare output containers
     $header = false;
     $csvArray = [];
-        
-    function findValue( $value ) {
-        if ( $value ) {
-            return '"' . str_replace( '"', '""', $value ) . '"';
-        } elseif ( is_numeric( $value ) ) {
+
+    ///// Helper: safely quote/escape CSV values
+    function findValue($value)
+    {
+        ///// Treat non-empty values as strings and escape quotes
+        if ($value) {
+            return '"' . str_replace('"', '""', $value) . '"';
+        } elseif (is_numeric($value)) {
+            ///// Preserve numeric zeros (and other numeric zero-like values)
             return '"0"';
         } else {
+            ///// Explicit empty CSV cell
             return '""';
         }
     }
 
-    function findDate( $value ) {
-        if ( $value ) {
-
-            $timestamp = (int)$value;
+    ///// Helper: format a UNIX timestamp to human readable date/time in CET
+    function findDate($value)
+    {
+        if ($value) {
+            $timestamp = (int) $value;
             $dateTimeFormat = 'd/m/Y - H:i';
-            $dateTime = new DateTime( "@$timestamp" );
-            $dateTime->setTimeZone( new DateTimeZone( "Europe/Copenhagen" ) );
-
-            return '"' . $dateTime->format( $dateTimeFormat ) . '"';
-
+            $dateTime = new DateTime("@$timestamp");
+            $dateTime->setTimeZone(new DateTimeZone("Europe/Copenhagen"));
+            return '"' . $dateTime->format($dateTimeFormat) . '"';
         } else {
             return '""';
         }
     }
 
-    foreach ( $jsonArray as $line ) {
+    ///// Iterate rows and build CSV lines
+    foreach ($jsonArray as $line) {
 
-        if ( empty( $header ) ) {
-            $header = array_keys( $line );
+        ///// Build header row from first input row keys (once)
+        if (empty($header)) {
+            $header = array_keys($line);
             $headerLine = [
-                '"' . $header[1] . '"',
-                '"' . $header[2] . '"',
-                '"' . $header[3] . '"',
-                '"' . $header[4] . '"',
-                '"' . $header[5] . '"',
+                '"Column 1"',
+                '"Column 2"',
+                '"Column 3"',
+                '"Column 4"',
+                '"Column 5"',
                 '"Extra Notes"',
                 '"Last Arrived"',
                 '"Amount of Prints"',
-                '"qrCode"'
+                '"QR Code"'
             ];
-            array_push( $csvArray, implode(',', array_filter( array_values( $headerLine) ) ) . "\n" );
+            array_push($csvArray, implode(',', array_filter(array_values($headerLine))) . "\n");
         }
 
-        $participant = $line;
+        ///// Normalize participant row and ensure expected keys exist
+        $participant = is_array($line) ? $line : [];
 
-        $line_1     = findValue( $participant['line1'] );
-        $line_2     = findValue( $participant['line2'] );
-        $line_3     = findValue( $participant['line3'] );
-        $line_4     = findValue( $participant['line4'] );
-        $line_5     = findValue( $participant['line5'] );
-        $note       = findValue( $participant['note'] );
-        $line_time  = findDate( $participant['time'] );
-        $prints     = findValue( $participant['prints'] );
-        $qrCode     = findValue( $participant['qrCode'] );
-        
-        $participantLine = [ $line_1, $line_2, $line_3, $line_4, $line_5, $note, $line_time, $prints, $qrCode ];
+        ///// For textual fields: treat whitespace-only as empty
+        $line_1 = findValue(isset($participant['line1']) && trim((string) $participant['line1']) !== '' ? $participant['line1'] : '');
+        $line_2 = findValue(isset($participant['line2']) && trim((string) $participant['line2']) !== '' ? $participant['line2'] : '');
+        $line_3 = findValue(isset($participant['line3']) && trim((string) $participant['line3']) !== '' ? $participant['line3'] : '');
+        $line_4 = findValue(isset($participant['line4']) && trim((string) $participant['line4']) !== '' ? $participant['line4'] : '');
+        $line_5 = findValue(isset($participant['line5']) && trim((string) $participant['line5']) !== '' ? $participant['line5'] : '');
+        $note   = findValue(isset($participant['note']) && trim((string) $participant['note']) !== '' ? $participant['note'] : '');
 
-        array_push( $csvArray, implode(',', array_filter( array_values( $participantLine) ) ) . "\n" );
+        ///// Time: expect numeric UNIX timestamp; pass null/empty to helper when invalid
+        $line_time = findDate(isset($participant['time']) && is_numeric($participant['time']) ? $participant['time'] : null);
+
+        ///// Prints: allow numeric 0, otherwise empty when not set
+        $prints = findValue(isset($participant['prints']) ? $participant['prints'] : '');
+
+        ///// QR code: treat whitespace-only as empty
+        $qrCode = findValue(isset($participant['qrCode']) && trim((string) $participant['qrCode']) !== '' ? $participant['qrCode'] : '');
+
+        ///// Combine normalized fields and append CSV row
+        $participantLine = [$line_1, $line_2, $line_3, $line_4, $line_5, $note, $line_time, $prints, $qrCode];
+
+        ///// array_filter removes empty CSV entries (""), implode with commas, keep newline
+        array_push($csvArray, implode(',', array_filter(array_values($participantLine))) . "\n");
     }
 
-    ///// Return array as json.
-    header( 'Content-Type: application/json' );
-    echo json_encode( $csvArray, JSON_PRETTY_PRINT );
-
-} catch ( Exception $ex ) {
+    ///// Return the result array as JSON with pretty print formatting
+    header('Content-Type: application/json');
+    echo json_encode($csvArray, JSON_PRETTY_PRINT);
+} catch (Exception $ex) {
+    ///// Handle any unexpected errors and return a 500 error code
     http_response_code(500);
-    header( 'Content-Type: application/json' );
-    echo '{"message":"Error '.__LINE__.'"}';
+    header('Content-Type: application/json');
+    echo '{"message":"Error ' . __LINE__ . '"}';
 }
