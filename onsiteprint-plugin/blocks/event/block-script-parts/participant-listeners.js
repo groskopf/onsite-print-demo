@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-01-27 - 04:15 (Y:m:d - H:i)
- ?  Info: Added Position Parameter & Scroll Behavior in the Add Participant Function.
+ ?  Updated: 2026-01-27 - 05:22 (Y:m:d - H:i)
+ ?  Info: Changed the delay to 500ms in the Download PDF File Listeners.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -766,7 +766,7 @@ export function opDownloadPDFFileListener( debug, button, eventId ) {
                 setInterval( () => {
                     printWindow.print()
                     printWindow.close()
-                }, 300 )
+                }, 500 )
 
                 ///// Console Log Success if Debug.
                 if ( debug ) console.log( 'SUCCESS:', { 
