@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2025-12-19 - 05:20 (Y:m:d - H:i)
- ?  Info: Added selector if search is valid to .op-button-clear-search.
+ ?  Updated: 2026-01-27 - 04:14 (Y:m:d - H:i)
+ ?  Info: Changed the layout (padding & margin) of the participant list.
 --------------------------------------------------------------------------- */
 
 .op-block__event {
@@ -9,11 +9,12 @@
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
-    padding: 1rem 2rem;
+    padding: 2rem;
 }
 
 .op-block__event .op-block__inner {
     flex: 1 1 auto;
+    gap: 2rem;
 }
 
 .op-block__event p .op-icon {
@@ -24,7 +25,6 @@
 .op-block__event .op-block__inner > header {
     background: var(--wp--preset--color--white);
     align-items: center;
-    margin-bottom: 2rem;
     position: sticky;
     top: 2rem;
     z-index: 100;
@@ -39,7 +39,6 @@
     align-items: center;
     flex-wrap: wrap;
     row-gap: 1rem;
-    margin-top: 2rem;
     padding: 1rem;
     position: sticky;
     bottom: 2rem;

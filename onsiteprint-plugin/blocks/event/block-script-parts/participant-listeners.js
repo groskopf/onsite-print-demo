@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-01-12 - 03:27 (Y:m:d - H:i)
- ?  Info: Finished Download PDF File Listener.
+ ?  Updated: 2026-01-27 - 04:15 (Y:m:d - H:i)
+ ?  Info: Added Position Parameter & Scroll Behavior in the Add Participant Function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -405,7 +405,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 let participantsContainer = block.querySelector('.op-participant-list')
 
                 ///// Create a Participant Element.
-                const participantResponse = opAddParticipant( debug, eventId, participantsContainer, participant )
+                const participantResponse = opAddParticipant( debug, eventId, participantsContainer, participant, 'afterbegin' )
 
                 ///// Validate the Participant Response.
                 if ( participantResponse.error !== false ) {
@@ -419,10 +419,14 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
 
                 } else {
 
-                    ///// Scroll and Fade In the Participant after Timeout.
+                    ///// Scroll to the New Participant.
+                    block.scrollIntoView( { behavior: 'instant', block: 'start' } )
+
+                    ///// Set Timeout for the New Participant.
                     setTimeout( () => {
+
+                        ///// Fade In the New Participant.
                         participantResponse.response.details.classList.add( 'op-fade-in' )
-                        participantsContainer.scrollIntoView( false )
 
                         ////# NG - This function need to be changed, when a new (EventInformationBlock) is created.
                         ///// Update Event Information Blocks.

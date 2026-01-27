@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Add Participant
  *  Adding the Participant to the Participant Container in the Event Block.
- ?  Updated: 2025-12-16 - 01:03 (Y:m:d - H:i)
- ?  Info: Changed "textContent" to "innerHTML" in the Participant lines.
+ ?  Updated: 2026-01-27 - 04:15 (Y:m:d - H:i)
+ ?  Info: Added Position Parameter in the Add Participant Function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -20,7 +20,7 @@ import * as opModuleListeners from './participant-listeners.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Add the Participant to the Participant Container
 --------------------------------------------------------------------------- */
-export function opAddParticipant( debug, eventId, participantsContainer, participant ) {
+export function opAddParticipant( debug, eventId, participantsContainer, participant, position ) {
 
     try {
 
@@ -65,9 +65,12 @@ export function opAddParticipant( debug, eventId, participantsContainer, partici
         ///// Set Print Participant Listener to the Participant Print Button.
         opModuleListeners.opPrintParticipantListener( debug, participantElement.querySelector( 'button.op-participant-print' ), eventId, participant.id )
 
+        ///// Set the Position.
+        if ( ! position ) position = 'beforeend'
+
         ///// Get the Participant Rows Element and Add the Participant.
         let participantRows = participantsContainer.querySelector('.op-participant-rows')
-        participantRows.append( participantElement )
+        participantRows.insertAdjacentHTML( position, participantElement.firstElementChild.outerHTML )
 
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
