@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-01-27 - 05:22 (Y:m:d - H:i)
- ?  Info: Changed the delay to 500ms in the Download PDF File Listeners.
+ ?  Updated: 2026-01-28 - 04:48 (Y:m:d - H:i)
+ ?  Info: Changed the setURLParams() for the Search for Participant Listener Function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -848,8 +848,8 @@ export function opParticipantSearchListener( debug, button, searchInputElement )
             ///// Create the New URL for the Search Button.
             let newUrl = window.location.pathname + '?' + urlParams.toString()
 
-            ///// Redirect to the New URL.
-            window.location.href = newUrl
+            ///// Return the New URL.
+            return newUrl
 
         }
 
@@ -862,17 +862,17 @@ export function opParticipantSearchListener( debug, button, searchInputElement )
             ///// Stop Propagation from the Event Listener.
             event.stopPropagation()
 
-            setURLParams()
+            ///// Get the New URL.
+            const newUrl = setURLParams()
+
+            ///// Redirect to the New URL.
+            window.location.href = newUrl
 
             ///// Console Log Success if Debug.
             if ( debug ) console.log( 'SUCCESS:', { 
                 message: `No errors were found in the Search for Participant Listener!`,
                 line: opModuleBasic.errorLine(),
-                function: functionName,
-                details: {
-                    button: button,
-                    url: newUrl
-                }
+                function: functionName
             } )
 
             ///// End the Console Log Group.
@@ -889,17 +889,17 @@ export function opParticipantSearchListener( debug, button, searchInputElement )
             ///// Stop Propagation from the Event Listener.
             event.stopPropagation()
 
-            setURLParams()
+            ///// Get the New URL.
+            const newUrl = setURLParams()
+
+            ///// Redirect to the New URL.
+            window.location.href = newUrl
 
             ///// Console Log Success if Debug.
             if ( debug ) console.log( 'SUCCESS:', { 
                 message: `No errors were found in the Search for Participant Listener!`,
                 line: opModuleBasic.errorLine(),
-                function: functionName,
-                details: {
-                    button: searchInputElement,
-                    url: newUrl
-                }
+                function: functionName
             } )
 
             ///// End the Console Log Group.
