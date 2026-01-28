@@ -2,8 +2,7 @@
  #  The OnsitePrint (Event) Block Script 
  *  Check if multiple Blocks of the Event is on page.
  ?  Updated: 2025-12-19 - 05:39 (Y:m:d - H:i)
- ?  Info: Added new Title Tag Update.
- ?  NB: Changed Line Filter to Search Filter and relocated some code.
+ ?  Info: Changed the Title String.
 --------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -15,7 +14,6 @@ import { opSearchForParticipant } from './block-script-parts/search-for-particip
 
 /* ------------------------------------------------------------------------
  #  2. The Function of Event Creation Blocks
- ?  NB: The function is under construction.
 --------------------------------------------------------------------------- */
 export function opEventBlocks( debug ) {
 
@@ -82,7 +80,7 @@ export function opEventBlocks( debug ) {
 
                 ///// Update the Title Tag
                 let titleElement = window.document.querySelector('head title')
-                let titleString = titleElement.innerText.split('|')[1]
+                let titleString = 'OnsitePrint'
                 titleElement.innerText = `Event: ${ eventItem.response.details.eventName } | ${ titleString }`
 
                 ///// Get the Template. 
