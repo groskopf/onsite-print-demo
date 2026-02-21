@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Toggle Modal Listener Script
  *  Functions Used to Open and Close the Modal Window.
- ?  Updated: 2025-08-07 - 05:06 (Y:m:d - H:i)
- ?  Info: Added Modal ID.
+ ?  Updated: 2026-21-02 - 06:10 (Y:m:d - H:i)
+ ?  Info: Added Class Name to opModalToggleListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -20,7 +20,7 @@ import { opChangeModalContent } from './change-modal-content.js'
 /* ------------------------------------------------------------------------
  #  2. Function: Modal Toggle Listener
 --------------------------------------------------------------------------- */
-export function opModalToggleListener( debug, button, state, header, main, id ) {
+export function opModalToggleListener( debug, button, state, header, main, id, className ) {
 
     try {
 
@@ -37,6 +37,14 @@ export function opModalToggleListener( debug, button, state, header, main, id ) 
 
             ///// Start the Console Log Group.
             if ( debug ) console.group( `opModalToggleListener( ${ state } )` )
+
+            //// Check if Class Name is Defined & Not Empty.
+            if ( className && className.trim() !== '' ) {
+
+                ///// Remove Active Class from the Dropdown Button.
+                button.closest( `.${ className }` ).classList.remove( 'op-active' )
+
+            }
 
             ///// Get the Modal Element.
             let modal = button.closest( '[class*="op-block"]' ).querySelector( '.op-modal')

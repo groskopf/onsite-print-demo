@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2025-12-28 - 02:47 (Y:m:d - H:i)
- ?  Info: Added new Download CSV File Listener.
+ ?  Updated: 2026-21-02 - 06:10 (Y:m:d - H:i)
+ ?  Info: Added Class Name to opModalToggleListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -134,7 +134,7 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         opModalToggleListener( debug, closeButton, false )
 
         ///// Set Modal Toggle Listener to the Download Button.
-        opModalToggleListener( debug, downloadButton, true, modalHeader, modalMain, modalId )
+        opModalToggleListener( debug, downloadButton, true, modalHeader, modalMain, modalId, 'op-dropdown-menu' )
     
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 

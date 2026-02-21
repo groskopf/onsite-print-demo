@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Modal - Create Participant
  *  Creating the Create Participant Content to the Modal in the Event Block.
- ?  Updated: 2025-08-07 - 05:08 (Y:m:d - H:i)
- ?  Info: Added Modal ID.
+ ?  Updated: 2026-21-02 - 06:10 (Y:m:d - H:i)
+ ?  Info: Added Class Name to opModalToggleListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ export function opModalCreateParticipant( debug, block, eventId ) {
         let modalId = modalTemplateElement.getAttribute( 'id' ).replace("op-block", "op-modal").slice(0, -9)
 
         ///// Set Modal Toggle Listener to the Add Participant Button.
-        opModalToggleListener( debug, addButton, true, modalHeader, modalMain, modalId ) 
+        opModalToggleListener( debug, addButton, true, modalHeader, modalMain, modalId, 'op-dropdown-menu' ) 
 
         ///// Set Modal Clear Form Listener to the Modal Close Button.
         opModalClearFormListener( debug, modalElement, cancelButton )
