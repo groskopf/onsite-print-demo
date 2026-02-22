@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-02-22 - 03:52 (Y:m:d - H:i)
- ?  Info: Added string manipulation functions to the opCreateParticipantListener().
+ ?  Updated: 2026-02-22 - 04:59 (Y:m:d - H:i)
+ ?  Info: Changed the stripSurroundingQuotes() to use a regular expression with (VCARD/MECARD).
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -346,11 +346,22 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
 
                 ///// Strip surrounding single or double quotes from a string.
                 function stripSurroundingQuotes( string ) {
-                    if ( ! string ) return ''
+
+                    ///// Trim the String for Whitespace.
                     string = string.trim()
-                    if ( ( string.startsWith( '"' ) && string.endsWith( '"' ) ) || ( string.startsWith( "'" ) && string.endsWith( "'" ) ) ) {
-                        return string.slice( 1, -1 )
+
+                    ///// Detect presence of VCARD / MECARD in the string with regular expression (i = case-insensitive).
+                    const containsVCARD = /vcard/i.test( string )
+                    const containsMECARD = /mecard/i.test( string )
+
+                    ///// If VCARD or MECARD is detected, strip surrounding quotes.
+                    if ( containsVCARD || containsMECARD ) {
+                        if ( ( string.startsWith( '"' ) && string.endsWith( '"' ) ) || ( string.startsWith( "'" ) && string.endsWith( "'" ) ) ) {
+                            return string.slice( 1, -1 )
+                        }
                     }
+
+                    ///// If no VCARD or MECARD is detected, return the original string.
                     return string
                 }
 
@@ -361,8 +372,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 let column3 = isEmpty( formElement[ 'column-3' ].value ) ? '' : formElement[ 'column-3' ].value
                 let column4 = isEmpty( formElement[ 'column-4' ].value ) ? '' : formElement[ 'column-4' ].value
                 let column5 = isEmpty( formElement[ 'column-5' ].value ) ? '' : formElement[ 'column-5' ].value
-                let rawQr = isEmpty( formElement[ 'qr' ].value ) ? '' : formElement[ 'qr' ].value
-                let qrCode = stripSurroundingQuotes( rawQr )
+                let qrCode = isEmpty( formElement[ 'qr' ].value ) ? '' : stripSurroundingQuotes( formElement[ 'qr' ].value )
                 let note = isEmpty( formElement[ 'note' ].value ) ? '' : formElement[ 'note' ].value
                 
                 ///// If all the Columns are Empty throw an error.
