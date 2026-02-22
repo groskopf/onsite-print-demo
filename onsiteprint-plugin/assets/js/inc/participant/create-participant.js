@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Create Participant
  *  Creating the Participant in the Local Storage.
- ?  Updated: 2025-07-27 - 01:24 (Y:m:d - H:i)
- ?  Info: Added new Create Participant Script with Function.
+ ?  Updated: 2026-02-22 - 03:32 (Y:m:d - H:i)
+ ?  Info: Changed the way participants are added to the event.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -52,8 +52,8 @@ export async function opCreateParticipant( debug, eventId, participant ) {
         ///// Set Updated Participants.
         const updatedParticipants = [ ...eventItem.eventParticipants ]
 
-        ///// Add the New Participant Data into the Updated Participants.
-        updatedParticipants.push( participant )
+        ///// Add the New Participant Data into the beginning of the Updated Participants Array.
+        updatedParticipants.unshift( participant )
 
         ///// Set the New Participants into the Updated Event.
         updatedEvent.eventParticipants = updatedParticipants

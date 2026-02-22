@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-01-28 - 04:48 (Y:m:d - H:i)
- ?  Info: Changed the setURLParams() for the Search for Participant Listener Function.
+ ?  Updated: 2026-02-22 - 03:20 (Y:m:d - H:i)
+ ?  Info: Added TODO to the Script.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -167,7 +167,7 @@ export function opPrintParticipantListener( debug, printButton, eventId, partici
                         timeElement.querySelector( '.op-text' ).textContent =  opModuleBasic.opTimeConverter( participant.time, 'hour-min' )
                     } )
 
-                    ////# NG - This function need to be changed, when a new (EventInformationBlock) is created.
+                    //// #NG - TODO: This function need to be changed, when a new (EventInformationBlock) is created.
                     ///// Update Event Information Blocks.
                     opEventInformationBlocks()
 
@@ -428,7 +428,7 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                         ///// Fade In the New Participant.
                         participantResponse.response.details.classList.add( 'op-fade-in' )
 
-                        ////# NG - This function need to be changed, when a new (EventInformationBlock) is created.
+                        //// #NG - TODO: This function need to be changed, when a new (EventInformationBlock) is created.
                         ///// Update Event Information Blocks.
                         opEventInformationBlocks()
 
