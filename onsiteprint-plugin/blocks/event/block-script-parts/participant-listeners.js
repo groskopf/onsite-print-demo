@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-02-22 - 03:20 (Y:m:d - H:i)
- ?  Info: Added TODO to the Script.
+ ?  Updated: 2026-02-22 - 03:52 (Y:m:d - H:i)
+ ?  Info: Added string manipulation functions to the opCreateParticipantListener().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -343,7 +343,17 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
 
                 ///// Check if the String is Empty (Return: True or False).
                 const isEmpty = string => ! string || ! string.trim().length
-                
+
+                ///// Strip surrounding single or double quotes from a string.
+                function stripSurroundingQuotes( string ) {
+                    if ( ! string ) return ''
+                    string = string.trim()
+                    if ( ( string.startsWith( '"' ) && string.endsWith( '"' ) ) || ( string.startsWith( "'" ) && string.endsWith( "'" ) ) ) {
+                        return string.slice( 1, -1 )
+                    }
+                    return string
+                }
+
                 ///// Define the Participant Data variables.
                 let id = 'np' + Date.now()
                 let column1 = isEmpty( formElement[ 'column-1' ].value ) ? '' : formElement[ 'column-1' ].value
@@ -351,7 +361,8 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 let column3 = isEmpty( formElement[ 'column-3' ].value ) ? '' : formElement[ 'column-3' ].value
                 let column4 = isEmpty( formElement[ 'column-4' ].value ) ? '' : formElement[ 'column-4' ].value
                 let column5 = isEmpty( formElement[ 'column-5' ].value ) ? '' : formElement[ 'column-5' ].value
-                let qrCode = isEmpty( formElement[ 'qr' ].value ) ? '' : formElement[ 'qr' ].value
+                let rawQr = isEmpty( formElement[ 'qr' ].value ) ? '' : formElement[ 'qr' ].value
+                let qrCode = stripSurroundingQuotes( rawQr )
                 let note = isEmpty( formElement[ 'note' ].value ) ? '' : formElement[ 'note' ].value
                 
                 ///// If all the Columns are Empty throw an error.
