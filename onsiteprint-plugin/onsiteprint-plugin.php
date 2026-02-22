@@ -10,8 +10,8 @@
  *	@package OnsitePrint
  *	Version: 1.2.4
  ?	(Check the Version variable)
- ?  Updated: 2025-11-19 - 01:53 (Y:m:d - H:i)
- ?  Info: Removed unused Functions and cleaned up the code.
+ ?  Updated: 2026-02-22 - 04:02 (Y:m:d - H:i)
+ ?  Info: Added TODO to the Script.
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -85,7 +85,7 @@ function onsiteprint_enqueue_styles()
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\onsiteprint_enqueue_styles', 20, 1);
 
-//////////////////// #NG: Needs to be looked at again.
+//// #NG - TODO: Needs to be looked at again.
 function onsiteprint_enqueue_editor_styles()
 {
 	wp_enqueue_style('onsiteprint-plugin-editor-styles', OP_ROOT_URL . 'assets/css/onsiteprint-styles.css', array(), OP_VERSION);

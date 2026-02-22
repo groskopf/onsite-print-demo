@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step Additions Script
  *  Functions Used in Step Scripts (Event Creation).
- ?  Updated: 2025-12-26 - 05:33 (Y:m:d - H:i)
- ?  Info: Changed URL in opGetCSVDataAsJSON().
+ ?  Updated: 2026-02-22 - 04:02 (Y:m:d - H:i)
+ ?  Info: Added TODO to the Script.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -172,7 +172,7 @@ export async function opAddGridToElement( debug, block, gridContainer ) {
             let templateId = formElement[ 'template' ].value
 
             ///// Get Template Item.
-            // #NG (2025-09-19) - opGetTemplate() need new Function. Is under construction in the GitHub Branch (new_event_block).
+            //// #NG - TODO (2025-09-19): opGetTemplate() need new Function. Is under construction in the GitHub Branch (new_event_block).
             const templateItem = opGetTemplate( templateId )
 
             ///// Throw Error if the Template is missing.

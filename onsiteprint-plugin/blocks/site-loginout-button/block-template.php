@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-10-19 - 03:49 (Y:m:d - H:i)
- ?  Info: Changed Session Structure & Fixed Variables.
+ ?  Updated: 2026-02-22 - 04:02 (Y:m:d - H:i)
+ ?  Info: Added TODO to the Script.
 
 ---------------------------------------------------------------------------
  #  The Block Data
@@ -23,7 +23,7 @@ $bookingSession = isset( $_SESSION['OP_PLUGIN_DATA_BOOKING'] ) ? json_decode( $_
 
 $tc = 'button_';
 
-///// #NG(2023/02/19) - Missing Fields in WP.
+//// #NG - TODO (2023/02/19): Missing Fields in WP.
 $acf = array(
     'style_color'       => get_field( $tc . 'color' ) ?: 'primary-90',
 

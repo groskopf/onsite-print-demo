@@ -3,8 +3,8 @@
 
  #  API Name: Convert CSV into JSON
  *  This PHP file provides an API endpoint to convert a CSV file (uploaded via POST) into a JSON array.
- ?  Updated: 2025-09-18 - 04:09 (Y:m:d - H:i)
- ?  Info: Modified the file to handle multi-line fields and added some more error handling.
+ ?  Updated: 2026-02-22 - 04:02 (Y:m:d - H:i)
+ ?  Info: Added TODO to the Script.
 
 ---------------------------------------------------------------------------
  #  The API Content
@@ -79,7 +79,7 @@ try {
         array_walk_recursive( $array, function( &$item, $key ) {
             if ( ! mb_detect_encoding( $item, 'utf-8', true ) ) {
                 $item = utf8_encode( $item );
-                ////#NG - Maybe use this: $item = mb_convert_encoding( $item, 'UTF-8', 'ISO-8859-1' );
+                //// #NG - TODO: Maybe use this: $item = mb_convert_encoding( $item, 'UTF-8', 'ISO-8859-1' );
             }
         });
         return $array;
