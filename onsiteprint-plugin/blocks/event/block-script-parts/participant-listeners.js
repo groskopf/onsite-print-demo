@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Participant Listeners Script
  *  Functions Used in the Add Participant Scripts in the Event Block.
- ?  Updated: 2026-02-22 - 04:59 (Y:m:d - H:i)
- ?  Info: Changed the stripSurroundingQuotes() to use a regular expression with (VCARD/MECARD).
+ ?  Updated: 2026-02-22 - 05:15 (Y:m:d - H:i)
+ ?  Info: Changed the comments in stripSurroundingQuotes().
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -344,17 +344,18 @@ export function opCreateParticipantListener( debug, block, button, eventId, form
                 ///// Check if the String is Empty (Return: True or False).
                 const isEmpty = string => ! string || ! string.trim().length
 
-                ///// Strip surrounding single or double quotes from a string.
+                ///// Strip surrounding single or double quotes from a string if the string contains VCARD or MECARD.
                 function stripSurroundingQuotes( string ) {
 
                     ///// Trim the String for Whitespace.
                     string = string.trim()
 
-                    ///// Detect presence of VCARD / MECARD in the string with regular expression (i = case-insensitive).
+                    ///// Detect presence of VCARD / MECARD in the string (Return: True or False).
+                    ////* Uses regular expression with (i = case-insensitive).
                     const containsVCARD = /vcard/i.test( string )
                     const containsMECARD = /mecard/i.test( string )
 
-                    ///// If VCARD or MECARD is detected, strip surrounding quotes.
+                    ///// If VCARD or MECARD is detected, return without surrounding quotes.
                     if ( containsVCARD || containsMECARD ) {
                         if ( ( string.startsWith( '"' ) && string.endsWith( '"' ) ) || ( string.startsWith( "'" ) && string.endsWith( "'" ) ) ) {
                             return string.slice( 1, -1 )
