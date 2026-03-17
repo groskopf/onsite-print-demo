@@ -8,10 +8,10 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.2.4
+ *	Version: 1.2.5
  ?	(Check the Version variable)
- ?  Updated: 2026-02-22 - 04:02 (Y:m:d - H:i)
- ?  Info: Added TODO to the Script.
+ ?  Updated: 2026-03-34 - 03:34 (Y:m:d - H:i)
+ ?  Info: Changed the version number.
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -61,7 +61,7 @@ namespace GerdesGroup\op;
  >  1b. Definition of variables
 ------------------------------------------------------------ */
 
-define('OP_VERSION', '1.2.4');
+define('OP_VERSION', '1.2.5');
 define('OP_ROOT_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('OP_ROOT_URL', trailingslashit(plugin_dir_url(__FILE__)));
 
