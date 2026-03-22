@@ -46,7 +46,9 @@
  &	0. List of upcoming tasks
 ---------------------------------------------------------------------------
 
-    1. Enqueue Styles - Editor
+	1. TODO: Event Block - JS | Search bar error handling if empty.
+	2. TODO: Event Block - CSS | Column layout adjustments in the header when reloading.
+	3. TODO: Plugin - PHP | Enqueue Styles - Editor
 
 ---------------------------------------------------------------------------
  #  1. Plugin Setup
