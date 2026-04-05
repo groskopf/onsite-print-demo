@@ -8,10 +8,10 @@
  *	Author URI: https://www.clarify.nu/
  *	Text Domain: onsiteprint.dk
  *	@package OnsitePrint
- *	Version: 1.2.4
+ *	Version: 1.2.5
  ?	(Check the Version variable)
- ?  Updated: 2025-11-19 - 01:53 (Y:m:d - H:i)
- ?  Info: Removed unused Functions and cleaned up the code.
+ ?  Updated: 2026-03-34 - 03:34 (Y:m:d - H:i)
+ ?  Info: Changed the version number.
 
 ---------------------------------------------------------------------------
  #	TABLE OF CONTENTS:
@@ -46,7 +46,9 @@
  &	0. List of upcoming tasks
 ---------------------------------------------------------------------------
 
-    1. Enqueue Styles - Editor
+	1. TODO: Event Block - JS | Search bar error handling if empty.
+	2. TODO: Event Block - CSS | Column layout adjustments in the header when reloading.
+	3. TODO: Plugin - PHP | Enqueue Styles - Editor
 
 ---------------------------------------------------------------------------
  #  1. Plugin Setup
@@ -61,7 +63,7 @@ namespace GerdesGroup\op;
  >  1b. Definition of variables
 ------------------------------------------------------------ */
 
-define('OP_VERSION', '1.2.4');
+define('OP_VERSION', '1.2.5');
 define('OP_ROOT_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('OP_ROOT_URL', trailingslashit(plugin_dir_url(__FILE__)));
 
@@ -85,7 +87,7 @@ function onsiteprint_enqueue_styles()
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\onsiteprint_enqueue_styles', 20, 1);
 
-//////////////////// #NG: Needs to be looked at again.
+//// #NG - TODO: Needs to be looked at again.
 function onsiteprint_enqueue_editor_styles()
 {
 	wp_enqueue_style('onsiteprint-plugin-editor-styles', OP_ROOT_URL . 'assets/css/onsiteprint-styles.css', array(), OP_VERSION);

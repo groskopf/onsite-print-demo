@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  >  JS Part Name: Basic
  *  Basic functions to the OnsitePrint Plugin.
- ?  Updated: 2024-06-03 - 03:12 (Y:m:d - H:i)
- ?  Info: Added extra validation.
+ ?  Updated: 2025-07-27 - 00:56 (Y:m:d - H:i)
+ ?  Info: Added the same lines in opTimeConverter() as in opTimeConverter() from elements.js.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -30,13 +30,21 @@ export function opConsoleDebug( debug, response ) {
  #  2. Return Response as JSON
 ------------------------------------------------------------ */
 export function opReturnResponse( error, code, response, debug ) {
+
     ///// Debug to the Console Log.
-    if ( debug ) console.debug( 'DEBUG:', response )
+    if ( debug ) console.debug( 'DEBUG:', {
+        error : error,
+        code : code,
+        response : response
+    } )
+
+    ///// Return the Response.
     return {
         error : error,
         code : code,
         response : response
     }
+
 }
 
 /* ---------------------------------------------------------
@@ -77,6 +85,8 @@ export function opTimeConverter( timestamp, display, language ){
         time = `${date}. ${monthName}. ${year} - ${hour}:${min}:${sec}`
     } else if ( display == 'full' ) {
         time = `${year}-${month}-${date} ${hour}:${min}:${sec}`
+    } else if ( display == 'file' ) {
+        time = `${year}-${month}-${date}_${hour}${min}`
     }
 
     return time

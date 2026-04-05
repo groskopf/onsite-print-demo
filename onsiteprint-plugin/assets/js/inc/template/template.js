@@ -1,12 +1,16 @@
 /* ------------------------------------------------------------------------
- #  The OnsitePrint (Template) Script 
- *  Check if multiple Blocks of the Template Creation is on page.
- ?  Updated: 2024-05-22 - 19:16 (Y:m:d - H:i)
- ?  Info: Removed Step 2 & 3 to separated files in the Template Creation block.
+ #  JS Part Name: Template
+ *  Template functions related to Templates.
+ ?  Updated: 2025-06-01 - 18:24 (Y:m:d - H:i)
+ ?  Info: Added new Function, opGetTemplate().
 ---------------------------------------------------------------------------
- #  1. Import Functions from Scripts
---------------------------------------------------------------------------- */
+ #  TABLE OF CONTENTS:
+---------------------------------------------------------------------------
 
-/* ------------------------------------------------------------------------
- #  2. Functions to Template Script
+    1. 	Get Template
+
+---------------------------------------------------------------------------
+ #  1. Get Template
 --------------------------------------------------------------------------- */
+import { opGetTemplate } from './get-template.js'
+export { opGetTemplate }

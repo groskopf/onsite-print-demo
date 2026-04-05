@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Step 4 Script
  *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-12-18 - 15:22 (Y:m:d - H:i)
- ?  Info: Added Event Listener opExampleButtonListener() to Step 4.
+ ?  Updated: 2024-12-19 - 04:44 (Y:m:d - H:i)
+ ?  Info: Changed where the class should be placed to activate the Modal window.
 ---------------------------------------------------------------------------
  #  1. Import Functions from Scripts
 --------------------------------------------------------------------------- */
@@ -111,7 +111,7 @@ export function opStep4( debug, block ) {
                         modalElement.querySelector( '.op-button-event' ).setAttribute( 'href', `${ eventUrl }?event=${ saveEventValidation.response.details }` )
 
                         ///// Activate the Modal Window.
-                        modalElement.classList.add( 'op-active' )
+                        modalElement.closest( '.wp-block-post-content' ).classList.add( 'op-modal-active' )
 
                     }
 

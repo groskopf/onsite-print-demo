@@ -4,9 +4,9 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-10-05 - 01:09 (Y:m:d - H:i)
- ?  Info: Added new Hand Icon.
- 
+ ?  Updated: 2025-12-19 - 01:20 (Y:m:d - H:i)
+ ?  Info: Changed (.op-button) when positioned right.
+
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -17,6 +17,7 @@
             1. 	Colors
             2. 	Sizes
             3. 	Styles
+        b. Dropdown
 	2. 	ACF Custom Blocks
 		a. 	Block Styles
 		b. 	Block Validation
@@ -61,11 +62,14 @@ html {
     display: flex;
 }
 
+.wp-site-blocks > main {
+    position: relative;
+}
+
 .wp-site-blocks > main > .wp-block-post-content {
     display: flex;
     flex-direction: column;
     height: 100%;
-    position: relative;
 }
 
 .wp-site-blocks > main > .wp-block-post-content.op-modal-active {
@@ -105,6 +109,7 @@ html {
     --fa-icon-xmark: "\f00d";
     --fa-icon-print: "\f02f";
     --fa-icon-user: "\f007";
+    --fa-icon-user-plus: "\f234";
     --fa-icon-lock: "\f023";
     --fa-icon-unlock: "\f09c";
     --fa-icon-clock: "\f017";
@@ -114,11 +119,12 @@ html {
     --fa-icon-file-csv: "\f6dd";
     --fa-icon-file-pdf: "\f1c1";
     --fa-icon-trash: "\f1f8";
+    --fa-icon-play: "\f04b";
+    --fa-icon-ellipsis: "\f141";
+    --fa-icon-download: "\f2f6";
     --fa-icon-move: "\f0b2";
     --fa-icon-hand: "\f256";
-
 }
-
 
 [data-icon="op-dashboard"] .op-icon::before {
 	content: '';
@@ -241,6 +247,11 @@ html {
 	content: var(--fa-icon-user);
 }
 
+[data-icon="user-plus"] .op-icon::before {
+	content: var(--fa-icon-user-plus);
+    transform: scaleX(-1)
+}
+
 [data-icon="lock"] .op-icon::before {
 	content: var(--fa-icon-lock);
 }
@@ -276,6 +287,19 @@ html {
 
 [data-icon="trash"] .op-icon::before {
 	content: var(--fa-icon-trash);
+}
+
+[data-icon="play"] .op-icon::before {
+	content: var(--fa-icon-play);
+}
+
+[data-icon="ellipsis"] .op-icon::before {
+	content: var(--fa-icon-ellipsis);
+}
+
+[data-icon="download"] .op-icon::before {
+	content: var(--fa-icon-download);
+    rotate: 90deg;
 }
 
 [data-icon="move"] .op-icon::before {
@@ -743,6 +767,7 @@ html {
 }
 
 .op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ) .op-button-title {
+    border-radius: 0.4rem 0 0 0.4rem;
     right: 100%;
     left: auto;
 }
@@ -752,16 +777,143 @@ html {
     transition: all 0.2s ease-in-out;
 }
 
-.op-button[data-title-visibility="1"]:is( [data-icon-position="right"] ):where( :hover ) .op-button-title {
-	border-radius: 0.4rem 0 0 0.4rem;
-}
-
 .op-button[data-title-visibility="1"]:is( [data-color*="accent"] ):is( :hover ):not( :disabled ) .op-button-title,
 :is( .has-horizontal-accent-60-to-80-gradient-background ) .op-button[data-title-visibility="1"]:is( :hover ):not( :disabled ) .op-button-title {
     background-color: var(--wp--preset--color--primary-100);
     border-color: var(--wp--preset--color--primary-100);
 }
 
+/* ---------------------------------------------------------
+ >  1b. Dropdown
+------------------------------------------------------------ */
+.op-dropdown-menu {
+    position: relative;
+}
+.op-dropdown-menu,
+.op-dropdown-menu:is( .op-active ) .op-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.op-dropdown-menu .op-button[name="dropdown"] {
+    z-index: 1;
+}
+
+.op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"] {
+    background: var(--wp--preset--color--accent-60);
+    color: var(--wp--preset--color--white);
+    border-color: var(--wp--preset--color--accent-60);
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.op-dropdown-menu:is( .op-active ):where( [data-dropdown-position="bottom"] ) .op-button[name="dropdown"] {
+    border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"]:is( :hover ) {
+    background: var(--wp--preset--color--primary-90);
+    border-color: var(--wp--preset--color--primary-90);
+}
+
+.op-dropdown-menu:is( .op-active ) .op-button[name="dropdown"]:is( :hover ) ~ .op-dropdown {
+    background: var(--wp--preset--color--primary-90);
+}
+
+.op-dropdown-menu .op-dropdown {
+    background: var(--wp--preset--color--accent-60);
+    display: none;
+    gap: 0.4rem;
+    min-width: 100%;
+    margin-top: -0.4rem;
+    padding: 0.4rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 0;
+    border-radius: 0.4rem;
+    transition: all 200ms ease-in-out;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.op-dropdown-menu:where( [data-dropdown-direction="right"] ) .op-dropdown {
+    right: 0;
+    left: auto;
+}
+
+.op-dropdown-menu:where( [data-dropdown-position="bottom"] ) .op-dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: -0.4rem;
+    box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.op-dropdown-menu .op-dropdown .op-button {
+    background: var(--wp--preset--color--white);
+    justify-content: flex-start;
+    white-space: nowrap;
+    border-color: var(--wp--preset--color--white);
+}
+
+.op-dropdown-menu .op-filter-options {
+    background-color: var(--wp--preset--color--white);
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0.4rem;
+    overflow: hidden;
+}
+
+.op-dropdown-menu .op-filter-options label {
+    color: var(--wp--preset--color--primary-40);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.op-dropdown-menu .op-filter-options label:not( :last-child) {
+    border-bottom: 0.1rem solid var(--wp--preset--color--neutral-20);
+}
+
+.op-dropdown-menu .op-filter-options label:is( :hover, :focus) {
+    background-color: var(--wp--preset--color--primary-10);
+    color: var(--wp--preset--color--primary-100);
+}
+
+.op-dropdown-menu .op-filter-options label input {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+}
+
+.op-dropdown-menu .op-filter-options label .op-check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0.1rem solid currentColor;
+    border-radius: 1rem;
+}
+
+.op-dropdown-menu .op-filter-options label input:checked~.op-text {
+    font-weight: 500;
+}
+
+.op-dropdown-menu .op-filter-options label input:checked~.op-check {
+    border: 0.4rem solid currentColor;
+}
 
 /* ------------------------------------------------------------------------
  #  2. ACF Custom Blocks
@@ -2432,11 +2584,16 @@ fieldset {
     min-inline-size: inherit;
 }
 
-[id*="op-block"]:not( .active ) .op-modal {
-    display: none;
+.op-modal-active [id*="op-block"] .op-modal {
+    display: flex;
 }
 
-[id*="op-block"] .op-modal.op-active,
+[id*="op-block"] .op-modal {
+    display: none;
+    padding: 2rem;
+}
+
+[id*="op-block"] .op-modal,
 [id*="op-block"] .op-modal::after {
     height: 100%;
     width: 100%;
@@ -2444,15 +2601,11 @@ fieldset {
     top: 0;
     left: 0;
     z-index: 110;
-    display: flex;
-}
-
-[id*="op-block"] .op-modal {
-    padding: 2rem;
 }
 
 [id*="op-block"] .op-modal::after {
     background: var(--wp--preset--color--primary-100);
+    display: flex;
     content: "";
     z-index: -1;
     opacity: 0.5;
@@ -2468,10 +2621,12 @@ fieldset {
     height: auto;
     max-height: 100%;
     margin: auto;
-    padding: 4rem;
     border-radius: 0.4rem;
     overflow-y: auto;
+}
 
+[id*="op-block"]:not( .op-block__event ) .op-modal__inner {
+    padding: 4rem;
 }
 
 [id*="op-block"] .op-modal__inner .op-flex-col {

@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
- #  JS Part Name: Set Column Number Script
- *  Functions included in the Block Form Script (Event Creation).
- ?  Updated: 2024-09-12 - 12:38 (Y:m:d - H:i)
- ?  Info: Changed (Create Error Details) from false to true at (opReturnResponse).
+ #  JS Part Name: Get API Data
+ *  Getting the Data from the API.
+ ?  Updated: 2025-06-06 - 03:03 (Y:m:d - H:i)
+ ?  Info: Changed the Approved Response.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -79,6 +79,14 @@ export async function opGetApiData( debug, method, bodyInput, url, output, conte
                 else if ( output == 'json' ) details = await fetchResponse.json()
                 else details = await fetchResponse.text()
 
+                ///// Return the Response.
+                return opModuleBasic.opReturnResponse( false, code, { 
+                    message: `The API Data was Received!`, 
+                    line: opModuleBasic.errorLine(),
+                    function: functionName,
+                    details: details
+                }, debug )
+
             } else if ( code >= 400 && code <= 499 ) throw opModuleBasic.opReturnResponse( true, code, { 
                 message: `Something went wrong getting the API Data!`,
                 line: opModuleBasic.errorLine(),
@@ -91,14 +99,6 @@ export async function opGetApiData( debug, method, bodyInput, url, output, conte
                 function: functionName,
                 details: await fetchResponse.text()
             } )
-
-            ///// Return the Response.
-            return opModuleBasic.opReturnResponse( false, 200, { 
-                message: `The API Data was Received!`, 
-                line: opModuleBasic.errorLine(),
-                function: functionName,
-                details: details
-            }, debug )
         
         }
 
