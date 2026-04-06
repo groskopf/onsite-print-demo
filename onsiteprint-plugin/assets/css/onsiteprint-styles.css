@@ -4,8 +4,8 @@
  *  Description: This is the Styles to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-12-19 - 01:20 (Y:m:d - H:i)
- ?  Info: Changed (.op-button) when positioned right.
+ ?  Updated: 2026-04-06 - 03:28 (Y:m:d - H:i)
+ ?  Info: Added New Icons.
 
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
@@ -120,6 +120,8 @@ html {
     --fa-icon-file-pdf: "\f1c1";
     --fa-icon-trash: "\f1f8";
     --fa-icon-play: "\f04b";
+    --fa-icon-pause: "\f04c";
+    --fa-icon-arrow-rotate-left: "\f0e2";
     --fa-icon-ellipsis: "\f141";
     --fa-icon-download: "\f2f6";
     --fa-icon-move: "\f0b2";
@@ -291,6 +293,14 @@ html {
 
 [data-icon="play"] .op-icon::before {
 	content: var(--fa-icon-play);
+}
+
+[data-icon="pause"] .op-icon::before {
+	content: var(--fa-icon-pause);
+}
+
+[data-icon="arrow-rotate-left"] .op-icon::before {
+	content: var(--fa-icon-arrow-rotate-left);
 }
 
 [data-icon="ellipsis"] .op-icon::before {
