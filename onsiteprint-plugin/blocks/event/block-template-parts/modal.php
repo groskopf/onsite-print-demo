@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Block Part Name: Modal
- ?  Updated: 2025-11-20 - 04:10 (Y:m:d - H:i)
- ?  Info: Changed the Modal Variable.
+ ?  Updated: 2026-05-21 - 23:02 (Y:m:d - H:i)
+ ?  Info: Added new `Template - Print Multiple Participants`.
 ---------------------------------------------------------------------------
  #  The Block Part Content
 --------------------------------------------------------------------------- */
@@ -46,6 +46,7 @@
         
         <?php require( __DIR__ . '/templates/create-participant-template.php' ); ?>
         <?php require( __DIR__ . '/templates/download-files-template.php' ); ?>
+        <?php require( __DIR__ . '/templates/print-multiple-participants-template.php' ); ?>
 
     </div><!-- .op-modal__templates -->
 </div><!-- .op-modal -->

@@ -28,4 +28,11 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [EB | block-template.php](blocks/event/block-template.php)
 
+    ---
+
+- Added new `Template - Print Multiple Participants` Script.
+
+    [EB | modal.php](blocks/event/block-template-parts/modal.php)
+    [EB | print-multiple-participants-template.php](blocks/event/block-template-parts/templates/print-multiple-participants-template.php)
+
 ---
