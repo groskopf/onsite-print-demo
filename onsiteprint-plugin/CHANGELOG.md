@@ -18,8 +18,14 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     ---
 
-- Added new `Modal - Print Participants` Script.
+- Added new `Modal - Print Multiple Participants` Script.
 
-    [EB | steps-additions.js](blocks/event/block-script-parts/modals/modal-print-participants.js)
+    [EB | modal-print-participants.js](blocks/event/block-script-parts/modals/modal-print-participants.js)
+
+    ---
+
+- Added new `Array` for the `Modal - Print Multiple Participants`.
+
+    [EB | block-template.php](blocks/event/block-template.php)
 
 ---

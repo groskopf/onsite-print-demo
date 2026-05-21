@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2025-12-19 - 02:21 (Y:m:d - H:i)
- ?  Info: Added new Submit Search variable.
+ ?  Updated: 2026-04-06 - 02:41 (Y:m:d - H:i)
+ ?  Info: New Array for the Print More Modal.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -96,6 +96,7 @@ $footer = array(
 $modal = array(
     'cp_path'           => $path . 'modal_create_participant_',
     'df_path'           => $path . 'modal_download_files_',
+    'pm_path'           => $path . 'modal_print_more_',
     'error_path'        => $path . 'modal_error_',
     'close_button'      => get_field( $path . 'modal_close_button' ) ?: 'Close',
 );
@@ -114,6 +115,14 @@ $modal_df = array(
         'description'       => get_field( $modal['df_path'] . 'description' ) ?: 'Below you can download the Participant List in CSV or PDF format.',
         'download_csv'      => get_field( $modal['df_path'] . 'download_csv_button' ) ?: 'CSV File',
         'download_pdf'      => get_field( $modal['df_path'] . 'download_pdf_button' ) ?: 'PDF File',
+);
+
+$modal_pm = array(
+        'title'             => get_field( $modal['pm_path'] . 'title' ) ?: 'Print Multiple Participant',
+        'description'       => get_field( $modal['pm_path'] . 'description' ) ?: 'Below you can print multiple participants.',
+        'start_button'      => get_field( $modal['pm_path'] . 'start_button' ) ?: 'Start Printing',
+        'pause_button'       => get_field( $modal['pm_path'] . 'pause_button' ) ?: 'Pause Printing',
+        'restart_button'       => get_field( $modal['pm_path'] . 'restart_button' ) ?: 'Restart Printing',
 );
 
 $modal_error = array(
