@@ -16,4 +16,10 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
     [ECB | step-4.js](blocks/event-creation/block-script-parts/block-form/steps/step-4.js)
 
+    ---
+
+- Added new `Modal - Print Participants` Script.
+
+    [EB | steps-additions.js](blocks/event/block-script-parts/modals/modal-print-participants.js)
+
 ---
