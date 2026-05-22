@@ -1,8 +1,7 @@
 /* ------------------------------------------------------------------------
  #  The OnsitePrint (Event) Block Style 
- ?  Updated: 2026-01-27 - 04:14 (Y:m:d - H:i)
- ?  Info: Changed the layout (padding & margin) of the participant list.
---------------------------------------------------------------------------- */
+ ? Updated: 2026-22-05 - 04:33 (Y:m:d - H:i) 
+ ? Info: Added new `Modal - Print Multiple Participants` CSS.--------------------------------------------------------------------------- */
 
 .op-block__event {
     line-height: 1;
@@ -861,6 +860,42 @@
     font-size: 2rem;
     padding-top: 0.2rem;
 }
+
+/* ------------------------------------------
+ >  Print Multiple Participants Modal Window
+--------------------------------------------- */
+
+.op-block__event .op-modal[ id*="print-multiple-participants" ] .event-participants {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+.op-block__event .op-modal[ id*="print-multiple-participants" ] .event-participants p {
+    gap: 0.6rem;
+    width: 100%;
+}
+
+.op-block__event .op-modal[ id*="print-multiple-participants" ] .event-participants .label {
+    line-height: var(--wp--custom--typography--line-height--normal);
+    font-size: var(--wp--preset--font-size--x-small);
+    text-transform: uppercase;
+}
+
+.op-block__event .op-modal[ id*="print-multiple-participants" ] .event-participants .text {
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    background: var(--wp--preset--color--neutral-10);
+    padding: 1rem 2rem;
+    border: 0.1rem solid var(--wp--preset--color--neutral-20);
+    border-radius: 0.4rem;
+}
+
 
 @media screen and /* ( max-width: 900px ) and ( min-width: 600px ), */ ( min-width: 1300px ) {
 

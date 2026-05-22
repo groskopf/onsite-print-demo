@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Setup Header
  *  Block function included in the Event Block.
- ?  Updated: 2026-21-02 - 06:10 (Y:m:d - H:i)
- ?  Info: Added Class Name to opModalToggleListener().
+ ?  Updated: 2026-22-05 - 04:33 (Y:m:d - H:i)
+ ?  Info: Added new `Modal - Print Multiple Participants` Function.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -18,6 +18,7 @@ import * as opModuleBasic from '../../../assets/js/inc/basic.js'
 import * as opModuleListeners from '../../../assets/js/inc/listeners.js'
 import { opModalToggleListener } from '../../../assets/js/inc/modal/toggle-modal-listener.js'
 import { opModalCreateParticipant } from './modals/modal-create-participant.js'
+import { opModalPrintMultipleParticipants } from './modals/modal-print-participants.js'
 import { opParticipantSearchListener, opDownloadCSVFileListener, opDownloadPDFFileListener } from './participant-listeners.js'
 
 /* ------------------------------------------------------------------------
@@ -114,6 +115,9 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
         ///// Add Create Participant Modal.
         opModalCreateParticipant( debug, block, eventId )
 
+        ///// Add Print Multiple Participants Modal.
+        opModalPrintMultipleParticipants(debug, block, eventId)
+
         ///// Get the Modal Template Element and Create the Modal.
         let modalTemplateElement = block.querySelector( `[id$="-download-files-template"]` )
         let modal = modalTemplateElement.content.cloneNode(true)
@@ -135,7 +139,7 @@ export function opSetupHeader( debug, block, eventId, fieldsAmount ) {
 
         ///// Set Modal Toggle Listener to the Download Button.
         opModalToggleListener( debug, downloadButton, true, modalHeader, modalMain, modalId, 'op-dropdown-menu' )
-    
+
         ///// Return the Response.
         return opModuleBasic.opReturnResponse( false, 200, { 
             message: `The Setup of the Header was correctly Executed!`, 
