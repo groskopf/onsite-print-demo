@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------------------------
  *  Modal Part Name: Template - Print Multiple Participants
- ?  Updated: 2026-05-21 - 23:02 (Y:m:d - H:i)
- ?  Info: Added new `Template - Print Multiple Participants` Script.
+ ?  Updated: 2026-05-22 - 04:29 (Y:m:d - H:i)
+ ?  Info: Added new `Resume` Button.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
@@ -32,8 +32,16 @@
             
             <div class="op-modal-overflow__inner op-flex-row">
 
-                <p class="op-modal-description"><?= esc_attr( $modal_pm['description'] ) ?></p>
-
+                <div class="event-participants">
+                    <p class="event-participants-total flex-col">
+                        <span class="label"><?= esc_attr( $modal_pm['total'] ) ?></span>
+                        <span class="text">0</span>
+                    </p>
+                    <p class="event-participants-printed flex-col">
+                        <span class="label"><?= esc_attr( $modal_pm['printed'] ) ?></span>
+                        <span class="text">0</span>
+                    </p>
+                </div>
 
             </div><!-- .op-modal-overflow__inner -->
         </div><!-- .op-modal-overflow -->
@@ -41,18 +49,23 @@
         <div class="op-modal-buttons op-flex-row">
             
             <button class="op-button-restart-printing op-button op-button-size-medium op-button-style-solid" data-color="primary-20" data-icon="arrow-rotate-left" data-icon-position="left" data-title-visibility="1">
-                <span class="op-icon" role="img" aria-label="Start forefra"></span>
+                <span class="op-icon" role="img" aria-label="Restart Printing Icon"></span>
                 <span class="op-button-title"><?= esc_attr( $modal_pm['restart_button'] ) ?></span>
             </button>
 
-            <button class="op-button-start-printing op-button op-button-size-medium op-button-style-solid op-flex-fill" data-color="primary-90" data-icon="play" data-icon-position="left">
+            <button class="op-button-start-printing op-button op-button-size-medium op-button-style-solid op-flex-fill" data-color="primary-90" data-icon="print" data-icon-position="left">
                 <span class="op-icon" role="img" aria-label="Start Printing Icon"></span>
                 <span class="op-button-title"><?= esc_attr( $modal_pm['start_button'] ) ?></span>
             </button>
 
-            <button class="op-button-pause-printing op-button op-button-size-medium op-button-style-solid op-flex-fill op-hidden" data-color="action-90" data-icon="pause" data-icon-position="left">
+            <button class="op-button-pause-printing op-button op-button-size-medium op-button-style-solid op-flex-fill op-hidden" data-color="action-90" data-icon="pause" data-icon-position="left" disabled>
                 <span class="op-icon" role="img" aria-label="Pause Printing Icon"></span>
                 <span class="op-button-title"><?= esc_attr( $modal_pm['pause_button'] ) ?></span>
+            </button>
+
+            <button class="op-button-resume-printing op-button op-button-size-medium op-button-style-solid op-flex-fill op-hidden" data-color="primary-90" data-icon="play" data-icon-position="left" disabled>
+                <span class="op-icon" role="img" aria-label="Resume Printing Icon"></span>
+                <span class="op-button-title"><?= esc_attr( $modal_pm['resume_button'] ) ?></span>
             </button>
     
         </div><!-- .op-modal-buttons -->

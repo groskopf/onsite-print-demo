@@ -9,8 +9,8 @@
  *  @package WordPress
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
- ?  Updated: 2026-04-06 - 02:41 (Y:m:d - H:i)
- ?  Info: New Array for the Print More Modal.
+ ?  Updated: 2026-05-22 - 04:29 (Y:m:d - H:i)
+ ?  Info: Added new `Resume` Button.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
@@ -120,9 +120,12 @@ $modal_df = array(
 $modal_pm = array(
         'title'             => get_field( $modal['pm_path'] . 'title' ) ?: 'Print Multiple Participant',
         'description'       => get_field( $modal['pm_path'] . 'description' ) ?: 'Below you can print multiple participants.',
+        'total'             => get_field( $modal['pm_path'] . 'participants_total' ) ?: 'Total Participants',
+        'printed'           => get_field( $modal['pm_path'] . 'participants_printed' ) ?: 'Participants Printed',
         'start_button'      => get_field( $modal['pm_path'] . 'start_button' ) ?: 'Start Printing',
-        'pause_button'       => get_field( $modal['pm_path'] . 'pause_button' ) ?: 'Pause Printing',
-        'restart_button'       => get_field( $modal['pm_path'] . 'restart_button' ) ?: 'Restart Printing',
+        'pause_button'      => get_field( $modal['pm_path'] . 'pause_button' ) ?: 'Pause Printing',
+        'restart_button'    => get_field( $modal['pm_path'] . 'restart_button' ) ?: 'Restart Printing',
+        'resume_button'     => get_field( $modal['pm_path'] . 'resume_button' ) ?: 'Resume Printing',
 );
 
 $modal_error = array(
