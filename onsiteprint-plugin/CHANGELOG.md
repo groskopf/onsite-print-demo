@@ -4,7 +4,7 @@ This document includes the change log notes for the OnsitePrint Plugin - [GitHub
 
 ---
 
-### 1.2.5^ (2026-04-06) - Print Multiple Participants
+### 1.2.6 (2026-07-31) - Print Multiple Participants
 
 - Changed `URL` in `opGetCSVDataAsJSON()`.
 
