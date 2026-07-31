@@ -10,13 +10,13 @@
  *  @subpackage OnsitePrint Plugin
  *  @since OnsitePrint Plugin 1.0
  ?  Updated: 2026-07-31 - 02:40 (Y:m:d - H:i)
- ?  Info: Added new `messages_error` to `modal_pm`.
+ ?  Info: Changed the `messages_error` in `modal_pm`.
 
 ---------------------------------------------------------------------------
  #  Redirect if User is not Logged In
 --------------------------------------------------------------------------- */
 
-                require_once( __DIR__ . '/../../private/session.php' );
+require_once( __DIR__ . '/../../private/session.php' );
 
 /* ------------------------------------------------------------------------
  #  The Block Data
@@ -120,7 +120,7 @@ $modal_df = array(
 $modal_pm = array(
         'title'             => get_field( $modal['pm_path'] . 'title' ) ?: 'Print Multiple Participant',
         'description'       => get_field( $modal['pm_path'] . 'description' ) ?: 'Below you can print multiple participants.',
-        'messages_error'    => get_field( $modal['pm_path'] . 'messages_error' ) ?: 'Please note that this function does not show the participants (printed and counted) in the participant list!',
+        'messages_error'    => get_field( $modal['pm_path'] . 'messages_error' ) ?: 'Please note that this function does not show the participants as (printed and counted) in the participant list!',
         'total'             => get_field( $modal['pm_path'] . 'participants_total' ) ?: 'Total Participants',
         'printed'           => get_field( $modal['pm_path'] . 'participants_printed' ) ?: 'Participants Printed',
         'start_button'      => get_field( $modal['pm_path'] . 'start_button' ) ?: 'Start Printing',
