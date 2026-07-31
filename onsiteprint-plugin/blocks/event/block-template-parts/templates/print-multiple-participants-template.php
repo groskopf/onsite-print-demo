@@ -1,12 +1,12 @@
 <?php
-/* ------------------------------------------------------------------------
+                                                /* ------------------------------------------------------------------------
  *  Modal Part Name: Template - Print Multiple Participants
- ?  Updated: 2026-05-22 - 04:29 (Y:m:d - H:i)
- ?  Info: Added new `Resume` Button.
+ ?  Updated: 2026-07-31 - 02:40 (Y:m:d - H:i)
+ ?  Info: Added new `.op-form-validation` to the template.
 ---------------------------------------------------------------------------
  #  The Modal Part - Content
 --------------------------------------------------------------------------- */
-?>
+                                                ?>
 
 <template id="<?= esc_attr( $id ) ?>-print-multiple-participants-template">
 
@@ -23,6 +23,11 @@
         </h3>
 
         <p class="op-modal-description"><?= esc_attr( $modal_pm['description'] ) ?></p>
+
+        <div class="op-form-validation" data-icon="circle-exclamation">
+            <span class="op-icon" role="img" aria-label="Exclamation Icon"></span>
+            <span class="op-message"><?= esc_attr( $modal_pm['messages_error'] ) ?></span>
+        </div>
 
     </div>
 
