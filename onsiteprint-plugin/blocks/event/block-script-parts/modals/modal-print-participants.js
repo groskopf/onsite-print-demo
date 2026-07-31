@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------
  #  JS Part Name: Modal - Print Multiple Participants
  *  Creating the Print Multiple Participants Content to the Modal in the Event Block.
- ?  Updated: 2026-22-05 - 04:33 (Y:m:d - H:i)
- ?  Info: Changed the `Modal - Print Multiple Participants` Function.
+ ?  Updated: 2026-31-07 - 03:04 (Y:m:d - H:i)
+ ?  Info: Added `Validation` to the Modal.
 ---------------------------------------------------------------------------
  #  TABLE OF CONTENTS:
 ---------------------------------------------------------------------------
@@ -119,6 +119,9 @@ export function opModalPrintMultipleParticipants( debug, block, eventId ) {
                         this.timeoutId = setTimeout( () => this.loop(), 2000 )
 
                     } catch( errorListenerResponse ) {
+                        
+                        ///// Add the Validation to the Modal.
+                        block.querySelector( '.op-modal' ).classList.add( 'op-error' )
 
                         ///// Log Error Details in the Console.
                         if ( debug ) console.error( 'ERROR:', errorListenerResponse )
