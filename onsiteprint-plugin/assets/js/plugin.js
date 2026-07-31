@@ -4,7 +4,7 @@
  *  Description: This is the Main JavaScript Module to the OnsitePrint Plugin.
  *  Author: Gerdes Group
  *  Author URI: https://www.clarify.nu/
- ?  Updated: 2025-12-14 - 04:56 (Y:m:d - H:i)
+ ?  Updated: 2026-31-07 - 03:19 (Y:m:d - H:i)
  ?  Info: Changed the Debug Parameter.
 
 ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ function opCalAllBlocks() {
 
         ///// Set the Debug.
         ////* true or false
-        let debug = true
+        let debug = false
 
         ///// Call all functions in the Blocks Module.
         opModuleBlocks.opCallAllFunctions( debug )
